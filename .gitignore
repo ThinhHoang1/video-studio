@@ -1,0 +1,10 @@
+.env
+node_modules/
+out/
+
+# Giọng đọc do TTS sinh — dựng lại bằng `node tts-gemini.mjs <script>`
+public/vo/
+public/vo-*/
+
+# Nhạc nền tải ngoài (xem public/audio/CREDITS.md để lấy lại)
+public/audio/

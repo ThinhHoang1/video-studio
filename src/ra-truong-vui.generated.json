@@ -1,0 +1,133 @@
+{
+  "voice": "Puck",
+  "style": "Bạn là host một kênh hài tự trào trên YouTube, kiểu kể chuyện đi làm cho hội cùng cảnh nghe. Giọng nam trẻ, tưng tửng, năng lượng CAO, tốc độ nhanh. Đọc như đang cà khịa chính mình chứ không giảng đạo. Nhấn mạnh vào các con số và các chi tiết ngớ ngẩn. Ngắt nhịp NGẮN ngay trước câu chốt để tạo punchline, rồi buông câu chốt thật gọn. Chỗ chửi thề thì nói nhẹ và nhanh, tự nhiên như nói với bạn, không gào. Tuyệt đối không đọc buồn, không đọc đều đều. Tiếng Việt giọng Bắc.",
+  "total": 373.296,
+  "chapters": [
+    {
+      "id": "tam-bang",
+      "canh": "le-tot-nghiep",
+      "kicker": "Level 1",
+      "heading": "Nhận bằng: cảm giác như vừa thắng",
+      "vo": "Hôm nhận bằng, ai cũng chúc mừng mày. Bố mẹ chụp bốn trăm tấm ảnh, tấm nào mày cũng nhắm mắt. Cả nhà đăng Facebook. Mày đứng đó, tay cầm cái bằng, tim đập thình thịch, nghĩ thôi xong rồi, từ mai đời mình khác. Đúng. Từ mai đời mày khác thật. Chỉ là khác theo hướng mày không hề tưởng tượng ra.",
+      "audio": "vo-ra-truong-vui/tam-bang.mp3",
+      "duration": 18.36
+    },
+    {
+      "id": "rai-cv",
+      "canh": "phong-tro",
+      "kicker": "Level 2",
+      "heading": "Rải hai trăm CV, nhận về hai cái email",
+      "vo": "Mày sửa CV đến lần thứ mười một. Đổi phông chữ. Đổi ảnh, chọn tấm nhìn có vẻ thông minh nhất. Xoá dòng sở thích đọc sách vì nghe hơi giả. Thêm dòng kỹ năng làm việc nhóm, dù kỹ năng đó thực chất là ngồi im để đứa khác làm slide. Rồi mày gửi đi hai trăm cái. Nhận về hai email. Một cái là thư từ chối tự động. Cái còn lại là quảng cáo khoá học tiếng Anh.",
+      "audio": "vo-ra-truong-vui/rai-cv.mp3",
+      "duration": 22.32
+    },
+    {
+      "id": "phong-van",
+      "canh": "phong-van",
+      "kicker": "Boss fight",
+      "heading": "\"Em có kinh nghiệm chưa?\"",
+      "vo": "Rồi cũng có một nơi gọi. Mày đến sớm bốn mươi phút, ngồi quán cà phê đối diện, tập nói câu giới thiệu bản thân đến mức thuộc như bảng cửu chương. Vào phòng, anh phỏng vấn nhìn CV hai giây, rồi hỏi. Em có kinh nghiệm chưa? Đấy. Câu hỏi kinh điển. Muốn có kinh nghiệm thì phải được đi làm. Muốn được đi làm thì phải có kinh nghiệm. Nó không phải cái vòng luẩn quẩn. Nó là cái bẫy tuyển dụng, và cả một thế hệ đang xếp hàng để bước vào.",
+      "audio": "vo-ra-truong-vui/phong-van.mp3",
+      "duration": 26.256
+    },
+    {
+      "id": "ngay-dau",
+      "canh": "van-phong",
+      "kicker": "Level 3",
+      "heading": "Ngày đầu: đến sớm ba mươi phút, đứng ngoài như trộm",
+      "vo": "Ngày đi làm đầu tiên, mày mặc cái áo sơ mi mua hôm trước, còn nguyên nếp gấp ba đường ở lưng, nhìn như vừa bóc ra khỏi túi. Mày đến sớm ba mươi phút rồi đứng dưới sảnh, không dám lên, vì sợ mình là người đầu tiên. Cuối cùng có người lên, mày lẻn theo sau như đang nhập nhóm. Người ta dẫn mày tới một cái bàn. Bàn có một cái máy tính, một cái ghế, và một mã nhân viên. Bốn năm đại học, ba kỳ thức trắng, một cái luận văn. Tất cả nén lại thành một dãy số để máy chấm công biết mày là ai.",
+      "audio": "vo-ra-truong-vui/ngay-dau.mp3",
+      "duration": 27.096
+    },
+    {
+      "id": "cai-email",
+      "canh": "van-phong",
+      "kicker": "Kỹ năng mới",
+      "heading": "Viết một cái email mất bốn mươi phút",
+      "vo": "Việc đầu tiên: gửi một cái email. Nội dung đúng một câu. Mày viết trong bốn mươi phút. Kính gửi anh — hay Dear anh? Em xin phép — hay em muốn hỏi? Có nên thêm ạ ở cuối không, thêm thì sợ non, không thêm thì sợ vô lễ. Bấm gửi. Ba giây sau nhận ra quên đính kèm file. Gửi lại kèm dòng em xin lỗi, em gửi lại ạ. Sự nghiệp của mày, chính thức bắt đầu bằng một cái email đính chính.",
+      "audio": "vo-ra-truong-vui/cai-email.mp3",
+      "duration": 26.16
+    },
+    {
+      "id": "hop",
+      "canh": "van-phong",
+      "kicker": "Cạm bẫy",
+      "heading": "Cuộc họp mà lẽ ra chỉ cần một cái tin nhắn",
+      "vo": "Rồi mày được mời vào cuộc họp đầu tiên. Một tiếng rưỡi. Mười hai người. Kết luận cuối cùng là để tuần sau họp tiếp. Mày ngồi im suốt, tay ghi chép rất chăm, thực ra đang vẽ. Có một khoảnh khắc anh trưởng phòng nhìn mày hỏi em thấy sao. Mày nói em thấy hợp lý ạ. Anh ấy gật gù. Và mày vừa học được kỹ năng công sở đầu tiên, thứ mà bốn năm đại học không hề dạy: cách nói một câu không có nội dung gì mà vẫn nghe rất có trách nhiệm.",
+      "audio": "vo-ra-truong-vui/hop.mp3",
+      "duration": 24.936
+    },
+    {
+      "id": "vo-hinh",
+      "canh": "van-phong",
+      "kicker": "Debuff",
+      "heading": "Chế độ tàng hình",
+      "vo": "Có một giai đoạn mày thấy mình trong suốt. Họp thì ngồi im vì sợ câu mình định nói là câu ngu. Làm sai thì không ai mắng, cũng không ai sửa, người ta chỉ lặng lẽ làm lại. Và mày phát hiện ra điều đáng sợ không phải là bị chê. Bị chê nghĩa là còn có người kỳ vọng ở mày. Đáng sợ là lúc người ta thôi không nói gì nữa. Vì im lặng không có nghĩa mày làm đúng. Im lặng thường có nghĩa là người ta đã thôi không tính mày vào.",
+      "audio": "vo-ra-truong-vui/vo-hinh.mp3",
+      "duration": 25.056
+    },
+    {
+      "id": "luong-dau",
+      "canh": "phong-tro",
+      "kicker": "Loot đầu tiên",
+      "heading": "Tháng lương đầu tiên bốc hơi trong hai ngày",
+      "vo": "Rồi tháng lương đầu tiên về. Mày nhìn cái tin nhắn ngân hàng, thấy con số, và trong đúng ba mươi giây mày cảm thấy mình giàu. Ba mươi giây. Sau đó trừ tiền nhà, tiền điện nước, tiền ăn, tiền xăng, tiền cái áo sơ mi hôm nọ, tiền trà sữa ăn mừng lương về. Còn lại đủ để sống đến ngày mười tám. Nhưng tối đó mày vẫn ngồi rất lâu nhìn cái tin nhắn đó. Vì lần đầu tiên trong đời, số tiền ấy không phải bố mẹ cho. Nó bé. Nhưng nó là của mày.",
+      "audio": "vo-ra-truong-vui/luong-dau.mp3",
+      "duration": 28.92
+    },
+    {
+      "id": "goi-ve-nha",
+      "canh": "phong-tro",
+      "kicker": "Nhiệm vụ phụ",
+      "heading": "\"Con vẫn ổn mẹ ạ\"",
+      "vo": "Mẹ gọi. Mẹ hỏi công việc thế nào, ăn uống ra sao, có mệt không. Mày đang ngồi ăn mì gói lần thứ tư trong tuần, và mày nói con ổn, con quen rồi, ở đây vui lắm mẹ. Nói bằng cái giọng tươi nhất mà mày gom được, vì chỉ cần chùng xuống nửa nhịp thôi là mẹ nghe ra ngay. Rồi đầu dây bên kia, mẹ cũng nói con đừng lo, ở nhà mọi thứ vẫn tốt. Hai người thương nhau nhất trên đời, cách nhau ba trăm cây số, đang cùng nói dối nhau một chuyện y hệt. Và cả hai đều biết. Và cả hai đều không nói ra.",
+      "audio": "vo-ra-truong-vui/goi-ve-nha.mp3",
+      "duration": 31.32
+    },
+    {
+      "id": "hoi-sinh",
+      "canh": "van-phong",
+      "kicker": "Buff bất ngờ",
+      "heading": "Hộp sữa để trên bàn",
+      "vo": "Sẽ có một tối mày ở lại muộn, mệt rã, deadline sáng mai. Rồi một chị đồng nghiệp chẳng thân thiết gì đi ngang, đặt xuống bàn mày một hộp sữa, bảo về sớm đi em, việc này mai làm cũng được. Xong đi luôn. Chị ấy sẽ không nhớ mình đã làm gì. Còn mày thì nhớ ba năm. Vì lòng tốt không bao giờ đi vào ký ức bằng cửa chính. Nó lẻn vào đúng lúc người ta yếu nhất.",
+      "audio": "vo-ra-truong-vui/hoi-sinh.mp3",
+      "duration": 21.648
+    },
+    {
+      "id": "so-sanh",
+      "canh": "phong-tro",
+      "kicker": "Bẫy cuối",
+      "heading": "Mở Facebook lúc mười một giờ đêm",
+      "vo": "Sẽ có những đêm mày mở mạng xã hội lên. Đứa bạn cùng lớp vừa lên chức. Đứa khác đang ở Nhật. Đứa nữa mới mua xe, ảnh chụp có cả chìa khoá. Còn mày thì đang nằm nghiêng, một tay cầm điện thoại, một tay bốc snack. Rồi mày tự hỏi mình đang làm gì với cuộc đời mình. Nhưng nghe này. Người ta chỉ đăng đúng cái ngày họ nhận được thứ gì đó. Không ai đăng ba trăm sáu mươi tư ngày còn lại. Mày đang lấy toàn bộ đời mình, kể cả cái tối bốc snack này, đem so với tấm ảnh được chọn kỹ nhất trong cả năm của người khác. Cuộc so đó mày không thua. Mày chỉ chưa bao giờ thật sự tham gia.",
+      "audio": "vo-ra-truong-vui/so-sanh.mp3",
+      "duration": 33.36
+    },
+    {
+      "id": "quen-dan",
+      "canh": "van-phong",
+      "kicker": "Level up",
+      "heading": "Rồi tự nhiên mày quen",
+      "vo": "Rồi một hôm mày phát hiện mình vừa trả lời được câu hỏi mà tháng trước còn phải đi hỏi. Mày biết máy pha cà phê tầng nào ngon hơn. Biết ai là người nên hỏi khi bí, và ai là người hỏi xong sẽ mệt hơn. Biết im lúc nào và mở miệng lúc nào. Mày viết email trong bốn mươi giây, không quên file. Không có tiếng chuông nào báo mày vừa lên cấp. Không ai vỗ tay. Trưởng thành không đến như một cánh cửa mở ra. Nó đến như nước thấm qua áo. Mày chỉ biết khi đã ướt.",
+      "audio": "vo-ra-truong-vui/quen-dan.mp3",
+      "duration": 26.256
+    },
+    {
+      "id": "cho-cha-me",
+      "canh": "phong-tro",
+      "kicker": "Cốt truyện ẩn",
+      "heading": "Bố mẹ cũng từng có năm đầu tiên",
+      "vo": "Có một chuyện mà năm hai mươi hai tuổi hiếm ai nghĩ tới. Bố mẹ mày cũng từng có một năm đầu đi làm. Cũng từng ngồi trước một người lớn hơn và không biết trả lời. Cũng từng cầm tháng lương đầu tiên và thấy nó bé. Chỉ là hồi đó không có ai quay video kể lại, nên mày lớn lên và mặc định bố mẹ sinh ra đã vững như thế. Cái người mày đang gọi điện để nói dối rằng con ổn, chính là người đã từng nói dối y hệt như vậy với ông bà. Chúng ta không phải thế hệ đầu tiên chật vật. Chúng ta chỉ là thế hệ đầu tiên nói ra.",
+      "audio": "vo-ra-truong-vui/cho-cha-me.mp3",
+      "duration": 30.48
+    },
+    {
+      "id": "ket",
+      "canh": "le-tot-nghiep",
+      "kicker": "Gửi tân binh",
+      "heading": "Năm đầu không phải để giỏi",
+      "vo": "Năm đầu đi làm không phải năm để mày giỏi. Nó là năm để mày biết mình dốt ở chỗ nào, và vẫn ngồi lại được với chuyện đó. Rồi mày sẽ quên gần hết. Quên tên cái dự án đầu tiên. Quên đã cãi nhau với ai vì chuyện gì. Nhưng mày sẽ nhớ rất rõ cái hôm đứng dưới sảnh, sớm ba mươi phút, áo sơ mi còn nếp gấp, không dám bước lên. Và một ngày nào đó có đứa em vừa ra trường ngồi trước mặt mày với đúng ánh mắt đó, mày sẽ hiểu vì sao phải đi qua năm ấy. Không phải để thành người giỏi nhất. Mà để thành người từng sợ vãi ra, và vẫn đi tiếp. Cứ đi đi. Đéo ai bắt đầu mà đã giỏi cả.",
+      "audio": "vo-ra-truong-vui/ket.mp3",
+      "duration": 31.128
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "voice": "Charon",
+  "style": "Bạn là host một kênh giải thích kinh tế kiểu hài châm biếm trên YouTube, giống Vietcetera x Khoa Pug x Hưng Vlog nhưng thông minh hơn. Đọc bằng giọng nam trẻ, tỉnh bơ, cà khịa, như đang ngồi quán bia kể cho thằng bạn thân nghe. Nhấn mạnh mọi con số. Ngắt nhịp NGẮN trước câu chốt để tạo punchline. Chỗ chửi thề thì buông nhẹ, tự nhiên, không gào. Tuyệt đối không đọc đều đều như đọc bản tin thời sự. Tiếng Việt giọng Bắc, tốc độ hơi nhanh, năng lượng cao.",
+  "total": 187.92,
+  "chapters": [
+    {
+      "id": "hook",
+      "art": "pho",
+      "kicker": "Câu hỏi",
+      "heading": "Ai vừa móc túi mày?",
+      "vo": "Ê. Bát phở năm hai nghìn không trăm mười lăm: ba mươi nghìn. Bát phở bây giờ: năm mươi nghìn. Mà thịt thì ít hơn, bánh phở thì loãng hơn, và cái ghế nhựa thì vẫn gãy y như cũ. Mày nghĩ ông bán phở tham à? Đéo phải. Ông ấy cũng đang chửi y như mày.",
+      "audio": "vo-lam-phat/hook.mp3",
+      "duration": 15.6
+    },
+    {
+      "id": "dinh-nghia",
+      "art": "money-shrink",
+      "kicker": "Định nghĩa",
+      "heading": "Không phải giá tăng. Là tiền mày teo",
+      "vo": "Đây là chỗ chín mươi phần trăm người ta hiểu sai. Lạm phát không phải là giá tăng. Lạm phát là tiền của mày co lại. Cái bát phở vẫn là bát phở đấy, vẫn từng ấy thịt, từng ấy bánh. Thứ thay đổi là tờ tiền trong ví mày. Nó vẫn ghi năm mươi nghìn, nhưng nó đã âm thầm gầy đi. Tiền không mất giá trong một đêm. Nó mất giá như tóc mày rụng. Mỗi ngày một ít, và đến lúc mày soi gương thì đã muộn.",
+      "audio": "vo-lam-phat/dinh-nghia.mp3",
+      "duration": 22.44
+    },
+    {
+      "id": "in-tien",
+      "art": "printer",
+      "kicker": "Nguyên nhân số một",
+      "heading": "Máy in tiền không bao giờ ngủ",
+      "vo": "Vậy tiền teo vì cái gì? Vì có quá nhiều tiền. Tưởng tượng cả nước có mười cái bánh mì và một trăm nghìn đồng. Mỗi cái bánh mì mười nghìn. Đơn giản. Giờ nhà nước in thêm, thành một triệu đồng. Nhưng bánh mì thì vẫn mười cái, vì in tiền thì nhanh, còn trồng lúa thì phải chờ ba tháng. Kết quả? Mỗi cái bánh mì một trăm nghìn. Mày không giàu lên. Cả nước không giàu lên. Chỉ có con số là to ra thôi. Đấy, gọi là lạm phát.",
+      "audio": "vo-lam-phat/in-tien.mp3",
+      "duration": 28.536
+    },
+    {
+      "id": "zimbabwe",
+      "art": "zimbabwe",
+      "kicker": "Khi mọi thứ vỡ",
+      "heading": "Tờ 100 nghìn tỷ đô",
+      "vo": "Muốn xem nó đi xa đến đâu à? Zimbabwe, năm hai nghìn không trăm lẻ tám. Chính phủ in tiền như in tờ rơi. Lạm phát chạm mốc bảy mươi chín tỷ phần trăm. Một tháng. Giá cả tăng gấp đôi sau mỗi hai mươi tư tiếng. Người ta trả lương buổi sáng để nhân viên chạy đi mua đồ ngay buổi trưa, vì đến chiều là mất một nửa. Họ in ra tờ một trăm nghìn tỷ đô la. Một trăm nghìn tỷ. Mua được đúng ba quả trứng. Cái tờ đó bây giờ dân sưu tầm mua trên mạng đắt hơn giá trị nó từng có. Đm, mỉa mai vãi.",
+      "audio": "vo-lam-phat/zimbabwe.mp3",
+      "duration": 29.256
+    },
+    {
+      "id": "shrinkflation",
+      "art": "chips",
+      "kicker": "Chiêu bẩn số 1",
+      "heading": "Shrinkflation — trả đủ tiền, nhận nửa gói",
+      "vo": "Nhưng mà doanh nghiệp nó khôn hơn thế. Nó biết mày nhạy cảm với giá. Mày thấy gói bim bim từ mười nghìn lên mười lăm nghìn là mày nhớ liền, mày chửi liền. Nên nó không tăng giá. Nó giữ nguyên mười nghìn, và bóp gói bim bim từ tám mươi gram xuống sáu mươi gram. Cùng cái bao bì, cùng cái giá, và bên trong thì bảy mươi phần trăm là khí ni tơ. Mày mở ra, nghe cái bụp, rồi nhìn vào và tự hỏi cuộc đời mình đã sai ở đâu. Cái đó có tên hẳn hoi: shrinkflation. Lạm phát mặc áo tàng hình.",
+      "audio": "vo-lam-phat/shrinkflation.mp3",
+      "duration": 28.008
+    },
+    {
+      "id": "skimpflation",
+      "art": "quality-down",
+      "kicker": "Chiêu bẩn số 2",
+      "heading": "Skimpflation — vẫn từng ấy tiền, tệ hơn",
+      "vo": "Còn một chiêu nữa, còn khó bắt hơn. Giá giữ nguyên, khối lượng giữ nguyên, nhưng chất lượng thì đi xuống. Sô cô la bớt ca cao, thêm dầu thực vật. Nước cam từ ép nguyên chất thành hương cam tổng hợp. Khách sạn vẫn giá đó nhưng bỏ dọn phòng hằng ngày, gọi là bảo vệ môi trường. Tổng đài chăm sóc khách hàng thay bằng con chatbot ngu hơn cả mày lúc bốn giờ sáng. Cái này gọi là skimpflation. Mày vẫn trả đủ, chỉ là mày nhận về ít hơn, và không ai đưa cho mày cái hoá đơn nào ghi điều đó cả.",
+      "audio": "vo-lam-phat/skimpflation.mp3",
+      "duration": 29.4
+    },
+    {
+      "id": "luong",
+      "art": "salary",
+      "kicker": "Sự thật đau",
+      "heading": "Tăng lương 7% mà lạm phát 10% là mày bị GIẢM lương",
+      "vo": "Đây, đoạn quan trọng nhất, nghe cho kỹ. Sếp gọi mày vào phòng, mặt long trọng, bảo năm nay công ty khó khăn nhưng vẫn cố tăng lương cho em bảy phần trăm. Mày cảm động. Mày cảm ơn. Mày về khoe người yêu. Nhưng lạm phát năm đó là mười phần trăm. Nghĩa là sức mua của mày vừa giảm ba phần trăm. Mày vừa bị giảm lương, và mày vừa nói cảm ơn vì điều đó. Cái con số trên hợp đồng gọi là lương danh nghĩa. Cái mà nó mua được mới gọi là lương thực tế. Và ngân hàng, siêu thị, chủ nhà, tất cả bọn nó đều tính bằng lương thực tế. Chỉ có mày là vẫn đang tính bằng con số.",
+      "audio": "vo-lam-phat/luong.mp3",
+      "duration": 34.68
+    }
+  ]
+}

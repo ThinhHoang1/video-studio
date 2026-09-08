@@ -1,0 +1,209 @@
+{
+  "voice": "Linh",
+  "rate": 165,
+  "total": 263.28,
+  "chapters": [
+    {
+      "id": "mo-dau",
+      "image": "qb/03-sondoong3.jpg",
+      "pan": "in",
+      "kicker": "Mở đầu",
+      "heading": "Quảng Bình",
+      "vo": "Có một dải đất chỉ rộng bốn mươi mốt cây số ở chỗ hẹp nhất. Đứng ở biển, quay lưng lại là đã thấy núi. Nhưng dưới lớp đá vôi bốn trăm triệu năm tuổi ấy là cả một thế giới mà con người mới chỉ đặt chân tới một phần rất nhỏ. Đây là Quảng Bình.",
+      "music": "audio/01-earth-prelude.mp3",
+      "audio": "vo/mo-dau.mp3",
+      "duration": 17.136
+    },
+    {
+      "id": "ho-khanh",
+      "image": "qb/01-sondoong.jpg",
+      "pan": "up",
+      "kicker": "Năm 1990",
+      "heading": "Người đàn ông bỏ chạy khỏi hang lớn nhất thế giới",
+      "vo": "Năm một chín chín mươi, một người đàn ông tên Hồ Khanh đi tìm trầm trong rừng Kẻ Bàng thì gặp mưa. Anh trú vào một cửa hang. Từ trong lòng đất, gió thổi ngược ra lạnh buốt, kèm theo tiếng gầm như tiếng nước réo dưới rất sâu. Hồ Khanh sợ. Anh bỏ đi, và suốt gần hai mươi năm sau đó không tài nào tìm lại được cửa hang ấy nữa.",
+      "music": "audio/03-ancient-rite.mp3",
+      "memes": [
+        {
+          "src": "meme/panik-kalm-panik.png",
+          "caption": "trú mưa → nghe tiếng gầm → chạy",
+          "side": "right",
+          "atSec": 13,
+          "durSec": 7,
+          "size": 380
+        }
+      ],
+      "audio": "vo/ho-khanh.mp3",
+      "duration": 22.944
+    },
+    {
+      "id": "son-doong",
+      "image": "qb/02-sondoong2.jpg",
+      "pan": "right",
+      "kicker": "Sơn Đoòng",
+      "heading": "Hang có thời tiết riêng",
+      "vo": "Mãi đến năm hai nghìn không trăm lẻ chín, đoàn thám hiểm Hoàng gia Anh mới vào được. Thứ họ tìm thấy làm thay đổi bản đồ hang động thế giới. Sơn Đoòng dài chín cây số, vòm cao hai trăm mét, rộng một trăm năm mươi mét. Một toà nhà bốn mươi tầng dựng bên trong vẫn còn thừa chỗ. Bên dưới có rừng nguyên sinh, có sông ngầm, và có mây. Mây thật, hình thành ngay trong lòng hang.",
+      "music": "audio/01-earth-prelude.mp3",
+      "memes": [
+        {
+          "src": "meme/stonks.png",
+          "caption": "40 tầng vẫn thừa chỗ",
+          "side": "right",
+          "atSec": 14,
+          "durSec": 6,
+          "size": 480
+        }
+      ],
+      "audio": "vo/son-doong.mp3",
+      "duration": 25.992
+    },
+    {
+      "id": "hang-en",
+      "image": "qb/07-kebang.jpg",
+      "pan": "left",
+      "kicker": "Hang Én",
+      "heading": "Nơi người Bru Vân Kiều không dám nói to",
+      "vo": "Trên đường vào Sơn Đoòng, ta đi qua hang Én. Người Bru Vân Kiều sống quanh đó tin rằng hang có thần. Trước mỗi mùa săn chim én, họ làm lễ xin phép. Không ai được nói to trong hang, không ai được lấy quá phần mình cần. Ai phạm điều đó, theo lời kể của người già trong bản, sẽ lạc đường về.",
+      "music": "audio/03-ancient-rite.mp3",
+      "memes": [
+        {
+          "src": "meme/cheems.jpg",
+          "caption": "nói to là lạc đường về",
+          "side": "left",
+          "atSec": 13,
+          "durSec": 6,
+          "size": 400
+        }
+      ],
+      "audio": "vo/hang-en.mp3",
+      "duration": 20.976
+    },
+    {
+      "id": "phong-nha",
+      "image": "qb/05-phongnha2.jpg",
+      "pan": "in",
+      "kicker": "Động Phong Nha",
+      "heading": "Chữ Chăm trên vách đá",
+      "vo": "Phong Nha thì đã có người tới từ rất lâu. Trên vách hang còn những dòng chữ Chăm cổ, những bàn thờ đá của người Chăm Pa từ thế kỷ chín, thế kỷ mười. Họ coi trong lòng hang là nơi trú của thần linh. Thuyền chở khách hôm nay vẫn đi trên đúng dòng sông ngầm mà cả nghìn năm trước người Chăm đã chèo qua.",
+      "music": "audio/02-the-descent.mp3",
+      "audio": "vo/phong-nha.mp3",
+      "duration": 20.904
+    },
+    {
+      "id": "song-son",
+      "image": "qb/04-phongnha.jpg",
+      "pan": "right",
+      "kicker": "Sông Son",
+      "heading": "Dòng sông đổi màu",
+      "vo": "Con sông chảy ra từ cửa Phong Nha tên là sông Son. Ngày thường nước xanh ngọc. Nhưng sau mưa lớn, nước từ trong núi đổ ra đỏ quạch như máu, kéo dài nhiều ngày. Người xưa gọi đó là lúc núi giận. Người nay biết đó là phù sa đất đỏ ba dan bị cuốn qua hệ thống hang ngầm. Nhưng cái tên sông Son thì vẫn còn đó.",
+      "music": "audio/02-the-descent.mp3",
+      "memes": [
+        {
+          "src": "meme/pooh.png",
+          "caption": "\"núi giận\" vs phù sa bazan",
+          "side": "right",
+          "atSec": 12,
+          "durSec": 7,
+          "size": 460
+        }
+      ],
+      "audio": "vo/song-son.mp3",
+      "duration": 22.008
+    },
+    {
+      "id": "hang-tam-co",
+      "image": "qb/06-phongnha3.jpg",
+      "pan": "out",
+      "kicker": "Đường 20 Quyết Thắng",
+      "heading": "Hang Tám Cô",
+      "vo": "Cách đó không xa là một cửa hang mà hướng dẫn viên nào cũng hạ giọng khi kể. Ngày mười bốn tháng mười một năm một chín bảy hai, bom Mỹ đánh sập cửa hang, chặn kín lối ra. Bên trong là tám thanh niên xung phong, bốn nam bốn nữ, đều mới ngoài hai mươi tuổi. Đồng đội đục đá suốt chín ngày. Chín ngày ấy, tiếng gọi từ trong hang cứ nhỏ dần, nhỏ dần, rồi im hẳn. Không cứu được ai. Hôm nay nơi đó là đền thờ. Người đi đường vẫn dừng lại thắp hương, và không ai bấm còi khi qua khúc cua ấy.",
+      "music": "audio/05-isolated.mp3",
+      "audio": "vo/hang-tam-co.mp3",
+      "duration": 35.232
+    },
+    {
+      "id": "thien-duong",
+      "image": "qb/08-thienduong.jpg",
+      "pan": "in",
+      "kicker": "Động Thiên Đường",
+      "heading": "Ba mươi mốt cây số trong bóng tối",
+      "vo": "Nếu Sơn Đoòng là sự choáng ngợp, thì Thiên Đường là sự tinh xảo. Ba mươi mốt cây số thạch nhũ, có khối rủ xuống như rèm lụa, có khối dựng lên như tháp chuông. Mỗi xăng ti mét thạch nhũ ấy mất khoảng một trăm năm để hình thành. Thứ bạn chạm tay vào già hơn cả nền văn minh của bạn.",
+      "music": "audio/02-the-descent.mp3",
+      "memes": [
+        {
+          "src": "meme/rollsafe.gif",
+          "caption": "chạm nhũ = chạm 100 năm",
+          "side": "right",
+          "atSec": 11,
+          "durSec": 6,
+          "size": 420
+        }
+      ],
+      "audio": "vo/thien-duong.mp3",
+      "duration": 19.44
+    },
+    {
+      "id": "nhat-le",
+      "image": "qb/10-nhatle.jpg",
+      "pan": "right",
+      "kicker": "Nhật Lệ",
+      "heading": "Ra khỏi hang là tới biển",
+      "vo": "Rời hang, đi thêm bốn mươi cây số là ra tới biển. Một trăm mười sáu cây số bờ biển, cát trắng, nước trong. Buổi sớm ở Nhật Lệ, thuyền về, cá còn giãy trên khoang. Ở Quảng Bình, buổi sáng bạn có thể lặn xuống hang tối om, và buổi chiều đã nằm phơi nắng trên cát.",
+      "music": "audio/04-the-farmer.mp3",
+      "audio": "vo/nhat-le.mp3",
+      "duration": 19.224
+    },
+    {
+      "id": "am-thuc",
+      "image": "qb/12-chodonghoi.jpg",
+      "pan": "in",
+      "kicker": "Đồng Hới",
+      "heading": "Ăn gì cho lại sức",
+      "vo": "Chợ Đồng Hới sáng sớm. Cháo canh sợi bột gạo cắt tay, ăn với cá lóc. Bánh lọc bột lọc trong veo nhìn thấy con tôm bên trong. Bánh xèo gạo lứt cuốn với rau sống. Và khoai deo, thứ khoai lang phơi mấy nắng, dẻo quánh, ngọt lịm, dân đi rừng mang theo ăn cả ngày không đói.",
+      "music": "audio/04-the-farmer.mp3",
+      "memes": [
+        {
+          "src": "meme/spongebob.jpg",
+          "caption": "khoai deo: ăn cả ngày không đói",
+          "side": "left",
+          "atSec": 12,
+          "durSec": 6,
+          "size": 420
+        }
+      ],
+      "audio": "vo/am-thuc.mp3",
+      "duration": 19.44
+    },
+    {
+      "id": "lang-que",
+      "image": "qb/11-quangthanh.jpg",
+      "pan": "left",
+      "kicker": "Lệ Thủy",
+      "heading": "Đất này quen chịu đựng",
+      "vo": "Nhưng Quảng Bình không chỉ có hang và biển. Đây là đất đi qua chiến tranh nhiều hơn phần lớn mọi nơi khác. Là nơi Đại tướng Võ Nguyên Giáp sinh ra, và là nơi ông chọn để nằm lại, ở Vũng Chùa nhìn ra biển. Người Quảng Bình quen với bão, quen với lũ, và quen với việc dựng lại từ đầu.",
+      "music": "audio/01-earth-prelude.mp3",
+      "audio": "vo/lang-que.mp3",
+      "duration": 19.944
+    },
+    {
+      "id": "ket",
+      "image": "qb/09-thienduong2.jpg",
+      "pan": "out",
+      "kicker": "Kết",
+      "heading": "Hơn bốn trăm hang, và vẫn đang đếm",
+      "vo": "Đến hôm nay, hơn bốn trăm hang động đã được ghi nhận ở Quảng Bình. Các đoàn khảo sát nói rằng con số thật có thể lớn hơn nhiều. Nghĩa là ngay lúc bạn xem đoạn phim này, vẫn còn những cửa hang chưa ai bước vào, đang chờ dưới lớp rừng kia. Quảng Bình. Đi một lần rồi sẽ muốn quay lại.",
+      "music": "audio/01-earth-prelude.mp3",
+      "memes": [
+        {
+          "src": "meme/harold.jpg",
+          "caption": "vẫn còn hang chưa ai vào",
+          "side": "right",
+          "atSec": 11,
+          "durSec": 6,
+          "size": 420
+        }
+      ],
+      "audio": "vo/ket.mp3",
+      "duration": 20.04
+    }
+  ]
+}
