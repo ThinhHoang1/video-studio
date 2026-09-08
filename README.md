@@ -1,79 +1,73 @@
 # video-studio
 
-Khung dựng video giải thích (explainer) hoạt hoạ bằng **Remotion + React SVG**,
-lời bình sinh bằng **Gemini TTS**, hiệu ứng âm thanh tự tổng hợp bằng Python.
-Không dùng stock footage, không dùng asset bản quyền — mọi hình vẽ là SVG viết tay.
+Dựng video kể chuyện bằng code: kịch bản → giọng đọc → hình khớp lời → MP4.
+Không dùng phần mềm dựng phim, không kéo timeline. Toàn bộ nằm trong Git.
 
-## Chạy nhanh
+```
+scripts/ra-truong-vui.json      kịch bản: 14 chương lời bình
+        ↓  pipeline/tts-gemini.mjs        (Gemini TTS → mp3 + đo độ dài thật)
+src/projects/ra-truong/board.ts bảng phân cảnh: câu nào → cảnh nào
+        ↓  npm run render
+out/ra-truong-vui.mp4           1920×1080, 30fps
+```
+
+## Chạy
 
 ```bash
 npm install
-cp .env.example .env          # điền GEMINI_API_KEYS
-node tts-gemini.mjs lam-phat  # sinh giọng -> public/vo-lam-phat/*.mp3
-node build-manifest.mjs lam-phat   # -> src/lam-phat.generated.json (độ dài thật)
-npm run dev                   # Remotion Studio để xem/tinh chỉnh
-./render.sh LamPhatV2 out/lam-phat.mp4       # render một mạch
-./render-segments.sh LamPhatV2               # render theo đoạn rồi ghép (ổn định hơn)
-python3 sfx.py                # tổng hợp lại bộ SFX vào public/sfx/
-node audition.mjs             # thử nhiều giọng Gemini trên cùng một câu
+
+# 1. sinh giọng đọc (cần GEMINI_API_KEYS trong .env)
+node pipeline/tts-gemini.mjs ra-truong-vui
+
+# 2. bóc đường bao biên độ để nhân vật cử động theo giọng
+node pipeline/analyze-voice.mjs ra-truong-vui
+
+# 3. render
+./render-segments.sh RaTruongVui out/ra-truong-vui.mp4
+
+# xem trực quan, sửa tới đâu thấy tới đó
+npm run dev
 ```
 
-## Đường ống (pipeline)
+`.env`:
 
 ```
-script/<name>.json          kịch bản: title, voice, style, chapters[{id, art, kicker, heading, vo}]
-   │  node tts-gemini.mjs <name>
-   ▼
-public/vo-<name>/<id>.mp3   giọng đọc, chuẩn hoá -16 LUFS, kèm .sig (vân tay nội dung)
-   │  node build-manifest.mjs <name>
-   ▼
-src/<name>.generated.json   manifest có `duration` đo từ mp3 thật
-   │  src/story/board.ts (bảng phân cảnh) + src/art, src/cast, src/toon (hình vẽ)
-   ▼
-src/<Comp>.tsx              composition Remotion, khai báo trong src/Root.tsx
-   │  ./render.sh | ./render-segments.sh
-   ▼
-out/<Comp>.mp4
+GEMINI_API_KEYS=key1,key2
 ```
 
-Nguyên tắc xuyên suốt: **hình neo vào lời, không chia đều thời lượng.**
-Mỗi shot trong `src/story/board.ts` khai báo `say` — mẩu lời bình nó minh hoạ;
-timing lấy từ đúng câu đó nên hình luôn khớp tiếng. Không tìm thấy câu thì báo
-lỗi ngay lúc build thay vì để lệch âm thầm.
+Nhiều key phân tách bằng dấu phẩy. Free tier tính hạn mức theo **từng cặp
+(key, model)** nên 2 key × 3 model = 6 hạn mức riêng; hết cặp này pipeline tự
+nhảy sang cặp khác chứ không nằm chờ.
 
-## Bản đồ thư mục
+## Cấu trúc
 
-| Đường dẫn | Vai trò |
-|---|---|
-| `script/*.json` | kịch bản nguồn: lời bình, giọng, style prompt cho TTS |
-| `gemini-tts.mjs` | lõi TTS: xoay vòng (key × model) để né quota, PCM→mp3, loudnorm, đo độ dài |
-| `tts-gemini.mjs` | sinh giọng cho một kịch bản, bỏ qua chương đã có (so `.sig`) |
-| `build-manifest.mjs` | dựng manifest từ những mp3 ĐÃ có — dựng được cả khi TTS còn dở |
-| `audition.mjs` | thử giọng |
-| `sfx.py` | tổng hợp SFX từ dao động cơ bản (không bản quyền, khớp nhịp cắt) |
-| `src/Root.tsx` | đăng ký mọi composition (ngang 1920×1080 và dọc 1080×1920) |
-| `src/theme.ts`, `src/font.ts` | FPS, bảng màu, font |
-| `src/story/` | `board.ts` bảng phân cảnh · `types.ts` schema shot · `render.tsx` dựng shot · `Places/Props/Overlay/Sub` |
-| `src/cast/` | nhân vật vẽ SVG (`Cast.tsx`, bảng màu riêng, `design.md`) |
-| `src/art/` | các cảnh minh hoạ tĩnh/động theo `art` key của chương |
-| `src/toon/`, `src/anime/` | hai style hoạt hoạ khác (`LamPhatToon`, `LamPhatAnime`) |
-| `src/motion/` | primitive chuyển động: `Beat`, `Camera3D`, `CountUp`, `KineticText`, `Transitions`, `easing` |
-| `src/shots/`, `src/components/` | khối dựng cảnh & UI: Caption, Subtitle, TitleCard, ChapterTitle, KenBurns, MemeCut, Grain, Vignette, StatBadge, EndCard |
-| `src/dev/` | composition test nhanh cho từng hệ (ToonTest, CastTest, AnimeTest) |
-| `public/` | `sfx/` tự sinh · `meme/`, `qb/` hình · `vo-*/` giọng (gitignored) · `audio/` nhạc nền (gitignored, xem CREDITS.md) |
-| `assets/meme-templates` | ảnh meme nguồn |
+| Thư mục | Là gì | Dùng lại được cho video khác? |
+|---|---|---|
+| `pipeline/` | TTS, phân tích giọng, tổng hợp SFX | ✅ |
+| `src/engine/` | neo lời→frame, phụ đề, chia cụm | ✅ |
+| `src/library/` | nhân vật + 18 bối cảnh | ✅ |
+| `src/projects/` | kịch bản + bảng phân cảnh từng video | ❌ riêng từng video |
+| `src/attic/` | thí nghiệm cũ (anime, chibi, explainer) | tham khảo, không build |
+| `public/` | giọng đọc, nhạc, SFX, meme | |
 
-## Không có trong repo
+Xem [ARCHITECTURE.md](ARCHITECTURE.md) để hiểu vì sao hình luôn khớp lời, và
+[USECASE.md](USECASE.md) để biết cái gì tự động được, cái gì không.
 
-- `public/vo-*/` — sinh lại bằng `node tts-gemini.mjs <name>`
-- `public/audio/` — nhạc nền tải ngoài, xem `public/audio/CREDITS.md`
-- `.env` — chỉ có `.env.example`
+## Video đã dựng
 
-## Lưu ý môi trường
+| File | Dài | Giọng | Chất |
+|---|---|---|---|
+| `out/ra-truong-vui.mp4` | 6p25 | Puck | hài, meme, SFX, nhạc funk |
+| `out/ra-truong.mp4` | 13p02 | Charon | kể chuyện, piano, không meme |
 
-- Remotion cần Chrome. `render.sh` trỏ vào Chrome hệ thống thay vì tải headless shell.
-- `ffmpeg`/`ffprobe` dùng bản trong `node_modules/@remotion/compositor-darwin-arm64`
-  (cần `DYLD_LIBRARY_PATH` trỏ vào đó — các script đã tự set).
-- Render một mạch dài dễ chết giữa chừng do Chrome nghẽn; `render-segments.sh`
-  cắt thành đoạn ~700 frame, mỗi đoạn một tiến trình Chrome mới, đoạn nào xong
-  thì lần chạy sau bỏ qua.
+Cùng một câu chuyện — năm đầu tiên đi làm — dựng theo hai chất khác nhau từ
+cùng bộ thư viện.
+
+## Bản quyền
+
+Nhạc trong `public/audio/` là CC BY (Kevin MacLeod, Scott Buckley, Chris
+Zabriskie). **Bắt buộc ghi công khi đăng** — câu ghi công có sẵn ở
+`public/audio/CREDITS.md`.
+
+SFX trong `public/sfx/` do `pipeline/sfx.py` tự tổng hợp từ dao động cơ bản,
+không dính bản quyền của ai.

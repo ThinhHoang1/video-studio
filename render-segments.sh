@@ -20,10 +20,10 @@ export DYLD_LIBRARY_PATH="$LIB"
 # compositions` phải bung cả Chrome, mất hàng phút cho một con số.
 TOTAL=$(node -e "
   const map = {
-    LamPhatV2:    ['./src/lam-phat.generated.json', 3.6, 0.2],
-    LamPhatAnime: ['./src/lam-phat.generated.json', 3.6, 0.2],
-    RaTruong:     ['./src/ra-truong.generated.json', 5.5, 0.9],
-    RaTruongVui:  ['./src/ra-truong-vui.generated.json', 4.0, 0.25],
+    LamPhatV2:    ['./src/attic/lam-phat.generated.json', 3.6, 0.2],
+    LamPhatAnime: ['./src/attic/lam-phat.generated.json', 3.6, 0.2],
+    RaTruongBuon: ['./src/projects/ra-truong/data/ra-truong.generated.json', 5.5, 0.9],
+    RaTruongVui:  ['./src/projects/ra-truong/data/ra-truong-vui.generated.json', 4.0, 0.25],
   };
   const [file, intro, pad] = map['$COMP'] ?? map.LamPhatV2;
   const d = require(file);
@@ -31,8 +31,18 @@ TOTAL=$(node -e "
   console.log(f(intro) + d.chapters.reduce((a, c) => a + f(c.duration) + f(pad), 0));
 ")
 
-SEGDIR="out/.seg-$COMP"
+# Khoá cache theo tên composition + vân tay của src/ và scripts/.
+# Trước đây chỉ khoá theo tên: đổi code rồi render lại thì script tưởng đã
+# xong và ghi ra file cũ, không có thay đổi nào — mất một lượt mới phát hiện.
+FINGERPRINT=$(find src scripts -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.json' \) \
+  -not -path 'src/attic/*' -exec shasum {} + | shasum | cut -c1-10)
+SEGDIR="out/.seg-$COMP-$FINGERPRINT"
 mkdir -p "$SEGDIR"
+
+# dọn cache của các lần build cũ cùng composition
+for cu in out/.seg-"$COMP"-*; do
+  [ "$cu" = "$SEGDIR" ] || rm -rf "$cu" 2>/dev/null
+done
 
 i=0
 start=0

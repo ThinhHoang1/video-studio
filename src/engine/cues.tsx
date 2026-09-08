@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
-import {FONT} from '../font';
+import {FONT} from './font';
 
 /** Cắt lời bình thành cụm ngắn theo dấu câu, gộp lại ~7 từ mỗi cụm. */
 export const splitCues = (text: string, maxWords = 7): string[] => {
