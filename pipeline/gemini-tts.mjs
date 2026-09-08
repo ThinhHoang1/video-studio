@@ -3,7 +3,8 @@ import {execFileSync} from 'node:child_process';
 import {readFileSync, writeFileSync, mkdirSync, rmSync, existsSync} from 'node:fs';
 import path from 'node:path';
 
-const ROOT = path.dirname(new URL(import.meta.url).pathname);
+// pipeline/ nằm dưới gốc repo một cấp
+const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
 const LIBDIR = path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64');
 const FFMPEG = path.join(LIBDIR, 'ffmpeg');
 const FFPROBE = path.join(LIBDIR, 'ffprobe');

@@ -2,7 +2,8 @@
 import path from 'node:path';
 import {speak, pcmToMp3, concatMp3, durationOf, ensureDir} from './gemini-tts.mjs';
 
-const ROOT = path.dirname(new URL(import.meta.url).pathname);
+// pipeline/ nằm dưới gốc repo một cấp
+const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
 const OUT = ensureDir(path.join(ROOT, 'out/audition'), {clean: true});
 
 const STYLE = `Bạn là người dẫn một kênh giải thích kinh tế trên YouTube, phong cách hài châm biếm.

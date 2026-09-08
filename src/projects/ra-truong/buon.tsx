@@ -1,12 +1,12 @@
 import React from 'react';
 import {AbsoluteFill, Audio, Easing, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
-import {PLACES, P, W, H, SAN} from './Places';
-import {Teo} from '../cast/Cast';
-import {Sub, Cue} from '../story/Sub';
-import {splitCues, cueTimings} from '../components/Caption2';
-import data from '../ra-truong.generated.json';
-import {FPS} from '../theme';
-import {FONT} from '../font';
+import {PLACES, P, W, H, SAN} from '../../library/scenes/places';
+import {Teo} from '../../library/cast/cast';
+import {Sub, Cue} from '../../engine/sub';
+import {splitCues, cueTimings} from '../../engine/cues';
+import data from './data/ra-truong.generated.json';
+import {FPS} from '../../engine/theme';
+import {FONT} from '../../engine/font';
 
 const f = (sec: number) => Math.round(sec * FPS);
 
