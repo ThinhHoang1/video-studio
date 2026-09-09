@@ -2,9 +2,18 @@
 node_modules/
 out/
 
-# Giọng đọc do TTS sinh — dựng lại bằng `node tts-gemini.mjs <script>`
+# ── Nội dung sinh lại được, không đẩy lên repo ──────────────────────────
+# Giọng đọc: `node pipeline/tts-gemini.mjs <tên-kịch-bản>`
 public/vo/
 public/vo-*/
-
-# Nhạc nền tải ngoài (xem public/audio/CREDITS.md để lấy lại)
+# Nhạc nền tải từ Wikimedia Commons — xem public/audio/CREDITS.md
 public/audio/
+
+# ── Nội dung của bên thứ ba, KHÔNG phát hành lại ────────────────────────
+# 211 template meme clone từ github.com/jacebrowning/memegen.
+# Mỗi ảnh có tình trạng bản quyền riêng, không thuộc về repo này.
+assets/
+# 12 ảnh meme chép ra từ assets/ ở trên
+public/meme/
+# Ảnh Quảng Bình (Wikimedia, CC BY / CC BY-SA) — thuộc dự án cũ đã bỏ
+public/qb/
