@@ -2,8 +2,9 @@ import React from 'react';
 import {AbsoluteFill, Audio, Easing, Img, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {PLACES, P, W, H, SAN} from '../../library/scenes/places';
 import {PLACES2} from '../../library/scenes/places-extra';
+import {AN_DU} from '../../library/scenes/an-du';
 import {TienCanh, ToiRia} from '../../library/scenes/chieu-sau';
-import {Dien, VoiceTrack, Sac} from '../../library/cast/dien';
+import {NhanVat, VoiceTrack, Sac} from '../../library/cast/nhan-vat';
 import {BOARD, Moc} from './board';
 import {Sub, Cue} from '../../engine/sub';
 import {neoNhieu} from '../../engine/neo';
@@ -15,7 +16,7 @@ import {FPS} from '../../engine/theme';
 import {FONT} from '../../engine/font';
 
 const f = (sec: number) => Math.round(sec * FPS);
-const CANH: Record<string, React.FC<Record<string, unknown>>> = {...PLACES, ...PLACES2} as never;
+const CANH: Record<string, React.FC<Record<string, unknown>>> = {...PLACES, ...PLACES2, ...AN_DU} as never;
 
 type Ch = {id: string; canh: string; kicker: string; heading: string; vo: string; audio: string; duration: number};
 const CH = data.chapters as Ch[];
@@ -255,9 +256,11 @@ const Chuong: React.FC<{ch: Ch; d: ReturnType<typeof dung>; goc: number}> = ({ch
                     <TienCanh kieu={i % 2 === 0 ? 'ban' : 'ghe'} ben={i % 4 < 2 ? 'trai' : 'phai'} />
                   ) : null}
                   {s.nguoi === false ? null : (
-                    <Dien
+                    <NhanVat
+                      dang={s.dang ?? 'dung'}
+                      dangTruoc={d.shots[i - 1]?.dang ?? 'dung'}
                       giong={giong}
-                      goc={goc - starts[CH.indexOf(ch)]}
+                      goc={s.from}
                       sac={(s.sac ?? 'thuong') as Sac}
                       x={s.x ?? 700}
                       y={SAN}

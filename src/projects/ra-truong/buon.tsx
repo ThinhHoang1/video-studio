@@ -1,7 +1,14 @@
 import React from 'react';
 import {AbsoluteFill, Audio, Easing, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {PLACES, P, W, H, SAN} from '../../library/scenes/places';
-import {Teo} from '../../library/cast/cast';
+import {NhanVat, Sac} from '../../library/cast/nhan-vat';
+
+/** Bản kể chuyện chưa chạy analyze-voice, nên nhân vật đi theo nhịp trung tính. */
+const GIONG_TRUNG_TINH = {
+  am: new Array(4000).fill(0.3),
+  nhan: new Array(4000).fill(0.18),
+  nghi: new Array(4000).fill(false),
+};
 import {Sub, Cue} from '../../engine/sub';
 import {splitCues, cueTimings} from '../../engine/cues';
 import data from './data/ra-truong.generated.json';
@@ -38,20 +45,20 @@ const CO_CANH: Record<Coco, [number, number]> = {
 };
 
 /** Tâm trạng của Tèo theo từng chương — bám sát nội dung lời kể. */
-const TAM_TRANG: Record<string, {mood: 'ok' | 'vui' | 'nghi' | 'soc' | 'tuc' | 'khoc' | 'chet'; vi: number}> = {
+const TAM_TRANG: Record<string, {mood: Sac; vi: number}> = {
   'tam-bang': {mood: 'vui', vi: 1},
   'rai-cv': {mood: 'nghi', vi: 0.85},
   'phong-van': {mood: 'soc', vi: 0.7},
-  'ngay-dau': {mood: 'ok', vi: 0.6},
+  'ngay-dau': {mood: 'thuong', vi: 0.6},
   'thuyen-ngoai-xa': {mood: 'nghi', vi: 0.55},
   'vo-mong': {mood: 'nghi', vi: 0.5},
-  'vo-hinh': {mood: 'khoc', vi: 0.4},
-  'com-ao': {mood: 'chet', vi: 0.25},
-  'luong-dau': {mood: 'ok', vi: 0.45},
-  'goi-ve-nha': {mood: 'khoc', vi: 0.35},
-  'chao-hanh': {mood: 'ok', vi: 0.4},
-  'so-sanh': {mood: 'chet', vi: 0.3},
-  'quen-dan': {mood: 'ok', vi: 0.5},
+  'vo-hinh': {mood: 'buon', vi: 0.4},
+  'com-ao': {mood: 'met', vi: 0.25},
+  'luong-dau': {mood: 'thuong', vi: 0.45},
+  'goi-ve-nha': {mood: 'buon', vi: 0.35},
+  'chao-hanh': {mood: 'thuong', vi: 0.4},
+  'so-sanh': {mood: 'met', vi: 0.3},
+  'quen-dan': {mood: 'thuong', vi: 0.5},
   'cho-cha-me': {mood: 'nghi', vi: 0.55},
   ket: {mood: 'vui', vi: 0.7},
 };
@@ -201,7 +208,7 @@ const NhanChuong: React.FC<{kicker: string; heading: string}> = ({kicker, headin
 
 const Chuong: React.FC<{ch: Ch; shots: Shot[]; cues: Cue[]}> = ({ch, shots, cues}) => {
   const Noi = PLACES[ch.canh] ?? PLACES['phong-tro'];
-  const tt = TAM_TRANG[ch.id] ?? {mood: 'ok' as const, vi: 0.6};
+  const tt = TAM_TRANG[ch.id] ?? {mood: 'thuong' as Sac, vi: 0.6};
 
   return (
     <AbsoluteFill style={{background: P.ink}}>
@@ -210,7 +217,7 @@ const Chuong: React.FC<{ch: Ch; shots: Shot[]; cues: Cue[]}> = ({ch, shots, cues
           <MoChong len={i === 0 ? 18 : 12}>
             <Khung shot={s}>
               <Noi />
-              <Teo mood={tt.mood} x={640} y={SAN} s={1.06} viDay={tt.vi} />
+              <NhanVat giong={GIONG_TRUNG_TINH} goc={s.from} sac={tt.mood} x={640} y={SAN} s={1.02} vi={tt.vi} />
             </Khung>
             {/* làm tối rìa khung để mắt bám vào giữa */}
             <AbsoluteFill
@@ -251,7 +258,7 @@ const MoDau: React.FC = () => {
     <AbsoluteFill style={{background: P.ink, opacity: ra}}>
       <Khung shot={{from: 0, len: 1, co: 'trung', nhin: [760, 600]}}>
         <Noi />
-        <Teo mood="vui" x={640} y={SAN} s={1.06} viDay={1} />
+        <NhanVat giong={GIONG_TRUNG_TINH} goc={0} sac="vui" x={640} y={SAN} s={1.02} vi={1} />
       </Khung>
       <AbsoluteFill style={{background: 'rgba(20,15,30,0.5)'}} />
       <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center'}}>
