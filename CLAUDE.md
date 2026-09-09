@@ -1,61 +1,43 @@
-# Hướng dẫn cho agent làm video trên repo này
+# video-studio
 
-Đọc `README.md` trước để biết đường ống. File này nói **cách làm một video mới**.
+Dựng video kể chuyện hoạt hình bằng code: kịch bản → giọng đọc tiếng Việt →
+hình khớp lời → MP4.
 
-## Quy trình tạo video mới (`<name>`)
+## Cần làm video? Dùng skill
 
-1. **Viết kịch bản** `script/<name>.json`:
-   ```json
-   {
-     "title": "…",
-     "voice": "Charon",
-     "style": "<prompt điều khiển cách đọc: nhân vật host, giọng, nhịp, chỗ nhấn>",
-     "chapters": [
-       {"id": "hook", "art": "pho", "kicker": "Câu hỏi", "heading": "…", "vo": "lời bình đọc thành tiếng"}
-     ]
-   }
-   ```
-   - `id` là khoá dùng khắp nơi (tên file mp3, khớp với `BOARD`), kebab-case, không trùng.
-   - `vo` viết như nói: số viết thành chữ để TTS đọc đúng ("năm mươi nghìn", không "50k").
-   - `style` là đòn bẩy lớn nhất về chất giọng — chỉnh nó trước khi đổi `voice`.
-   - Giọng có sẵn: xem danh sách trong `audition.mjs`; chạy `node audition.mjs` để nghe thử.
+Người dùng nói "làm video về X" thì gọi skill **`tao-video`**
+(`.claude/skills/tao-video/SKILL.md`). Đừng tự mò — skill có đủ quy trình,
+danh mục thư viện và các chốt chặn.
 
-2. **Sinh giọng**: `node tts-gemini.mjs <name>`
-   - Chạy lại thì bỏ qua chương đã có (so `.sig` = sha1 của voice+style+vo). Sửa `vo` → tự đọc lại.
-   - Quota free tier tính theo từng (key, model): thêm nhiều key vào `GEMINI_API_KEYS`, script tự xoay vòng.
-   - `FRESH=1` để xoá sạch và đọc lại toàn bộ.
+## Ba luật không phá
 
-3. **Dựng manifest**: `node build-manifest.mjs <name>` → `src/<name>.generated.json`
-   Độ dài đo từ mp3 thật, nên timeline luôn khớp âm. Chương chưa có giọng bị bỏ qua → dựng được khi TTS còn dở.
+1. **Video thành phẩm nằm ở `media/outbound/`.** `out/` chỉ là nháp, không
+   lấy file từ đó.
+2. **Chạy `node pipeline/kiem-tra.mjs <ten>` trước khi render.** Render mất
+   10–15 phút; mọi lỗi bắt được bằng máy phải bắt trước.
+3. **Chỉ dùng tên có trong `thu-vien.json`** — cảnh, tư thế, sắc thái, tiếng
+   động, nhạc. Không tự nghĩ tên mới, không tự viết cảnh SVG mới.
 
-4. **Viết bảng phân cảnh** (`src/story/board.ts` hoặc file board riêng cho video mới):
-   mỗi chương một `{id, shots[]}`; mỗi shot là một `Shot` (schema ở `src/story/types.ts`):
-   `say` (bắt buộc — mẩu lời bình shot này minh hoạ), `place`, `cut` (rong/trung/can/sat),
-   `nhin` (tâm khung), `actors`, `props`, `overlay`, `enter`, `sfx`.
-   - `say` phải là chuỗi con của `vo` (sau khi bỏ dấu câu), nếu không sẽ warn lúc build và shot bị neo về 0.
-   - Muốn hình mới: thêm vào `src/story/Props.tsx` / `Places.tsx` và mở rộng union `Prop`/`Place` trong `types.ts`.
+## Bản đồ
 
-5. **Tạo composition** `src/<Comp>.tsx` — theo mẫu `src/LamPhatV2.tsx`:
-   import manifest generated + BOARD, `buildChapter` neo shot vào cue phụ đề,
-   ghép `<Sequence>` theo `duration` từng chương, `PAD` giữa các chương, `INTRO` mở đầu.
-   Export `<Comp>` và `<COMP>_DURATION`, rồi khai báo trong `src/Root.tsx`
-   (thêm bản dọc 1080×1920 nếu cần).
+| Thư mục | Là gì | Dùng lại cho video khác? |
+|---|---|---|
+| `pipeline/` | TTS, phân tích giọng, tổng hợp SFX, kiểm tra | có |
+| `src/engine/` | neo lời→frame, phụ đề, chia cụm | có |
+| `src/library/` | nhân vật + 26 bối cảnh | có |
+| `src/projects/` | kịch bản + bảng phân cảnh từng video | không |
+| `src/attic/` | thí nghiệm cũ, không build | tham khảo |
+| `media/outbound/` | **video thành phẩm** | |
 
-6. **Xem**: `npm run dev` (Remotion Studio). Test một hệ hình riêng thì dùng `src/dev/*`.
+Kiến trúc và các ràng buộc môi trường: `ARCHITECTURE.md`.
+Đánh giá khả thi khi gói thành use-case: `USECASE.md`.
 
-7. **Render**:
-   - `./render.sh <Comp> out/<name>.mp4`
-   - dài (> ~2000 frame) thì `./render-segments.sh <Comp>`; nhớ thêm `<Comp>` vào bảng `map`
-     trong `render-segments.sh` để nó tính đúng tổng frame (file manifest, INTRO, PAD).
+## Bản quyền
 
-## Nguyên tắc phong cách của repo
+Nhạc trong `public/audio/` là CC BY (Kevin MacLeod, Scott Buckley, Chris
+Zabriskie) — **bắt buộc ghi công khi đăng**, câu ghi công ở
+`public/audio/CREDITS.md`. Tiếng động trong `public/sfx/` do
+`pipeline/sfx.py` tự tổng hợp, không dính bản quyền của ai.
 
-- **Hình neo vào lời.** Không chia đều thời lượng, không sinh shot tự động — máy không
-  biết "câu này nên hiện cái gì". Mỗi shot khai báo câu nó minh hoạ.
-- **Vẽ, không mượn.** Toàn bộ hình là SVG viết tay trong `src/art|cast|toon|story`;
-  SFX tổng hợp bằng `sfx.py`. Không stock, không asset bản quyền.
-- **Lỗi phải ồn ào.** Chỗ dễ lệch âm thầm (khớp `say`, thiếu file giọng) thì warn/throw
-  ngay lúc build.
-- **Chạy lại phải rẻ.** TTS và render-segments đều idempotent: đã có thì bỏ qua.
-- **Nhân vật không trôi trên nền trống.** Mọi shot có `place`.
-- **Tiếng Việt trong comment và tên biến domain.** Giữ nguyên lối viết đó khi thêm code.
+Ảnh meme và template trong `assets/`, `public/meme/` là của bên thứ ba, đã bỏ
+theo dõi git, không phát hành lại.

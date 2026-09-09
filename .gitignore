@@ -17,3 +17,7 @@ assets/
 public/meme/
 # Ảnh Quảng Bình (Wikimedia, CC BY / CC BY-SA) — thuộc dự án cũ đã bỏ
 public/qb/
+
+# Video thành phẩm — nặng, không đẩy lên git; giữ README và metadata
+media/outbound/*.mp4
+media/outbound/*.mov
