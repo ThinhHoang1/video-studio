@@ -60,7 +60,8 @@ for (const [i, c] of (kb.chapters ?? []).entries()) {
 }
 
 // ── 2 + 3. giọng đọc ───────────────────────────────────────────────────
-const duongManifest = `src/projects/${TEN.replace(/-vui$|-buon$/, '')}/data/${TEN}.generated.json`;
+const DU_AN = kb.project ?? TEN.replace(/-vui$|-buon$/, '');
+const duongManifest = `src/projects/${DU_AN}/data/${TEN}.generated.json`;
 let manifest = null;
 if (!existsSync(path.join(ROOT, duongManifest))) {
   loi.push(`chưa sinh giọng: không có ${duongManifest}. Chạy: node pipeline/tts-gemini.mjs ${TEN}`);
@@ -79,7 +80,7 @@ if (!existsSync(path.join(ROOT, duongManifest))) {
 }
 
 // ── 4-7. bảng phân cảnh ────────────────────────────────────────────────
-const duongBoard = `src/projects/${TEN.replace(/-vui$|-buon$/, '')}/board.ts`;
+const duongBoard = `src/projects/${DU_AN}/board.ts`;
 if (existsSync(path.join(ROOT, duongBoard)) && manifest) {
   const nguon = readFileSync(path.join(ROOT, duongBoard), 'utf8');
   const loiBinh = new Map(manifest.chapters.map((c) => [c.id, c.vo]));

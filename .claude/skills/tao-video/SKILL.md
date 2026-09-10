@@ -1,154 +1,200 @@
 ---
 name: tao-video
-description: Tạo video kể chuyện hoạt hình từ một chủ đề — viết kịch bản, sinh giọng đọc tiếng Việt, dựng bảng phân cảnh, render ra MP4. Dùng khi người dùng nói "làm video về X", "tạo video kể chuyện", "dựng video hoạt hình", "làm clip giải thích".
+description: Tạo video storytime animation (kiểu JaidenAnimations, nền trắng, nét đen, cắt dày) từ một chủ đề bằng pipeline V2 — viết kịch bản hài, sinh giọng Gemini TTS, lip-sync, viết bảng phân cảnh board.json, kiểm máy, render MP4. Dùng khi người dùng nói "làm video về X", "kể chuyện hoạt hình", "storytime", "dựng clip hài kể chuyện đời".
 ---
 
-# Tạo video từ một chủ đề
+# Đạo diễn một video storytime (V2)
 
-Bạn **đạo diễn**, không **vẽ**. Thư viện đã có sẵn 26 bối cảnh, 11 tư thế,
-29 tiếng động, 16 bản nhạc. Việc của bạn là viết kịch bản và **chọn** cảnh nào
-cho câu nào. Đừng viết SVG mới — code vẽ là việc của người, không phải một
-lượt làm việc của agent.
+Bạn **đạo diễn**, không **vẽ**. Rig 9 nhân vật × 4 góc nhìn, 43 tư thế, 10 đồ cầm tay,
+53 prop, 16 bối cảnh dựng sẵn, 21 mẫu hành động, 4 kiểu chữ, 29 tiếng động, 16 bản nhạc
+đã có sẵn trong `src/v2/` và `public/`. Việc của bạn: viết kịch bản hài,
+rồi quyết định **câu nào → shot gì, cỡ nào, ai làm gì lúc nào**. Mọi quyết định
+ghi trong một file JSON (`board.json`), máy lo phần còn lại.
 
-## Quy trình
+Đọc trước khi bắt tay:
+
+| Đọc | Để làm gì |
+|---|---|
+| `references/kich-ban-storytime.md` | viết kịch bản có punchline |
+| `references/dao-dien.md` | ngữ pháp shot có số liệu, 3 ví dụ đầy đủ |
+| `references/loi-hay-gap.md` | lỗi validator hay bắt và cách sửa |
+| `thu-vien-v2.json` | **danh mục tên hợp lệ** (nhân vật, tư thế, mắt, miệng, prop, sfx, nhạc) |
+| `src/v2/board/kieu-board.ts` + `README.md` | schema board đầy đủ, chú thích từng trường |
+| `src/projects/demo-v2/board.json` | ví dụ thật 77 shot đã render ra `media/outbound/demo-v2.mp4` |
+
+## Ba luật không phá
+
+1. **Video thành phẩm nằm ở `media/outbound/<ten>.mp4` kèm `<ten>.md`.** `out/` là nháp.
+2. **`node pipeline/kiem-tra-v2.mjs <ten>` phải exit 0 trước khi render.**
+3. **Chỉ dùng tên có trong `thu-vien-v2.json`.** Không tự nghĩ tên tư thế / prop / sfx.
+   Không sửa mã TS trong `src/v2/`. Thiếu prop thì dùng prop gần nhất và ghi vào
+   `ghi_chu` của shot để người vẽ thêm sau.
+
+## Một lệnh chạy hết
+
+```bash
+node pipeline/tao-video.mjs <ten> --soat
+```
+
+11 bước, bước nào đã có kết quả thì bỏ qua, dừng đúng chỗ cần bạn:
 
 ```
-1. Viết kịch bản        scripts/<ten>.json
-2. Sinh giọng đọc       node pipeline/tts-gemini.mjs <ten>
-3. Bóc nhịp giọng       node pipeline/analyze-voice.mjs <ten>
-4. Viết bảng phân cảnh  src/projects/<du-an>/board.ts
-5. KIỂM TRA             node pipeline/kiem-tra.mjs <ten>     ← không bỏ qua
-6. Xem thử một khung    npx remotion still ...
-7. Render               ./render-segments.sh <Comp> media/outbound/<ten>.mp4
-8. Viết metadata        media/outbound/<ten>.md
+ 1 kich-ban   kiểm scripts/<ten>.json
+ 2 giong      tts-gemini          (cần GEMINI_API_KEYS trong .env)
+ 3 nhip       analyze-voice
+ 4 mieng      lipsync (Rhubarb)
+ 5 board      DỪNG (exit 3) nếu chưa có src/projects/<du-an>/board.json → bạn viết board rồi chạy lại --tu kiem
+ 6 kiem       kiem-tra-v2         (✗ → dừng, sửa board, chạy lại --tu kiem)
+ 7 thong-ke   thong-ke-board      (⚠ không chặn)
+ 8 dang-ky    dang-ky.mjs sinh composition V2-<ten> — KHÔNG sửa Root.tsx / render-segments.sh
+ 9 soat       6 khung thử ra out/<ten>/soat-*.png (khi --soat) → XEM bằng Read
+10 render     render-segments.sh V2-<ten> media/outbound/<ten>.mp4
+11 cham       cham-diem.mjs so với tham chiếu + ghi media/outbound/<ten>.md; exit 0 chỉ khi ≥ 90%
 ```
 
-**Video thành phẩm PHẢI nằm ở `media/outbound/`.** `out/` chỉ là nháp.
+`<ten>` là tên kịch bản (vd `di-hoc-muon`), `<du-an>` là trường `project` trong
+kịch bản (thường đặt bằng `<ten>`). Các bước dưới đây giải thích từng file bạn phải
+viết và cách đọc kết quả; lệnh lẻ chỉ dùng khi muốn chạy tách.
 
-## Trước khi bắt đầu
+### Bước 1 — Kịch bản `scripts/<ten>.json`
 
-Đọc `thu-vien.json` — đó là danh mục tên hợp lệ. Viết tên lạ thì bước 5 chặn.
-
-Hỏi người dùng ba điều nếu chưa rõ:
-- **chủ đề** cụ thể (không phải "làm video về tiền" mà "vì sao lương tăng vẫn nghèo")
-- **chất giọng**: hài tự trào hay kể chuyện trầm
-- **độ dài**: 6 phút (≈14 chương) hay 12 phút (≈15 chương dài hơn)
-
-## Bước 1 — Kịch bản
-
-Đọc `references/kich-ban.md` trước khi viết. Đó là chỗ quyết định video hay
-hay dở; mọi khâu sau chỉ là thực thi.
+Đọc `references/kich-ban-storytime.md` trước. Khung file:
 
 ```json
 {
-  "title": "…",
-  "voice": "Puck",
-  "style": "Hướng dẫn cảm xúc cho TTS. Càng cụ thể càng bớt ngang.",
+  "title": "Lần đầu bị gọi lên bảng",
+  "project": "demo-v2",
+  "voice": "Fenrir",
+  "style": "Bạn là YouTuber kể chuyện đời mình bằng hoạt hình (kiểu storytime animation). Giọng nam trẻ, NĂNG LƯỢNG CAO, nói nhanh, hào hứng, như đang kể cho hội bạn thân nghe một chuyện vừa xảy ra sáng nay. Tốc độ nhanh hơn bình thường 20%. Lên giọng bất ngờ ở chỗ ngạc nhiên, hạ giọng thì thào ở chỗ bí mật, cười khẽ trong lúc nói khi tự thấy mình ngớ ngẩn. Câu ngắn đọc DỨT, dứt khoát như đấm punchline. Tuyệt đối không đọc đều đều, không trầm buồn, không kiểu kể chuyện ma. Tiếng Việt giọng Bắc, đời thường.",
   "chapters": [
-    {"id": "ma-khong-dau", "canh": "phong-tro", "kicker": "Level 1",
-     "heading": "Tiêu đề chương", "vo": "Lời bình…"}
+    {"id": "goi-ten", "kicker": "Lớp 8", "heading": "Tiết toán cuối buổi",
+     "vo": "Ok nghe này. Lớp tám, giờ toán, tiết cuối, buồn ngủ kinh khủng. ..."}
   ]
 }
 ```
 
-Mỗi chương **60–140 từ**. Dài hơn thì tách; ngắn hơn thì người xem chưa kịp
-vào chương đã hết.
+**Giọng mặc định: `Fenrir`** (hào hứng, bốc) hoặc `Puck` (tưng tửng). Trường
+`style` **chép nguyên văn** đoạn trên (đó là style của `scripts/demo-v2.json`,
+đã kiểm ra nhịp 2.9 âm tiết/s, khớp nhịp cắt 1 s/shot). **Cấm giọng trầm chậm**
+(`Charon`, "kể chuyện", "trầm ấm") trừ khi người dùng yêu cầu rõ: giọng chậm
+kéo shot dài ra, nhịp storytime sụp.
 
-## Bước 2–3 — Giọng đọc
+Mỗi chương **45–70 từ** (≈ 18–25 s đọc), 4–8 chương cho video 1.5–3 phút.
+`id` chương là kebab-case không dấu, dùng làm tên file mp3 và khoá trong board.
 
-```bash
-node pipeline/tts-gemini.mjs <ten>      # ~1 phút/chương do hạn mức free tier
-node pipeline/analyze-voice.mjs <ten>   # bóc nhịp để nhân vật cử động theo giọng
-```
-
-Cần `GEMINI_API_KEYS` trong `.env` (nhiều key phân tách bằng dấu phẩy — mỗi
-cặp key×model là một hạn mức riêng, hết cặp này pipeline tự nhảy sang cặp khác).
-
-Chạy lại an toàn: chương nào đã đọc và lời bình chưa đổi thì bỏ qua. Sửa lời
-bình là file cũ tự bị coi là hỏng và đọc lại.
-
-## Bước 4 — Bảng phân cảnh
-
-Đọc `references/phan-canh.md`. Đây là chỗ hình khớp với lời.
-
-```ts
-'ma-chuong': [
-  {say: 'mẩu lời bình có thật', canh: 'phong-tro', co: 'trung', sac: 'nghi', dang: 'goMay'},
-  {say: 'mẩu tiếp theo',        canh: 'hop-thu',   co: 'rong',  nguoi: false},
-],
-```
-
-`say` là mỏ neo: pipeline dò mẩu đó trong lời bình để suy ra frame. Cảnh giữ
-nguyên cho tới mốc kế tiếp, nên **chỉ khai báo chỗ ĐỔI**.
-
-**5–8 mốc mỗi chương.** Ít hơn thì cảnh đứng yên, người xem chán.
-
-## Bước 5 — Kiểm tra (bắt buộc)
+### Bước 2–4 — Giọng, nhịp, miệng
 
 ```bash
-node pipeline/kiem-tra.mjs <ten>
+mkdir -p src/projects/<du-an>/data              # tts-gemini không tự tạo thư mục
+node pipeline/tts-gemini.mjs <ten>              # → public/vo-<ten>/*.mp3 + data/<ten>.generated.json
+node pipeline/analyze-voice.mjs <ten>           # → data/<ten>.voice.json  (am / nhan / nghi từng frame)
+node pipeline/lipsync.mjs <ten>                 # → data/<ten>.mouth.json  (hình miệng X A B C D E F G H từng frame)
 ```
 
-Render mất 10–15 phút. Mọi lỗi bắt được bằng máy phải bắt ở đây. Bộ kiểm tra
-soi 7 thứ: kịch bản đủ trường, đã sinh giọng, lời bình khớp manifest, mọi mốc
-`say` có thật, mọi tên nằm trong thư viện, đủ mốc mỗi chương, không mốc trùng.
+- Cần `GEMINI_API_KEYS=key1,key2` trong `.env`. Free tier: **10 request/ngày cho
+  mỗi cặp key × model**; pipeline xoay 3 model mặc định nên 2 key = 6 hạn mức =
+  ~60 chương/ngày. Hết hạn mức thì báo người dùng, không chờ.
+- Chạy lại an toàn: chương đã đọc và lời chưa đổi thì bỏ qua (vân tay `.sig`).
+  Sửa `vo` là chương đó tự đọc lại; sau đó **phải chạy lại cả 3 và 4**.
+- `lipsync.mjs` cần `tools/rhubarb/` (x86_64, chạy qua Rosetta). Thiếu thì làm
+  theo `tools/README.md`; không có rhubarb thì renderer rơi về miệng theo biên độ
+  (xấu hơn hẳn, chỉ dùng khi bí).
+- TTS đọc dài gấp đôi số từ dự kiến sẽ bị `tts-gemini` tự đọc lại (tối đa 4 lần).
 
-## Bước 6 — Xem thử trước khi render cả video
+### Bước 5 — Bảng phân cảnh `src/projects/<du-an>/board.json`
+
+Đọc `references/dao-dien.md`. Đây là chỗ quyết định video giống storytime hay
+giống slide thuyết trình.
+
+```json
+{
+  "du_an": "<du-an>",
+  "nguoi_ke": "nam",
+  "mac_dinh": {"loai": "minh-hoa", "co": "trung", "nen": "trang"},
+  "chuong": [
+    {"id": "goi-ten", "nhac": "25-silly-fun", "shots": [
+      {"say": "Ok nghe này", "loai": "truc-dien", "dien": [{"kieu": "nam", "x": 0.72, "noi": true}]},
+      {"say": "Lớp tám, giờ toán", "loai": "chu", "sfx": "ding",
+       "chu": [{"noi_dung": "LỚP 8. GIỜ TOÁN.", "kieu": "the", "vao": "tung-tu"}]},
+      {"tai": 15.23, "loai": "trong", "dai": 0.5}
+    ]}
+  ]
+}
+```
+
+Nguyên tắc gốc: **mỗi shot neo vào một mẩu lời `say` có nguyên văn trong `vo`**;
+thời điểm suy ra từ file giọng, không tự đặt. Nhịp mục tiêu: **1.0–1.6 s/shot,
+≥ 30% shot dưới 1 s, trực diện ≤ 20% thời gian, ≥ 1 chữ / 15 s, nhịp trắng 5–10%**.
+Với chương 20 s → 14–20 shot.
+
+### Bước 6 — Kiểm máy (bắt buộc)
 
 ```bash
-npx remotion still <Comp> /tmp/thu.png --frame=900 \
-  --browser-executable="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+node pipeline/kiem-tra-v2.mjs <ten>          # ✗ lỗi chặn / ⚠ cảnh báo; exit 1 khi có ✗
+node pipeline/kiem-tra-v2.mjs <ten> --moc    # in mốc ước lượng (giây) của từng shot
 ```
 
-Xem 2–3 khung ở các chương khác nhau. Rẻ hơn render 6 phút rồi mới phát hiện
-hỏng rất nhiều.
+`--moc` là công cụ đặt nhịp trắng: đọc mốc shot kế tiếp, đặt `tai` của shot
+`trong` lùi trước đó 0.3–0.6 s. Sửa cho tới khi `✓ <ten>: qua hết`. Lỗi hay
+gặp và cách sửa: `references/loi-hay-gap.md`.
 
-## Bước 7 — Render
+### Bước 7 — Đo nhịp so tham chiếu
 
 ```bash
-SEG_LEN=900 ./render-segments.sh <Comp> media/outbound/<ten>.mp4
+node pipeline/thong-ke-board.mjs <ten>       # bảng chương + bảng tổng ✓/⚠
+node pipeline/thong-ke-board.mjs <ten> --json
 ```
 
-Chia đoạn 900 frame, mỗi đoạn một tiến trình Chrome mới. Hỏng giữa chừng thì
-chạy lại, đoạn nào xong rồi tự bỏ qua. Cache khoá theo vân tay `src/` +
-`scripts/` nên sửa code là cache tự vô hiệu.
+Mọi dòng có mục tiêu phải ✓. Dòng ⚠ kèm gợi ý sửa (thêm `phan-ung`/`chu`/`trong`,
+rời trực diện sớm hơn...). Các dòng `·` (prop, góc nhìn, mẫu hành động) chỉ để
+biết mức đa dạng.
 
-Chạy nền và báo lại khi xong — đừng ngồi chờ.
+### Bước 8–9 — Đăng ký và soát khung (tự động)
 
-## Bước 8 — Metadata
+`node pipeline/tao-video.mjs <ten> --tu dang-ky --den soat --soat` sinh
+`src/projects/du-an.generated.ts` (composition `V2-<ten>`), chạy `tsc`, rồi render
+6 khung rải đều ra `out/<ten>/soat-*.png`. **Mở từng ảnh bằng tool Read** và nhìn:
+chữ có đè mặt không, prop có lơ lửng không, người ngồi có bị bàn che sai không,
+nhân vật có rơi ra ngoài khung không, góc nhìn/đồ cầm có đúng ý không. Sửa board
+rồi chạy lại `--tu kiem --den soat --soat`. Tối đa 4 vòng; vòng nào cũng phải sửa
+được gì cụ thể. Muốn xem một frame bất kỳ:
 
-Kèm `media/outbound/<ten>.md`:
-
-```markdown
-# <Tiêu đề>
-**Thời lượng:** 6p25 · **Độ phân giải:** 1920×1080 · 30fps
-
-## Mô tả để đăng
-…
-
-## Ghi công (BẮT BUỘC)
-Music: "<tên bài>" by Kevin MacLeod / Scott Buckley / Chris Zabriskie
-Licensed under Creative Commons: By Attribution.
+```bash
+npx remotion still src/index.ts V2-<ten> out/<ten>/f300.png --frame=300 \
+  --browser-executable "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --log=error
 ```
 
-Nhạc trong repo là CC BY — không ghi công là vi phạm giấy phép. Câu ghi công
-đầy đủ ở `public/audio/CREDITS.md`.
+Tính frame: `frame = 60 + Σ(chương trước: duration×30 + 12) + mốc_shot×30`
+(intro 2 s = 60 frame; mỗi chương thêm 12 frame đệm; mốc shot lấy từ `kiem-tra-v2 --moc`).
+
+### Bước 10–11 — Render, chấm, metadata (tự động)
+
+`node pipeline/tao-video.mjs <ten> --tu render` render theo đoạn 900 frame (hỏng
+giữa chừng chạy lại là tiếp), rồi `cham-diem.mjs` đo TRÊN VIDEO 14 tiêu chí so với
+tham chiếu (nhịp cắt, % shot < 1 s, hold, nhịp trắng, trực diện, chữ, tư thế, góc
+nhìn, mẫu hành động, bối cảnh, prop, đồ cầm, mốc act, miệng đổi hình) và ghi
+`media/outbound/<ten>.md`. **Ngưỡng nghiệm thu 90%.** Dưới ngưỡng: đọc dòng ✗,
+sửa board đúng dòng đó (thêm góc nhìn / mẫu hành động / bối cảnh / đồ cầm / act),
+chạy lại từ `--tu kiem`. Render ~17 khung/s: 90 s video ≈ 2.5 phút.
+
+Nhạc là CC BY (`public/audio/CREDITS.md`): **không ghi công khi đăng là vi phạm giấy phép.**
 
 ## Không làm
 
-- **Đừng viết cảnh SVG mới** trong một lượt. Nếu chủ đề cần cảnh chưa có, báo
-  người dùng và dùng cảnh gần nhất, hoặc đề xuất cảnh cần vẽ thêm.
-- **Đừng bỏ bước kiểm tra.**
-- **Đừng lấy file từ `out/`** — đó là nháp.
-- **Đừng tự force-push hay viết lại lịch sử git.**
+- Không vẽ prop/nhân vật mới trong một lượt. Chỉ tên trong `thu-vien-v2.json`.
+- Không tween, không fade, không zoom trượt: schema không có, đừng cố mô tả trong `ghi_chu`.
+- Không để nhân vật nói mà đứng yên quá 1.5 s (thêm `act`), không để trực diện quá 3 s liền.
+- Không dùng `truc-dien` cho hơn một người `noi`.
+- Không lấy file từ `out/`. Không force-push, không sửa lịch sử git.
+- Không dùng pipeline V1 (`board.ts`, `kiem-tra.mjs`, `thu-vien.json`) cho video mới. V1 chỉ còn để render lại `TinhDau` / `RaTruongVui`.
+- Không sửa `src/Root.tsx`, `render-segments.sh`, không tạo `phim.tsx` — `dang-ky.mjs` làm việc đó.
 
-## Giới hạn thật
-
-Bốn thứ pipeline không làm được, nói thẳng với người dùng khi gặp:
+## Giới hạn thật, nói thẳng với người dùng
 
 | | |
 |---|---|
-| Vẽ cảnh mới | phải viết SVG tay, không tự sinh |
-| Tự đánh giá đẹp/xấu | phải có người xem duyệt |
-| Render nhanh | 6 phút video ≈ 12 phút render |
-| Hạn mức TTS | free tier 10 request/ngày mỗi cặp key×model |
+| Lip-sync | Rhubarb phonetic đúng ~60% cấp âm vị; nhịp câu khớp 100%. Đủ cho cỡ trung/cận, lộ ở đặc tả dài |
+| Hạn mức TTS | free tier 10 request/ngày mỗi cặp key × model; 2 key × 3 model = 60 chương/ngày |
+| Render | ~17 khung/s → 3 phút video ≈ 6 phút render; không dùng cho luồng tương tác |
+| Bảng chấm | `cham-diem.mjs` đo nhịp/hold/miệng trên video thật; điểm ≥ 90% là điều kiện tự nhận xong |
+| Đẹp / xấu | máy không tự biết; bước 9 soát still là bắt buộc và người dùng vẫn nên xem một lượt trước khi đăng |

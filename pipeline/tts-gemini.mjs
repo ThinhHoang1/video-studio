@@ -50,7 +50,7 @@ for (const [i, ch] of script.chapters.entries()) {
 
 const total = manifest.reduce((a, c) => a + c.duration, 0);
 writeFileSync(
-  path.join(ROOT, `src/projects/ra-truong/data/${NAME}.generated.json`),
+  path.join(ROOT, `src/projects/${script.project ?? NAME.replace(/-vui$|-buon$/, '')}/data/${NAME}.generated.json`),
   JSON.stringify({voice: VOICE, style: script.style, total, chapters: manifest}, null, 2)
 );
-console.log(`\nTỔNG ${Math.floor(total / 60)}p${Math.round(total % 60)}s → src/${NAME}.generated.json`);
+console.log(`\nTỔNG ${Math.floor(total / 60)}p${Math.round(total % 60)}s → src/projects/${script.project ?? NAME}/data/${NAME}.generated.json`);

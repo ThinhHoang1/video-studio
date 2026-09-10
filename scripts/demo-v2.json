@@ -1,0 +1,32 @@
+{
+  "title": "Lần đầu bị gọi lên bảng",
+  "voice": "Fenrir",
+  "style": "Bạn là YouTuber kể chuyện đời mình bằng hoạt hình (kiểu storytime animation). Giọng nam trẻ, NĂNG LƯỢNG CAO, nói nhanh, hào hứng, như đang kể cho hội bạn thân nghe một chuyện vừa xảy ra sáng nay. Tốc độ nhanh hơn bình thường 20%. Lên giọng bất ngờ ở chỗ ngạc nhiên, hạ giọng thì thào ở chỗ bí mật, cười khẽ trong lúc nói khi tự thấy mình ngớ ngẩn. Câu ngắn đọc DỨT, dứt khoát như đấm punchline. Tuyệt đối không đọc đều đều, không trầm buồn, không kiểu kể chuyện ma. Tiếng Việt giọng Bắc, đời thường.",
+  "project": "demo-v2",
+  "chapters": [
+    {
+      "id": "goi-ten",
+      "kicker": "Lớp 8",
+      "heading": "Tiết toán cuối buổi",
+      "vo": "Ok nghe này. Lớp tám, giờ toán, tiết cuối, buồn ngủ kinh khủng. Tôi đang ngồi vẽ con khủng long lên bìa vở. Thật sự luôn, vẽ rất tâm huyết, có cả răng. Rồi thầy gõ thước. Nam. Lên bảng. Cả lớp quay lại nhìn tôi. Bốn mươi cái đầu. Cùng một lúc. Thằng Long ngồi cạnh nghiêng sang thì thào: mày chết rồi. Cảm ơn Long. Rất hữu ích."
+    },
+    {
+      "id": "len-bang",
+      "kicker": "Mười hai bước",
+      "heading": "Đi lên như ra pháp trường",
+      "vo": "Tôi đứng lên. Mười hai bước từ chỗ ngồi lên bảng. Kiểu là đi ra pháp trường ấy. Thầy đưa viên phấn. Tôi nhìn cái đề. Nhìn lại lần hai. Toàn chữ với số, không hiểu gì. Rồi tôi liếc xuống bàn đầu. Là Hà. Hà đang nhìn tôi. Ok, áp lực gấp đôi. Tôi viết chữ x. Xoá. Viết lại chữ x. To hơn. Cho nó tự tin."
+    },
+    {
+      "id": "vo-tran",
+      "kicker": "Cứu",
+      "heading": "Thằng Long nhắc bài",
+      "vo": "Thằng Long bắt đầu nhắc bài. Nhắc bằng môi. Tôi đọc môi: chia hai. Tôi quay lên viết to: chia hai. Cả lớp cười ầm. Hoá ra nó bảo: chịu thôi. Tôi cuống, ấn mạnh quá, phấn gãy đôi, bay xuống chân thầy. Thầy chậm rãi tháo kính. Các bạn ơi, thầy tháo kính là hết phim rồi. Tôi đứng đó, nửa viên phấn, mồ hôi chảy thành dòng. Cứu."
+    },
+    {
+      "id": "ket",
+      "kicker": "Ba giây",
+      "heading": "Câu nói tôi nhớ tới bây giờ",
+      "vo": "Thầy nhìn bảng. Nhìn tôi. Rồi nói một câu tôi nhớ tới bây giờ. Thầy gọi Nam Anh. Không phải em. Im lặng. Ba giây. Cả lớp nổ tung. Hà cười gục xuống bàn. Nam Anh đứng lên, làm bài đúng một phút, xong. Tôi đi về chỗ, bước dài gấp đôi lúc lên. Từ hôm đó thằng Long gọi tôi là Nam Bảng. Suốt ba năm. Thật sự luôn."
+    }
+  ]
+}

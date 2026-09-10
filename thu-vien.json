@@ -1,45 +1,160 @@
 {
-  "_": "Danh mục thư viện. Agent CHỈ được chọn tên trong đây — viết tên lạ thì pipeline/kiem-tra.mjs báo lỗi trước khi render. Muốn thêm cảnh mới thì phải viết code SVG, không phải việc agent tự làm trong một lượt.",
-
+  "_": "Danh mục thư viện. Agent CHỈ được chọn tên trong đây — viết tên lạ thì pipeline/kiem-tra.mjs báo lỗi trước khi render. Muốn thêm cảnh hoặc nhân vật mới thì phải viết code SVG, không phải việc agent tự làm trong một lượt.",
   "canh": {
     "_nhom_noi_chon": "Nơi chốn có thật. Dùng để đặt nhân vật vào một bối cảnh cụ thể.",
-    "le-tot-nghiep": {"ta": "Sân trường ngày tốt nghiệp: phông bạt đỏ, hàng cây, toà nhà", "nguoi": true},
-    "phong-tro": {"ta": "Phòng trọ ban ngày: tường bong, cửa sổ nắng hắt, bàn học có laptop, chồng sách", "nguoi": true},
-    "phong-tro-dem": {"ta": "Phòng trọ ban đêm: đèn bàn là nguồn sáng duy nhất, ngoài cửa sổ là đèn thành phố", "nguoi": true},
-    "phong-tro-anh": {"ta": "Phòng trọ có khung ảnh gia đình ba người trên bàn", "nguoi": false},
-    "phong-van": {"ta": "Phòng phỏng vấn: bàn dài, tập hồ sơ, đồng hồ tường kim nhích thật", "nguoi": true},
-    "quan-cafe": {"ta": "Quán cà phê: bàn gỗ, tách cà phê còn bốc hơi, cửa kính", "nguoi": true},
-    "sanh": {"ta": "Sảnh toà nhà văn phòng: mặt kính cao tầng, cửa xoay, người ra vào là bóng", "nguoi": true},
-    "van-phong": {"ta": "Văn phòng ban ngày: đèn tuýp, vách ngăn cubicle, dãy màn hình", "nguoi": true},
-    "van-phong-dem": {"ta": "Văn phòng ban đêm: đèn tắt gần hết, một bàn còn sáng, hộp sữa trên bàn", "nguoi": true},
-    "van-phong-tu-xa": {"ta": "Nhìn từ trên xuống 24 bàn làm việc, một chấm xanh giữa đám xám", "nguoi": false},
-    "phong-hop": {"ta": "Phòng họp: màn chiếu, bàn dài, sáu bóng người ngồi im", "nguoi": true},
-    "giuong-dem": {"ta": "Nằm giường nửa đêm, mặt được điện thoại soi sáng, tối om xung quanh", "nguoi": true},
-    "man-hinh-cv": {"ta": "Cận màn hình đang sửa CV", "nguoi": false},
-    "man-hinh-email": {"ta": "Cận màn hình soạn email, ô đính kèm để trống", "nguoi": false},
-    "hop-thu": {"ta": "Hộp thư đến có đúng ba dòng, dòng cuối là quảng cáo", "nguoi": false},
-    "dien-thoai-luong": {"ta": "Cận điện thoại, tin nhắn ngân hàng báo lương về", "nguoi": false},
-    "the-nhan-vien": {"ta": "Thẻ nhân viên đặt trên bàn", "nguoi": false},
-    "dong-ho-hop": {"ta": "Đồng hồ tường cận cảnh, kim phút quay nhanh", "nguoi": false},
-
+    "le-tot-nghiep": {
+      "ta": "Sân trường ngày tốt nghiệp: phông bạt đỏ, hàng cây, toà nhà",
+      "nguoi": true
+    },
+    "phong-tro": {
+      "ta": "Phòng trọ ban ngày: tường bong, cửa sổ nắng hắt, bàn học có laptop, chồng sách",
+      "nguoi": true
+    },
+    "phong-tro-dem": {
+      "ta": "Phòng trọ ban đêm: đèn bàn là nguồn sáng duy nhất, ngoài cửa sổ là đèn thành phố",
+      "nguoi": true
+    },
+    "phong-tro-anh": {
+      "ta": "Phòng trọ có khung ảnh gia đình ba người trên bàn",
+      "nguoi": false
+    },
+    "phong-van": {
+      "ta": "Phòng phỏng vấn: bàn dài, tập hồ sơ, đồng hồ tường kim nhích thật",
+      "nguoi": true
+    },
+    "quan-cafe": {
+      "ta": "Quán cà phê: bàn gỗ, tách cà phê còn bốc hơi, cửa kính",
+      "nguoi": true
+    },
+    "sanh": {
+      "ta": "Sảnh toà nhà văn phòng: mặt kính cao tầng, cửa xoay, người ra vào là bóng",
+      "nguoi": true
+    },
+    "van-phong": {
+      "ta": "Văn phòng ban ngày: đèn tuýp, vách ngăn cubicle, dãy màn hình",
+      "nguoi": true
+    },
+    "van-phong-dem": {
+      "ta": "Văn phòng ban đêm: đèn tắt gần hết, một bàn còn sáng, hộp sữa trên bàn",
+      "nguoi": true
+    },
+    "van-phong-tu-xa": {
+      "ta": "Nhìn từ trên xuống 24 bàn làm việc, một chấm xanh giữa đám xám",
+      "nguoi": false
+    },
+    "phong-hop": {
+      "ta": "Phòng họp: màn chiếu, bàn dài, sáu bóng người ngồi im",
+      "nguoi": true
+    },
+    "giuong-dem": {
+      "ta": "Nằm giường nửa đêm, mặt được điện thoại soi sáng, tối om xung quanh",
+      "nguoi": true
+    },
+    "man-hinh-cv": {
+      "ta": "Cận màn hình đang sửa CV",
+      "nguoi": false
+    },
+    "man-hinh-email": {
+      "ta": "Cận màn hình soạn email, ô đính kèm để trống",
+      "nguoi": false
+    },
+    "hop-thu": {
+      "ta": "Hộp thư đến có đúng ba dòng, dòng cuối là quảng cáo",
+      "nguoi": false
+    },
+    "dien-thoai-luong": {
+      "ta": "Cận điện thoại, tin nhắn ngân hàng báo lương về",
+      "nguoi": false
+    },
+    "the-nhan-vien": {
+      "ta": "Thẻ nhân viên đặt trên bàn",
+      "nguoi": false
+    },
+    "dong-ho-hop": {
+      "ta": "Đồng hồ tường cận cảnh, kim phút quay nhanh",
+      "nguoi": false
+    },
     "_nhom_an_du": "Cảnh mang Ý, không phải VẬT. Người xem phải bắc một nhịp cầu trong đầu mới hiểu — chính nhịp cầu đó làm họ nhớ. Ưu tiên dùng cho câu chốt.",
-    "hai-tram-la-don": {"ta": "200 máy bay giấy bay đi, đúng hai cái quay về", "y": "gửi nhiều, nhận về gần như không có gì", "nguoi": false},
-    "vong-luan-quan": {"ta": "Hai cánh cửa khoá nhau, chìa của cửa này nằm sau cửa kia", "y": "điều kiện tự tham chiếu, không lối vào", "nguoi": false},
-    "thanh-mot-day-so": {"ta": "Bóng người tô dần thành mã vạch, còn lại một mã số", "y": "con người bị quy về một dãy số", "nguoi": false},
-    "tang-hinh": {"ta": "Bốn người đặc, một người nhạt dần còn đường viền", "y": "bị bỏ quên, không ai tính vào", "nguoi": false},
-    "luong-tan-chay": {"ta": "Cục đá hình tờ tiền tan thành vũng nước", "y": "tiền bốc hơi nhanh hơn mình tưởng", "nguoi": false},
-    "mot-ngay-364": {"ta": "Chia đôi: một tấm ảnh đẹp / 364 ô xám", "y": "so đời thật với bản highlight của người khác", "nguoi": false},
-    "nuoc-tham-qua-ao": {"ta": "Vệt nước loang dần trên vải, mép không đều", "y": "thay đổi diễn ra chậm, không có mốc đánh dấu", "nguoi": false},
-    "vi-qua-tung-thang": {"ta": "Sáu cái ví mỏng dần theo tháng", "y": "hao mòn tích luỹ theo thời gian", "nguoi": false}
+    "hai-tram-la-don": {
+      "ta": "200 máy bay giấy bay đi, đúng hai cái quay về",
+      "y": "gửi nhiều, nhận về gần như không có gì",
+      "nguoi": false
+    },
+    "vong-luan-quan": {
+      "ta": "Hai cánh cửa khoá nhau, chìa của cửa này nằm sau cửa kia",
+      "y": "điều kiện tự tham chiếu, không lối vào",
+      "nguoi": false
+    },
+    "thanh-mot-day-so": {
+      "ta": "Bóng người tô dần thành mã vạch, còn lại một mã số",
+      "y": "con người bị quy về một dãy số",
+      "nguoi": false
+    },
+    "tang-hinh": {
+      "ta": "Bốn người đặc, một người nhạt dần còn đường viền",
+      "y": "bị bỏ quên, không ai tính vào",
+      "nguoi": false
+    },
+    "luong-tan-chay": {
+      "ta": "Cục đá hình tờ tiền tan thành vũng nước",
+      "y": "tiền bốc hơi nhanh hơn mình tưởng",
+      "nguoi": false
+    },
+    "mot-ngay-364": {
+      "ta": "Chia đôi: một tấm ảnh đẹp / 364 ô xám",
+      "y": "so đời thật với bản highlight của người khác",
+      "nguoi": false
+    },
+    "nuoc-tham-qua-ao": {
+      "ta": "Vệt nước loang dần trên vải, mép không đều",
+      "y": "thay đổi diễn ra chậm, không có mốc đánh dấu",
+      "nguoi": false
+    },
+    "vi-qua-tung-thang": {
+      "ta": "Sáu cái ví mỏng dần theo tháng",
+      "y": "hao mòn tích luỹ theo thời gian",
+      "nguoi": false
+    },
+    "_nhom_hoc_duong": "Bối cảnh tuổi học trò.",
+    "lop-hoc": {
+      "ta": "Lớp học: bảng đen, dãy bàn, quạt trần quay, cửa sổ nắng hắt",
+      "nguoi": true
+    },
+    "san-truong": {
+      "ta": "Sân trường: dãy lớp hai tầng, hàng phượng đỏ, cột cờ, mây trôi",
+      "nguoi": true
+    },
+    "ghe-da": {
+      "ta": "Ghế đá dưới gốc cây, bụi cỏ — chỗ ngồi nói chuyện giờ ra chơi",
+      "nguoi": true
+    },
+    "duong-ve": {
+      "ta": "Đường về nhà lúc hoàng hôn: cột điện, dây điện, chim bay",
+      "nguoi": true
+    },
+    "quan-tra-sua": {
+      "ta": "Quán trà sữa: kệ ly, đèn thả, bàn tròn hai ly trà sữa",
+      "nguoi": true
+    },
+    "mua-hien": {
+      "ta": "Hiên lớp học lúc mưa: mưa rơi chéo, nước đọng, dãy lớp mờ sau màn mưa",
+      "nguoi": true
+    },
+    "cong-truong": {
+      "ta": "Cổng trường có băng rôn đỏ, hàng rào sắt, cây hai bên",
+      "nguoi": true
+    },
+    "phong-hoc-sinh": {
+      "ta": "Phòng học sinh ban đêm: đèn bàn, sách vở, cửa sổ có trăng, ảnh dán tường",
+      "nguoi": true
+    }
   },
-
   "co_canh": {
     "rong": "Toàn cảnh — mở chương, cho người xem định vị mình đang ở đâu",
     "trung": "Trung cảnh — mặc định, thấy cả người lẫn bối cảnh",
     "can": "Cận — thấy mặt rõ, dùng khi câu nói mang cảm xúc",
     "sat": "Đặc tả — chỉ mặt hoặc một vật, dùng cho câu chốt"
   },
-
   "tu_the": {
     "dung": "đứng thường, tay buông",
     "chi": "chỉ tay ra trước — khi đang khẳng định, vạch ra một điều",
@@ -53,7 +168,6 @@
     "goMay": "hai tay đưa ra trước gõ phím — đang làm việc",
     "quayLung": "quay lưng lại — bỏ đi, né tránh, kết thúc"
   },
-
   "sac_thai": {
     "thuong": "bình thường",
     "vui": "vui, cười",
@@ -63,24 +177,75 @@
     "buon": "buồn, có nước mắt",
     "met": "mệt, đờ đẫn"
   },
-
   "sfx": {
     "_": "29 tiếng tự tổng hợp, không dính bản quyền. Sinh lại: python3 pipeline/sfx.py",
-    "nhip": ["whoosh-up", "whoosh-down", "whoosh-short", "whoosh-long", "tick"],
-    "nhan_manh": ["boom", "vine-boom", "thud", "riser", "suspense", "airhorn", "drumroll"],
-    "nhe": ["pop", "pop-high", "ding", "correct-ding", "boing", "quack"],
-    "tien": ["cash", "cash-register"],
-    "hai": ["sad-trombone", "record-scratch", "rimshot", "error-buzz", "whistle-up", "whistle-down", "pipe-clang"],
-    "khac": ["deflate", "inflate"]
+    "nhip": [
+      "whoosh-up",
+      "whoosh-down",
+      "whoosh-short",
+      "whoosh-long",
+      "tick"
+    ],
+    "nhan_manh": [
+      "boom",
+      "vine-boom",
+      "thud",
+      "riser",
+      "suspense",
+      "airhorn",
+      "drumroll"
+    ],
+    "nhe": [
+      "pop",
+      "pop-high",
+      "ding",
+      "correct-ding",
+      "boing",
+      "quack"
+    ],
+    "tien": [
+      "cash",
+      "cash-register"
+    ],
+    "hai": [
+      "sad-trombone",
+      "record-scratch",
+      "rimshot",
+      "error-buzz",
+      "whistle-up",
+      "whistle-down",
+      "pipe-clang"
+    ],
+    "khac": [
+      "deflate",
+      "inflate"
+    ]
   },
-
   "nhac": {
     "_": "CC BY — BẮT BUỘC ghi công khi đăng, xem public/audio/CREDITS.md",
-    "vui_nhon": ["25-silly-fun", "22-flutey-funk", "23-got-funk", "26-style-funk", "20-daily-beetle", "21-electro-cabello", "24-grand-chase", "27-the-builder"],
-    "am_ap": ["16-restoration", "17-where-stars-fall", "15-distant-sun", "13-eternal-hope"],
-    "tram_buon": ["14-heavy-heart", "12-divider", "11-candlepower", "10-heliograph"]
+    "vui_nhon": [
+      "25-silly-fun",
+      "22-flutey-funk",
+      "23-got-funk",
+      "26-style-funk",
+      "20-daily-beetle",
+      "21-electro-cabello",
+      "24-grand-chase",
+      "27-the-builder"
+    ],
+    "am_ap": [
+      "16-restoration",
+      "17-where-stars-fall",
+      "15-distant-sun",
+      "13-eternal-hope"
+    ],
+    "tram_buon": [
+      "14-heavy-heart",
+      "12-divider",
+      "11-candlepower",
+      "10-heliograph"
+    ]
   },
-
   "giong_tts": {
     "_": "Voice của Gemini TTS. Đặt ở trường `voice` trong kịch bản.",
     "Puck": "tưng tửng, năng lượng cao — hợp video hài",
@@ -88,5 +253,16 @@
     "Kore": "nữ, rõ ràng",
     "Fenrir": "hào hứng, bốc",
     "Aoede": "nữ, nhẹ nhàng"
+  },
+  "nhan_vat": {
+    "_": "Dàn nhân vật. Đặt ở trường `kieu` của mỗi mục trong `dien`. Thêm người mới phải sửa src/library/cast/kieu.ts.",
+    "nam": "Nam — nam sinh, áo sơ mi trắng cà vạt đỏ, tóc ngắn mái lệch, dáng gầy",
+    "ha": "Hà — nữ sinh, áo dài trắng, tóc buộc đuôi ngựa, dáng gầy",
+    "long": "Long — bạn thân của Nam, áo thun xanh, tóc xoăn bồng, dáng đậm",
+    "mai": "Mai — bạn thân của Hà, đeo kính, tóc bob, váy xanh đậm",
+    "me": "Mẹ — áo tím, tóc búi sau gáy",
+    "thay": "Thầy/cô giáo — áo sơ mi xám, đeo kính, tóc hoa râm",
+    "nam-lon": "Nam mười hai năm sau — áo xanh, dáng đầy hơn",
+    "ha-lon": "Hà mười hai năm sau — áo hồng, tóc xoã dài"
   }
 }

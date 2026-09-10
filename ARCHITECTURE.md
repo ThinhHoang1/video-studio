@@ -1,121 +1,142 @@
-# Kiến trúc
+# Kiến trúc V2
 
-## Vấn đề cốt lõi: làm sao hình luôn khớp lời
+## Vấn đề cốt lõi vẫn là: hình phải khớp lời
 
-Đây là thứ mọi lần dựng hỏng đều vấp phải, và cũng là lý do repo này tồn tại.
-
-Cách sai — sinh shot tự động theo đồng hồ:
-
-```ts
-// cắt mỗi 3 giây, xoay vòng cỡ cảnh
-const shots = chia(total, 3 * FPS).map((g, i) => ({co: VONG[i % 6]}));
-```
-
-Chạy thì chạy, nhưng hình chẳng liên quan gì tới câu đang nói. Máy không biết
-câu "quên đính kèm file" thì nên hiện cái gì — chỉ người viết mới biết.
-
-Cách đúng — **neo hình vào câu**:
-
-```ts
-// src/projects/ra-truong/board.ts
-{say: 'quên đính kèm file', canh: 'man-hinh-email', co: 'sat', nguoi: false}
-```
-
-Khai báo: nghe tới câu này thì đổi sang cảnh này. Thời điểm không do người
-đặt mà **suy ra từ chính file giọng đọc**, nên sửa kịch bản hay đổi giọng thì
-hình tự trôi theo.
-
-## Đường đi của một mốc neo
+V1 giải bằng cách neo cảnh vào câu (`say` → frame). V2 giữ nguyên nguyên tắc đó
+và sửa ba thứ V1 làm sai so với storytime thật (đo trong
+`docs/nghien-cuu-storytime.md`): **nhịp** (V1 trung vị 7.4 s/shot, tham chiếu
+1.42 s), **chuyển động** (V1 tween liên tục theo giọng, tham chiếu snap 1 khung
++ hold), **thẩm mỹ** (V1 19 màu + cảnh đầy, tham chiếu trắng + nét + 1 màu tóc).
 
 ```
-"quên đính kèm file"
-        │
-        │  src/engine/neo.ts
-        │  dò trong TOÀN BỘ lời bình → vị trí ký tự 412
-        ▼
-        │  quy ra cụm phụ đề chứa ký tự 412 → cụm số 9
-        ▼
-        │  src/engine/cues.tsx
-        │  cụm 9 bắt đầu ở 62.4% thời lượng chương
-        ▼
-        │  độ dài chương đo từ mp3 thật: 26.2s
-        ▼
-      frame 490
+kịch bản ──TTS──▶ mp3 ──analyze-voice──▶ voice.json (am/nhan/nghi mỗi frame)
+                     └──lipsync (Rhubarb)──▶ mouth.json (hình miệng mỗi frame)
+board.json ──du-lieu.ts──▶ shot có from/len ──san-khau.tsx──▶ SVG mỗi frame ──Remotion──▶ mp4
 ```
 
-**Vì sao dò trên toàn bộ lời bình chứ không trong từng cụm.** Bản đầu dò
-`say` trong từng cụm phụ đề. Mẩu nào nằm vắt qua ranh giới hai cụm là trượt —
-đã phải vá tay ba lần trước khi nhận ra đó là lỗi thiết kế. Dò theo vị trí ký
-tự thì mẩu dài bao nhiêu, cắt ở đâu, đều không còn ảnh hưởng.
+## Đường đi của một shot
 
-**Vì sao chia thời gian theo âm tiết.** Chia đều cho mỗi cụm thì cụm "Ê." được
-cấp đúng bằng thời gian của cụm bảy từ, phụ đề vọt lên trước tiếng. Tiếng Việt
-đơn âm nên số từ ≈ thời gian nói; cộng thêm trọng số cho chỗ ngắt hơi ở dấu
-câu là khớp khá sát.
+```
+{"say": "Thằng Long ngồi cạnh", "loai": "minh-hoa", ...}
+        │  src/v2/phim/du-lieu.ts::taoNeoTu
+        │  thường hoá lời bình + say → vị trí ký tự p = 0.72 của chương
+        │  rải p lên danh sách frame ĐANG NÓI (voice.nghi = false) → frame 472
+        ▼
+        │  sắp mọi shot theo frame; shot kế bắt đầu → shot này kết thúc
+        │  shot có `dai` ngắn hơn khoảng hở → chèn shot `trong` vào phần hở
+        │  hai mốc cách nhau < 8 frame → gộp (validator đã báo trước)
+        ▼
+        │  src/v2/phim/san-khau.tsx tại frame f của shot:
+        │    trạng thái diễn viên = prop gốc ⊕ mọi act có tai ≤ f/30   (snap, không nội suy)
+        │    miệng người `noi` = mouth.frames[frameChương]              (lip-sync đè mieng cảm xúc)
+        │    prop vẽ nếu tai ≤ t; prop `truoc` vẽ sau nhân vật
+        │    chữ vẽ nếu tai ≤ t; tung-tu theo cụm lời; phong scale tuyến tính 10 frame
+        ▼
+      <AbsoluteFill> nền #fdfdfd + <svg> + chữ HTML
+```
 
-**Neo hỏng thì phải ồn ào.** `neoNhieu()` in cảnh báo ngay lúc build cho mốc
-không tìm thấy. Lệch âm thầm còn tệ hơn crash, vì phải xem hết video mới phát
-hiện.
+**Vì sao neo ở cấp từ, không cấp cụm phụ đề.** Tham chiếu có 89% mốc cắt cách
+đầu một từ ≤ 0.15 s và 2/3 số cắt rơi giữa câu. Neo V1 (`neo.ts`) làm tròn về
+đầu cụm 7 từ nên nhiều `say` liền nhau rơi cùng frame và bị gộp: đo trên
+demo-v2 mất 26/77 shot. `taoNeoTu` rải theo ký tự lên **frame đang nói** (bỏ
+`nghi`) vì giọng ngắt hơi 6–30% thời lượng; chia đều theo thời gian lệch tới
+0.5 s. `pipeline/kiem-tra-v2.mjs` và `thong-ke-board.mjs` dùng **cùng công thức**
+để validator và renderer ra cùng mốc.
 
-## Ba loại mốc, cùng một cơ chế
+**Neo hỏng phải ồn ào.** `dungChuong()` in `[board <id>] không neo được` lúc
+build; validator chặn trước đó với tên shot cụ thể.
 
-| Loại | File | Số mốc |
-|---|---|---|
-| Đổi cảnh | `board.ts` | 99 |
-| Meme | `cues.ts` → `MEME` | 19 |
-| Tiếng động | `cues.ts` → `SFX` | 27 |
+## Lip-sync: đổi hình, không scale
 
-Tất cả đi qua `neoNhieu()`. Hiện tại **145/145 khớp**.
+`pipeline/lipsync.mjs`: mp3 → WAV 16 kHz mono (ffmpeg của Remotion) → Rhubarb
+`-r phonetic --extendedShapes GHX` → cue → quantize về lưới 30 fps (mỗi ô lấy
+hình chiếm nhiều thời gian nhất, không lấy mẫu điểm) → `frames: "XXBBCAAX…"`.
+Rig `mieng.tsx` chỉ tra bảng theo ký hiệu; `bien` 0/1 đảo theo lượt lặp để hai
+frame liền không y hệt.
 
-## Nhân vật cử động theo giọng
+Đo trên tiếng Việt (`docs/tham-chieu/lipsync.md`): ~6.7 cue/giây nói, khớp nhịp
+câu 100% (X trùng `nghi`), đúng ~60% cấp âm vị, chạy 11× thời gian thực, kết
+quả **không xác định** giữa các lần chạy (cache theo vân tay mp3, không so
+bit-exact). Không có Rhubarb thì `miengTaiFrame` rơi về 3 hình theo biên độ
+`am` — xấu hơn hẳn, chỉ là dự phòng.
 
-`pipeline/analyze-voice.mjs` bóc mỗi frame một giá trị từ file mp3:
+Đầu **không** gật theo `nhan`, mắt **không** chớp: tham chiếu đo 0 chớp / 519
+frame cận cảnh, std vị trí đầu ≤ 0.09 px. V1 có ba tầng chuyển động theo giọng;
+V2 bỏ hết, chỉ giữ cử chỉ tự động **đổi theo nhịp câu** (hash theo cụm) cho
+người kể khi không có `act`.
 
-- `am` — độ to (RMS, chuẩn hoá theo phân vị 95 để một tiếng bật hơi không kéo tụt cả bài)
-- `nhan` — điểm nhấn (biên độ vọt lên so với trung bình trượt 30 frame)
-- `nghi` — đang ngắt hơi (im dưới ngưỡng quá 6 frame)
+## Rig: đơn vị DAU, không transform scale
 
-`src/library/cast/dien.tsx` dùng ba giá trị đó cho **ba tầng chuyển động khác
-tốc độ** — đây là thứ tạo cảm giác mượt thay vì máy móc:
+`src/v2/rig/hinh.ts`: mọi kích thước là hệ số nhân **DAU = bề rộng sọ**; rig
+nhân với DAU px lúc vẽ nên toạ độ ra px thật và **độ dày nét luôn đúng px**
+(`net = max(4.5, 0.015 × DAU)`). Nhân vật chính cao 2.6 DAU, nhân vật phụ
+(`khung: 'phu'`) 3.6 DAU. Cỡ cảnh (`CO_CANH`) chỉ là DAU + vị trí chân:
+`nho` 110 / `rong` 200 / `trung` 330 / `can` 560 / `sat` 900.
 
-| Tầng | Nhịp | Lấy từ |
-|---|---|---|
-| thân | đổi chân trụ mỗi 4 giây | đồng hồ |
-| đầu | trễ hơn thân, gật theo trọng âm | `nhan` làm mượt |
-| tay | nảy bằng lò xo tắt dần | `nhan` vượt ngưỡng |
-| lông mày, má | nhướn/ửng theo cường độ | `nhan` |
-| thở | sâu hơn khi đang nghỉ | `nghi` |
+Tư thế (`tu-the.ts`) là **góc khớp tuyệt đối** cho hai tay, thân, đầu, chân;
+không có "chuyển động", chỉ có trạng thái. `act[].tai` đổi trạng thái tức thời.
 
-**Miệng thì không.** Đã thử cho miệng mở theo `am`; tiếng Việt nhiều thanh
-điệu nên biên độ nhảy liên tục, ra cảm giác lắp bắp chứ không phải đang nói.
-Miệng đứng yên theo cảm xúc trông tự nhiên hơn hẳn.
+Da, áo, quần không tô (cùng màu nền); mỗi nhân vật một màu tóc + tối đa một
+phụ kiện. Nhân vật phụ vô danh `trang`: đầu trắng không mặt, tóc tuỳ chọn.
+
+## Schema board là nguồn duy nhất
+
+`src/v2/board/kieu-board.ts` định nghĩa `Board → BoardChuong → Shot → DienVien /
+Prop / Chu / Insert / HanhDong`. `pipeline/thu-vien-v2.mjs` **đọc mã nguồn**
+(regex trên `KIEU`, `TU_THE`, union type mắt/miệng, `PROP_TEN`, `LoaiShot`,
+`CO_CANH`) sinh `thu-vien-v2.json`, nên thêm một tư thế là danh mục tự cập
+nhật; `PROPS: Record<TenProp, …>` khiến thiếu prop là `tsc` đỏ.
+
+Bốn trường **đã có trong schema nhưng renderer chưa đọc**: `HanhDong.goc` /
+`DienVien.goc` (góc nhìn), `cam` (prop cầm tay), `DienVien.mau` + `mau_tham_so`
+(mẫu hành động sinh act), `Shot.boi_canh` (bối cảnh bung thành prop). Board
+ghi được ngay; hiệu lực khi lead nối `san-khau.tsx`.
+
+## Validator và thống kê
+
+`pipeline/kiem-tra-v2.mjs` chặn: tên ngoài thư viện, `say` không nguyên văn,
+shot < 0.25 s, hai shot cùng frame, chương thưa hơn 1 shot / 2.5 s, `truc-dien`
+không đúng một người `noi`, insert mất ảnh, lời sửa chưa đọc lại, mouth.json
+cũ. Cảnh báo: TD liên tục > 7 s, thứ tự shot lệch thời gian, `trong` không `dai`.
+
+`pipeline/thong-ke-board.mjs` không chặn, so với tham chiếu: s/shot 1.0–1.6,
+≥ 30% shot < 1 s, TD ≤ 20%, ≥ 1 chữ / 15 s, trắng 5–10%, trung vị ≤ 1.8 s,
+shot dài nhất ≤ 8 s, TD liền ≤ 7 s, một nhịp trắng ≤ 3.6 s; đếm prop, góc
+nhìn, mẫu hành động, loại shot, nhân vật, act/shot, sfx, insert.
 
 ## Render chia đoạn
 
-Render một mạch 23.000 frame chết giữa chừng hai lần, ở hai frame khác nhau.
-Render riêng đúng frame đó thì mất 2 giây và không lỗi → không phải cảnh nào
-nặng, mà là Chrome nghẽn khi chạy song song dài.
+Render một mạch dài chết giữa chừng ở frame ngẫu nhiên (Chrome nghẽn khi chạy
+song song lâu, không phải cảnh nặng). `render-segments.sh` cắt 700–900 frame
+một đoạn, mỗi đoạn một tiến trình Chrome, đoạn xong bỏ qua khi chạy lại, ghép
+bằng ffmpeg concat. Tổng frame tính từ manifest theo bảng `map` (V2: intro 2 s
++ đệm 0.4 s/chương, khớp `DEM_CHUONG` trong `du-lieu.ts`), không hỏi Remotion
+vì `compositions` phải bung Chrome. Cache khoá theo vân tay `src/` + `scripts/`.
 
-`render-segments.sh` cắt thành đoạn 900 frame, mỗi đoạn một tiến trình Chrome
-mới, đoạn nào xong rồi thì lần chạy sau bỏ qua. Hỏng giữa đường không phải làm
-lại từ đầu — đã cứu một lần khi phiên bị kết thúc lúc đang ở đoạn 14/27.
+Đo: ~17 khung/s ở 1080p; sàn là chụp khung của Chrome, không phải độ phức tạp
+SVG (10 tới 3000 path cùng tốc độ).
 
 ## Vân tay nội dung
 
-Mỗi file giọng kèm một file `.sig` băm từ `voice + style + lời bình`. Sửa kịch
-bản là file cũ tự bị coi là hỏng và đọc lại. Không có nó thì dựng nhầm giọng cũ
-lên kịch bản mới mà không ai biết.
+Mỗi mp3 kèm `.sig` = sha1(voice + style + vo). Sửa lời là chương đó đọc lại.
+`mouth.json` kèm `sig` = sha1(mp3) + version rhubarb + tham số. Validator so
+`duration` mouth với mp3 để bắt file cũ.
 
-## Những ràng buộc của môi trường
+## V1 còn lại
 
-Ghi lại để lần sau không mất thời gian dò:
+`src/engine/` (neo cụm, phụ đề, cues), `src/library/` (rig cũ, 34 cảnh SVG),
+`src/projects/tinh-dau`, `src/projects/ra-truong`, `pipeline/kiem-tra.mjs`,
+`thu-vien.json`. Giữ để render lại `TinhDau`, `RaTruongVui`, `RaTruongBuon`.
+V2 dùng lại từ V1: `FPS = 30` (`engine/theme.ts`), `splitCues`/`cueTimings`
+(chia cụm cho phụ đề và chữ `tung-tu`), `Sub` (phụ đề nhỏ dưới đáy), `FONT`
+(Be Vietnam Pro), thư viện sfx/nhạc. Không dựng video mới bằng V1.
 
-- ffmpeg đi kèm Remotion là **bản rút gọn**: không có filter `fps`, `tile`,
-  `highpass`, và không có muxer `s16le` để ghi ra stdout. Đọc PCM phải đi vòng
-  qua file WAV tạm.
-- Muốn chạy ffmpeg/ffprobe đó thì phải đặt `DYLD_LIBRARY_PATH` trỏ vào chính
-  thư mục của nó.
-- Remotion không tải được Chrome headless ở máy này → `render.sh` trỏ thẳng
-  vào Chrome hệ thống.
-- `zsh` đánh chỉ số mảng **từ 1**, không phải 0.
-- `urllib` của Python thiếu bộ chứng chỉ CA → tải file bằng `curl`.
+## Ràng buộc môi trường
+
+- ffmpeg đi kèm Remotion là bản rút gọn: không filter `fps`, `tile`, `highpass`,
+  không muxer `s16le` ra stdout → PCM đi vòng qua WAV tạm. Chạy phải đặt
+  `DYLD_LIBRARY_PATH` trỏ vào chính thư mục của nó.
+- Remotion không tải được Chrome headless ở máy này → mọi lệnh render/still
+  trỏ `--browser-executable` vào Chrome hệ thống.
+- Rhubarb chỉ có binary x86_64 → Rosetta 2; chỉ đọc WAV/OGG; cần `res/sphinx/` 82 MB.
+- `zsh` đánh chỉ số mảng từ 1. `urllib` của Python thiếu CA → tải bằng `curl`.
