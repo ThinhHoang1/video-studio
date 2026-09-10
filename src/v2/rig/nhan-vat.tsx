@@ -7,6 +7,7 @@ import {TocSau, TocTruoc} from './toc';
 import {TU_THE, TuThe, Tay, Chan} from './tu-the';
 import {KIEU, Kieu, layPhongCach, PhongCach} from './kieu';
 import {DoCam} from './do-cam';
+import type {DoCamTuVe} from '../board/kieu-board';
 
 /**
  * Nhân vật V2 — rig storytime.
@@ -50,8 +51,10 @@ export type NhanVatProps = {
   id?: string;
   /** góc nhìn (mặc định truoc); tư thế quayLung tương đương 'sau' */
   goc?: GocNhin;
-  /** đồ cầm trên tay (tên trong DO_CAM) — đè lên `cam` mặc định của tư thế */
+  /** đồ cầm trên tay (tên trong DO_CAM hoặc board.do_cam_tu_ve) — đè lên `cam` mặc định của tư thế */
   cam?: string;
+  /** bảng đồ cầm tự vẽ của dự án (board.do_cam_tu_ve) — tra khi `cam` không có trong DO_CAM */
+  camTuVe?: Record<string, DoCamTuVe>;
   /** nét vẽ tay (mặc định true) */
   tayVe?: boolean;
 };
@@ -305,7 +308,7 @@ export const Dau: React.FC<DauProps> = ({kieu, dau: d, cx, cy, net, mat, may, mi
   );
 };
 
-export const NhanVat: React.FC<NhanVatProps> = ({kieu, dau, x, y, dang = 'dung', mat, may, mieng, bien, rung, nhin = 0, flip, ma, moHoi, net, id, goc: gocProp, cam: camProp, tayVe = true}) => {
+export const NhanVat: React.FC<NhanVatProps> = ({kieu, dau, x, y, dang = 'dung', mat, may, mieng, bien, rung, nhin = 0, flip, ma, moHoi, net, id, goc: gocProp, cam: camProp, camTuVe, tayVe = true}) => {
   const k = layKieu(kieu);
   const pc = layPhongCach(k);
   const d = dau * (k.co ?? 1);
@@ -416,7 +419,7 @@ export const NhanVat: React.FC<NhanVatProps> = ({kieu, dau, x, y, dang = 'dung',
       <g key={side}>
         <Ong d={ongTayVe(g.khop, bd, seedGoc ^ bam(`tay-${ten}`))} day={K.tayDay * d} net={n} />
         {tayAo && <path d={tayAo} fill="none" stroke={pc.mauAo} strokeWidth={K.tayDay * d} strokeLinecap="round" />}
-        {cam && tayCam === ten && <DoCam ten={cam} dau={d} x={g.w[0]} y={g.w[1]} huong={huong} net={n} />}
+        {cam && tayCam === ten && <DoCam ten={cam} dau={d} x={g.w[0]} y={g.w[1]} huong={huong} net={n} tuVe={camTuVe} />}
         <BanTay dau={d} x={g.w[0]} y={g.w[1]} huong={huong} kieu={t.ban} net={n} lat={side === -1} />
       </g>
     );

@@ -687,7 +687,8 @@
               "mau": "nhay-mung",
               "mau_tham_so": {
                 "tai": 0.2
-              }
+              },
+              "cam": "cai-loa-phuong"
             }
           ]
         },
@@ -1475,15 +1476,6 @@
           "say": "Mình ngồi tính",
           "loai": "minh-hoa",
           "co": "trung",
-          "prop": [
-            {
-              "ten": "ban-lam-viec",
-              "x": 0.5,
-              "y": 1.0,
-              "co": 1.0,
-              "truoc": true
-            }
-          ],
           "dien": [
             {
               "kieu": "nam",
@@ -1508,7 +1500,8 @@
                 "giu": 3
               }
             }
-          ]
+          ],
+          "boi_canh": "goc-lam-viec-mot-nguoi"
         },
         {
           "say": "ngồi tính",
@@ -1631,7 +1624,8 @@
                   "tai": 0.86,
                   "dang": "dung"
                 }
-              ]
+              ],
+              "cam": "the-treo-co"
             }
           ]
         },
@@ -1889,26 +1883,29 @@
           "dien": [
             {
               "kieu": "nam",
-              "x": 0.5,
+              "x": 0.36,
               "dang": "chi",
               "mat": "khe",
               "mieng": "thang",
               "act": [
                 {
                   "tai": 0,
-                  "dang": "chi"
+                  "dang": "chi",
+                  "x": 0.36,
+                  "mat": "khe"
                 },
                 {
-                  "tai": 0.6,
+                  "tai": 0.45,
+                  "chuyen": "truot",
+                  "x": 0.64,
+                  "nhin": -0.5
+                },
+                {
+                  "tai": 0.85,
                   "dang": "chiSau",
                   "mat": "xoan"
                 }
-              ],
-              "mau": "lac-dau",
-              "mau_tham_so": {
-                "tai": 0.3,
-                "lap": 2
-              }
+              ]
             }
           ]
         },
@@ -2611,5 +2608,124 @@
         }
       ]
     }
-  ]
+  ],
+  "boi_canh_tu_ve": {
+    "goc-lam-viec-mot-nguoi": {
+      "moTa": "góc làm việc của công ty một người: bàn + ghế xoay bên trái, tủ hồ sơ bên phải, đồng hồ treo cao, cây nhỏ ở rìa",
+      "rong": [
+        {
+          "ten": "ban-lam-viec",
+          "x": 0.2,
+          "y": 0.84,
+          "co": 1.0
+        },
+        {
+          "ten": "tu-ho-so",
+          "x": 0.84,
+          "y": 0.84,
+          "co": 0.9
+        },
+        {
+          "ten": "dong-ho",
+          "x": 0.5,
+          "y": 0.2,
+          "co": 0.8
+        },
+        {
+          "ten": "cay-nho",
+          "x": 0.96,
+          "y": 0.84,
+          "co": 0.8
+        }
+      ],
+      "trung": [
+        {
+          "ten": "ban-lam-viec",
+          "x": 0.16,
+          "y": 1.04,
+          "co": 1.1
+        },
+        {
+          "ten": "tu-ho-so",
+          "x": 0.88,
+          "y": 1.04,
+          "co": 1.0
+        },
+        {
+          "ten": "dong-ho",
+          "x": 0.52,
+          "y": 0.22,
+          "co": 0.9
+        }
+      ]
+    }
+  },
+  "do_cam_tu_ve": {
+    "the-treo-co": {
+      "moTa": "thẻ nhân viên đeo dây, cầm giơ lên — dây rủ xuống, thẻ có gạch tên",
+      "dai": 0.42,
+      "nam": "dung",
+      "hinh": [
+        {
+          "loai": "gach",
+          "x1": -0.06,
+          "y1": 0.0,
+          "x2": -0.02,
+          "y2": -0.22
+        },
+        {
+          "loai": "gach",
+          "x1": 0.06,
+          "y1": 0.0,
+          "x2": 0.02,
+          "y2": -0.22
+        },
+        {
+          "loai": "hop",
+          "x": -0.11,
+          "y": -0.42,
+          "w": 0.22,
+          "h": 0.2,
+          "bo": 0.02
+        },
+        {
+          "loai": "gach",
+          "x1": -0.07,
+          "y1": -0.35,
+          "x2": 0.07,
+          "y2": -0.35
+        },
+        {
+          "loai": "gach",
+          "x1": -0.07,
+          "y1": -0.3,
+          "x2": 0.03,
+          "y2": -0.3
+        }
+      ]
+    },
+    "cai-loa-phuong": {
+      "moTa": "loa phường cầm tay: nón loa mở về -x, tay cầm ở gốc",
+      "dai": 0.5,
+      "nam": "ngang",
+      "hinh": [
+        {
+          "loai": "khoi",
+          "d": "M 0.05 -0.05 L -0.3 -0.2 L -0.3 0.2 L 0.05 0.05 Z"
+        },
+        {
+          "loai": "hop",
+          "x": 0.05,
+          "y": -0.06,
+          "w": 0.14,
+          "h": 0.12,
+          "bo": 0.03
+        },
+        {
+          "loai": "net",
+          "d": "M -0.36 -0.1 Q -0.42 0 -0.36 0.1"
+        }
+      ]
+    }
+  }
 }

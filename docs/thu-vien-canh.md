@@ -11,6 +11,12 @@ node pipeline/xem-prop.mjs <du-an> <ten>      # xem một prop tự vẽ trướ
 node pipeline/xem-shot.mjs <ten> --tat-ca     # xem thật khung từng shot
 ```
 
+> **Thiếu thì TỰ LÀM, không ép vào cái gần giống.** Ba khối trong `board.json` cho
+> phép mở rộng mọi thứ dưới đây mà không đụng mã TS:
+> `prop_tu_ve` (prop mới) · `boi_canh_tu_ve` (cảnh mới, ghép từ prop) ·
+> `do_cam_tu_ve` (đồ cầm tay mới). Xem `.claude/skills/tao-video/SKILL.md`
+> mục "Thiếu cảnh? TỰ DỰNG" và "Thiếu đồ cầm? TỰ VẼ".
+
 ## Bối cảnh dựng sẵn (28)
 
 Khai ở `shot.boi_canh`. Một tên bung thành nhiều prop đặt sẵn đúng chỗ; prop khai

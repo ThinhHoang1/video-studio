@@ -1,5 +1,7 @@
 import React from 'react';
 import {MUC, NEN} from './hinh';
+import type {DoCamTuVe, HinhVe} from '../board/kieu-board';
+import {FONT} from '../../engine/font';
 
 /**
  * Đồ cầm tay — prop nhỏ gắn vào bàn tay, vẽ NGAY TRONG RIG (không import
@@ -204,15 +206,60 @@ export const TEN_DO_CAM = Object.keys(DO_CAM);
  * 0 = xuống, 90 = sang phải màn). Trả null nếu tên không có trong DO_CAM.
  * Gọi TRƯỚC BanTay để nắm tay đè lên giữa prop → đọc là "đang cầm".
  */
-export const DoCam: React.FC<{ten: string; dau: number; x: number; y: number; huong: number; net: number}> = ({ten, dau: d, x, y, huong, net}) => {
+export const DoCam: React.FC<{ten: string; dau: number; x: number; y: number; huong: number; net: number; tuVe?: Record<string, DoCamTuVe>}> = ({ten, dau: d, x, y, huong, net, tuVe}) => {
   const m = DO_CAM[ten];
-  if (!m) return null;
+  const tv = m ? undefined : tuVe?.[ten];
+  if (!m && !tv) return null;
+  const nam = m ? m.nam : tv!.nam;
   // điểm cầm nằm giữa nắm tay (BanTay 'cam': lỗ ở y = 0.085 * 0.2 DAU)
   const tam = 0.017 * d;
-  const xoay = m.nam === 'dung' ? 0 : -huong;
+  const xoay = nam === 'dung' ? 0 : -huong;
   return (
-    <g transform={`translate(${x} ${y}) rotate(${xoay}) translate(0 ${m.nam === 'dung' ? 0 : tam})`}>
-      <m.Ve d={d} net={net} />
+    <g transform={`translate(${x} ${y}) rotate(${xoay}) translate(0 ${nam === 'dung' ? 0 : tam})`}>
+      {m ? (
+        <m.Ve d={d} net={net} />
+      ) : (
+        // toạ độ đồ cầm tự vẽ là HỆ SỐ DAU → nhân d để ra px; nét giữ nguyên bề dày
+        <g transform={`scale(${d})`}>
+          {tv!.hinh.map((h, i) => (
+            <HinhTuVe key={i} h={h} net={net / d} />
+          ))}
+        </g>
+      )}
     </g>
   );
+};
+
+
+/**
+ * Một hình của ĐỒ CẦM TỰ VẼ (board.do_cam_tu_ve) — cùng DSL với prop tự vẽ, nhưng
+ * toạ độ ở hệ số DAU nên người gọi đã `scale(dau)`; `vectorEffect` giữ nét không
+ * dày lên theo scale, đúng luật nét của phong cách.
+ */
+const HinhTuVe: React.FC<{h: HinhVe; net: number}> = ({h, net}) => {
+  const S = {stroke: MUC, strokeWidth: net, vectorEffect: 'non-scaling-stroke' as const, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const};
+  switch (h.loai) {
+    case 'net':
+      return <path d={h.d} fill="none" {...S} />;
+    case 'khoi':
+      return <path d={h.d} fill={NEN} {...S} />;
+    case 'hop':
+      return <rect x={h.x} y={h.y} width={h.w} height={h.h} rx={h.bo ?? 0} fill={NEN} {...S} />;
+    case 'tron':
+      return <circle cx={h.cx} cy={h.cy} r={h.r} fill={NEN} {...S} />;
+    case 'bau':
+      return <ellipse cx={h.cx} cy={h.cy} rx={h.rx} ry={h.ry} fill={NEN} {...S} />;
+    case 'gach':
+      return <line x1={h.x1} y1={h.y1} x2={h.x2} y2={h.y2} {...S} />;
+    case 'chu':
+      return (
+        <text x={h.x} y={h.y} textAnchor="middle" fontFamily={FONT} fontSize={h.co ?? 0.2} fontWeight={h.dam === false ? 600 : 800} fill={MUC} style={{userSelect: 'none'}}>
+          {h.text}
+        </text>
+      );
+    case 'to':
+      return <path d={h.d} fill={h.mau} {...S} />;
+    default:
+      return null;
+  }
 };

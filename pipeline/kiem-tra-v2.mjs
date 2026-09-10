@@ -223,6 +223,56 @@ if (board) {
     }
   }
   const tenTuVe = new Set(Object.keys(board.prop_tu_ve ?? {}));
+
+  // ── đồ cầm tay tự vẽ ──
+  // Cùng DSL với prop tự vẽ nhưng toạ độ ở HỆ SỐ DAU (0.3 = 0.3 bề rộng sọ), không phải px.
+  // Số quá lớn (>3) gần như luôn là viết nhầm px vào — vật sẽ to gấp trăm lần bàn tay.
+  const tenDoCamTuVe = new Set(Object.keys(board.do_cam_tu_ve ?? {}));
+  for (const [ten, dv] of Object.entries(board.do_cam_tu_ve ?? {})) {
+    const o = `do_cam_tu_ve "${ten}"`;
+    bao(/^[a-z0-9-]+$/.test(ten), `${o}: tên phải kebab-case không dấu`);
+    bao(!TV.doCam.has(ten), `${o}: trùng tên đồ cầm thư viện — đặt tên khác`);
+    bao(typeof dv?.moTa === 'string' && dv.moTa.length > 0, `${o}: thiếu moTa`);
+    bao(['doc', 'ngang', 'dung'].includes(dv?.nam), `${o}: nam phải là doc | ngang | dung`);
+    bao(so(dv?.dai) && dv.dai > 0 && dv.dai <= 3, `${o}: dai phải là số dương ≤ 3 (hệ số DAU, vd 0.35 = 0.35 bề rộng sọ)`);
+    bao(Array.isArray(dv?.hinh) && dv.hinh.length > 0 && dv.hinh.length <= 40, `${o}: hinh phải là mảng 1–40 hình`);
+    for (const [k, h] of (dv?.hinh ?? []).entries()) {
+      const oh = `${o} hình ${k + 1}`;
+      if (!LOAI_HINH.has(h?.loai)) { loi.push(`${oh}: loai "${h?.loai}" — chỉ có: ${[...LOAI_HINH].join(', ')}`); continue; }
+      const can = {net: ['d'], khoi: ['d'], hop: ['x', 'y', 'w', 'h'], tron: ['cx', 'cy', 'r'], bau: ['cx', 'cy', 'rx', 'ry'], gach: ['x1', 'y1', 'x2', 'y2'], chu: ['x', 'y', 'text'], to: ['d', 'mau']}[h.loai];
+      for (const t of can) bao(h[t] !== undefined && (t === 'd' || t === 'text' || t === 'mau' ? typeof h[t] === 'string' : so(h[t])), `${oh} (${h.loai}): thiếu/sai kiểu trường ${t}`);
+      const soLon = Object.entries(h).filter(([k2, v]) => k2 !== 'loai' && so(v) && Math.abs(v) > 3);
+      if (soLon.length) nhac(false, `${oh}: số ${soLon.map(([k2, v]) => `${k2}=${v}`).join(', ')} > 3 — toạ độ đồ cầm là HỆ SỐ DAU (0.3), không phải px như prop tự vẽ`);
+    }
+  }
+
+  // ── bối cảnh tự dựng ──
+  // Không vẽ gì mới: chỉ là danh sách prop đặt sẵn. Luật THƯA (3–5 prop) và chừa
+  // dải giữa cho nhân vật là thứ giữ cho cảnh không thành tranh minh hoạ đặc kín.
+  const tenBoiCanhTuVe = new Set(Object.keys(board.boi_canh_tu_ve ?? {}));
+  const CHAN = {rong: 0.84, trung: 1.04};
+  for (const [ten, bc] of Object.entries(board.boi_canh_tu_ve ?? {})) {
+    const o = `boi_canh_tu_ve "${ten}"`;
+    bao(/^[a-z0-9-]+$/.test(ten), `${o}: tên phải kebab-case không dấu`);
+    bao(typeof bc?.moTa === 'string' && bc.moTa.length > 0, `${o}: thiếu moTa`);
+    const coBang = ['rong', 'trung'].filter((c) => Array.isArray(bc?.[c]) && bc[c].length);
+    bao(coBang.length > 0, `${o}: phải có ít nhất một bảng prop (rong hoặc trung)`);
+    if (TV.boiCanh.has(ten)) nhac(false, `${o}: trùng tên bối cảnh dựng sẵn — bản của board sẽ ĐÈ bản thư viện ở mọi shot dùng tên này`);
+    for (const c of coBang) {
+      const ds = bc[c];
+      nhac(ds.length >= 2 && ds.length <= 6, `${o}.${c}: ${ds.length} prop — bối cảnh nên THƯA 3–5 prop, nhiều hơn là cảnh đặc kín, mất chất`);
+      for (const [j, pp] of ds.entries()) {
+        const op = `${o}.${c} prop ${j + 1}`;
+        bao(pp && (TV.prop.has(pp.ten) || tenTuVe.has(pp.ten)), `${op} "${pp?.ten}" không có trong thư viện lẫn board.prop_tu_ve`);
+        bao(so(pp?.x) && so(pp?.y), `${op}: thiếu x/y (tỉ lệ khung, gốc = tâm đáy prop)`);
+        if (!so(pp?.x) || !so(pp?.y)) continue;
+        // prop mặt đất nằm giữa khung sẽ che mất nhân vật; prop treo cao thì không sao
+        const matDat = Math.abs(pp.y - CHAN[c]) < 0.14;
+        nhac(!(matDat && pp.x > 0.3 && pp.x < 0.7), `${op} "${pp.ten}": prop mặt đất ở x=${pp.x} nằm trong dải 0.3–0.7 dành cho nhân vật — dịch ra rìa hoặc treo cao`);
+        nhac(pp.y >= 0.2 && pp.y <= 1.15, `${op} "${pp.ten}": y=${pp.y} lạ — prop mặt đất đặt y ≈ ${CHAN[c]} (chân nhân vật cỡ ${c})`);
+      }
+    }
+  }
   const chuongBoard = new Set();
   for (const ch of board.chuong ?? []) {
     const id = ch.id ?? '?';
@@ -264,7 +314,7 @@ if (board) {
       if (s.nen) bao(NEN.includes(s.nen), `${oS}: nền "${s.nen}" — chỉ có: ${NEN.join(', ')}`);
       if (s.sfx) bao(TV.sfx.has(s.sfx), `${oS}: sfx "${s.sfx}" không có trong thư viện`);
       if (s.chuyen) bao(CHUYEN.includes(s.chuyen), `${oS}: chuyen "${s.chuyen}" — chỉ có: ${CHUYEN.join(', ')}`);
-      if (s.boi_canh) kiemNeuCo(TV.boiCanh, s.boi_canh, `${oS}: bối cảnh "${s.boi_canh}" không có trong thư viện`);
+      if (s.boi_canh && !tenBoiCanhTuVe.has(s.boi_canh)) kiemNeuCo(TV.boiCanh, s.boi_canh, `${oS}: bối cảnh "${s.boi_canh}" không có trong thư viện lẫn board.boi_canh_tu_ve — thiếu thì TỰ DỰNG (xem SKILL.md mục "Thiếu cảnh")`);
 
       for (const [j, p] of (s.prop ?? []).entries()) {
         bao(p && (TV.prop.has(p.ten) || tenTuVe.has(p.ten)), `${oS}: prop ${j + 1} "${p?.ten}" không có trong thư viện lẫn board.prop_tu_ve — thiếu thì TỰ VẼ (xem SKILL.md mục "Thiếu prop")`);
@@ -284,7 +334,14 @@ if (board) {
         if (d.may) bao(TV.may.has(d.may), `${oD}: mày "${d.may}" không có trong thư viện. Chọn: ${goiY(TV.may)}`);
         if (d.mieng) bao(TV.mieng.has(d.mieng), `${oD}: miệng "${d.mieng}" không có trong thư viện`);
         if (d.goc) kiemNeuCo(TV.goc, d.goc, `${oD}: góc nhìn "${d.goc}" không có trong thư viện`);
-        if (d.cam) kiemNeuCo(TV.doCam, d.cam, `${oD}: đồ cầm "${d.cam}" không có trong thư viện`);
+        if (d.cam && !tenDoCamTuVe.has(d.cam)) kiemNeuCo(TV.doCam, d.cam, `${oD}: đồ cầm "${d.cam}" không có trong thư viện lẫn board.do_cam_tu_ve — thiếu thì TỰ VẼ (xem SKILL.md mục "Thiếu đồ cầm")`);
+        for (const [ia, aa] of (d.act ?? []).entries()) {
+          if (aa?.cam && !tenDoCamTuVe.has(aa.cam)) kiemNeuCo(TV.doCam, aa.cam, `${oD} act ${ia + 1}: đồ cầm "${aa.cam}" không có trong thư viện lẫn board.do_cam_tu_ve`);
+          if (aa?.chuyen !== undefined) bao(['snap', 'truot'].includes(aa.chuyen), `${oD} act ${ia + 1}: chuyen "${aa.chuyen}" — chỉ có snap | truot`);
+          if (aa?.chuyen === 'truot' && !['x', 'y', 'scale', 'xoay', 'nhin'].some((k2) => typeof aa[k2] === 'number')) {
+            nhac(false, `${oD} act ${ia + 1}: chuyen "truot" nhưng không có trường liên tục nào (x/y/scale/xoay/nhin) — trượt sẽ không thấy gì`);
+          }
+        }
       };
       let soNoi = 0;
       for (const [j, d] of (s.dien ?? []).entries()) {

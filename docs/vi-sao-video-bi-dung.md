@@ -66,6 +66,25 @@ tìm khoảng trống ≥ 1.8 s, đó chính là chỗ đặt nhịp trắng.
 Nhịp trắng làm hai việc cùng lúc: cho punchline chỗ thở, **và** kéo trung vị
 shot xuống. Video 100% dùng **14 nhịp trắng × 0.55 s**.
 
+## 3b. Nhân vật "nhảy cóc" khi đổi chỗ → thiếu `chuyen: "truot"`
+
+Đổi `x` bằng mốc act thường là **snap**: nhân vật biến mất chỗ này, hiện ra chỗ kia
+trong một frame. Đúng cho tư thế, **sai** cho di chuyển.
+
+```jsonc
+{"tai": 0.45, "chuyen": "truot", "x": 0.64, "nhin": -0.5}
+```
+
+Chỉ nội suy `x` `y` `scale` `xoay` `nhin` (ease-in-out); tư thế/mắt/miệng vẫn snap.
+KHÔNG dùng `truot` cho đổi tư thế — mượt hoá tư thế là mất chất hoạt hình vẽ tay.
+
+## 3c. Đứng yên quá lâu → nhịp thở (tự động)
+
+Diễn viên không đổi gì trong ≥ 0.4 s tự nhún ±0.35%, giữ mỗi hình 5 frame. Mặc định
+BẬT. Đo được: chỉ số *Khung đứng yên* từ 84% xuống 80% mà không sửa board.
+
+Tắt cho tượng / người chết lặng: `"tho": false` ở diễn viên.
+
 ## 4. Một góc nhìn duy nhất
 
 Không khai `goc` thì mọi nhân vật nhìn thẳng suốt phim. Có 4 góc:
@@ -127,6 +146,9 @@ script **nói thẳng** là đang rơi về miệng-theo-biên-độ chứ khôn
 | Giống slide | Trung vị > 1.6 s · <1 s dưới 30% | cắt thêm shot, thêm `phan-ung`/`chu` ngắn |
 | Chốt câu bị trôi | Khung trắng < 4% | chèn `loai: "trong"` 0.55 s trước punchline |
 | Nhìn thẳng suốt phim | Góc nhìn < 3 | thêm `goc` |
+| Nhân vật nhảy cóc khi đổi chỗ | — | `chuyen: "truot"` ở mốc đích |
+| Cảnh sai/nghèo vì ép vào 28 cảnh có sẵn | Bối cảnh < 3 | tự dựng `board.boi_canh_tu_ve` |
+| Tay trống, không cầm gì | Cầm đồ < 2 | tự vẽ `board.do_cam_tu_ve` |
 | Miệng vô hồn | — (bảng chấm KHÔNG bắt được) | kiểm `data/<ten>.mouth.json`, chạy `lipsync.mjs` |
 | Không có nhạc | — | `node pipeline/tai-nhac.mjs --sfx` |
 

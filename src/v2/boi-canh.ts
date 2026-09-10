@@ -1,4 +1,4 @@
-import type {CoCanh, Prop, TenProp} from './board/kieu-board';
+import type {BoiCanhTuVe, CoCanh, Prop, TenProp} from './board/kieu-board';
 
 /**
  * BỐI CẢNH DỰNG SẴN — một tên trong Shot.boi_canh bung thành danh sách Prop
@@ -219,9 +219,18 @@ export const laBoiCanh = (ten: string): boolean => Object.prototype.hasOwnProper
 /**
  * Bung một bối cảnh thành Prop[] theo cỡ cảnh. Tên lạ → [] (validator báo riêng).
  * rong/nho → bảng rong; trung/can/sat → bảng trung.
+ *
+ * `tuVe` là `board.boi_canh_tu_ve` — bối cảnh agent tự dựng cho dự án. Nó được
+ * tra TRƯỚC bảng dựng sẵn, nên board đè được cả cảnh có sẵn (vd dựng lại
+ * `van-phong` cho hợp chuyện) mà không sửa mã. Thiếu bảng cho một cỡ thì lấy
+ * bảng cỡ kia — cảnh tự dựng thường chỉ cần khai một cỡ.
  */
-export function bungBoiCanh(ten: string | undefined, co: CoCanh = 'trung'): Prop[] {
-  if (!ten || !laBoiCanh(ten)) return [];
+export function bungBoiCanh(ten: string | undefined, co: CoCanh = 'trung', tuVe?: Record<string, BoiCanhTuVe>): Prop[] {
+  if (!ten) return [];
+  const rongHay = co === 'rong' || co === 'nho';
+  const tv = tuVe?.[ten];
+  if (tv) return (rongHay ? tv.rong ?? tv.trung : tv.trung ?? tv.rong) ?? [];
+  if (!laBoiCanh(ten)) return [];
   const bc = BOI_CANH[ten];
-  return co === 'rong' || co === 'nho' ? bc.rong : bc.trung;
+  return rongHay ? bc.rong : bc.trung;
 }
