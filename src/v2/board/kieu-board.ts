@@ -188,6 +188,65 @@ export const PROP_TEN = [
   'bang-tin', // bảng thông báo có 4 tờ giấy ghim
   'day-ban-sau', // dãy bàn nhìn từ bảng xuống: lưng ghế quay về người xem (góc thầy)
   'man-hinh-chat', // khung điện thoại to, 3 bóng chat trống (bối cảnh man-hinh-dien-thoai)
+  // ── prop có nhãn chữ (điền `chu`) ──
+  'bang-hieu', // bảng hiệu đứng 2 chân, chữ `chu` giữa (mặc định "???")
+  'hop-nhan', // thùng carton có nhãn dán ghi `chu` (TIỀN, BÀI TẬP, TƯƠNG LAI...)
+  'bieu-tuong', // vòng tròn to có chữ `chu` giữa + 3 tia ($, %, ?, !, VND)
+  'to-giay', // tờ giấy tiêu đề `chu` + 3 gạch dòng (hoá đơn, đơn xin việc, đề thi)
+  'man-hinh', // màn hình máy tính to có chữ `chu` giữa (thông báo, tin nhắn)
+  // ── công sở ──
+  'ban-lam-viec', // bàn làm việc: bàn + màn hình + bàn phím, ghế xoay nhô sau
+  'ghe-xoay', // ghế xoay văn phòng 5 chân có bánh
+  'tu-ho-so', // tủ hồ sơ 3 ngăn kéo
+  'may-in', // máy in có giấy nạp sau, tờ in ra trước
+  'bang-trang', // bảng trắng đứng trên giá chữ A
+  'the-nhan-vien', // thẻ nhân viên có dây đeo
+  'thang-may', // cửa thang máy khép, bảng số tầng
+  // ── tiền / kinh tế ──
+  'tien-giay', // cọc tiền 3 tờ có dây buộc, ký hiệu $
+  'dong-xu', // đồng xu dựng có ký hiệu $
+  'vi-tien', // ví da gập, thẻ + tiền nhô ra
+  'bieu-do-tang', // biểu đồ cột tăng + mũi tên lên
+  'bieu-do-giam', // biểu đồ cột giảm + mũi tên xuống
+  'heo-dat', // heo đất có đồng xu trên khe
+  'may-atm', // máy ATM đứng: màn hình, bàn phím, khe tiền
+  // ── ăn uống ──
+  'bat-pho', // bát phở có đũa, khói
+  'ly-cafe', // tách cà phê có đĩa lót, khói
+  'dia-com', // đĩa cơm: mô cơm, trứng ốp la, thìa
+  'xe-day-hang-rong', // xe đẩy hàng rong có mái che răng cưa, nồi bốc khói
+  'ban-nhau', // bàn nhậu: 3 cốc bia bọt trào + đĩa mồi
+  'tu-kinh-banh', // tủ kính bánh 2 tầng
+  // ── giao thông ──
+  'xe-may', // xe máy tay ga nhìn ngang, đầu bên phải
+  'o-to', // ô tô nhìn ngang, đầu bên phải
+  'may-bay', // máy bay chở khách nhìn ngang, mũi bên phải
+  'tau-hoa', // đầu tàu hoả hơi nước nhìn ngang, đầu bên phải
+  'den-giao-thong', // đèn giao thông 3 bóng (đỏ trên)
+  'bien-bao', // biển báo tròn trên cột, chữ tuỳ `chu` (mặc định trống)
+  // ── công nghệ ──
+  'may-tinh-ban', // máy tính bàn: màn hình + thùng máy + bàn phím + chuột
+  'tai-nghe', // tai nghe chụp
+  'may-anh', // máy ảnh có ống kính tròn
+  'robot-nho', // robot nhỏ đầu hộp có ăng-ten
+  'wifi', // biểu tượng wifi: chấm + 3 cung sóng
+  // ── thiên nhiên ──
+  'nui', // dãy núi 3 đỉnh, đỉnh giữa có tuyết
+  'bien-song', // 3 hàng sóng biển cuộn (đặt tâm đáy ở chân nhân vật)
+  'cay-dua', // cây dừa thân cong, 5 tàu lá, 3 quả
+  'hoa', // bó hoa 5 bông bọc giấy có nơ
+  'mua-sao', // 3 sao rơi có vệt đuôi
+  // ── y tế ──
+  'giuong-benh', // giường bệnh nhìn ngang có cọc truyền dịch bên trái
+  'ong-nghe', // ống nghe bác sĩ
+  'hop-thuoc', // hộp thuốc cứu thương có dấu cộng
+  'xe-cuu-thuong', // xe cứu thương nhìn ngang, đầu bên phải, đèn xoay
+  // ── thể thao ──
+  'bong-da', // quả bóng đá
+  'khung-thanh', // khung thành có lưới (nhìn thẳng, lưới lùi sâu)
+  'ta-tap', // tạ tay nằm ngang
+  'vot-cau-long', // vợt cầu lông dựng + quả cầu
+  'cup-vo-dich', // cúp vô địch có ngôi sao
 ] as const;
 export type TenProp = (typeof PROP_TEN)[number];
 

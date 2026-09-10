@@ -28,7 +28,7 @@ export type BoiCanh = {
 };
 
 /** rút gọn khai prop: tên có kiểm kiểu, x y tỉ lệ khung, co mặc định 1 */
-const p = (ten: TenProp, x: number, y: number, co = 1, them: Pick<Prop, 'flip' | 'truoc'> = {}): Prop => ({ten, x, y, co, ...them});
+const p = (ten: TenProp, x: number, y: number, co = 1, them: Pick<Prop, 'flip' | 'truoc' | 'chu'> = {}): Prop => ({ten, x, y, co, ...them});
 
 /** chân nhân vật theo cỡ (trùng CO_CANH[co].chanY) — prop mặt đất dùng số này */
 const CHAN = {rong: 0.84, trung: 1.04} as const;
@@ -135,6 +135,79 @@ export const BOI_CANH: Record<string, BoiCanh> = {
     moTa: 'màn hình điện thoại: khung chat lớn giữa khung (cố ý chiếm chỗ nhân vật; dùng cho shot chữ / insert)',
     rong: [p('man-hinh-chat', 0.5, 0.98, 1.55)],
     trung: [p('man-hinh-chat', 0.5, 1.0, 1.15)],
+  },
+  // ── 12 bối cảnh đa chủ đề (công sở, ăn uống, đi lại, y tế, thể thao, du lịch, chợ) ──
+  'van-phong': {
+    ten: 'van-phong',
+    moTa: 'văn phòng: bàn làm việc có màn hình bên trái, tủ hồ sơ + máy in bên phải, đồng hồ trên cao',
+    rong: [p('ban-lam-viec', 0.17, CHAN.rong), p('tu-ho-so', 0.84, CHAN.rong), p('may-in', 0.95, CHAN.rong, 0.7), p('dong-ho', 0.5, 0.2, 0.7)],
+    trung: [p('ban-lam-viec', 0.13, CHAN.trung), p('tu-ho-so', 0.86, CHAN.trung), p('dong-ho', 0.5, 0.24, 0.8)],
+  },
+  'phong-hop': {
+    ten: 'phong-hop',
+    moTa: 'phòng họp: bảng trắng bên trái, hai ghế xoay bên phải, đồng hồ trên cao',
+    rong: [p('bang-trang', 0.17, CHAN.rong), p('ghe-xoay', 0.82, CHAN.rong), p('ghe-xoay', 0.93, CHAN.rong, 0.9), p('dong-ho', 0.5, 0.2, 0.7)],
+    trung: [p('bang-trang', 0.14, CHAN.trung), p('ghe-xoay', 0.86, CHAN.trung), p('dong-ho', 0.5, 0.24, 0.8)],
+  },
+  'quan-pho': {
+    ten: 'quan-pho',
+    moTa: 'quán phở: xe đẩy nồi phở bốc khói bên trái, bảng hiệu PHỞ + ghế bên phải',
+    rong: [p('xe-day-hang-rong', 0.17, CHAN.rong), p('bang-hieu', 0.83, CHAN.rong, 0.9, {chu: 'PHỞ'}), p('ghe-nha-hang', 0.95, CHAN.rong)],
+    trung: [p('xe-day-hang-rong', 0.14, CHAN.trung), p('bang-hieu', 0.86, CHAN.trung, 0.9, {chu: 'PHỞ'})],
+  },
+  'quan-nhau': {
+    ten: 'quan-nhau',
+    moTa: 'quán nhậu: bàn nhậu 3 cốc bia + ghế bên trái, bảng hiệu QUÁN NHẬU + ghế bên phải',
+    rong: [p('ghe-nha-hang', 0.05, CHAN.rong), p('ban-nhau', 0.17, CHAN.rong), p('bang-hieu', 0.84, CHAN.rong, 0.9, {chu: 'QUÁN NHẬU'}), p('ghe-nha-hang', 0.96, CHAN.rong)],
+    trung: [p('ban-nhau', 0.14, CHAN.trung), p('bang-hieu', 0.86, CHAN.trung, 0.9, {chu: 'QUÁN NHẬU'})],
+  },
+  'san-bay': {
+    ten: 'san-bay',
+    moTa: 'sân bay: bảng CỔNG 12 bên trái, máy bay nhỏ bay xa trên cao bên phải, ghế chờ dài, đồng hồ',
+    rong: [p('bang-hieu', 0.14, CHAN.rong, 0.9, {chu: 'CỔNG 12'}), p('may-bay', 0.78, 0.36, 0.45), p('ghe-da', 0.86, CHAN.rong), p('dong-ho', 0.5, 0.2, 0.7)],
+    trung: [p('bang-hieu', 0.12, CHAN.trung, 0.9, {chu: 'CỔNG 12'}), p('may-bay', 0.8, 0.34, 0.5), p('ghe-da', 0.9, CHAN.trung)],
+  },
+  'ben-xe': {
+    ten: 'ben-xe',
+    moTa: 'bến xe: bảng hiệu BẾN XE + thùng rác bên trái, xe buýt bên phải, mây',
+    rong: [p('bang-hieu', 0.14, CHAN.rong, 0.9, {chu: 'BẾN XE'}), p('thung-rac', 0.26, CHAN.rong, 0.8), p('xe-buyt', 0.82, CHAN.rong, 0.9), p('may', 0.45, 0.14, 0.8)],
+    trung: [p('bang-hieu', 0.12, CHAN.trung, 0.9, {chu: 'BẾN XE'}), p('xe-buyt', 0.86, CHAN.trung), p('may', 0.42, 0.12)],
+  },
+  'benh-vien': {
+    ten: 'benh-vien',
+    moTa: 'bệnh viện: giường bệnh có cọc truyền bên trái, bảng CẤP CỨU + cửa bên phải',
+    rong: [p('giuong-benh', 0.18, CHAN.rong), p('bang-hieu', 0.8, CHAN.rong, 0.8, {chu: 'CẤP CỨU'}), p('cua', 0.95, CHAN.rong, 0.9)],
+    trung: [p('giuong-benh', 0.15, CHAN.trung), p('bang-hieu', 0.84, CHAN.trung, 0.8, {chu: 'CẤP CỨU'}), p('hop-thuoc', 0.96, CHAN.trung, 0.8)],
+  },
+  'phong-gym': {
+    ten: 'phong-gym',
+    moTa: 'phòng gym: hai tạ tay bên trái, bảng hiệu GYM + tạ bên phải, đồng hồ',
+    rong: [p('ta-tap', 0.14, CHAN.rong, 1.2), p('ta-tap', 0.25, CHAN.rong, 0.7), p('bang-hieu', 0.85, CHAN.rong, 0.9, {chu: 'GYM'}), p('dong-ho', 0.5, 0.2, 0.7)],
+    trung: [p('ta-tap', 0.12, CHAN.trung, 1.2), p('bang-hieu', 0.86, CHAN.trung, 0.9, {chu: 'GYM'}), p('ta-tap', 0.97, CHAN.trung, 0.8)],
+  },
+  'san-bong': {
+    ten: 'san-bong',
+    moTa: 'sân bóng: bóng bên trái, khung thành hơi xa bên phải, hai đám mây',
+    rong: [p('bong-da', 0.18, CHAN.rong, 0.8), p('khung-thanh', 0.8, CHAN.rong - 0.02, 0.8), p('may', 0.36, 0.14), p('may-2', 0.7, 0.2, 0.8)],
+    trung: [p('bong-da', 0.16, CHAN.trung), p('khung-thanh', 0.84, CHAN.trung - 0.04, 0.9), p('may', 0.4, 0.13), p('may-2', 0.68, 0.2, 0.8)],
+  },
+  'bai-bien': {
+    ten: 'bai-bien',
+    moTa: 'bãi biển: cây dừa bên trái, sóng biển thấp bên phải, mặt trời + mây trên cao',
+    rong: [p('cay-dua', 0.12, CHAN.rong, 1.1), p('bien-song', 0.82, CHAN.rong, 1.2), p('mat-troi', 0.72, 0.26, 0.8), p('may', 0.4, 0.14, 0.9)],
+    trung: [p('cay-dua', 0.1, CHAN.trung, 1.15), p('bien-song', 0.86, CHAN.trung, 1.4), p('mat-troi', 0.72, 0.3, 0.9)],
+  },
+  cho: {
+    ten: 'cho',
+    moTa: 'chợ: xe đẩy hàng rong bên trái, bảng hiệu CHỢ bên phải, bó hoa góc phải',
+    rong: [p('xe-day-hang-rong', 0.16, CHAN.rong), p('bang-hieu', 0.82, CHAN.rong, 0.9, {chu: 'CHỢ'}), p('hoa', 0.95, CHAN.rong, 0.8)],
+    trung: [p('xe-day-hang-rong', 0.13, CHAN.trung), p('bang-hieu', 0.85, CHAN.trung, 0.9, {chu: 'CHỢ'}), p('hoa', 0.97, CHAN.trung, 0.8)],
+  },
+  'phong-lam-viec-nha': {
+    ten: 'phong-lam-viec-nha',
+    moTa: 'phòng làm việc ở nhà: cửa sổ + cây nhỏ bên trái, bàn làm việc (lật) bên phải',
+    rong: [p('cua-so', 0.18, 0.46, 0.85), p('cay-nho', 0.06, CHAN.rong, 0.9), p('ban-lam-viec', 0.83, CHAN.rong, 1, {flip: true})],
+    trung: [p('cua-so', 0.16, 0.52), p('cay-nho', 0.04, CHAN.trung, 1.2), p('ban-lam-viec', 0.86, CHAN.trung, 1, {flip: true})],
   },
 };
 

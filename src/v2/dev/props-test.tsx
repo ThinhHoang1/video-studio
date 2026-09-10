@@ -15,17 +15,19 @@ import {FONT} from '../../engine/font';
  *
  * 1. Lưới 28 prop cũ ở co = 0.6, nét 5px (= nét nhân vật DAU 330)
  * 2. Lưới 25 prop mới + 4 prop sửa theo QC (bang-den, may-bay-giay, ao-mua, vach-buc)
- * 3. 16 bối cảnh cỡ trung (khung 1920x1080 thu 0.21) với nhân vật giả 0.6 x 2.6 DAU = 330 tại x 0.5
- * 4. 16 bối cảnh cỡ rong (thu 0.15) với nhân vật giả DAU = 200
+ * 2b. 5 prop CÓ NHÃN CHỮ (bang-hieu, hop-nhan, bieu-tuong, to-giay, man-hinh) với chữ tiếng Việt có dấu
+ * 2c. 45 prop đa chủ đề (công sở, kinh tế, ăn uống, giao thông, công nghệ, thiên nhiên, y tế, thể thao)
+ * 3. 28 bối cảnh cỡ trung (khung 1920x1080 thu 0.21) với nhân vật giả 0.6 x 2.6 DAU = 330 tại x 0.5
+ * 4. 28 bối cảnh cỡ rong (thu 0.15) với nhân vật giả DAU = 200
  * 5. Chữ + insert · 6. Font cỡ thật
  */
 export const PROPS_TEST_W = 2560;
-export const PROPS_TEST_H = 5300;
+export const PROPS_TEST_H = 9100;
 
 const CO = 0.6;
 const NET_PX = 5;
 
-type O = {ten: TenProp; w: number; sua?: boolean};
+type O = {ten: TenProp; w: number; sua?: boolean; chu?: string};
 /** hàng prop cũ: tên + bề rộng ô (px). Hàng 1 là các prop cao. */
 const HANG_CU: {san: number; o: O[]}[] = [
   {
@@ -122,6 +124,102 @@ const HANG_MOI: {san: number; o: O[]}[] = [
   },
 ];
 
+/** 2b. prop có nhãn chữ — mỗi ô kèm `chu` ví dụ tiếng Việt có dấu */
+const HANG_NHAN: {san: number; o: O[]}[] = [
+  {
+    san: 3770,
+    o: [
+      {ten: 'bang-hieu', w: 380, chu: 'QUÁN PHỞ BÀ TƯ'},
+      {ten: 'bang-hieu', w: 380, chu: 'TIỆM'},
+      {ten: 'hop-nhan', w: 280, chu: 'TIỀN'},
+      {ten: 'hop-nhan', w: 280, chu: 'BÀI TẬP VỀ NHÀ'},
+      {ten: 'bieu-tuong', w: 280, chu: '$'},
+      {ten: 'bieu-tuong', w: 280, chu: 'VND'},
+      {ten: 'to-giay', w: 220, chu: 'HOÁ ĐƠN'},
+      {ten: 'man-hinh', w: 400, chu: 'Bạn có 1 tin nhắn mới'},
+    ],
+  },
+];
+
+/** 2c. 45 prop đa chủ đề */
+const HANG_CHU_DE: {san: number; o: O[]}[] = [
+  {
+    san: 4400,
+    o: [
+      {ten: 'thang-may', w: 320},
+      {ten: 'giuong-benh', w: 460},
+      {ten: 'cay-dua', w: 320},
+      {ten: 'may-atm', w: 270},
+      {ten: 'bien-bao', w: 300, chu: 'STOP'},
+      {ten: 'den-giao-thong', w: 200},
+      {ten: 'tu-ho-so', w: 220},
+      {ten: 'bang-trang', w: 400},
+    ],
+  },
+  {
+    san: 4920,
+    o: [
+      {ten: 'ban-lam-viec', w: 360},
+      {ten: 'ghe-xoay', w: 180},
+      {ten: 'may-in', w: 280},
+      {ten: 'the-nhan-vien', w: 180},
+      {ten: 'may-tinh-ban', w: 400},
+      {ten: 'robot-nho', w: 240},
+      {ten: 'xe-day-hang-rong', w: 340},
+      {ten: 'tu-kinh-banh', w: 320},
+      {ten: 'cup-vo-dich', w: 220},
+    ],
+  },
+  {
+    san: 5320,
+    o: [
+      {ten: 'khung-thanh', w: 480},
+      {ten: 'o-to', w: 490},
+      {ten: 'may-bay', w: 520},
+      {ten: 'tau-hoa', w: 440},
+      {ten: 'xe-cuu-thuong', w: 520},
+    ],
+  },
+  {
+    san: 5700,
+    o: [
+      {ten: 'xe-may', w: 340},
+      {ten: 'nui', w: 560},
+      {ten: 'bien-song', w: 480},
+      {ten: 'mua-sao', w: 360},
+      {ten: 'hoa', w: 220},
+      {ten: 'vot-cau-long', w: 280},
+      {ten: 'ban-nhau', w: 340},
+    ],
+  },
+  {
+    san: 6000,
+    o: [
+      {ten: 'tien-giay', w: 240},
+      {ten: 'dong-xu', w: 220},
+      {ten: 'vi-tien', w: 240},
+      {ten: 'bieu-do-tang', w: 300},
+      {ten: 'bieu-do-giam', w: 300},
+      {ten: 'heo-dat', w: 260},
+      {ten: 'bat-pho', w: 200},
+      {ten: 'ly-cafe', w: 170},
+      {ten: 'dia-com', w: 240},
+      {ten: 'tai-nghe', w: 200},
+    ],
+  },
+  {
+    san: 6240,
+    o: [
+      {ten: 'may-anh', w: 240},
+      {ten: 'wifi', w: 220},
+      {ten: 'ong-nghe', w: 180},
+      {ten: 'hop-thuoc', w: 220},
+      {ten: 'bong-da', w: 180},
+      {ten: 'ta-tap', w: 280},
+    ],
+  },
+];
+
 const Nhan: React.FC<{x: number; y: number; t: string; s?: number}> = ({x, y, t, s = 22}) => (
   <text x={x} y={y} textAnchor="middle" fontFamily={FONT} fontSize={s} fill="#555">
     {t}
@@ -139,13 +237,13 @@ const HangProp: React.FC<{hang: {san: number; o: O[]}}> = ({hang}) => {
   let x = 35;
   return (
     <>
-      {hang.o.map((o) => {
+      {hang.o.map((o, i) => {
         const cx = x + o.w / 2;
         x += o.w;
         const P = PROPS[o.ten];
         const clip = o.ten === 'mua';
         return (
-          <g key={o.ten}>
+          <g key={`${o.ten}-${i}`}>
             {clip ? (
               <>
                 <clipPath id={`clip-${o.ten}`}>
@@ -157,9 +255,9 @@ const HangProp: React.FC<{hang: {san: number; o: O[]}}> = ({hang}) => {
                 </g>
               </>
             ) : (
-              <P x={cx} y={hang.san} co={CO} net={NET_PX} />
+              <P x={cx} y={hang.san} co={CO} net={NET_PX} chu={o.chu} />
             )}
-            <Nhan x={cx} y={hang.san + 30} t={o.sua ? `${o.ten} (sửa)` : o.ten} />
+            <Nhan x={cx} y={hang.san + 30} t={o.sua ? `${o.ten} (sửa)` : o.chu ? `${o.ten} · "${o.chu}"` : o.ten} />
           </g>
         );
       })}
@@ -192,7 +290,7 @@ const OBoiCanh: React.FC<{ten: string; co: 'rong' | 'trung'}> = ({ten, co}) => {
   const ve = (truoc: boolean) =>
     bc[co]
       .filter((p) => !!p.truoc === truoc)
-      .map((p, i) => <VeProp key={`${p.ten}-${i}`} ten={p.ten as TenProp} x={p.x * W} y={p.y * H} co={(p.co ?? 1) * (dau / 330)} net={netPx} flip={p.flip} />);
+      .map((p, i) => <VeProp key={`${p.ten}-${i}`} ten={p.ten as TenProp} x={p.x * W} y={p.y * H} co={(p.co ?? 1) * (dau / 330)} net={netPx} flip={p.flip} chu={p.chu} />);
   const w = 0.6 * dau;
   const h = 2.6 * dau;
   return (
@@ -213,18 +311,18 @@ export const PropsV2Test: React.FC = () => {
 
   // 3. bối cảnh trung: 6 ô một hàng, thu 0.21
   const tiTrung = 0.21;
-  const yTrung = 3520;
+  const yTrung = 6340;
   const buocTrungX = 1920 * tiTrung + 12;
   const buocTrungY = 1080 * tiTrung + 42;
   // 4. bối cảnh rong: 8 ô một hàng, thu 0.15
   const tiRong = 0.15;
-  const yRong = yTrung + 3 * buocTrungY + 50;
+  const yRong = yTrung + Math.ceil(TEN_BOI_CANH.length / 6) * buocTrungY + 50;
   const buocRongX = 1920 * tiRong + 12;
   const buocRongY = 1080 * tiRong + 40;
 
   // 5. chữ + insert
   const ti = 0.215;
-  const bandY = yRong + 2 * buocRongY + 50;
+  const bandY = yRong + Math.ceil(TEN_BOI_CANH.length / 8) * buocRongY + 50;
   const buoc = 1920 * ti + 9;
   const fontY = bandY + 1080 * ti + 70;
 
@@ -242,6 +340,7 @@ export const PropsV2Test: React.FC = () => {
   );
 
   const soMoi = HANG_MOI.reduce((s, h) => s + h.o.length, 0);
+  const soChuDe = HANG_CHU_DE.reduce((s, h) => s + h.o.length, 0);
 
   return (
     <AbsoluteFill style={{background: NEN}}>
@@ -252,6 +351,14 @@ export const PropsV2Test: React.FC = () => {
         ))}
         <TieuDe y={1300} t={`2. Prop mới — ${soMoi} prop (22 theo yêu cầu + may-2, den-ngu, day-ban-sau), cùng cỡ co = ${CO}, nét ${NET_PX}px`} />
         {HANG_MOI.map((h) => (
+          <HangProp key={h.san} hang={h} />
+        ))}
+        <TieuDe y={3340} t={`2b. Prop CÓ NHÃN CHỮ — 5 prop (bang-hieu, hop-nhan, bieu-tuong, to-giay, man-hinh) điền board.prop[].chu, chữ Be Vietnam Pro 800 tự thu cỡ, cắt 2 dòng khi > 14 ký tự`} />
+        {HANG_NHAN.map((h) => (
+          <HangProp key={h.san} hang={h} />
+        ))}
+        <TieuDe y={3860} t={`2c. Prop đa chủ đề — ${soChuDe} prop: công sở 7 · kinh tế 7 · ăn uống 6 · giao thông 6 · công nghệ 5 · thiên nhiên 5 · y tế 4 · thể thao 5, cùng cỡ co = ${CO}`} />
+        {HANG_CHU_DE.map((h) => (
           <HangProp key={h.san} hang={h} />
         ))}
         <TieuDe y={yTrung - 16} t={`3. Bối cảnh dựng sẵn (src/v2/boi-canh.ts) — ${TEN_BOI_CANH.length} bối cảnh, cỡ TRUNG (DAU 330, chân y 1.04), nhân vật giả 0.6 x 2.6 DAU tại x 0.5, vạch mờ = dải x 0.3–0.7 phải trống`} />
