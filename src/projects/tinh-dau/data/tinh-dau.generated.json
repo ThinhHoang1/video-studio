@@ -1,0 +1,119 @@
+{
+  "voice": "Charon",
+  "style": "Bạn là người kể chuyện trên một kênh YouTube về ký ức tuổi học trò. Giọng nam trẻ, trầm, ấm, chậm. Đây là chuyện của chính bạn, kể lại nhiều năm sau, nên có khoảng cách — không còn đau nữa, chỉ còn nhớ. Ngắt nhịp DÀI trước những câu ngắn; câu ngắn là câu chốt, phải để nó rơi vào khoảng lặng. Nhấn nhẹ ở danh từ cụ thể (cái bút, hàng ghế đá, cơn mưa tháng Tám), tuyệt đối không nhấn ở tính từ. Không lên giọng, không ngân dài, không làm ra vẻ xúc động. Càng bình thản càng thấm. Tiếng Việt giọng Bắc, chậm hơn bình thường một chút.",
+  "total": 613.4160000000002,
+  "chapters": [
+    {
+      "id": "cho-ngoi",
+      "kicker": "Lớp 10",
+      "heading": "Ngày cô đổi chỗ ngồi",
+      "vo": "Năm lớp mười, cô chủ nhiệm đổi chỗ ngồi cả lớp. Cô đọc tên theo danh sách, không theo ý ai. Và tên tôi được đọc ngay sau tên một bạn nữ mà trước đó tôi chưa từng nói chuyện lấy một câu. Bạn ấy tên Hà. Tôi vẫn nghĩ những chuyện lớn trong đời phải bắt đầu bằng một khoảnh khắc lớn. Hoá ra không. Nó bắt đầu bằng một cuốn sổ điểm danh, và một cô giáo đọc tên theo thứ tự bảng chữ cái.",
+      "audio": "vo-tinh-dau/cho-ngoi.mp3",
+      "duration": 33.384
+    },
+    {
+      "id": "cay-but",
+      "kicker": "Tuần thứ hai",
+      "heading": "Cây bút không bao giờ trả",
+      "vo": "Tuần thứ hai, Hà quên bút. Tôi đưa cây bút bi xanh của mình, loại rẻ nhất căng tin bán. Cuối giờ, Hà quên trả. Tôi cũng không đòi. Từ hôm đó tôi cố tình mang hai cây, để nếu Hà quên nữa thì vẫn còn cây cho mình. Suốt ba năm, tôi mang hai cây bút mỗi ngày. Hà chỉ quên đúng hai lần. Nhưng tôi vẫn mang hai cây, tất cả những ngày còn lại.",
+      "audio": "vo-tinh-dau/cay-but.mp3",
+      "duration": 53.88
+    },
+    {
+      "id": "long-treu",
+      "kicker": "Bạn thân",
+      "heading": "Thằng Long biết trước cả tôi",
+      "vo": "Long là bạn thân tôi từ cấp hai, ngồi bàn sau. Một hôm ra chơi nó hỏi, mày thích con Hà à. Tôi bảo không, mày điên à. Nó cười, bảo tao ngồi sau lưng mày ba tháng rồi, mỗi lần nó quay sang là mày ngồi thẳng lưng lên. Tôi cãi. Nó không cãi lại, chỉ nhún vai bỏ đi. Có những chuyện người ngoài nhìn ra trước mình rất lâu. Và thường thì họ không nói lại lần thứ hai.",
+      "audio": "vo-tinh-dau/long-treu.mp3",
+      "duration": 45.192
+    },
+    {
+      "id": "ghe-da",
+      "kicker": "Giờ ra chơi",
+      "heading": "Hàng ghế đá dưới gốc phượng",
+      "vo": "Chúng tôi bắt đầu ngồi ghế đá dưới gốc phượng vào giờ ra chơi. Không hẹn, cứ tự nhiên thành thói quen. Hà kể về chị gái, về con mèo nhà nuôi, về việc muốn thi ngành gì. Tôi nghe, và nhớ hết. Tôi nhớ Hà không ăn hành. Nhớ Hà sợ tiếng sấm nhưng thích trời mưa. Nhớ Hà viết chữ h hơi ngả về sau. Tôi không biết mình đang thuộc lòng một người, cho tới nhiều năm sau, khi phát hiện mình vẫn còn nhớ.",
+      "audio": "vo-tinh-dau/ghe-da.mp3",
+      "duration": 50.472
+    },
+    {
+      "id": "duong-ve",
+      "kicker": "Bốn giờ chiều",
+      "heading": "Đoạn đường chung ba trăm mét",
+      "vo": "Nhà tôi và nhà Hà chung nhau đúng ba trăm mét đường. Tới ngã tư thì mỗi đứa rẽ một hướng. Ba trăm mét ấy tôi đi chậm nhất có thể. Có hôm tôi cố tình dắt xe thay vì đạp, viện cớ xe hơi hỏng. Hà không hỏi hỏng chỗ nào. Sau này tôi mới nghĩ, có lẽ Hà cũng đi chậm. Nhưng hồi đó tôi bận nghĩ cách kéo dài ba trăm mét, nên không kịp để ý người bên cạnh cũng đang làm y hệt.",
+      "audio": "vo-tinh-dau/duong-ve.mp3",
+      "duration": 43.92
+    },
+    {
+      "id": "con-mua",
+      "kicker": "Tháng Tám",
+      "heading": "Cơn mưa và cái áo mưa một người",
+      "vo": "Một chiều tháng Tám trời đổ mưa. Cả hai đứng dưới hiên lớp học đợi ngớt. Tôi có áo mưa, loại mỏng bán ở tạp hoá, chỉ vừa một người. Tôi đưa cho Hà. Hà bảo thế còn cậu. Tôi nói tớ chạy nhanh lắm, không sao. Hôm đó tôi ướt từ đầu đến chân và sốt mất hai ngày. Nằm trên giường, tôi vẫn thấy đó là hai ngày đáng giá nhất năm lớp mười một. Tuổi ấy người ta không tính thiệt hơn. Tuổi ấy người ta chỉ muốn có cái gì đó để cho đi.",
+      "audio": "vo-tinh-dau/con-mua.mp3",
+      "duration": 46.944
+    },
+    {
+      "id": "la-thu",
+      "kicker": "Ngăn bàn",
+      "heading": "Lá thư viết bảy lần",
+      "vo": "Tôi viết cho Hà một lá thư. Viết lại bảy lần. Bản thứ nhất dài ba trang, nghe như văn mẫu. Bản thứ tư còn nửa trang. Bản thứ bảy chỉ còn bốn chữ. Tôi gấp nó lại, kẹp vào cuốn sách sẽ trả cho Hà ngày hôm sau. Rồi tối đó tôi mở sách ra, lấy lá thư đi. Không phải vì tôi hết thích. Mà vì tôi sợ nếu Hà đọc xong, hàng ghế đá dưới gốc phượng sẽ không còn như cũ nữa.",
+      "audio": "vo-tinh-dau/la-thu.mp3",
+      "duration": 40.512
+    },
+    {
+      "id": "mai-noi",
+      "kicker": "Bạn của Hà",
+      "heading": "Câu nói bóng gió của Mai",
+      "vo": "Mai là bạn thân của Hà, đeo kính, nói năng thẳng thắn. Một hôm Mai đứng chắn trước mặt tôi ở hành lang, bảo con Hà nó chờ đấy, ông định để nó chờ đến bao giờ. Tôi hỏi chờ gì. Mai nhìn tôi mấy giây rồi bảo thôi, không có gì. Rồi đi. Sau này tôi hiểu ra Mai đã cho tôi một cơ hội, và tôi đã hỏi lại một câu ngu ngốc để né nó. Lúc mười bảy tuổi, người ta gọi đó là chưa dám. Lúc ba mươi tuổi, người ta gọi đúng tên nó: hèn.",
+      "audio": "vo-tinh-dau/mai-noi.mp3",
+      "duration": 45.36
+    },
+    {
+      "id": "on-thi",
+      "kicker": "Lớp 12",
+      "heading": "Mùa ôn thi, ai cũng bận",
+      "vo": "Lên lớp mười hai thì mọi thứ chậm lại. Hà đi học thêm ba buổi tối một tuần, tôi bốn buổi. Giờ ra chơi thành giờ chép bài. Hàng ghế đá vẫn ở đó nhưng chẳng đứa nào ra nữa. Chúng tôi vẫn ngồi cạnh nhau trong lớp, vẫn chào nhau ở hành lang, và vẫn đi chung ba trăm mét đường về. Nhưng có một thứ đã bắt đầu rút đi rất khẽ, giống thuỷ triều rút lúc nửa đêm. Không ai nghe thấy tiếng. Sáng ra thì bờ đã khác.",
+      "audio": "vo-tinh-dau/on-thi.mp3",
+      "duration": 42
+    },
+    {
+      "id": "tra-sua",
+      "kicker": "Một buổi chiều",
+      "heading": "Lần đi chơi duy nhất",
+      "vo": "Có đúng một lần chúng tôi đi uống trà sữa với nhau, không có Long, không có Mai. Hôm đó tôi tập trước ba câu định nói. Ngồi xuống rồi thì quên sạch. Chúng tôi nói về đề thi thử môn Toán trong bốn mươi phút. Bốn mươi phút quý nhất đời tôi, dùng để bàn về một câu hình học không gian. Lúc đứng dậy Hà bảo hôm nào lại đi nữa nhé. Tôi nói ừ. Rồi không có hôm nào nữa.",
+      "audio": "vo-tinh-dau/tra-sua.mp3",
+      "duration": 41.232
+    },
+    {
+      "id": "chia-tay",
+      "kicker": "Tháng Sáu",
+      "heading": "Ngày cuối cùng ở cổng trường",
+      "vo": "Ngày cuối cùng, cả lớp chụp ảnh ở cổng trường rồi tản ra từng nhóm. Tôi đứng cách Hà khoảng năm mét. Năm mét đó tôi nhìn rất lâu, tính bước qua. Rồi có người gọi Hà, Hà quay đi, và năm mét thành mười mét, rồi thành cả sân trường. Tôi vẫn đứng đó cho tới lúc chỉ còn mình tôi với cái cổng. Có những khoảng cách không xa. Chỉ là mình đứng nhìn nó lâu quá, tới lúc quyết định bước thì nó đã tự dài ra.",
+      "audio": "vo-tinh-dau/chia-tay.mp3",
+      "duration": 47.544
+    },
+    {
+      "id": "me-hoi",
+      "kicker": "Tối hôm đó",
+      "heading": "Mẹ hỏi một câu",
+      "vo": "Tối đó tôi về, ngồi lì trong phòng. Mẹ gõ cửa mang vào bát chè, hỏi hôm nay chia tay lớp vui không con. Tôi nói vui. Mẹ đứng ở cửa thêm mấy giây rồi bảo, cái gì chưa nói được thì cứ để đấy, sau này khắc có lúc nói. Rồi mẹ đóng cửa đi ra. Tôi không biết mẹ biết gì, và tôi chưa bao giờ hỏi. Nhưng câu đó tôi giữ suốt mười mấy năm. Người lớn ít khi hỏi thẳng. Họ chỉ đặt một câu xuống bên cạnh mình, rồi đi.",
+      "audio": "vo-tinh-dau/me-hoi.mp3",
+      "duration": 45.792
+    },
+    {
+      "id": "gap-lai",
+      "kicker": "Mười hai năm sau",
+      "heading": "Gặp lại ở một đám cưới",
+      "vo": "Mười hai năm sau, tôi gặp lại Hà ở đám cưới thằng Long. Hà đến cùng chồng, tóc để dài hơn hồi đi học. Chúng tôi nói chuyện độ mười phút, về công việc, về đứa nhỏ nhà Hà mới hai tuổi. Hà cười y như hồi mười bảy. Lúc chào nhau, Hà bảo hồi đó cậu hay mang hai cây bút, tớ vẫn nhớ. Rồi Hà đi về phía bàn của mình. Tôi đứng đó, ba mươi tuổi, tay cầm ly nước, và nhận ra suốt ba năm ấy có một người vẫn luôn để ý.",
+      "audio": "vo-tinh-dau/gap-lai.mp3",
+      "duration": 30.816
+    },
+    {
+      "id": "ket",
+      "kicker": "Gửi bạn",
+      "heading": "Không phải chuyện dở dang",
+      "vo": "Người ta hay nói tình đầu là chuyện dở dang. Tôi không nghĩ vậy nữa. Nó không dở dang. Nó chỉ không cần đi tới đâu cả. Cái nó để lại không phải một người. Là cách bạn biết mình có thể quan tâm tới ai đó nhiều đến thế nào, khi chưa ai dạy bạn phải quan tâm cho đúng. Nếu bạn đang ở tuổi mười bảy và đang giữ một điều chưa nói, tôi không khuyên bạn nói ra. Chỉ mong bạn nhớ rằng năm mét thì bước qua được. Còn mười hai năm thì chỉ đủ để kể lại.",
+      "audio": "vo-tinh-dau/ket.mp3",
+      "duration": 46.368
+    }
+  ]
+}

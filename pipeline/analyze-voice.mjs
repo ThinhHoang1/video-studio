@@ -20,7 +20,11 @@ const FPS = 30;
 const SR = 16000;
 
 const NAME = process.argv[2] ?? 'ra-truong-vui';
-const manifest = JSON.parse(readFileSync(path.join(ROOT, `src/projects/ra-truong/data/${NAME}.generated.json`), 'utf8'));
+// Thư mục dự án lấy từ trường `project` của kịch bản. Hardcode 'ra-truong'
+// khiến kịch bản mới ghi nhầm chỗ mà không báo lỗi.
+const kichBan = JSON.parse(readFileSync(path.join(ROOT, `scripts/${NAME}.json`), 'utf8'));
+const DU_AN = kichBan.project ?? NAME.replace(/-vui$|-buon$/, '');
+const manifest = JSON.parse(readFileSync(path.join(ROOT, `src/projects/${DU_AN}/data/${NAME}.generated.json`), 'utf8'));
 
 /**
  * Đọc PCM 16-bit mono về mảng Float32 trong khoảng -1..1.
@@ -123,6 +127,6 @@ for (const ch of manifest.chapters) {
   console.log(`${ch.id.padEnd(14)} ${soFrame} frame · nghỉ ${tyLeNghi.toFixed(0)}%`);
 }
 
-const out = path.join(ROOT, `src/projects/ra-truong/data/${NAME}.voice.json`);
+const out = path.join(ROOT, `src/projects/${DU_AN}/data/${NAME}.voice.json`);
 writeFileSync(out, JSON.stringify(ketQua));
 console.log(`\n-> ${out}`);
