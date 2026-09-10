@@ -52,6 +52,13 @@ FINGERPRINT=$(find src scripts -type f \( -name '*.ts' -o -name '*.tsx' -o -name
   -not -path 'src/attic/*' -exec shasum {} + | shasum | cut -c1-10)
 SEGDIR="out/.seg-$COMP-$FINGERPRINT"
 mkdir -p "$SEGDIR"
+# Khoá: hai tiến trình render cùng composition từng chạy chồng và cùng ghi list.txt → ghép đôi đoạn (video dài gấp đôi).
+LOCK="$SEGDIR/.lock"
+if ! mkdir "$LOCK" 2>/dev/null; then
+  echo "✗ $COMP đang được render bởi tiến trình khác (khoá $LOCK). Chờ nó xong, hoặc xoá khoá nếu chắc chắn không còn ai chạy." >&2
+  exit 3
+fi
+trap 'rmdir "$LOCK" 2>/dev/null' EXIT
 
 # dọn cache của các lần build cũ cùng composition
 for cu in out/.seg-"$COMP"-*; do

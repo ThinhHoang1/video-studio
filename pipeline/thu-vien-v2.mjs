@@ -161,7 +161,21 @@ const gocNhin = (() => { try { return literalUnion(khoiType(nguonBoard, 'GocNhin
 const keysNeuCo = (file, dau) => {
   try { const o = {}; for (const [k, {moTa}] of Object.entries(keysObject(doc(file), dau))) o[k] = moTa; return o; } catch { return {}; }
 };
-const boiCanh = keysNeuCo('src/v2/boi-canh.ts', 'export const BOI_CANH');
+const boiCanh = (() => {
+  try {
+    const than = khoi(doc('src/v2/boi-canh.ts'), 'export const BOI_CANH');
+    // mỗi bối cảnh là một khối `'ten': {` ... `},` ở đầu dòng 2 khoảng trắng
+    const o = {};
+    const re = /^  '?([a-z0-9-]+)'?:\s*\{([\s\S]*?)^  \},/gm;
+    for (const m of than.matchAll(re)) {
+      const [, ten, body] = m;
+      const moTa = body.match(/moTa:\s*'([^']*)'/)?.[1] ?? '';
+      const props = [...new Set([...body.matchAll(/p\('([a-z0-9-]+)'/g)].map((x) => x[1]))];
+      o[ten] = {moTa, prop: props};
+    }
+    return o;
+  } catch { return {}; }
+})();
 const mauHanhDong = (() => {
   try {
     const than = khoi(doc('src/v2/act/mau.ts'), 'export const MAU_MO_TA');

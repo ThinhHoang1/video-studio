@@ -1,0 +1,79 @@
+/**
+ * Render đúng khung của MỘT shot để soát — agent không phải tự tính frame.
+ *
+ *   node pipeline/xem-shot.mjs <ten> <chuong-id> <say | #index> [--lech 0.3]
+ *   node pipeline/xem-shot.mjs <ten> --tat-ca          → 1 khung mỗi shot có nhân vật/prop tự vẽ/bối cảnh (nhiều ảnh, chậm)
+ *   → out/<ten>/shot-<chuong>-<index>.png
+ *
+ * Mốc shot ước lượng cùng cách với validator (rải ký tự lên frame đang nói của voice.json);
+ * --lech là giây cộng thêm từ đầu shot (mặc định 0.3 để qua frame đầu vào khung).
+ */
+import {execFileSync} from 'node:child_process';
+import {existsSync, mkdirSync, readFileSync} from 'node:fs';
+import path from 'node:path';
+
+const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
+const args = process.argv.slice(2);
+const [TEN, CHUONG, MOC] = args.filter((a) => !a.startsWith('--'));
+const opt = (k, d) => { const i = args.indexOf(`--${k}`); return i >= 0 ? Number(args[i + 1]) : d; };
+const LECH = opt('lech', 0.3);
+const TAT_CA = args.includes('--tat-ca');
+if (!TEN || (!TAT_CA && (!CHUONG || !MOC))) {
+  console.error('Dùng: node pipeline/xem-shot.mjs <ten> <chuong-id> <say|#index> [--lech 0.3]   |   node pipeline/xem-shot.mjs <ten> --tat-ca');
+  process.exit(2);
+}
+const FPS = 30, INTRO = 2, DEM = 0.4;
+const doc = (p) => JSON.parse(readFileSync(path.join(ROOT, p), 'utf8'));
+const kb = doc(`scripts/${TEN}.json`);
+const DU_AN = kb.project ?? TEN;
+const mf = doc(`src/projects/${DU_AN}/data/${TEN}.generated.json`);
+const voice = existsSync(path.join(ROOT, `src/projects/${DU_AN}/data/${TEN}.voice.json`)) ? doc(`src/projects/${DU_AN}/data/${TEN}.voice.json`) : {};
+const board = doc(`src/projects/${DU_AN}/board.json`);
+const chuan = (s) => String(s ?? '').toLowerCase().replace(/[.,!?;:"'…—–-]/g, '').replace(/[“”‘’]/g, '').replace(/\s+/g, ' ').trim();
+
+/** giây bắt đầu (trong phim) của từng chương */
+const batDau = {};
+let acc = INTRO;
+for (const ch of mf.chapters) { batDau[ch.id] = acc; acc += ch.duration + DEM; }
+
+/** ước lượng giây của mốc `say` trong chương — cùng thuật toán validator/renderer */
+const mocGiay = (ch, say, viTriTruoc) => {
+  const voChuan = chuan(ch.vo);
+  const kim = chuan(say);
+  let vt = voChuan.indexOf(kim, viTriTruoc.v);
+  if (vt === -1) vt = voChuan.indexOf(kim);
+  if (vt === -1) return null;
+  viTriTruoc.v = vt + 1;
+  const p = vt / Math.max(1, voChuan.length);
+  const nghi = voice[ch.id]?.nghi;
+  if (!nghi?.length) return p * ch.duration;
+  const dangNoi = nghi.map((n, i) => (n ? -1 : i)).filter((i) => i >= 0);
+  const fps = nghi.length / ch.duration;
+  return dangNoi[Math.min(dangNoi.length - 1, Math.floor(p * dangNoi.length))] / fps;
+};
+
+const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const outDir = path.join(ROOT, `out/${TEN}`);
+mkdirSync(outDir, {recursive: true});
+const render = (frame, out) => {
+  execFileSync('npx', ['remotion', 'still', 'src/index.ts', `V2-${TEN}`, out, '--frame', String(frame), '--browser-executable', CHROME, '--log=error'], {cwd: ROOT, stdio: 'inherit'});
+  console.log(`→ ${path.relative(ROOT, out)}  (frame ${frame})`);
+};
+
+const viec = [];
+for (const bc of board.chuong) {
+  const ch = mf.chapters.find((c) => c.id === bc.id);
+  if (!ch) continue;
+  if (!TAT_CA && bc.id !== CHUONG) continue;
+  const viTri = {v: 0};
+  bc.shots.forEach((s, i) => {
+    const giay = typeof s.tai === 'number' ? s.tai : s.say ? mocGiay(ch, s.say, viTri) : null;
+    if (giay === null) return;
+    const khop = TAT_CA
+      ? (s.dien?.length || s.boi_canh || (s.prop ?? []).some((p) => board.prop_tu_ve?.[p.ten]))
+      : MOC.startsWith('#') ? i === Number(MOC.slice(1)) : chuan(s.say ?? '') === chuan(MOC) || (s.say ?? '').includes(MOC);
+    if (khop) viec.push({frame: Math.round((batDau[bc.id] + giay + LECH) * FPS), out: path.join(outDir, `shot-${bc.id}-${i}.png`), say: s.say ?? `tai=${s.tai}`});
+  });
+}
+if (!viec.length) { console.error('✗ không tìm thấy shot khớp'); process.exit(1); }
+for (const v of viec) { console.log(`shot "${v.say}"`); render(v.frame, v.out); }

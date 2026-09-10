@@ -271,34 +271,242 @@
   },
   "boi_canh": {
     "_": "trường `boi_canh` của shot — bung thành prop dựng sẵn (src/v2/boi-canh.ts).",
-    "lop-hoc": "",
-    "lop-hoc-nhin-tu-bang": "",
-    "san-truong": "",
-    "cong-truong": "",
-    "hanh-lang": "",
-    "cang-tin": "",
-    "phong-ngu": "",
-    "phong-khach": "",
-    "bep": "",
-    "duong-pho": "",
-    "tram-xe": "",
-    "quan-cafe": "",
-    "cong-vien": "",
-    "ngoai-troi-mua": "",
-    "dem": "",
-    "man-hinh-dien-thoai": "",
-    "van-phong": "",
-    "phong-hop": "",
-    "quan-pho": "",
-    "quan-nhau": "",
-    "san-bay": "",
-    "ben-xe": "",
-    "benh-vien": "",
-    "phong-gym": "",
-    "san-bong": "",
-    "bai-bien": "",
-    "cho": "",
-    "phong-lam-viec-nha": ""
+    "lop-hoc": {
+      "moTa": "lớp học nhìn từ cuối lớp: bảng bên trái, cửa sổ + bàn bên phải, đồng hồ trên cao",
+      "prop": [
+        "bang-den",
+        "cua-so",
+        "day-ban-lop",
+        "dong-ho",
+        "ban-hoc"
+      ]
+    },
+    "lop-hoc-nhin-tu-bang": {
+      "moTa": "góc thầy nhìn xuống lớp: hai dãy bàn quay lưng hai bên, cửa cuối lớp, đồng hồ tường sau",
+      "prop": [
+        "day-ban-sau",
+        "cua",
+        "dong-ho"
+      ]
+    },
+    "san-truong": {
+      "moTa": "sân trường: cột cờ bên trái, cây bên phải, cổng xa nhỏ, mây",
+      "prop": [
+        "cong-truong",
+        "cot-co",
+        "goc-cay",
+        "may",
+        "may-2"
+      ]
+    },
+    "cong-truong": {
+      "moTa": "trước cổng trường: cổng bên phải, hàng rào + cây nhỏ bên trái, mây",
+      "prop": [
+        "cay-nho",
+        "hang-rao",
+        "cong-truong",
+        "may"
+      ]
+    },
+    "hanh-lang": {
+      "moTa": "hành lang: cửa lớp gần bên trái, hai cửa lùi xa bên phải, đồng hồ trên cao",
+      "prop": [
+        "cua",
+        "dong-ho"
+      ]
+    },
+    "cang-tin": {
+      "moTa": "căng tin: quầy có tủ kính + bảng thực đơn bên phải, bàn ăn bên trái, thùng rác góc",
+      "prop": [
+        "quay-cang-tin",
+        "ban-an",
+        "thung-rac",
+        "khay-com"
+      ]
+    },
+    "phong-ngu": {
+      "moTa": "phòng ngủ: giường bên trái, cửa sổ + đèn ngủ bên phải",
+      "prop": [
+        "giuong",
+        "cua-so",
+        "den-ngu"
+      ]
+    },
+    "phong-khach": {
+      "moTa": "phòng khách: sofa bên trái, tivi bên phải, đồng hồ trên cao",
+      "prop": [
+        "ghe-sofa",
+        "tivi",
+        "dong-ho"
+      ]
+    },
+    "bep": {
+      "moTa": "bếp: bàn ăn bên trái, tủ lạnh bên phải, cửa sổ nhỏ trên cao lệch phải",
+      "prop": [
+        "ban-an",
+        "cua-so",
+        "tu-lanh"
+      ]
+    },
+    "duong-pho": {
+      "moTa": "đường phố: đèn đường + thùng rác bên trái, hàng rào có cây nhỏ phía sau bên phải",
+      "prop": [
+        "den-duong",
+        "thung-rac",
+        "cay-nho",
+        "hang-rao"
+      ]
+    },
+    "tram-xe": {
+      "moTa": "trạm xe: trạm chờ bên trái, xe buýt cửa mở bên phải, mây",
+      "prop": [
+        "tram-xe-buyt",
+        "xe-buyt",
+        "may"
+      ]
+    },
+    "quan-cafe": {
+      "moTa": "quán cà phê: bàn tròn + hai ghế bên trái, cửa sổ bên phải",
+      "prop": [
+        "ghe-nha-hang",
+        "ban-cafe",
+        "cua-so"
+      ]
+    },
+    "cong-vien": {
+      "moTa": "công viên: ghế đá bên trái, cây to bên phải, hai đám mây",
+      "prop": [
+        "ghe-da",
+        "goc-cay",
+        "may",
+        "may-2"
+      ]
+    },
+    "ngoai-troi-mua": {
+      "moTa": "ngoài trời mưa: vạch mưa phủ khung, cột điện bên trái, đèn đường bên phải",
+      "prop": [
+        "mua",
+        "cot-dien",
+        "den-duong"
+      ]
+    },
+    "dem": {
+      "moTa": "đêm: trăng + sao góc trên trái, đèn đường bên phải, cây nhỏ / hàng rào góc",
+      "prop": [
+        "mat-trang",
+        "cay-nho",
+        "den-duong",
+        "hang-rao"
+      ]
+    },
+    "man-hinh-dien-thoai": {
+      "moTa": "màn hình điện thoại: khung chat lớn giữa khung (cố ý chiếm chỗ nhân vật; dùng cho shot chữ / insert)",
+      "prop": [
+        "man-hinh-chat"
+      ]
+    },
+    "van-phong": {
+      "moTa": "văn phòng: bàn làm việc có màn hình bên trái, tủ hồ sơ + máy in bên phải, đồng hồ trên cao",
+      "prop": [
+        "ban-lam-viec",
+        "tu-ho-so",
+        "may-in",
+        "dong-ho"
+      ]
+    },
+    "phong-hop": {
+      "moTa": "phòng họp: bảng trắng bên trái, hai ghế xoay bên phải, đồng hồ trên cao",
+      "prop": [
+        "bang-trang",
+        "ghe-xoay",
+        "dong-ho"
+      ]
+    },
+    "quan-pho": {
+      "moTa": "quán phở: xe đẩy nồi phở bốc khói bên trái, bảng hiệu PHỞ + ghế bên phải",
+      "prop": [
+        "xe-day-hang-rong",
+        "bang-hieu",
+        "ghe-nha-hang"
+      ]
+    },
+    "quan-nhau": {
+      "moTa": "quán nhậu: bàn nhậu 3 cốc bia + ghế bên trái, bảng hiệu QUÁN NHẬU + ghế bên phải",
+      "prop": [
+        "ghe-nha-hang",
+        "ban-nhau",
+        "bang-hieu"
+      ]
+    },
+    "san-bay": {
+      "moTa": "sân bay: bảng CỔNG 12 bên trái, máy bay nhỏ bay xa trên cao bên phải, ghế chờ dài, đồng hồ",
+      "prop": [
+        "bang-hieu",
+        "may-bay",
+        "ghe-da",
+        "dong-ho"
+      ]
+    },
+    "ben-xe": {
+      "moTa": "bến xe: bảng hiệu BẾN XE + thùng rác bên trái, xe buýt bên phải, mây",
+      "prop": [
+        "bang-hieu",
+        "thung-rac",
+        "xe-buyt",
+        "may"
+      ]
+    },
+    "benh-vien": {
+      "moTa": "bệnh viện: giường bệnh có cọc truyền bên trái, bảng CẤP CỨU + cửa bên phải",
+      "prop": [
+        "giuong-benh",
+        "bang-hieu",
+        "cua",
+        "hop-thuoc"
+      ]
+    },
+    "phong-gym": {
+      "moTa": "phòng gym: hai tạ tay bên trái, bảng hiệu GYM + tạ bên phải, đồng hồ",
+      "prop": [
+        "ta-tap",
+        "bang-hieu",
+        "dong-ho"
+      ]
+    },
+    "san-bong": {
+      "moTa": "sân bóng: bóng bên trái, khung thành hơi xa bên phải, hai đám mây",
+      "prop": [
+        "bong-da",
+        "khung-thanh",
+        "may",
+        "may-2"
+      ]
+    },
+    "bai-bien": {
+      "moTa": "bãi biển: cây dừa bên trái, sóng biển thấp bên phải, mặt trời + mây trên cao",
+      "prop": [
+        "cay-dua",
+        "bien-song",
+        "mat-troi",
+        "may"
+      ]
+    },
+    "cho": {
+      "moTa": "chợ: xe đẩy hàng rong bên trái, bảng hiệu CHỢ bên phải, bó hoa góc phải",
+      "prop": [
+        "xe-day-hang-rong",
+        "bang-hieu",
+        "hoa"
+      ]
+    },
+    "phong-lam-viec-nha": {
+      "moTa": "phòng làm việc ở nhà: cửa sổ + cây nhỏ bên trái, bàn làm việc (lật) bên phải",
+      "prop": [
+        "cua-so",
+        "cay-nho",
+        "ban-lam-viec"
+      ]
+    }
   },
   "mau_hanh_dong": {
     "_": "trường `mau` của diễn viên — sinh act tự động (src/v2/act/mau.ts).",
