@@ -30,7 +30,8 @@ const docChuong = async (ch, i) => {
   if (existsSync(mp3)) console.log(`${nhan} … lời đã đổi, đọc lại`);
   // Chặn bản đọc hỏng: tiếng Việt ~2.7 âm tiết/giây; dài gấp đôi là model lặp/ê a → đọc lại.
   const words = ch.vo.split(/\s+/).length;
-  const maxSec = (words / 2.7) * 2;
+  // đọc chậm hơn 1.6x mức thường (2.7 âm tiết/s) = model ê a hoặc chèn khoảng lặng dài → đọc lại
+  const maxSec = (words / 2.7) * 1.6;
   let duration = 0;
   for (let tryIdx = 1; tryIdx <= 4; tryIdx++) {
     const pcm = await speak({text: ch.vo, voice: VOICE, style: script.style});
