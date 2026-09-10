@@ -1,6 +1,11 @@
 {
   "title": "Công ty tôi có một nhân viên. Là tôi.",
   "project": "nhan-vien-so",
+  "nguon": [
+    "https://baochinhphu.vn/doanh-nghiep-mot-nguoi-cu-hich-chinh-sach-cho-lan-song-khoi-nghiep-so-102260504125734115.htm",
+    "https://leos.vn/noi-lo-ai-thay-the-viec-lam-2026/"
+  ],
+  "ghi_chu": "Châm biếm. Chính sách + con số lấy từ `nguon`; nhân vật, tình huống, hội thoại là hư cấu. 64.9% làm tròn thành 'sáu mươi lăm phần trăm' vì TTS đọc số lẻ tệ.",
   "voice": "Fenrir",
   "style": "Bạn là YouTuber kể chuyện đời mình bằng hoạt hình (kiểu storytime animation). Giọng nam trẻ, NĂNG LƯỢNG CAO, nói nhanh, hào hứng, như đang kể cho hội bạn thân nghe một chuyện vừa xảy ra sáng nay. Tốc độ nhanh hơn bình thường 20%. Lên giọng bất ngờ ở chỗ ngạc nhiên, hạ giọng thì thào ở chỗ bí mật, cười khẽ trong lúc nói khi tự thấy mình ngớ ngẩn. Câu ngắn đọc DỨT, dứt khoát như đấm punchline. Tuyệt đối không đọc đều đều, không trầm buồn, không kiểu kể chuyện ma. Tiếng Việt giọng Bắc, đời thường.",
   "chapters": [
