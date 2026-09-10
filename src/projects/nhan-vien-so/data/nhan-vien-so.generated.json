@@ -1,0 +1,63 @@
+{
+  "voice": "Fenrir",
+  "style": "Bạn là YouTuber kể chuyện đời mình bằng hoạt hình (kiểu storytime animation). Giọng nam trẻ, NĂNG LƯỢNG CAO, nói nhanh, hào hứng, như đang kể cho hội bạn thân nghe một chuyện vừa xảy ra sáng nay. Tốc độ nhanh hơn bình thường 20%. Lên giọng bất ngờ ở chỗ ngạc nhiên, hạ giọng thì thào ở chỗ bí mật, cười khẽ trong lúc nói khi tự thấy mình ngớ ngẩn. Câu ngắn đọc DỨT, dứt khoát như đấm punchline. Tuyệt đối không đọc đều đều, không trầm buồn, không kiểu kể chuyện ma. Tiếng Việt giọng Bắc, đời thường.",
+  "total": 125.664,
+  "chapters": [
+    {
+      "id": "mo-bai",
+      "kicker": "Bảy giờ sáng",
+      "heading": "Họp một mình",
+      "vo": "Bảy giờ sáng, mình họp với chính mình. Ờ, một mình thật đấy. Mình là Thịnh, giám đốc kiêm nhân viên của một công ty một người. Hôm nay mình kể các bạn nghe vì sao Nhà nước muốn một triệu đứa như mình.",
+      "audio": "vo-nhan-vien-so/mo-bai.mp3",
+      "duration": 14.28
+    },
+    {
+      "id": "chinh-sach",
+      "kicker": "Chính sách",
+      "heading": "Một triệu ông chủ",
+      "vo": "Nghị quyết tám sáu, tháng Tư năm nay. Nhà nước muốn tới hai nghìn ba mươi có một triệu doanh nghiệp một người. Thuế tối giản. Trợ lý ảo pháp lý về tới cấp xã luôn. Bạn mình đọc xong bảo: mày đăng ký đi, làm ông chủ cho oai. Mình bảo: ừ, oai. Xong mình đăng ký thật. Ngu thật các bạn ạ.",
+      "audio": "vo-nhan-vien-so/chinh-sach.mp3",
+      "duration": 15
+    },
+    {
+      "id": "lap-phong-ban",
+      "kicker": "Tuần một",
+      "heading": "Lắp đủ phòng ban",
+      "vo": "Tuần đầu mình lắp đủ phòng ban nhá các bạn. Một con AI làm kế toán. Một con chăm sóc khách. Một con viết nội dung. Mình đặt tên từng đứa luôn. Con kế toán tên Hà. Sáng mình còn chào nó, kiểu: Hà ơi hôm nay có đơn nào không. Nó bảo: dạ có ba đơn ạ. Mình tưởng mình là tập đoàn, ngu thật.",
+      "audio": "vo-nhan-vien-so/lap-phong-ban.mp3",
+      "duration": 16.536
+    },
+    {
+      "id": "lam-dung",
+      "kicker": "Tuần ba",
+      "heading": "AI họp với AI",
+      "vo": "Tuần ba thì hơi lố các bạn ạ. Thư khách gửi tới, AI của mình đọc. Nó soạn trả lời. Bên kia cũng AI, nó đọc rồi trả lời lại. Hai con nói chuyện với nhau bốn ngày. Khách gọi hỏi: anh có đọc thư không. Mình bảo: có chứ. Nói dối. Hôm ký hợp đồng mới đọc kỹ. Sai giá. Sai tên công ty. Toang.",
+      "audio": "vo-nhan-vien-so/lam-dung.mp3",
+      "duration": 16.872
+    },
+    {
+      "id": "tu-sa-thai",
+      "kicker": "Tuần năm",
+      "heading": "Tự sa thải chính mình",
+      "vo": "Rồi tới đoạn buồn cười nhất nhá các bạn. Báo cáo bảo sáu mươi lăm phần trăm việc hành chính là AI làm được. Mình ngồi tính. Việc mình đang làm nằm gọn trong sáu mươi lăm phần trăm đó. Thế là mình vừa tự sa thải chính mình, mà mình lại là sếp. Chết dở. Mình hỏi Hà: giờ tôi làm gì. Nó bảo: dạ anh nghỉ đi ạ.",
+      "audio": "vo-nhan-vien-so/tu-sa-thai.mp3",
+      "duration": 21.12
+    },
+    {
+      "id": "mat-trai",
+      "kicker": "Mặt trái",
+      "heading": "Ốm là công ty đóng cửa",
+      "vo": "Nhưng cái đau nhất không phải chuyện việc đâu. Là hôm mình sốt ba mươi chín độ. Công ty đóng cửa luôn. Không ai họp thay. Không ai đổ lỗi được cho ai, tại vì cả công ty là mình. Vợ mình hỏi: công ty mày mấy người. Mình bảo: một. Cô ấy bảo: thế mày ốm thì ai làm. Mình im. Chết dở thật các bạn ạ.",
+      "audio": "vo-nhan-vien-so/mat-trai.mp3",
+      "duration": 18.36
+    },
+    {
+      "id": "ket",
+      "kicker": "Chốt",
+      "heading": "Vẫn nên làm, nhưng",
+      "vo": "Nói thật nhá, mình vẫn khuyên các bạn đăng ký. Thuế nhẹ. Thủ tục gọn. Nghị quyết tám sáu mở đường rồi. Nhưng đừng lắp AI đủ ba phòng ban rồi tưởng mình là tập đoàn như mình, ngu thật. Giữ đúng một việc mà chỉ mình làm được. Vợ mình bảo: giữ cái việc biết ốm ấy. Còn bạn, công ty bạn mấy người, kể ở bình luận nhá.",
+      "audio": "vo-nhan-vien-so/ket.mp3",
+      "duration": 23.496
+    }
+  ]
+}
