@@ -56,27 +56,11 @@
      "co": "rong",
      "prop": [
       {
-       "ten": "day-ban-lop",
-       "x": 0.5,
-       "y": 0.86,
+       "ten": "ban-hoc",
+       "x": 0.62,
+       "y": 0.84,
+       "co": 0.8,
        "truoc": true
-      },
-      {
-       "ten": "bang-den",
-       "x": 0.5,
-       "y": 0.3
-      },
-      {
-       "ten": "dong-ho",
-       "x": 0.9,
-       "y": 0.2,
-       "co": 0.8
-      },
-      {
-       "ten": "cua-so",
-       "x": 0.1,
-       "y": 0.5,
-       "co": 0.9
       }
      ],
      "dien": [
@@ -86,6 +70,7 @@
        "co": 0.8,
        "dang": "ngoi",
        "mat": "chan",
+       "mieng": "thang",
        "act": [
         {
          "tai": 0,
@@ -93,14 +78,15 @@
          "mat": "chan"
         },
         {
-         "tai": 0.7,
+         "tai": 0.35,
          "dang": "chongCam",
          "mat": "chan",
          "nhin": 0.4
         }
        ]
       }
-     ]
+     ],
+     "boi_canh": "lop-hoc"
     },
     {
      "say": "buồn ngủ kinh khủng",
@@ -112,7 +98,18 @@
        "x": 0.5,
        "dang": "chongCam",
        "mat": "nham",
-       "mieng": "thang"
+       "mieng": "thang",
+       "mau": "ngu-gat",
+       "mau_tham_so": {
+        "sau": 10
+       },
+       "act": [
+        {
+         "tai": 0.9,
+         "mat": "nham",
+         "mieng": "X"
+        }
+       ]
       }
      ],
      "chu": [
@@ -139,12 +136,6 @@
        "x": 0.5,
        "y": 0.74,
        "co": 0.6
-      },
-      {
-       "ten": "but",
-       "x": 0.6,
-       "y": 0.72,
-       "co": 0.6
       }
      ],
      "dien": [
@@ -159,24 +150,32 @@
          "tai": 0,
          "dang": "ngoi",
          "mat": "nho",
-         "mieng": "mim"
+         "mieng": "mim",
+         "cam": "but"
         },
         {
-         "tai": 1,
-         "dang": "ngoi",
+         "tai": 0.7,
          "mat": "cung",
-         "mieng": "cuoi"
+         "mieng": "cuoi",
+         "nhin": -0.3
         },
         {
-         "tai": 2,
-         "dang": "goMay",
+         "tai": 1.4,
          "mat": "nho",
          "mieng": "mim",
-         "nhin": -0.3
+         "nhin": 0.3
+        },
+        {
+         "tai": 2.1,
+         "mat": "cung",
+         "mieng": "cuoi-toe",
+         "nhin": -0.2
         }
-       ]
+       ],
+       "cam": "but"
       }
-     ]
+     ],
+     "boi_canh": "lop-hoc"
     },
     {
      "say": "Thật sự luôn, vẽ rất tâm huyết",
@@ -199,6 +198,11 @@
          "tai": 0.9,
          "dang": "haiTayXoe",
          "mat": "cung"
+        },
+        {
+         "tai": 1.5,
+         "dang": "chiLen",
+         "mat": "oval"
         }
        ]
       }
@@ -253,23 +257,32 @@
       {
        "kieu": "thay",
        "x": 0.3,
-       "dang": "dung",
+       "dang": "gioTay",
        "mat": "khe",
        "may": "tuc",
        "act": [
         {
          "tai": 0,
-         "dang": "dung",
+         "dang": "gioTay",
+         "mat": "khe",
+         "may": "tuc",
+         "cam": "thuoc"
+        },
+        {
+         "tai": 0.4,
+         "dang": "chi",
          "mat": "khe",
          "may": "tuc"
         },
         {
-         "tai": 0.5,
+         "tai": 0.8,
          "dang": "chi",
          "mat": "khe",
-         "may": "tuc"
+         "may": "tuc",
+         "nhin": 1
         }
-       ]
+       ],
+       "cam": "thuoc"
       }
      ]
     },
@@ -341,12 +354,23 @@
         },
         {
          "tai": 0.3,
-         "dang": "ngoi",
          "flip": true,
          "mat": "cham",
          "nhin": 1
+        },
+        {
+         "tai": 1.1,
+         "mieng": "o",
+         "nhin": 1
         }
-       ]
+       ],
+       "goc": "sau",
+       "mau": "quay-lai",
+       "mau_tham_so": {
+        "tai": 0.3,
+        "tu": "sau",
+        "den": "truoc"
+       }
       },
       {
        "kieu": "trang",
@@ -366,12 +390,23 @@
         },
         {
          "tai": 0.35,
-         "dang": "ngoi",
+         "goc": "ba-phan-tu",
          "flip": true,
          "mat": "cham",
          "nhin": 1
+        },
+        {
+         "tai": 1.0499999999999998,
+         "goc": "truoc",
+         "mat": "cham",
+         "nhin": 1
+        },
+        {
+         "tai": 1.5499999999999998,
+         "mieng": "o"
         }
-       ]
+       ],
+       "goc": "sau"
       },
       {
        "kieu": "trang",
@@ -385,12 +420,23 @@
         },
         {
          "tai": 0.3,
-         "dang": "ngoi",
          "flip": true,
          "mat": "cham",
          "nhin": 1
+        },
+        {
+         "tai": 1.1,
+         "mieng": "o",
+         "nhin": 1
         }
-       ]
+       ],
+       "goc": "sau",
+       "mau": "quay-lai",
+       "mau_tham_so": {
+        "tai": 0.3,
+        "tu": "sau",
+        "den": "truoc"
+       }
       },
       {
        "kieu": "trang",
@@ -410,12 +456,23 @@
         },
         {
          "tai": 0.4,
-         "dang": "ngoi",
+         "goc": "ba-phan-tu",
          "flip": true,
          "mat": "cham",
          "nhin": 1
+        },
+        {
+         "tai": 1.1,
+         "goc": "truoc",
+         "mat": "cham",
+         "nhin": 1
+        },
+        {
+         "tai": 1.6,
+         "mieng": "o"
         }
-       ]
+       ],
+       "goc": "sau"
       },
       {
        "kieu": "trang",
@@ -429,12 +486,23 @@
         },
         {
          "tai": 0.3,
-         "dang": "ngoi",
          "flip": true,
          "mat": "cham",
          "nhin": 1
+        },
+        {
+         "tai": 1.1,
+         "mieng": "o",
+         "nhin": 1
         }
-       ]
+       ],
+       "goc": "sau",
+       "mau": "quay-lai",
+       "mau_tham_so": {
+        "tai": 0.3,
+        "tu": "sau",
+        "den": "truoc"
+       }
       },
       {
        "kieu": "trang",
@@ -454,12 +522,23 @@
         },
         {
          "tai": 0.35,
-         "dang": "ngoi",
+         "goc": "ba-phan-tu",
          "flip": true,
          "mat": "cham",
          "nhin": 1
+        },
+        {
+         "tai": 1.0499999999999998,
+         "goc": "truoc",
+         "mat": "cham",
+         "nhin": 1
+        },
+        {
+         "tai": 1.5499999999999998,
+         "mieng": "o"
         }
-       ]
+       ],
+       "goc": "sau"
       },
       {
        "kieu": "trang",
@@ -473,12 +552,23 @@
         },
         {
          "tai": 0.3,
-         "dang": "ngoi",
          "flip": true,
          "mat": "cham",
          "nhin": 1
+        },
+        {
+         "tai": 1.1,
+         "mieng": "o",
+         "nhin": 1
         }
-       ]
+       ],
+       "goc": "sau",
+       "mau": "quay-lai",
+       "mau_tham_so": {
+        "tai": 0.3,
+        "tu": "sau",
+        "den": "truoc"
+       }
       },
       {
        "kieu": "nam",
@@ -500,6 +590,12 @@
          "mat": "soc-lon",
          "mieng": "o",
          "moHoi": true
+        },
+        {
+         "tai": 1.4,
+         "mat": "xoan",
+         "mieng": "meu",
+         "moHoi": true
         }
        ]
       }
@@ -516,7 +612,18 @@
        "x": 0.3,
        "co": 0.9,
        "mat": "cham",
-       "mieng": "thang"
+       "mieng": "thang",
+       "act": [
+        {
+         "tai": 0.5,
+         "nhin": 0.8
+        },
+        {
+         "tai": 1,
+         "mieng": "o",
+         "nhin": 0.8
+        }
+       ]
       },
       {
        "kieu": "trang",
@@ -529,7 +636,18 @@
         "mai": "ngang",
         "lon": 2,
         "sau": "bob"
-       }
+       },
+       "act": [
+        {
+         "tai": 0.5,
+         "nhin": 0.8
+        },
+        {
+         "tai": 1,
+         "mieng": "o",
+         "nhin": 0.8
+        }
+       ]
       }
      ],
      "chu": [
@@ -603,8 +721,22 @@
          "dang": "cheMieng",
          "mat": "cham",
          "nhin": 1
+        },
+        {
+         "tai": 1.8,
+         "dang": "chi",
+         "mat": "cham",
+         "nhin": 1
+        },
+        {
+         "tai": 2.4,
+         "dang": "cheMieng",
+         "mat": "khe",
+         "nhin": 1
         }
-       ]
+       ],
+       "goc": "ba-phan-tu",
+       "cam": "but"
       },
       {
        "kieu": "nam",
@@ -621,13 +753,23 @@
          "mieng": "meu"
         },
         {
-         "tai": 1.3,
-         "dang": "ngoi",
+         "tai": 0.7,
+         "nhin": -1
+        },
+        {
+         "tai": 2,
          "mat": "soc-lon",
          "mieng": "o",
-         "nhin": -1
+         "nhin": -1,
+         "moHoi": true
         }
-       ]
+       ],
+       "mau": "giat-minh",
+       "mau_tham_so": {
+        "tai": 1.3,
+        "dang": "ngoi",
+        "huong": "phai"
+       }
       }
      ]
     },
@@ -715,10 +857,18 @@
          "mat": "soc",
          "mieng": "mim",
          "moHoi": true
+        },
+        {
+         "tai": 0.9,
+         "dang": "epNguc",
+         "mat": "soc-lon",
+         "mieng": "mim",
+         "moHoi": true
         }
        ]
       }
-     ]
+     ],
+     "boi_canh": "lop-hoc"
     },
     {
      "say": "Mười hai bước",
@@ -728,36 +878,27 @@
       {
        "kieu": "nam",
        "x": 0.15,
-       "dang": "nhay1",
+       "dang": "dung",
        "mat": "cham",
        "mieng": "meu",
        "act": [
         {
-         "tai": 0,
-         "dang": "nhay1",
-         "x": 0.15
+         "tai": 0.7,
+         "mat": "chan"
         },
         {
-         "tai": 0.45,
-         "dang": "nhay2",
-         "x": 0.28
-        },
-        {
-         "tai": 0.9,
-         "dang": "nhay1",
-         "x": 0.41
-        },
-        {
-         "tai": 1.35,
-         "dang": "nhay2",
-         "x": 0.54
-        },
-        {
-         "tai": 1.8,
-         "dang": "nhay1",
-         "x": 0.67
+         "tai": 1.5,
+         "mat": "nham",
+         "moHoi": true
         }
-       ]
+       ],
+       "goc": "nghieng",
+       "mau": "di-bo",
+       "mau_tham_so": {
+        "den": 0.7,
+        "tocDo": 1.2,
+        "dang": "dung"
+       }
       }
      ],
      "chu": [
@@ -773,53 +914,44 @@
      "loai": "minh-hoa",
      "co": "rong",
      "sfx": "suspense",
-     "prop": [
-      {
-       "ten": "day-ban-lop",
-       "x": 0.5,
-       "y": 0.86
-      },
-      {
-       "ten": "bang-den",
-       "x": 0.5,
-       "y": 0.3
-      }
-     ],
      "dien": [
       {
        "kieu": "nam",
-       "x": 0.35,
+       "x": 0.66,
+       "goc": "nghieng",
        "dang": "cuiNguoi",
        "mat": "chan",
        "mieng": "meu",
        "moHoi": true,
+       "mau": "di-bo",
+       "mau_tham_so": {
+        "den": 0.44,
+        "tocDo": 0.7,
+        "dang": "cuiNguoi"
+       },
        "act": [
         {
-         "tai": 0,
-         "dang": "cuiNguoi",
-         "mat": "chan",
-         "x": 0.35
+         "tai": 0.6,
+         "mat": "chan"
         },
         {
-         "tai": 0.7,
-         "dang": "cuiNguoi",
-         "mat": "chan",
-         "x": 0.45
+         "tai": 1.2,
+         "mat": "nham"
         },
         {
-         "tai": 1.4,
+         "tai": 1.7,
          "dang": "cuiNguoi",
-         "mat": "nham",
-         "x": 0.55
+         "mat": "chan",
+         "mieng": "meu"
         }
        ]
       },
       {
        "kieu": "thay",
-       "x": 0.8,
+       "x": 0.3,
        "dang": "khoanhTay",
        "mat": "khe",
-       "flip": true,
+       "cam": "thuoc",
        "act": [
         {
          "tai": 0,
@@ -827,10 +959,16 @@
          "mat": "khe"
         },
         {
-         "tai": 1.2,
+         "tai": 0.7,
          "dang": "chi",
          "mat": "khe",
          "may": "tuc"
+        },
+        {
+         "tai": 1.4,
+         "dang": "khoanhTay",
+         "mat": "khe",
+         "nhin": 1
         }
        ]
       }
@@ -841,21 +979,14 @@
        "kieu": "tay",
        "vi_tri": "tren"
       }
-     ]
+     ],
+     "boi_canh": "lop-hoc"
     },
     {
      "say": "Thầy đưa viên phấn",
      "loai": "minh-hoa",
      "co": "can",
      "sfx": "pop",
-     "prop": [
-      {
-       "ten": "but",
-       "x": 0.5,
-       "y": 0.58,
-       "co": 0.8
-      }
-     ],
      "dien": [
       {
        "kieu": "thay",
@@ -866,14 +997,22 @@
         {
          "tai": 0,
          "dang": "chi",
-         "mat": "nho"
+         "mat": "nho",
+         "cam": "phan"
         },
         {
-         "tai": 0.7,
-         "dang": "khoanhTay",
+         "tai": 0.45,
+         "dang": "cam",
          "mat": "khe"
+        },
+        {
+         "tai": 0.9,
+         "dang": "khoanhTay",
+         "mat": "khe",
+         "cam": ""
         }
-       ]
+       ],
+       "cam": "phan"
       },
       {
        "kieu": "nam",
@@ -888,10 +1027,17 @@
          "mat": "soc"
         },
         {
-         "tai": 0.7,
+         "tai": 0.45,
          "dang": "epNguc",
          "mat": "soc",
          "moHoi": true
+        },
+        {
+         "tai": 0.9,
+         "dang": "cam",
+         "cam": "phan",
+         "mat": "soc-lon",
+         "mieng": "o"
         }
        ]
       }
@@ -929,16 +1075,15 @@
        "mieng": "thang",
        "act": [
         {
-         "tai": 0,
-         "mat": "soc",
-         "nhin": -0.6
-        },
-        {
-         "tai": 0.45,
-         "mat": "soc",
-         "nhin": 0.6
+         "tai": 0.7,
+         "mat": "soc-lon",
+         "mieng": "o"
         }
-       ]
+       ],
+       "mau": "nhin-quanh",
+       "mau_tham_so": {
+        "giu": 6
+       }
       }
      ]
     },
@@ -989,7 +1134,14 @@
        "co": 0.8,
        "dang": "nhunVai",
        "mat": "cham",
-       "mieng": "meu"
+       "mieng": "meu",
+       "act": [
+        {
+         "tai": 0.6,
+         "dang": "gaiDau",
+         "mat": "xoan"
+        }
+       ]
       }
      ],
      "chu": [
@@ -1006,18 +1158,10 @@
      "loai": "minh-hoa",
      "co": "trung",
      "sfx": "whoosh-short",
-     "prop": [
-      {
-       "ten": "bang-den",
-       "x": 0.78,
-       "y": 0.32,
-       "co": 0.9
-      }
-     ],
      "dien": [
       {
        "kieu": "nam",
-       "x": 0.7,
+       "x": 0.5,
        "dang": "dung",
        "mat": "nho",
        "nhin": 0,
@@ -1030,19 +1174,21 @@
         },
         {
          "tai": 0.6,
-         "dang": "dung",
          "mat": "nho",
          "nhin": -1
         },
         {
          "tai": 1.2,
-         "dang": "dung",
          "mat": "soc",
+         "mieng": "o",
          "nhin": -1
         }
-       ]
+       ],
+       "goc": "ba-phan-tu",
+       "cam": "phan"
       }
-     ]
+     ],
+     "boi_canh": "lop-hoc-nhin-tu-bang"
     },
     {
      "say": "Là Hà",
@@ -1070,7 +1216,8 @@
        "x": 0.5,
        "dang": "ngoi",
        "mat": "oval",
-       "mieng": "cuoi-nhe"
+       "mieng": "cuoi-nhe",
+       "mau": "pop"
       }
      ],
      "chu": [
@@ -1093,7 +1240,20 @@
        "dang": "epNguc",
        "mat": "soc-lon",
        "ma": true,
-       "moHoi": true
+       "moHoi": true,
+       "act": [
+        {
+         "tai": 0,
+         "dang": "epNguc",
+         "mat": "soc-lon"
+        },
+        {
+         "tai": 0.7,
+         "dang": "omDau",
+         "mat": "xoan",
+         "mieng": "meu"
+        }
+       ]
       }
      ]
     },
@@ -1142,21 +1302,24 @@
      "dien": [
       {
        "kieu": "nam",
-       "x": 0.33,
-       "dang": "chi",
+       "x": 0.42,
+       "dang": "vietBang",
        "mat": "nho",
        "act": [
         {
-         "tai": 0,
-         "dang": "chi",
-         "mat": "nho"
-        },
-        {
-         "tai": 0.8,
-         "dang": "chi",
-         "mat": "cham"
+         "tai": 0.7,
+         "goc": "ba-phan-tu",
+         "dang": "dung",
+         "mat": "cham",
+         "mieng": "mim"
         }
-       ]
+       ],
+       "goc": "sau",
+       "cam": "phan",
+       "mau": "viet-bang",
+       "mau_tham_so": {
+        "lap": 2
+       }
       }
      ],
      "chu": [
@@ -1178,7 +1341,15 @@
        "x": 0.22,
        "co": 0.8,
        "dang": "haiTayXoe",
-       "mat": "khe"
+       "mat": "khe",
+       "act": [
+        {
+         "tai": 0.3,
+         "dang": "vayTay",
+         "mat": "khe",
+         "mieng": "nghien"
+        }
+       ]
       }
      ],
      "chu": [
@@ -1205,21 +1376,24 @@
      "dien": [
       {
        "kieu": "nam",
-       "x": 0.33,
-       "dang": "chi",
+       "x": 0.42,
+       "dang": "vietBang",
        "mat": "nho",
        "act": [
         {
-         "tai": 0,
+         "tai": 0.6,
+         "goc": "ba-phan-tu",
          "dang": "chi",
-         "mat": "nho"
-        },
-        {
-         "tai": 0.7,
-         "dang": "chi",
-         "mat": "cung"
+         "mat": "cung",
+         "mieng": "cuoi"
         }
-       ]
+       ],
+       "goc": "sau",
+       "cam": "phan",
+       "mau": "viet-bang",
+       "mau_tham_so": {
+        "lap": 2
+       }
       }
      ],
      "chu": [
@@ -1311,7 +1485,9 @@
          "mat": "cham",
          "nhin": 0.5
         }
-       ]
+       ],
+       "goc": "ba-phan-tu",
+       "cam": "but"
       }
      ]
     },
@@ -1370,7 +1546,15 @@
        "x": 0.5,
        "mat": "khe",
        "mieng": "mim",
-       "nhin": -0.6
+       "nhin": -0.6,
+       "act": [
+        {
+         "tai": 0.35,
+         "mat": "nho",
+         "mieng": "o",
+         "nhin": -0.6
+        }
+       ]
       }
      ]
     },
@@ -1401,24 +1585,32 @@
      "dien": [
       {
        "kieu": "nam",
-       "x": 0.33,
-       "dang": "chi",
+       "x": 0.42,
+       "dang": "vietBang",
        "mat": "cung",
        "mieng": "cuoi",
        "act": [
         {
-         "tai": 0,
-         "dang": "chi",
-         "mat": "cung",
-         "mieng": "cuoi"
-        },
-        {
-         "tai": 0.9,
+         "tai": 1.1,
+         "goc": "truoc",
          "dang": "haiTayXoe",
          "mat": "cung",
          "mieng": "cuoi-toe"
+        },
+        {
+         "tai": 1.6,
+         "dang": "chi",
+         "mat": "cung",
+         "mieng": "cuoi-toe",
+         "nhin": 0
         }
-       ]
+       ],
+       "goc": "sau",
+       "cam": "phan",
+       "mau": "viet-bang",
+       "mau_tham_so": {
+        "lap": 4
+       }
       }
      ],
      "chu": [
@@ -1498,14 +1690,13 @@
          "dang": "ngoi",
          "mat": "cung",
          "mieng": "cuoi-toe"
-        },
-        {
-         "tai": 0.55,
-         "dang": "haiTayXoe",
-         "mat": "cung",
-         "mieng": "cuoi-toe"
         }
-       ]
+       ],
+       "mau": "nhay-mung",
+       "mau_tham_so": {
+        "tai": 0.3,
+        "lap": 3
+       }
       },
       {
        "kieu": "trang",
@@ -1570,14 +1761,13 @@
          "dang": "ngoi",
          "mat": "cung",
          "mieng": "cuoi-toe"
-        },
-        {
-         "tai": 0.45,
-         "dang": "gioTay",
-         "mat": "cung",
-         "mieng": "cuoi-toe"
         }
-       ]
+       ],
+       "mau": "nhay-mung",
+       "mau_tham_so": {
+        "tai": 0.45,
+        "lap": 3
+       }
       },
       {
        "kieu": "trang",
@@ -1620,14 +1810,12 @@
          "dang": "ngoi",
          "mat": "cung",
          "mieng": "cuoi-toe"
-        },
-        {
-         "tai": 0.6,
-         "dang": "cheMieng",
-         "mat": "cung",
-         "mieng": "cuoi-toe"
         }
-       ]
+       ],
+       "mau": "cuoi-lan",
+       "mau_tham_so": {
+        "tai": 0.35
+       }
       },
       {
        "kieu": "nam",
@@ -1740,24 +1928,27 @@
      "dien": [
       {
        "kieu": "nam",
-       "x": 0.33,
-       "dang": "chi",
+       "x": 0.42,
+       "dang": "vietBang",
        "mat": "khe",
        "may": "nhiu",
        "act": [
         {
-         "tai": 0,
-         "dang": "chi",
-         "mat": "khe",
-         "may": "nhiu"
-        },
-        {
-         "tai": 0.5,
-         "dang": "chi",
+         "tai": 0.6,
+         "goc": "nghieng",
+         "dang": "vietBang",
          "mat": "soc",
-         "may": "lo"
+         "may": "lo",
+         "mieng": "hoang"
         }
-       ]
+       ],
+       "goc": "sau",
+       "cam": "phan",
+       "mau": "viet-bang",
+       "mau_tham_so": {
+        "giu": 2,
+        "lap": 4
+       }
       }
      ]
     },
@@ -1790,14 +1981,14 @@
      "prop": [
       {
        "ten": "but",
-       "x": 0.62,
+       "x": 0.5,
        "y": 0.86,
        "co": 0.6,
        "tai": 0.3
       },
       {
        "ten": "mui-ten",
-       "x": 0.52,
+       "x": 0.42,
        "y": 0.62,
        "co": 0.8,
        "tai": 0.3
@@ -1806,7 +1997,7 @@
      "dien": [
       {
        "kieu": "thay",
-       "x": 0.72,
+       "x": 0.58,
        "dang": "dung",
        "mat": "khe",
        "act": [
@@ -1817,14 +2008,21 @@
         },
         {
          "tai": 0.6,
-         "dang": "dung",
          "mat": "khe",
          "may": "tuc",
          "nhin": -1
         }
-       ]
+       ],
+       "cam": "thuoc",
+       "mau": "lac-dau",
+       "mau_tham_so": {
+        "tai": 0.9,
+        "giu": 4,
+        "lap": 2
+       }
       }
-     ]
+     ],
+     "boi_canh": "lop-hoc"
     },
     {
      "say": "Thầy chậm rãi tháo kính",
@@ -1860,6 +2058,13 @@
          "mat": "nham",
          "may": "tuc",
          "mieng": "mim"
+        },
+        {
+         "tai": 1.4,
+         "mat": "khe",
+         "may": "tuc",
+         "mieng": "mim",
+         "nhin": 0.4
         }
        ]
       }
@@ -1890,7 +2095,16 @@
        "co": 0.85,
        "dang": "khoanhTay",
        "mat": "khe",
-       "may": "tuc"
+       "may": "tuc",
+       "act": [
+        {
+         "tai": 0.6,
+         "dang": "tayHong",
+         "mat": "khe",
+         "may": "tuc",
+         "nhin": 1
+        }
+       ]
       }
      ],
      "chu": [
@@ -1935,7 +2149,12 @@
          "mat": "chan",
          "mieng": "meu"
         }
-       ]
+       ],
+       "mau": "run",
+       "mau_tham_so": {
+        "px": 2,
+        "mat": "cham"
+       }
       }
      ],
      "chu": [
@@ -1980,7 +2199,19 @@
        "x": 0.5,
        "mat": "xoan",
        "mieng": "meu",
-       "moHoi": true
+       "moHoi": true,
+       "mau": "run",
+       "mau_tham_so": {
+        "px": 3,
+        "mat": "xoan"
+       },
+       "act": [
+        {
+         "tai": 0.8,
+         "mieng": "hoang",
+         "moHoi": true
+        }
+       ]
       }
      ]
     },
@@ -2007,18 +2238,10 @@
      "say": "Thầy nhìn bảng",
      "loai": "minh-hoa",
      "co": "trung",
-     "prop": [
-      {
-       "ten": "bang-den",
-       "x": 0.6,
-       "y": 0.36,
-       "co": 1.1
-      }
-     ],
      "dien": [
       {
        "kieu": "thay",
-       "x": 0.28,
+       "x": 0.34,
        "dang": "tayHong",
        "mat": "khe",
        "nhin": 1,
@@ -2027,19 +2250,25 @@
          "tai": 0,
          "dang": "tayHong",
          "mat": "khe",
-         "nhin": 1
+         "nhin": -1
         },
         {
          "tai": 0.7,
          "dang": "tayHong",
          "mat": "khe",
-         "nhin": -1
+         "nhin": 1
+        },
+        {
+         "tai": 1.1,
+         "may": "tuc",
+         "nhin": 1
         }
-       ]
+       ],
+       "cam": "thuoc"
       },
       {
        "kieu": "nam",
-       "x": 0.82,
+       "x": 0.6,
        "co": 0.9,
        "dang": "epNguc",
        "mat": "soc",
@@ -2056,10 +2285,17 @@
          "dang": "epNguc",
          "mat": "soc-lon",
          "mieng": "o"
+        },
+        {
+         "tai": 1.1,
+         "mat": "xoan",
+         "mieng": "meu",
+         "moHoi": true
         }
        ]
       }
-     ]
+     ],
+     "boi_canh": "lop-hoc"
     },
     {
      "say": "Nhìn tôi",
@@ -2072,7 +2308,15 @@
        "x": 0.5,
        "mat": "khe",
        "may": "tuc",
-       "mieng": "thang"
+       "mieng": "thang",
+       "act": [
+        {
+         "tai": 0.4,
+         "mat": "khe",
+         "may": "tuc",
+         "nhin": 0.6
+        }
+       ]
       }
      ]
     },
@@ -2097,6 +2341,11 @@
          "tai": 1.2,
          "dang": "epNguc",
          "mat": "nho"
+        },
+        {
+         "tai": 2,
+         "dang": "chi",
+         "mat": "oval"
         }
        ]
       }
@@ -2113,7 +2362,14 @@
        "co": 0.85,
        "dang": "chi",
        "mat": "khe",
-       "noi": true
+       "noi": true,
+       "act": [
+        {
+         "tai": 0.7,
+         "dang": "chiLen",
+         "mat": "khe"
+        }
+       ]
       }
      ],
      "chu": [
@@ -2213,14 +2469,13 @@
          "dang": "ngoi",
          "mat": "cung",
          "mieng": "cuoi-toe"
-        },
-        {
-         "tai": 0.35,
-         "dang": "haiTayXoe",
-         "mat": "cung",
-         "mieng": "cuoi-toe"
         }
-       ]
+       ],
+       "mau": "nhay-mung",
+       "mau_tham_so": {
+        "tai": 0.2,
+        "lap": 3
+       }
       },
       {
        "kieu": "trang",
@@ -2263,14 +2518,12 @@
          "dang": "ngoi",
          "mat": "cung",
          "mieng": "cuoi-toe"
-        },
-        {
-         "tai": 0.3,
-         "dang": "omDau",
-         "mat": "cung",
-         "mieng": "cuoi-toe"
         }
-       ]
+       ],
+       "mau": "cuoi-lan",
+       "mau_tham_so": {
+        "tai": 0.25
+       }
       },
       {
        "kieu": "trang",
@@ -2291,14 +2544,13 @@
          "dang": "ngoi",
          "mat": "cung",
          "mieng": "cuoi-toe"
-        },
-        {
-         "tai": 0.6,
-         "dang": "nhay1",
-         "mat": "cung",
-         "mieng": "cuoi-toe"
         }
-       ]
+       ],
+       "mau": "nhay-mung",
+       "mau_tham_so": {
+        "tai": 0.35,
+        "lap": 3
+       }
       },
       {
        "kieu": "trang",
@@ -2341,14 +2593,13 @@
          "dang": "ngoi",
          "mat": "cung",
          "mieng": "cuoi-toe"
-        },
-        {
-         "tai": 0.45,
-         "dang": "gioTay",
-         "mat": "cung",
-         "mieng": "cuoi-toe"
         }
-       ]
+       ],
+       "mau": "nhay-mung",
+       "mau_tham_so": {
+        "tai": 0.3,
+        "lap": 3
+       }
       },
       {
        "kieu": "trang",
@@ -2426,20 +2677,27 @@
          "mieng": "cuoi-toe"
         },
         {
-         "tai": 0.6,
-         "dang": "cuiNguoi",
+         "tai": 0.5,
+         "dang": "omBung",
          "mat": "cung",
          "mieng": "cuoi-toe"
         },
         {
-         "tai": 1.2,
-         "dang": "omDau",
+         "tai": 1,
+         "dang": "ngoiGuc",
          "mat": "cung",
          "mieng": "cuoi-toe"
+        },
+        {
+         "tai": 1.4,
+         "dang": "ngoiGuc",
+         "mat": "nham",
+         "mieng": "cuoi"
         }
        ]
       }
-     ]
+     ],
+     "boi_canh": "lop-hoc"
     },
     {
      "say": "Nam Anh đứng lên",
@@ -2485,7 +2743,8 @@
          "mat": "cham",
          "mieng": "thang"
         }
-       ]
+       ],
+       "cam": "but"
       }
      ],
      "chu": [
@@ -2517,8 +2776,8 @@
      "dien": [
       {
        "kieu": "trang",
-       "x": 0.33,
-       "dang": "chi",
+       "x": 0.42,
+       "dang": "vietBang",
        "mat": "cham",
        "mieng": "thang",
        "toc": {
@@ -2529,23 +2788,19 @@
        },
        "act": [
         {
-         "tai": 0,
-         "dang": "chi",
-         "mat": "cham"
-        },
-        {
-         "tai": 0.5,
-         "dang": "chi",
-         "mat": "cham",
-         "x": 0.38
-        },
-        {
-         "tai": 1,
+         "tai": 1.4,
+         "goc": "truoc",
          "dang": "tayHong",
          "mat": "cham",
          "mieng": "smirk"
         }
-       ]
+       ],
+       "goc": "sau",
+       "cam": "phan",
+       "mau": "viet-bang",
+       "mau_tham_so": {
+        "lap": 5
+       }
       }
      ],
      "chu": [
@@ -2577,27 +2832,24 @@
       {
        "kieu": "nam",
        "x": 0.7,
-       "dang": "nhay2",
+       "dang": "dung",
        "mat": "cham",
        "mieng": "mim",
        "flip": true,
        "act": [
         {
-         "tai": 0,
-         "dang": "nhay2",
-         "x": 0.7
-        },
-        {
-         "tai": 0.35,
-         "dang": "nhay1",
-         "x": 0.55
-        },
-        {
-         "tai": 0.7,
-         "dang": "nhay2",
-         "x": 0.4
+         "tai": 0.4,
+         "mat": "nho",
+         "mieng": "mim"
         }
-       ]
+       ],
+       "goc": "nghieng",
+       "mau": "di-bo",
+       "mau_tham_so": {
+        "den": 0.35,
+        "tocDo": 2,
+        "dang": "dung"
+       }
       }
      ]
     },
@@ -2618,33 +2870,31 @@
       {
        "kieu": "nam",
        "x": 0.6,
-       "dang": "nhay1",
+       "dang": "dung",
        "mat": "cham",
        "mieng": "mim",
        "flip": true,
        "act": [
         {
-         "tai": 0,
-         "dang": "nhay1",
-         "x": 0.6
-        },
-        {
-         "tai": 0.3,
-         "dang": "nhay2",
-         "x": 0.45
-        },
-        {
-         "tai": 0.6,
-         "dang": "nhay1",
-         "x": 0.3
-        },
-        {
-         "tai": 0.9,
+         "tai": 1,
+         "goc": "truoc",
          "dang": "ngoi",
-         "x": 0.2,
-         "mat": "nham"
+         "mat": "nham",
+         "mieng": "mim"
+        },
+        {
+         "tai": 1.5,
+         "dang": "chongCam",
+         "mat": "chan",
+         "mieng": "thang"
         }
-       ]
+       ],
+       "goc": "nghieng",
+       "mau": "chay-den",
+       "mau_tham_so": {
+        "den": 0.2,
+        "dang": "ngoi"
+       }
       }
      ],
      "chu": [
@@ -2683,12 +2933,16 @@
          "mieng": "cuoi-toe"
         },
         {
-         "tai": 0.8,
+         "tai": 0.5,
          "dang": "haiTayXoe",
          "mat": "cung",
          "mieng": "cuoi-toe"
         }
-       ]
+       ],
+       "mau": "cuoi-lan",
+       "mau_tham_so": {
+        "tai": 0.9
+       }
       },
       {
        "kieu": "nam",
@@ -2701,6 +2955,10 @@
          "tai": 0,
          "dang": "khoanhTay",
          "mat": "khe"
+        },
+        {
+         "tai": 0.5,
+         "nhin": -1
         },
         {
          "tai": 1,
@@ -2735,13 +2993,6 @@
      "say": "Suốt ba năm",
      "loai": "minh-hoa",
      "co": "rong",
-     "prop": [
-      {
-       "ten": "cong-truong",
-       "x": 0.5,
-       "y": 0.86
-      }
-     ],
      "dien": [
       {
        "kieu": "long",
@@ -2757,14 +3008,9 @@
          "x": 0.3
         },
         {
-         "tai": 0.4,
+         "tai": 0.2,
          "dang": "nhay2",
-         "x": 0.38
-        },
-        {
-         "tai": 0.8,
-         "dang": "chi",
-         "x": 0.44
+         "x": 0.36
         }
        ]
       },
@@ -2782,10 +3028,10 @@
          "mat": "chan"
         },
         {
-         "tai": 0.6,
+         "tai": 0.2,
          "dang": "cuiNguoi",
          "mat": "khe",
-         "x": 0.66
+         "x": 0.64
         }
        ]
       }
@@ -2796,7 +3042,8 @@
        "kieu": "kem",
        "vi_tri": "tren"
       }
-     ]
+     ],
+     "boi_canh": "san-truong"
     },
     {
      "loai": "trong",
