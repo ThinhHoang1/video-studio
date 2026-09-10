@@ -47,10 +47,14 @@ const MotHinh: React.FC<{h: HinhVe; net: number; co: number}> = ({h, net, co}) =
 
 export const PropTuVeVe: React.FC<PropProps & {mau: PropTuVe; chu?: string}> = ({x, y, co, net, flip, mau, chu}) => (
   <g transform={`translate(${x} ${y}) scale(${flip ? -co : co} ${co})`}>
-    {mau.hinh.map((h, i) => (
-      // 'chu' có text "{chu}" thì điền chữ từ board.prop[].chu
-      <MotHinh key={i} h={h.loai === 'chu' && chu ? {...h, text: h.text.replace('{chu}', chu)} : h} net={net} co={co} />
-    ))}
+    {mau.hinh.map((h, i) => {
+      // 'chu' có "{chu}" thì điền chữ từ board.prop[].chu; shot không truyền chu → ẨN dòng chữ đó (không in "{chu}")
+      if (h.loai === 'chu' && h.text.includes('{chu}')) {
+        if (!chu) return null;
+        return <MotHinh key={i} h={{...h, text: h.text.replace('{chu}', chu)}} net={net} co={co} />;
+      }
+      return <MotHinh key={i} h={h} net={net} co={co} />;
+    })}
   </g>
 );
 

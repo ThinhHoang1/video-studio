@@ -91,6 +91,9 @@ const duoi1 = shot.filter((s) => s < 1).length / Math.max(1, shot.length);
 const hold = diffs.filter((d) => d < 1).length / Math.max(1, diffs.length);
 const tiLeTrang = trang.filter(Boolean).length / Math.max(1, N);
 const thoiLuong = N / FPSD;
+// thời lượng phải khớp audio: intro 2 s + Σ duration + đệm 0.4 s/chương (src/v2/phim/du-lieu.ts) — lệch > 1.5 s là ghép đoạn sai
+const manifestPath = `src/projects/${DU_AN}/data/${TEN}.generated.json`;
+const kyVong = existsSync(path.join(ROOT, manifestPath)) ? (() => { const mf = doc(manifestPath); return 2 + mf.chapters.reduce((a, c) => a + c.duration + 0.4, 0); })() : null;
 
 // ── 2. từ board ────────────────────────────────────────────────────────
 const duongBoard = `src/projects/${DU_AN}/board.json`;
@@ -109,7 +112,11 @@ if (board) {
     goc: dem([...dien.map((d) => d.goc), ...acts.map((a) => a.goc)].map((g) => g ?? 'truoc')),
     mau: dem(dien.map((d) => d.mau)),
     boiCanh: dem(shots.map((s) => s.boi_canh)),
-    prop: dem(shots.flatMap((s) => (s.prop ?? []).map((p) => p.ten))),
+    prop: (() => {
+      const tv = existsSync(path.join(ROOT, 'thu-vien-v2.json')) ? doc('thu-vien-v2.json') : {};
+      const trongBoiCanh = shots.flatMap((s) => (s.boi_canh && tv.boi_canh?.[s.boi_canh]?.prop) || []);
+      return dem([...shots.flatMap((s) => (s.prop ?? []).map((p) => p.ten)), ...trongBoiCanh]);
+    })(),
     cam: dem([...dien.map((d) => d.cam), ...acts.map((a) => a.cam)]),
     actMoc: acts.length,
   };
@@ -143,6 +150,7 @@ if (existsSync(path.join(ROOT, duongMouth))) {
 // ── 4. bảng chấm ───────────────────────────────────────────────────────
 // [tên, giá trị đo, mốc tham chiếu (chuỗi), hàm đạt]
 const tieuChi = [
+  ...(kyVong !== null ? [['Thời lượng khớp audio (lệch s)', Math.abs(thoiLuong - kyVong), '≤ 1.5', (v) => v <= 1.5]] : []),
   ['Shot trung vị (s)', median, '1.25–1.6', (v) => v >= 0.9 && v <= 1.8],
   ['Shot dưới 1 s', duoi1, '≥ 30%', (v) => v >= 0.3],
   ['Khung đứng yên (hold, 12fps)', hold, '60–80%', (v) => v >= 0.55 && v <= 0.85],
@@ -163,14 +171,19 @@ if (bd) {
 }
 if (doiMieng !== null) tieuChi.push(['Miệng đổi hình khi nói (frame)', doiMieng, '≥ 60%', (v) => v >= 0.6]);
 
-const fmt = (v) => (typeof v === 'number' ? (v <= 1 && !Number.isInteger(v) ? `${(v * 100).toFixed(0)}%` : v.toFixed(2).replace(/\.00$/, '')) : String(v));
+const fmt = (v, ten = '') =>
+  typeof v !== 'number' ? String(v) : /\(s\)|lệch s/.test(ten) ? `${v.toFixed(2)}s` : v <= 1 && !Number.isInteger(v) ? `${(v * 100).toFixed(0)}%` : v.toFixed(2).replace(/\.00$/, '');
 let dat = 0;
 console.log(`\n${TEN} — ${video} — ${thoiLuong.toFixed(1)} s, ${shot.length} shot dò được\n`);
 for (const [ten, v, moc, ok] of tieuChi) {
   const d = ok(v);
   dat += d ? 1 : 0;
-  console.log(`  ${d ? '✓' : '✗'}  ${ten.padEnd(34)} ${fmt(v).padStart(8)}   mốc ${moc}`);
+  console.log(`  ${d ? '✓' : '✗'}  ${ten.padEnd(34)} ${fmt(v, ten).padStart(8)}   mốc ${moc}`);
 }
-const diem = Math.round((dat / tieuChi.length) * 100);
+let diem = Math.round((dat / tieuChi.length) * 100);
+if (kyVong !== null && Math.abs(thoiLuong - kyVong) > 1.5) {
+  console.log(`  ✗✗ VIDEO SAI THỜI LƯỢNG: ${thoiLuong.toFixed(1)}s so với kỳ vọng ${kyVong.toFixed(1)}s — có thể ghép đoạn trùng; xoá out/.seg-V2-*/ rồi render lại. Điểm đặt về 0.`);
+  diem = 0;
+}
 console.log(`\n  Điểm: ${dat}/${tieuChi.length} = ${diem}%  (ngưỡng nghiệm thu 90%)\n`);
 process.exit(diem >= 90 ? 0 : 1);
