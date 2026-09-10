@@ -120,3 +120,39 @@ Nhạc trong `public/audio/` là CC BY (Kevin MacLeod, Scott Buckley, Chris
 Zabriskie). **Bắt buộc ghi công khi đăng** — câu ghi công ở `public/audio/CREDITS.md`.
 SFX trong `public/sfx/` do `pipeline/sfx.py` tự tổng hợp, không dính bản quyền.
 Meme trong `public/meme/` là ảnh bên thứ ba, không phát hành lại (xem `.gitignore`).
+
+## Tài liệu
+
+| File | Đọc khi |
+|---|---|
+| `.claude/skills/tao-video/SKILL.md` | làm một video storytime từ đầu |
+| `.claude/skills/tao-ban-tin/SKILL.md` | làm bảng tin hằng ngày (kiểu BeatVN) |
+| `docs/thu-vien-canh.md` | **tra tên** bối cảnh / prop / tư thế / mẫu / sfx / nhạc khi viết board |
+| `docs/vi-sao-video-bi-dung.md` | video ra đứng hình, cắt như slide, lip-sync vô hồn |
+| `docs/nghien-cuu-storytime.md` | vì sao phong cách này lại như thế (số liệu đo từ tham chiếu) |
+| `docs/thiet-ke-v2.md` | kiến trúc rig / board / renderer |
+| `.claude/skills/tao-video/references/dao-dien.md` | ngữ pháp shot, cách tự vẽ prop thiếu |
+| `.claude/skills/tao-video/references/kich-ban-storytime.md` | viết kịch bản có punchline, giọng nói chuyện |
+| `.claude/skills/tao-video/references/loi-hay-gap.md` | validator báo lỗi mà không hiểu |
+| `media/outbound/<ten>.md` | video đã làm: nguồn, số liệu dựng, bảng chấm |
+
+## Cài cho máy mới (clone xong)
+
+`public/audio`, `public/sfx` và `tools/` nằm trong `.gitignore` — clone không có:
+
+```bash
+npm ci
+node pipeline/tai-nhac.mjs --sfx     # nhạc CC BY + 29 tiếng động
+node pipeline/tai-rhubarb.mjs        # binary lip-sync (thiếu → miệng theo biên độ, xấu)
+npx remotion browser ensure          # trình duyệt render, nếu máy không có Chrome/Chromium
+```
+
+Trên Linux arm64 (container OpenClaw) cần thêm một lần, chạy bằng root:
+
+```bash
+apt-get install -y libglib2.0-0 libnss3 libnspr4 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 \
+  libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 \
+  libpango-1.0-0 libcairo2 libasound2 libatspi2.0-0 fonts-liberation   # BẮT BUỘC để render
+dpkg --add-architecture amd64 && apt-get update
+apt-get install -y qemu-user-static libc6:amd64 libstdc++6:amd64        # để chạy Rhubarb x86_64
+```

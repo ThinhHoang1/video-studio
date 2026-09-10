@@ -546,7 +546,7 @@
     "micro": "micro 0.3 DAU, đầu micro ở đầu cẳng tay — camDT đưa lên miệng"
   },
   "sfx": {
-    "_": "29 tiếng tự tổng hợp, không dính bản quyền. Sinh lại: python3 pipeline/sfx.py",
+    "_": "29 tiếng tự tổng hợp, không dính bản quyền. Sinh lại: node pipeline/sfx.mjs",
     "nhip": [
       "whoosh-up",
       "whoosh-down",

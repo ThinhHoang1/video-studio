@@ -1,0 +1,362 @@
+# Thư viện cảnh — tra nhanh khi viết `board.json`
+
+Sinh từ `thu-vien-v2.json` (nguồn sự thật là mã trong `src/v2/`). **Chỉ dùng tên
+có trong file này** — validator `kiem-tra-v2.mjs` chặn tên lạ. Cần thứ chưa có:
+vẽ trong `board.prop_tu_ve` (xem `.claude/skills/tao-video/references/dao-dien.md`),
+KHÔNG sửa mã TypeScript trong `src/v2/`.
+
+```bash
+node pipeline/thu-vien-v2.mjs                 # sinh lại file này khi thêm prop/tư thế
+node pipeline/xem-prop.mjs <du-an> <ten>      # xem một prop tự vẽ trước khi dùng
+node pipeline/xem-shot.mjs <ten> --tat-ca     # xem thật khung từng shot
+```
+
+## Bối cảnh dựng sẵn (28)
+
+Khai ở `shot.boi_canh`. Một tên bung thành nhiều prop đặt sẵn đúng chỗ; prop khai
+thêm ở `shot.prop` vẽ chồng lên. Chỉ có bảng cho cỡ `rong` và `trung` — cỡ `can`/
+`sat` hiếm khi cần bối cảnh (đã cận mặt thì nền trắng là đủ).
+
+| Tên | Mô tả | Prop bung ra |
+|---|---|---|
+| `lop-hoc` | lớp học nhìn từ cuối lớp: bảng bên trái, cửa sổ + bàn bên phải, đồng hồ trên cao | `bang-den` `cua-so` `day-ban-lop` `dong-ho` `ban-hoc` |
+| `lop-hoc-nhin-tu-bang` | góc thầy nhìn xuống lớp: hai dãy bàn quay lưng hai bên, cửa cuối lớp, đồng hồ tường sau | `day-ban-sau` `cua` `dong-ho` |
+| `san-truong` | sân trường: cột cờ bên trái, cây bên phải, cổng xa nhỏ, mây | `cong-truong` `cot-co` `goc-cay` `may` `may-2` |
+| `cong-truong` | trước cổng trường: cổng bên phải, hàng rào + cây nhỏ bên trái, mây | `cay-nho` `hang-rao` `cong-truong` `may` |
+| `hanh-lang` | hành lang: cửa lớp gần bên trái, hai cửa lùi xa bên phải, đồng hồ trên cao | `cua` `dong-ho` |
+| `cang-tin` | căng tin: quầy có tủ kính + bảng thực đơn bên phải, bàn ăn bên trái, thùng rác góc | `quay-cang-tin` `ban-an` `thung-rac` `khay-com` |
+| `phong-ngu` | phòng ngủ: giường bên trái, cửa sổ + đèn ngủ bên phải | `giuong` `cua-so` `den-ngu` |
+| `phong-khach` | phòng khách: sofa bên trái, tivi bên phải, đồng hồ trên cao | `ghe-sofa` `tivi` `dong-ho` |
+| `bep` | bếp: bàn ăn bên trái, tủ lạnh bên phải, cửa sổ nhỏ trên cao lệch phải | `ban-an` `cua-so` `tu-lanh` |
+| `duong-pho` | đường phố: đèn đường + thùng rác bên trái, hàng rào có cây nhỏ phía sau bên phải | `den-duong` `thung-rac` `cay-nho` `hang-rao` |
+| `tram-xe` | trạm xe: trạm chờ bên trái, xe buýt cửa mở bên phải, mây | `tram-xe-buyt` `xe-buyt` `may` |
+| `quan-cafe` | quán cà phê: bàn tròn + hai ghế bên trái, cửa sổ bên phải | `ghe-nha-hang` `ban-cafe` `cua-so` |
+| `cong-vien` | công viên: ghế đá bên trái, cây to bên phải, hai đám mây | `ghe-da` `goc-cay` `may` `may-2` |
+| `ngoai-troi-mua` | ngoài trời mưa: vạch mưa phủ khung, cột điện bên trái, đèn đường bên phải | `mua` `cot-dien` `den-duong` |
+| `dem` | đêm: trăng + sao góc trên trái, đèn đường bên phải, cây nhỏ / hàng rào góc | `mat-trang` `cay-nho` `den-duong` `hang-rao` |
+| `man-hinh-dien-thoai` | màn hình điện thoại: khung chat lớn giữa khung (cố ý chiếm chỗ nhân vật; dùng cho shot chữ / insert) | `man-hinh-chat` |
+| `van-phong` | văn phòng: bàn làm việc có màn hình bên trái, tủ hồ sơ + máy in bên phải, đồng hồ trên cao | `ban-lam-viec` `tu-ho-so` `may-in` `dong-ho` |
+| `phong-hop` | phòng họp: bảng trắng bên trái, hai ghế xoay bên phải, đồng hồ trên cao | `bang-trang` `ghe-xoay` `dong-ho` |
+| `quan-pho` | quán phở: xe đẩy nồi phở bốc khói bên trái, bảng hiệu PHỞ + ghế bên phải | `xe-day-hang-rong` `bang-hieu` `ghe-nha-hang` |
+| `quan-nhau` | quán nhậu: bàn nhậu 3 cốc bia + ghế bên trái, bảng hiệu QUÁN NHẬU + ghế bên phải | `ghe-nha-hang` `ban-nhau` `bang-hieu` |
+| `san-bay` | sân bay: bảng CỔNG 12 bên trái, máy bay nhỏ bay xa trên cao bên phải, ghế chờ dài, đồng hồ | `bang-hieu` `may-bay` `ghe-da` `dong-ho` |
+| `ben-xe` | bến xe: bảng hiệu BẾN XE + thùng rác bên trái, xe buýt bên phải, mây | `bang-hieu` `thung-rac` `xe-buyt` `may` |
+| `benh-vien` | bệnh viện: giường bệnh có cọc truyền bên trái, bảng CẤP CỨU + cửa bên phải | `giuong-benh` `bang-hieu` `cua` `hop-thuoc` |
+| `phong-gym` | phòng gym: hai tạ tay bên trái, bảng hiệu GYM + tạ bên phải, đồng hồ | `ta-tap` `bang-hieu` `dong-ho` |
+| `san-bong` | sân bóng: bóng bên trái, khung thành hơi xa bên phải, hai đám mây | `bong-da` `khung-thanh` `may` `may-2` |
+| `bai-bien` | bãi biển: cây dừa bên trái, sóng biển thấp bên phải, mặt trời + mây trên cao | `cay-dua` `bien-song` `mat-troi` `may` |
+| `cho` | chợ: xe đẩy hàng rong bên trái, bảng hiệu CHỢ bên phải, bó hoa góc phải | `xe-day-hang-rong` `bang-hieu` `hoa` |
+| `phong-lam-viec-nha` | phòng làm việc ở nhà: cửa sổ + cây nhỏ bên trái, bàn làm việc (lật) bên phải | `cua-so` `cay-nho` `ban-lam-viec` |
+
+## Prop (103)
+
+Khai ở `shot.prop[]`: `{"ten", "x", "y", "co", "flip", "tai", "truoc", "chu"}`.
+`x`/`y` là tỉ lệ khung, gốc là **tâm đáy** prop. `truoc: true` = vẽ trước nhân vật
+(bàn che chân người ngồi). `chu` chỉ có tác dụng với prop có nhãn.
+
+| Prop | Mô tả |
+|---|---|
+| `ban-hoc` | bàn học sinh có ghế liền |
+| `ban-giao-vien` | bàn giáo viên |
+| `bang-den` | bảng đen treo |
+| `day-ban-lop` | 6 bàn học xếp hàng, phối cảnh 1 điểm tụ |
+| `cua` | cửa ra vào có khung |
+| `cua-so` | cửa sổ |
+| `ghe-da` | ghế đá công viên |
+| `goc-cay` | gốc cây + tán lá nét |
+| `cot-dien` | cột điện có dây |
+| `xe-dap` | xe đạp nhìn ngang |
+| `ban-cafe` | bàn tròn cà phê + 2 tách |
+| `ly-tra-sua` | ly trà sữa có ống hút |
+| `ao-mua` | áo mưa mỏng |
+| `mua` | vạch mưa chéo phủ khung |
+| `sach` | cuốn sách |
+| `la-thu` | lá thư gấp |
+| `but` | cây bút bi |
+| `dien-thoai` | điện thoại |
+| `laptop` | laptop mở |
+| `ban-phong-van` | bàn dài phỏng vấn + 3 ghế |
+| `dong-ho` | đồng hồ tường |
+| `may-bay-giay` | máy bay giấy |
+| `trai-tim` | trái tim nét |
+| `mui-ten` | mũi tên chỉ (dùng với chữ nhãn) |
+| `giot-mo-hoi` | giọt mồ hôi to (gag) |
+| `vach-buc` | vạch "bực" trên đầu |
+| `bong-chu` | bóng thoại trống để đặt chữ |
+| `cong-truong` | cổng trường + băng rôn |
+| `giuong` | giường nhìn ngang có gối, chăn |
+| `tu-lanh` | tủ lạnh hai ngăn, giấy nhớ dán cửa |
+| `ban-an` | bàn ăn bốn chân + 2 ghế tựa + đĩa, bát đũa |
+| `tivi` | tivi màn phẳng trên chân đế |
+| `ghe-sofa` | ghế sofa ba mảng, hai tay vịn |
+| `cua-nha` | cửa nhà có mái hiên, ngưỡng cửa |
+| `den-ngu` | đèn ngủ trên tủ đầu giường |
+| `cau-thang` | cầu thang 5 bậc lên bên phải, có tay vịn |
+| `xe-buyt` | xe buýt nhìn ngang, đầu bên phải, cửa giữa mở |
+| `tram-xe-buyt` | trạm xe buýt: mái che, kính sau, ghế chờ, biển trạm |
+| `den-duong` | đèn đường cần cong sang phải |
+| `hang-rao` | hàng rào gỗ 7 thanh đầu nhọn |
+| `cay-nho` | cây nhỏ thân mảnh tán tròn (bằng nửa goc-cay) |
+| `thung-rac` | thùng rác có nắp |
+| `cot-co` | cột cờ trên bệ hai bậc, cờ bay phải không tô |
+| `may` | mây bụng phẳng 4 múi (đặt cao, tâm đáy = mép dưới) |
+| `may-2` | mây dài thấp 5 múi |
+| `mat-troi` | mặt trời + 8 tia |
+| `mat-trang` | trăng lưỡi liềm + 2 sao |
+| `ghe-nha-hang` | ghế đơn nhìn thẳng (quán, căng tin) |
+| `quay-cang-tin` | quầy căng tin: tủ kính, máy tính tiền, bảng thực đơn treo |
+| `khay-com` | khay cơm: bát cơm đũa, đĩa, ly |
+| `bang-tin` | bảng thông báo có 4 tờ giấy ghim |
+| `day-ban-sau` | dãy bàn nhìn từ bảng xuống: lưng ghế quay về người xem (góc thầy) |
+| `man-hinh-chat` | khung điện thoại to, 3 bóng chat trống (bối cảnh man-hinh-dien-thoai) |
+| `bang-hieu` | bảng hiệu đứng 2 chân, chữ `chu` giữa (mặc định "???") |
+| `hop-nhan` | thùng carton có nhãn dán ghi `chu` (TIỀN, BÀI TẬP, TƯƠNG LAI...) |
+| `bieu-tuong` | vòng tròn to có chữ `chu` giữa + 3 tia ($, %, ?, !, VND) |
+| `to-giay` | tờ giấy tiêu đề `chu` + 3 gạch dòng (hoá đơn, đơn xin việc, đề thi) |
+| `man-hinh` | màn hình máy tính to có chữ `chu` giữa (thông báo, tin nhắn) |
+| `ban-lam-viec` | bàn làm việc: bàn + màn hình + bàn phím, ghế xoay nhô sau |
+| `ghe-xoay` | ghế xoay văn phòng 5 chân có bánh |
+| `tu-ho-so` | tủ hồ sơ 3 ngăn kéo |
+| `may-in` | máy in có giấy nạp sau, tờ in ra trước |
+| `bang-trang` | bảng trắng đứng trên giá chữ A |
+| `the-nhan-vien` | thẻ nhân viên có dây đeo |
+| `thang-may` | cửa thang máy khép, bảng số tầng |
+| `tien-giay` | cọc tiền 3 tờ có dây buộc, ký hiệu $ |
+| `dong-xu` | đồng xu dựng có ký hiệu $ |
+| `vi-tien` | ví da gập, thẻ + tiền nhô ra |
+| `bieu-do-tang` | biểu đồ cột tăng + mũi tên lên |
+| `bieu-do-giam` | biểu đồ cột giảm + mũi tên xuống |
+| `heo-dat` | heo đất có đồng xu trên khe |
+| `may-atm` | máy ATM đứng: màn hình, bàn phím, khe tiền |
+| `bat-pho` | bát phở có đũa, khói |
+| `ly-cafe` | tách cà phê có đĩa lót, khói |
+| `dia-com` | đĩa cơm: mô cơm, trứng ốp la, thìa |
+| `xe-day-hang-rong` | xe đẩy hàng rong có mái che răng cưa, nồi bốc khói |
+| `ban-nhau` | bàn nhậu: 3 cốc bia bọt trào + đĩa mồi |
+| `tu-kinh-banh` | tủ kính bánh 2 tầng |
+| `xe-may` | xe máy tay ga nhìn ngang, đầu bên phải |
+| `o-to` | ô tô nhìn ngang, đầu bên phải |
+| `may-bay` | máy bay chở khách nhìn ngang, mũi bên phải |
+| `tau-hoa` | đầu tàu hoả hơi nước nhìn ngang, đầu bên phải |
+| `den-giao-thong` | đèn giao thông 3 bóng (đỏ trên) |
+| `bien-bao` | biển báo tròn trên cột, chữ tuỳ `chu` (mặc định trống) |
+| `may-tinh-ban` | máy tính bàn: màn hình + thùng máy + bàn phím + chuột |
+| `tai-nghe` | tai nghe chụp |
+| `may-anh` | máy ảnh có ống kính tròn |
+| `robot-nho` | robot nhỏ đầu hộp có ăng-ten |
+| `wifi` | biểu tượng wifi: chấm + 3 cung sóng |
+| `nui` | dãy núi 3 đỉnh, đỉnh giữa có tuyết |
+| `bien-song` | 3 hàng sóng biển cuộn (đặt tâm đáy ở chân nhân vật) |
+| `cay-dua` | cây dừa thân cong, 5 tàu lá, 3 quả |
+| `hoa` | bó hoa 5 bông bọc giấy có nơ |
+| `mua-sao` | 3 sao rơi có vệt đuôi |
+| `giuong-benh` | giường bệnh nhìn ngang có cọc truyền dịch bên trái |
+| `ong-nghe` | ống nghe bác sĩ |
+| `hop-thuoc` | hộp thuốc cứu thương có dấu cộng |
+| `xe-cuu-thuong` | xe cứu thương nhìn ngang, đầu bên phải, đèn xoay |
+| `bong-da` | quả bóng đá |
+| `khung-thanh` | khung thành có lưới (nhìn thẳng, lưới lùi sâu) |
+| `ta-tap` | tạ tay nằm ngang |
+| `vot-cau-long` | vợt cầu lông dựng + quả cầu |
+| `cup-vo-dich` | cúp vô địch có ngôi sao |
+
+## Tư thế (43)
+
+Khai ở `dien[].dang` hoặc `act[].dang`. Đổi tư thế là **snap** — đổi ngay 1 frame,
+không tween. Mỗi diễn viên nên có **≥ 3 mốc `act`** mỗi shot, nếu không nhân vật
+đứng như tượng (xem `docs/vi-sao-video-bi-dung.md`).
+
+| Tư thế | Mô tả |
+|---|---|
+| `dung` | đứng thường, tay buông |
+| `chi` | chỉ tay ra trước — khẳng định |
+| `chiLen` | chỉ lên trời — ý tưởng, "một điều nữa" |
+| `khoanhTay` | khoanh tay |
+| `omDau` | hai tay ôm đầu |
+| `camDT` | áp điện thoại lên tai |
+| `gioTay` | giơ một tay — chào, ăn mừng |
+| `vayTay` | vẫy tay |
+| `nhunVai` | nhún vai, hai tay xoè ngửa |
+| `haiTayXoe` | hai tay xoè bung ra — hào hứng |
+| `cuiNguoi` | cúi người — mệt, thất vọng |
+| `tayHong` | chống tay hông |
+| `motTayHong` | một tay chống hông, một tay buông — tự tin nhẹ |
+| `goMay` | gõ máy — hai cẳng tay đưa trước |
+| `chongCam` | chống cằm |
+| `epNguc` | hai tay ép ngực — hồi hộp, cảm động |
+| `cheMieng` | che miệng — ngại, cười khúc khích |
+| `gaiDau` | gãi đầu — bối rối |
+| `quayLung` | quay lưng |
+| `nhay1` | nhảy/chạy — hình 1 |
+| `nhay2` | nhảy/chạy — hình 2 |
+| `ngoi` | ngồi (bàn học) — chân gập, tay đặt trước |
+| `laoVao` | lao vào khung — key nghiêng, kéo dài |
+| `cam` | cầm đồ đưa ra trước — đi với `cam` (sách, ly, điện thoại) |
+| `di1` | đi bộ hình 1 — chân phải trước, tay trái trước |
+| `di2` | đi bộ hình 2 — chân trái trước, tay phải trước |
+| `chay1` | chạy hình 1 — sải dài, chân phải trước, bay |
+| `chay2` | chạy hình 2 — hai chân lướt qua nhau, thấp |
+| `chay3` | chạy hình 3 — sải dài, chân trái trước, bay |
+| `nga` | ngã ngồi bệt — chân duỗi, hai tay chống sau |
+| `quy` | quỳ — hông hạ, ống chân gập dưới, hai tay đặt đùi |
+| `nam` | nằm ngửa — cả người xoay 90 độ, đầu bên trái |
+| `omBung` | ôm bụng cười — cúi 20 độ, hai tay ôm bụng |
+| `chiSau` | chỉ ra sau lưng — ngón cái qua vai |
+| `khoacVai` | khoác vai người bên — một tay giơ ngang |
+| `vietBang` | viết bảng — tay đưa cao cầm phấn (dùng ở góc nghiêng, mặt hướng bảng) |
+| `ngoiGuc` | ngồi gục đầu xuống bàn — thân cúi 45 độ, đầu hạ 0.5 DAU |
+| `ngoiGoBan` | ngồi gõ bàn — hai tay úp gõ |
+| `dungNghieng` | đứng dồn trọng tâm một chân — hông lệch, một tay chống hông |
+| `soCam` | sờ cằm nghĩ — tay đưa lên cằm, đầu hơi ngửa |
+| `bitMieng` | hai tay bịt miệng — sốc, nín cười |
+| `chapTay` | chắp tay xin — hai nắm tay chạm nhau trước ngực, đầu hơi nghiêng |
+| `gioHaiTay` | giơ hai tay ăn mừng |
+
+## Mẫu hành động (21)
+
+Khai ở `dien[].mau` + `dien[].mau_tham_so`. Một dòng sinh ra hàng chục frame.
+Bảng chấm đòi **≥ 5 mẫu khác nhau** mỗi video.
+
+| Mẫu | Sinh ra gì · tham số · dùng khi |
+|---|---|
+| `vao-chay` | chạy từ mép vào chỗ đứng x; hình chạy đổi mỗi 2 frame, trượt 36 px/frame; tới nơi vượt 1.5% một frame rồi đứng — tham số: tai, huong (trai\|phai, mặc định mép gần), tu (x xuất phát), tocDo (1), dang (dung) — dùng khi: nhân vật xuất hiện vội, đến muộn, đuổi theo |
+| `ra-chay` | từ x chạy ra mép rồi biến — tham số: tai, huong, den (x kết), tocDo — dùng khi: bỏ chạy, trốn, đi gấp |
+| `vao-di` | đi bộ từ mép vào chỗ x; hình đi đổi mỗi 4 frame, 14 px/frame — tham số: tai, huong, tu, tocDo, dang — dùng khi: vào lớp, đi tới bàn, xuất hiện bình thường |
+| `ra-di` | đi bộ từ x ra mép rồi biến — tham số: tai, huong, den, tocDo — dùng khi: rời đi bình thường |
+| `vao-lao` | 1 frame key nghiêng chân đúng mép (nửa người ngoài khung) → 1 frame vượt 1.5% → đứng — tham số: tai, huong, tu (x của key, mặc định mép), dang — dùng khi: xông vào, xuất hiện đột ngột có lực |
+| `ra-lao` | 1 frame key nghiêng → 1 frame nửa người ở mép → biến — tham số: tai, huong — dùng khi: lao ra khỏi cảnh, bỏ đi tức tối |
+| `pop` | hiện tại chỗ với scale 0.08 → 0.95 → 1.045 → 1 (4 frame) rồi giữ — tham số: tai, dang — dùng khi: nhân vật/ý nghĩ bật ra; mặc định của renderer là pop 1 frame nên chỉ dùng khi muốn nảy |
+| `giat-minh` | f0 mắt soc + bật lùi 0.02 khung (nhay1) → 2 frame soc-lon → về chỗ, giữ soc + hoang — tham số: tai, huong (chiều lùi, mặc định trai), lui (0.02), dang (haiTayXoe) — dùng khi: bị gọi bất ngờ, phát hiện điều sốc |
+| `nga` | dung → 1 frame laoVao → nga (ngồi bệt, chân hếch), giữ — tham số: tai, huong (phai), mat (nham), mieng (meu) — dùng khi: vấp, bị đẩy, sụp đổ tinh thần |
+| `lac-dau` | nhìn -0.6 / +0.6 luân phiên mỗi 5 frame × 3 rồi về 0 — tham số: tai, bienDo (0.6), giu (5), lap (3) — dùng khi: không đồng ý, thất vọng nhẹ, "không không không" |
+| `gat-gu` | cuiNguoi / dung luân phiên mỗi 6 frame × 2 — tham số: tai, giu (6), lap (2), dangCui, dang — dùng khi: đồng ý, "ừ ừ", nghe giảng |
+| `run` | ABAB x ±1 px mỗi frame tới hết shot, mắt khe; kết về chỗ — tham số: tai, px (1), mat (khe), dang, lap — dùng khi: sợ, lạnh, tức đến run; bật ≤ 20% shot |
+| `go-ban` | ngoiGoBan / ngoi luân phiên mỗi 3 frame tới hết shot — tham số: tai, giu (3), lap — dùng khi: sốt ruột chờ, bực trong lớp |
+| `nhin-quanh` | nhìn -0.8 → 0 → 0.8 mỗi 8 frame rồi về 0 — tham số: tai, bienDo (0.8), giu (8), lap (1) — dùng khi: tìm ai, kiểm tra có ai thấy không |
+| `cuoi-lan` | mắt cung + omBung 12 frame → 1 frame laoVao → nga, vẫn cười toe — tham số: tai, giu (12) — dùng khi: cười lăn lộn, punchline |
+| `ngu-gat` | ngoi mắt chan → sau 12 frame ngoiGuc mắt nham; lap > 1 thì gật gà. Chữ zzz do board — tham số: tai, sau (12), lap (1) — dùng khi: buồn ngủ trong lớp, chán |
+| `viet-bang` | vietBang / vietBang2 luân phiên mỗi 4 frame tới hết shot, quay lưng — tham số: tai, giu (4), lap — dùng khi: thầy/cô giảng bài, nhân vật ghi bảng |
+| `quay-lai` | đổi góc nhìn từng nấc truoc → ba-phan-tu → nghieng (→ sau), 1 frame mỗi hình, giữ — tham số: tai, tu (truoc), den (nghieng) — dùng khi: nghe tiếng gọi quay lại, nhìn sang bên; renderer phải hỗ trợ goc |
+| `di-bo` | đi bộ từ x tới den trong khung, 14 px/frame, tới nơi đứng — tham số: tai, den (x + 0.25), tocDo, dang — dùng khi: đổi chỗ trong cảnh, tới gần ai |
+| `chay-den` | chạy từ x tới den trong khung, 36 px/frame, tới nơi vượt 1.5% rồi đứng — tham số: tai, den (x + 0.3), tocDo, dang — dùng khi: lao tới ai/vật gì trong cảnh |
+| `nhay-mung` | nhay1 / nhay2 mỗi 3 frame × 3, mắt cung, kết gioTay — tham số: tai, giu (3), lap (3), dang (gioTay) — dùng khi: vui sướng, ăn mừng, được điểm cao |
+
+## Đồ cầm tay (10)
+
+Khai ở `dien[].cam` hoặc `act[].cam`. Bỏ trống ở mốc sau = buông tay.
+Bảng chấm đòi **≥ 2 vật** mỗi video.
+
+| Vật | Mô tả |
+|---|---|
+| `but` | bút bi dài 0.35 DAU, vắt ngang nắm tay, đầu bút chỉ xuống khi tay đưa ra trước |
+| `phan` | viên phấn 0.12 DAU, vắt ngang nắm tay — đi với tư thế vietBang |
+| `dien-thoai` | điện thoại 0.28 DAU, dọc theo cẳng tay — camDT áp lên tai, tay giơ trước mặt là đang xem |
+| `ly-tra-sua` | ly trà sữa 0.3 DAU, luôn đứng thẳng, ống hút lệch phải |
+| `sach` | cuốn sách 0.4 DAU, cầm mép dưới, luôn đứng thẳng |
+| `thuoc` | thước kẻ 0.45 DAU, vắt ngang nắm tay |
+| `kiem` | kiếm giấy 0.6 DAU, lưỡi chạy tiếp hướng cẳng tay — gioTay là giơ kiếm, chi là chĩa kiếm |
+| `o` | ô 0.7 DAU, mái ô ở đầu cẳng tay — tay giơ lên là che mưa |
+| `la-thu` | lá thư 0.24 DAU, phong bì nằm, luôn đứng thẳng |
+| `micro` | micro 0.3 DAU, đầu micro ở đầu cẳng tay — camDT đưa lên miệng |
+
+## Mắt (11) · Mày (4)
+
+| Mắt | Khi nào |
+|---|---|
+| `oval` | E1 — nói, mặc định |
+| `nho` | E2 — bình thản, toàn thân |
+| `cham` | E3 — bé, ngại, nhân vật phụ |
+| `soc` | E4 — lòng trắng + ngươi chấm |
+| `soc-lon` | E4 ×1.3 — "what." |
+| `khe` | E5 — bực, gắt: khe ngang + gạch mí |
+| `cung` | E6 — nhắm vui ^ ^ |
+| `gach` | E7 — gạch dọc (phụ) |
+| `xoan` | E8 — nguệch ngoạc (xấu hổ tột độ) |
+| `chan` | E9 — oval bị mí cắt 40% |
+| `nham` | nhắm — gạch ngang (chớp / ngủ) |
+
+| Mày | Khi nào |
+|---|---|
+| `khong` | không vẽ mày (mặc định) — mép mái tóc làm đường mày |
+| `tuc` | gạch chéo dày, đầu trong thấp — tức, gắt |
+| `lo` | cung cong lên cao — lo, buồn |
+| `nhiu` | gấp khúc — nhíu, nghi ngờ |
+
+## Miệng
+
+`X A B C D E F G H` là **lip-sync**, do `lipsync.mjs` sinh ra từ giọng đọc — board
+KHÔNG khai tay. `dien[].mieng` chỉ khai **miệng cảm xúc**, dùng khi nhân vật KHÔNG
+nói; đang nói thì lip-sync đè lên.
+
+Miệng cảm xúc: `thang` · `cuoi-nhe` · `cuoi` · `cuoi-toe` · `meu` · `hoang` · `o` · `smirk` · `ba` · `nghien` · `gat` · `mim`
+
+## Loại shot (9) · Cỡ cảnh (5)
+
+| Loại | Là gì |
+|---|---|
+| `truc-dien` | người kể nói với khán giả, lệch một bên khung (x≈0.72), cắt ở ngực |
+| `minh-hoa` | diễn lại điều đang kể — nhân vật + prop trên nền trắng |
+| `phan-ung` | cận mặt nhân vật phản ứng (không nói) — shot ngắn 0.4–1 s |
+| `dac-ta` | đặc tả một vật / một mặt rất to |
+| `chu` | chữ chiếm khung (tiêu đề, punchline), có thể kèm nhân vật nhỏ |
+| `insert` | ảnh thật / meme chèn — tự kèm nhịp trắng 0.3 s trước/sau |
+| `tieu-canh` | nhân vật rất nhỏ giữa khung trắng mênh mông (hài, cô đơn) |
+| `dong-nguoi` | đám đông đầu trắng |
+| `trong` | nhịp trắng — không có gì, dài `dai` giây |
+
+| Cỡ | Bề rộng sọ · dùng khi |
+|---|---|
+| `rong` | toàn thân, thấy cả prop (sọ 200px) |
+| `trung` | cắt ở cổ chân, thấy cả gối — mặc định minh hoạ (sọ 330px) |
+| `can` | cắt ngang eo — mặc định trực diện, phản ứng; thay/me/trang cần co 0.85–0.9 (sọ 560px) |
+| `sat` | chỉ mặt — đặc tả (sọ 900px) |
+| `nho` | nhân vật bé giữa khung trắng (sọ 110px) |
+
+## Góc nhìn (4)
+
+Khai ở `dien[].goc` hoặc `act[].goc`: `truoc` · `ba-phan-tu` · `nghieng` · `sau`.
+Mặc định `truoc`. Bảng chấm đòi **≥ 3 góc khác nhau** mỗi video.
+
+## Nhân vật (9)
+
+| Nhân vật | Là ai |
+|---|---|
+| `nam` | Nam — tóc mái hat, sau ngan; phụ kiện ca-vat; khung chính cao 2.6 đầu (vừa mọi cỡ cảnh) |
+| `ha` | Hà — tóc mái lech-trai, sau duoi-ngua; phụ kiện no; khung chính cao 2.6 đầu (vừa mọi cỡ cảnh) |
+| `long` | Long — tóc mái dung, sau ngan; khung chính cao 2.6 đầu × co 1.05 ≈ 2.73 DAU (vừa mọi cỡ cảnh) |
+| `mai` | Mai — tóc mái ngang, sau bob; phụ kiện kinh; khung chính cao 2.6 đầu (vừa mọi cỡ cảnh) |
+| `me` | Mẹ — tóc mái re-giua, sau bui; khung người lớn cao 3.6 đầu (trên màn ≈ 2.80 DAU cỡ cảnh; ở can đặt co 0.85, ở sat co 0.8 kẻo mất đỉnh đầu) |
+| `thay` | Thầy — tóc mái re-giua, sau ngan; phụ kiện kinh; khung người lớn cao 3.6 đầu (trên màn ≈ 2.95 DAU cỡ cảnh; ở can đặt co 0.85, ở sat co 0.8 kẻo mất đỉnh đầu) |
+| `nam-lon` | Nam 30 — tóc mái lech-phai, sau ngan; khung chính cao 2.6 đầu × co 1.05 ≈ 2.73 DAU (vừa mọi cỡ cảnh) |
+| `ha-lon` | Hà 30 — tóc mái lech-trai, sau dai; khung chính cao 2.6 đầu (vừa mọi cỡ cảnh) |
+| `trang` | nhân vật phụ vô danh — đầu trắng không mặt; tóc tuỳ chọn — tóc mái ngang, sau khong; khung người lớn cao 3.6 đầu (trên màn ≈ 2.95 DAU cỡ cảnh; ở can đặt co 0.85, ở sat co 0.8 kẻo mất đỉnh đầu) |
+
+`trang` là đầu trắng vô danh — đổi tóc bằng `dien[].toc` để thành người khác nhau.
+Trường `ten` chỉ là ghi chú cho người đọc board, không ảnh hưởng render.
+
+## Tiếng động (29)
+
+Khai ở `shot.sfx`, nổ ở đầu shot. Tự tổng hợp, không dính bản quyền — sinh lại:
+`node pipeline/sfx.mjs`.
+
+| Nhóm | Tiếng |
+|---|---|
+| nhip | `whoosh-up` · `whoosh-down` · `whoosh-short` · `whoosh-long` · `tick` |
+| nhan_manh | `boom` · `vine-boom` · `thud` · `riser` · `suspense` · `airhorn` · `drumroll` |
+| nhe | `pop` · `pop-high` · `ding` · `correct-ding` · `boing` · `quack` |
+| tien | `cash` · `cash-register` |
+| hai | `sad-trombone` · `record-scratch` · `rimshot` · `error-buzz` · `whistle-up` · `whistle-down` · `pipe-clang` |
+| khac | `deflate` · `inflate` |
+
+## Nhạc nền (16)
+
+Khai ở `chuong.nhac`. **CC BY — BẮT BUỘC ghi công khi đăng**, xem
+`public/audio/CREDITS.md`. Clone mới không có file nhạc (`.gitignore`):
+`node pipeline/tai-nhac.mjs --sfx`.
+
+| Cung bậc | Bản |
+|---|---|
+| vui_nhon | `25-silly-fun` · `22-flutey-funk` · `23-got-funk` · `26-style-funk` · `20-daily-beetle` · `21-electro-cabello` · `24-grand-chase` · `27-the-builder` |
+| am_ap | `16-restoration` · `17-where-stars-fall` · `15-distant-sun` · `13-eternal-hope` |
+| tram_buon | `14-heavy-heart` · `12-divider` · `11-candlepower` · `10-heliograph` |
+
