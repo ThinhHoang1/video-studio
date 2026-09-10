@@ -2,13 +2,16 @@
 import {execFileSync} from 'node:child_process';
 import {readFileSync, writeFileSync, mkdirSync, rmSync, existsSync} from 'node:fs';
 import path from 'node:path';
+import {timLibDir} from './moi-truong.mjs';
 
 // pipeline/ nằm dưới gốc repo một cấp
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
-const LIBDIR = path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64');
+// Gói compositor mang cả hậu tố libc trên Linux (linux-arm64-gnu) — timLibDir dò đúng
+// gói cho máy này thay vì cắm cứng darwin-arm64 (cắm cứng = mọi bước ffmpeg hỏng trên Linux).
+const LIBDIR = timLibDir(ROOT) ?? path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64');
 const FFMPEG = path.join(LIBDIR, 'ffmpeg');
 const FFPROBE = path.join(LIBDIR, 'ffprobe');
-const ENV = {...process.env, DYLD_LIBRARY_PATH: LIBDIR};
+const ENV = {...process.env, DYLD_LIBRARY_PATH: LIBDIR, LD_LIBRARY_PATH: LIBDIR};
 
 export const MODEL = process.env.GEMINI_TTS_MODEL ?? 'gemini-3.1-flash-tts-preview';
 

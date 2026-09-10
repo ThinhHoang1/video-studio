@@ -18,6 +18,7 @@
 import {execFileSync} from 'node:child_process';
 import {copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync, statSync} from 'node:fs';
 import path from 'node:path';
+import {timFfmpeg} from './moi-truong.mjs';
 
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
 const OUT = path.join(ROOT, 'public/audio');
@@ -54,14 +55,7 @@ const ungVien = (ten) => {
   ];
 };
 
-const ffmpeg = () => {
-  const os = process.platform === 'darwin' ? 'darwin' : process.platform === 'win32' ? 'win32' : 'linux';
-  const arch = process.arch === 'arm64' ? 'arm64' : 'x64';
-  const dir = path.join(ROOT, `node_modules/@remotion/compositor-${os}-${arch}`);
-  const bin = path.join(dir, process.platform === 'win32' ? 'ffmpeg.exe' : 'ffmpeg');
-  if (existsSync(bin)) return {bin, env: {...process.env, DYLD_LIBRARY_PATH: dir, LD_LIBRARY_PATH: dir}};
-  return {bin: 'ffmpeg', env: process.env};
-};
+const ffmpeg = () => timFfmpeg(ROOT);
 
 mkdirSync(OUT, {recursive: true});
 const {bin, env} = ffmpeg();

@@ -15,6 +15,7 @@ import {execFileSync} from 'node:child_process';
 import {existsSync, readFileSync, rmSync} from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import {timLibDir} from './moi-truong.mjs';
 
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
 const TEN = process.argv[2];
@@ -22,9 +23,9 @@ if (!TEN) {
   console.error('Thiếu tên dự án. Ví dụ: node pipeline/cham-diem.mjs demo-v2 [media/outbound/demo-v2.mp4]');
   process.exit(2);
 }
-const LIB = path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64');
+const LIB = timLibDir(ROOT) ?? path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64');
 const FF = path.join(LIB, 'ffmpeg');
-const ENV = {...process.env, DYLD_LIBRARY_PATH: LIB};
+const ENV = {...process.env, DYLD_LIBRARY_PATH: LIB, LD_LIBRARY_PATH: LIB};
 const doc = (p) => JSON.parse(readFileSync(path.join(ROOT, p), 'utf8'));
 
 const kb = doc(`scripts/${TEN}.json`);
