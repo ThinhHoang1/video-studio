@@ -1,0 +1,63 @@
+{
+  "voice": "Fenrir",
+  "style": "Bạn là YouTuber kể chuyện đời mình bằng hoạt hình (kiểu storytime animation), hôm nay ngồi đọc bảng tin công nghệ cho hội bạn nghe. Giọng nam trẻ, NĂNG LƯỢNG CAO, nói nhanh, hào hứng, như đang kể một chuyện vừa xảy ra sáng nay. Tốc độ nhanh hơn bình thường 20%. Lên giọng bất ngờ ở chỗ ngạc nhiên, hạ giọng thì thào ở chỗ bí mật, cười khẽ trong lúc nói khi tự thấy mình ngớ ngẩn. Câu ngắn đọc DỨT, dứt khoát như đấm punchline. Tuyệt đối không đọc đều đều, không trầm buồn, không giọng phát thanh viên thời sự. Tiếng Việt giọng Bắc, đời thường.",
+  "total": 113.064,
+  "chapters": [
+    {
+      "id": "mo-bai",
+      "kicker": "Sáng nay",
+      "heading": "Hai bản một lúc",
+      "vo": "Sáng nay mở máy, OpenClaw ra một lúc hai bản. Ờ, hai nhá. Mình là Thịnh, ngày nào cũng đọc changelog thay các bạn, xong toang đúng chỗ để các bạn khỏi toang. Hôm nay ba phút thôi. Mình kể cái nào nên đụng trước.",
+      "audio": "vo-ban-tin-2026-09-10/mo-bai.mp3",
+      "duration": 12.36
+    },
+    {
+      "id": "ban-lts",
+      "kicker": "Tin chính",
+      "heading": "Bản LTS cuối tháng Sáu",
+      "vo": "Bản đầu là hai không hai sáu chấm sáu chấm ba lăm, bản LTS cuối của tháng Sáu. Nó siết ranh giới provider và channel. Body lạ bị chặn kích thước. Đầu vào quá khổ thì loại sớm. Anh em chạy production cứ đứng ở nhánh này nhá. Mình nhảy sang nhánh tháng Chín một hôm, toang. Lên bản này trong tuần đi các bạn.",
+      "audio": "vo-ban-tin-2026-09-10/ban-lts.mp3",
+      "duration": 16.32
+    },
+    {
+      "id": "trinh-duyet",
+      "kicker": "Tin chính",
+      "heading": "Agent tự lái trình duyệt",
+      "vo": "Bản hai không hai sáu chấm chín chấm ba mới đúng là thứ đáng nghịch. Agent tự lái trình duyệt thật. Skill giữ được trạng thái giữa các phiên. Xong chạy việc trên cloud luôn. Nghĩa là skill nhớ việc đang làm dở, không phải dựng lại ngữ cảnh mỗi lần nữa. Mình mà cho nó chạm tài khoản thật thì chết dở. Các bạn thử ở máy phụ thôi nhá.",
+      "audio": "vo-ban-tin-2026-09-10/trinh-duyet.mp3",
+      "duration": 19.56
+    },
+    {
+      "id": "mat-phien",
+      "kicker": "Skill",
+      "heading": "Mất phiên khi gateway restart",
+      "vo": "Chuyện nhỏ mà ai dùng skill cũng dính. Có commit mới, nạp lại snapshot phiên khi gateway khởi động lại. Trước đó restart là skill mất dấu. Chạy lại từ đầu. Mình ngồi hỏi mãi sao nó im, ngu thật, hoá ra lỗi ở đấy. Bạn nào viết mấy đoạn tự thử lại trong skill thì bỏ được rồi nhá.",
+      "audio": "vo-ban-tin-2026-09-10/mat-phien.mp3",
+      "duration": 17.592
+    },
+    {
+      "id": "dashboard",
+      "kicker": "Cộng đồng",
+      "heading": "Tập mười nói về dashboard",
+      "vo": "Cộng đồng thì có tập podcast số mười, nói về dashboard. Ba mức thôi. Dùng một mình, luồng việc cả nhóm, và tự dựng dashboard riêng. Mình nghe mỗi phần nhóm, xong thấy mình dựng sai từ đầu, chết dở. Nhóm nào đang cãi nhau ai xem được gì thì bật nghe lúc ăn trưa nhá các bạn.",
+      "audio": "vo-ban-tin-2026-09-10/dashboard.mp3",
+      "duration": 14.952
+    },
+    {
+      "id": "weworm",
+      "kicker": "Cảnh báo",
+      "heading": "Sâu lây qua cuộc gọi",
+      "vo": "Cái này thì khó chịu thật đấy. Nhóm Calif công bố demo WeWorm, con sâu lây qua cuộc gọi WeChat, cả iPhone lẫn Android. Nạn nhân không cần bắt máy. Không chạm gì hết. Đội đó bảo họ dùng AI dò ra lỗ. Đúng bộ đồ nghề anh em đang thả cho agent chạy đấy. Cập nhật điện thoại đi các bạn.",
+      "audio": "vo-ban-tin-2026-09-10/weworm.mp3",
+      "duration": 16.56
+    },
+    {
+      "id": "ket",
+      "kicker": "Chốt",
+      "heading": "Việc hôm nay",
+      "vo": "Chốt lại nhá. Việc hôm nay gọn thôi. Lên bản LTS sáu chấm ba lăm. Bản chín chấm ba thì nghịch ở máy phụ, đừng cho nó chạm tài khoản thật, không là chết dở như mình. Điện thoại thì cập nhật đi các bạn. Mai mình theo tiếp vụ skill giữ trạng thái. Còn bạn, hôm nay đụng bản nào rồi, kể ở bình luận nhá.",
+      "audio": "vo-ban-tin-2026-09-10/ket.mp3",
+      "duration": 15.72
+    }
+  ]
+}
