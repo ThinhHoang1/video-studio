@@ -301,6 +301,95 @@ chạy lại từ `--tu kiem`. Render ~17 khung/s: 90 s video ≈ 2.5 phút.
 
 Nhạc là CC BY (`public/audio/CREDITS.md`): **không ghi công khi đăng là vi phạm giấy phép.**
 
+## Thiếu cảnh? TỰ DỰNG, không ép vào cảnh sai
+
+28 bối cảnh dựng sẵn không bao giờ đủ cho mọi chuyện. **Đừng nhét chuyện vào cảnh
+gần giống** ("quán net" mà dùng `van-phong`) — dựng cảnh mới trong `board.boi_canh_tu_ve`.
+
+Không phải vẽ gì cả: một bối cảnh chỉ là **danh sách prop đặt đúng chỗ**, lấy từ
+thư viện hoặc từ chính `prop_tu_ve` của bạn.
+
+```jsonc
+"boi_canh_tu_ve": {
+  "goc-lam-viec-mot-nguoi": {
+    "moTa": "góc làm việc của công ty một người: bàn + tủ hồ sơ, đồng hồ treo cao",
+    "rong":  [{"ten": "ban-lam-viec", "x": 0.2,  "y": 0.84, "co": 1.0},
+              {"ten": "tu-ho-so",     "x": 0.84, "y": 0.84, "co": 0.9},
+              {"ten": "dong-ho",      "x": 0.5,  "y": 0.2,  "co": 0.8}],
+    "trung": [{"ten": "ban-lam-viec", "x": 0.16, "y": 1.04, "co": 1.1},
+              {"ten": "tu-ho-so",     "x": 0.88, "y": 1.04, "co": 1.0}]
+  }
+}
+```
+
+Rồi dùng như tên dựng sẵn: `{"say": "...", "boi_canh": "goc-lam-viec-mot-nguoi"}`.
+
+**Bốn luật, validator kiểm:**
+1. **THƯA 3–5 prop.** Không sàn, không tường, không đường chân trời. Đặc kín là mất chất.
+2. **Prop mặt đất đặt tâm đáy đúng chân nhân vật của cỡ:** `rong` y = 0.84, `trung` y = 1.04.
+3. **Chừa dải x 0.3–0.7 cho nhân vật.** Prop mặt đất ở giữa sẽ che người. Chỉ prop
+   treo cao (mây, đồng hồ) mới được vào giữa.
+4. Prop ở xa thì `y` nhỏ hơn **và** `co` nhỏ hơn — phối cảnh một điểm tụ, KHÔNG vẽ đường tụ.
+
+Khai một cỡ cũng được (thiếu `rong` thì lấy `trung` và ngược lại). Trùng tên với
+bối cảnh dựng sẵn thì **bản của board thắng** — cách hợp lệ để sửa lại cảnh có sẵn.
+
+## Thiếu đồ cầm? TỰ VẼ
+
+10 vật cầm tay dựng sẵn cũng vậy. Thiếu thì khai `board.do_cam_tu_ve` — cùng DSL
+hình với prop tự vẽ, khác hai chỗ:
+
+- **Toạ độ là HỆ SỐ DAU**, không phải px. `0.3` = 0.3 bề rộng sọ. Viết số kiểu px
+  (`30`, `120`) là vật to gấp trăm lần bàn tay — validator cảnh báo mọi số > 3.
+- **Gốc (0,0) là điểm cầm** giữa nắm tay; `+y` chạy tiếp ra đầu ngón, `+x` vuông góc.
+
+```jsonc
+"do_cam_tu_ve": {
+  "the-treo-co": {
+    "moTa": "thẻ nhân viên đeo dây, cầm giơ lên",
+    "dai": 0.42,
+    "nam": "dung",
+    "hinh": [{"loai": "gach", "x1": -0.06, "y1": 0, "x2": -0.02, "y2": -0.22},
+             {"loai": "gach", "x1": 0.06,  "y1": 0, "x2": 0.02,  "y2": -0.22},
+             {"loai": "hop",  "x": -0.11, "y": -0.42, "w": 0.22, "h": 0.2, "bo": 0.02}]
+  }
+}
+```
+
+`nam` quyết định vật xoay theo tay thế nào:
+
+| `nam` | Nằm sao | Ví dụ |
+|---|---|---|
+| `doc` | dọc theo cẳng tay, phần chính ở +y | kiếm, ô, micro, gậy |
+| `ngang` | vắt ngang nắm tay, đầu làm việc ở −x | bút, thước, dao, loa cầm tay |
+| `dung` | LUÔN thẳng đứng theo thế giới | ly, sách, thư, thẻ đeo |
+
+Dùng ở `dien[].cam` hoặc `act[].cam` như đồ thư viện. Muốn buông tay: `"cam": ""`.
+
+## Chuyển động mượt hơn: `truot` và nhịp thở
+
+Ngữ pháp gốc là **snap** — tư thế, mắt, miệng đổi tức thì 1 frame. Đừng phá luật
+đó. Nhưng hai chỗ dưới đây snap là **sai**, và đã sửa được:
+
+**1. Nhân vật di chuyển trong khung.** Đổi `x` bằng mốc snap = nhảy cóc một frame,
+nhìn giật. Khai `chuyen: "truot"` ở mốc đích để nó lướt sang thật (ease-in-out):
+
+```jsonc
+"act": [{"tai": 0,    "dang": "chi", "x": 0.36, "mat": "khe"},
+        {"tai": 0.45, "chuyen": "truot", "x": 0.64, "nhin": -0.5},
+        {"tai": 0.85, "dang": "chiSau", "mat": "xoan"}]
+```
+
+`truot` **chỉ** nội suy trường liên tục: `x`, `y`, `scale`, `xoay`, `nhin`. Tư thế
+và mắt vẫn snap ở đầu quãng. Đừng dùng `truot` để mượt hoá đổi tư thế — mất chất vẽ tay.
+
+**2. Đứng yên quá lâu.** Diễn viên không có mốc act nào trong ≥ 0.4 s sẽ tự nhún
+thở ±0.35%, giữ mỗi hình 5 frame. Mặc định BẬT, không phải khai gì. Tắt cho tượng
+hoặc người chết lặng: `"tho": false`.
+
+Đo được: bật thở kéo chỉ số *Khung đứng yên* từ 84% xuống **80%** (đúng dải 60–80%)
+mà không đụng một dòng board nào.
+
 ## Thiếu prop? TỰ VẼ, không bỏ ý
 
 Thư viện không có thứ câu chuyện cần (máy bán nước, con mèo, cái cúp) thì bạn **vẽ nó

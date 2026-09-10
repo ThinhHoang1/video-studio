@@ -4,7 +4,7 @@ import {NEN, net as tinhNet} from '../rig/hinh';
 import {NhanVat} from '../rig/nhan-vat';
 import {KIEU} from '../rig/kieu';
 import {TU_THE} from '../rig/tu-the';
-import {CO_CANH, DienVien, PropTuVe} from '../board/kieu-board';
+import {CO_CANH, DienVien, PropTuVe, type BoiCanhTuVe, type DoCamTuVe} from '../board/kieu-board';
 import {PropTuVeVe} from '../props/tu-ve';
 import {bungBoiCanh} from '../boi-canh';
 import {sinhAct, trangThaiTai} from '../act';
@@ -40,9 +40,11 @@ type P = {
   id: string;
   /** prop tự vẽ của dự án (board.prop_tu_ve) */
   propTuVe?: Record<string, PropTuVe>;
+  boiCanhTuVe?: Record<string, BoiCanhTuVe>;
+  doCamTuVe?: Record<string, DoCamTuVe>;
 };
 
-export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voice, nguoiKe, id, propTuVe}) => {
+export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voice, nguoiKe, id, propTuVe, boiCanhTuVe, doCamTuVe}) => {
   const co = CO_CANH[shot.co];
   const dau = co.dau;
   const net = tinhNet(dau);
@@ -79,7 +81,7 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
   const daiShot = shot.len / FPS;
   const nv = dien.map((dv, k) => {
     // mẫu hành động (dv.mau) bung thành act rồi trộn với act thủ công; trạng thái = mốc cuối ≤ t (snap)
-    const s = trangThaiTai(sinhAct(dv, daiShot), dv, t);
+    const s = trangThaiTai(sinhAct(dv, daiShot), dv, t, k * 3);
     if (s.hien === false) return null;
     const kieu = KIEU[dv.kieu] ?? KIEU.trang;
     const noi = dv.noi ?? (!coNoi && k === 0 && shot.loai === 'truc-dien');
@@ -137,13 +139,14 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
         id={`${id}-${k}`}
         goc={s.goc}
         cam={s.cam || undefined}
+        camTuVe={doCamTuVe}
       />
       </g>
     );
   });
 
   // ── prop ─────────────────────────────────────────────────────────
-  const propTatCa = [...bungBoiCanh(shot.boi_canh, shot.co), ...(shot.prop ?? [])];
+  const propTatCa = [...bungBoiCanh(shot.boi_canh, shot.co, boiCanhTuVe), ...(shot.prop ?? [])];
   const veProp = (truoc: boolean) =>
     propTatCa
       .filter((p) => t >= (p.tai ?? 0) && Boolean(p.truoc) === truoc)

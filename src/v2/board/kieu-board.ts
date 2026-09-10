@@ -38,6 +38,17 @@ export type GocNhin = 'truoc' | 'ba-phan-tu' | 'nghieng' | 'sau';
 
 export type HanhDong = {
   tai: number;
+  /**
+   * Cách ĐI TỚI mốc này. Mặc định `snap` — đổi tức thì 1 frame, đúng ngữ pháp
+   * hoạt hình vẽ tay của phong cách này (tư thế, mắt, miệng LUÔN snap).
+   *
+   * `truot` chỉ nội suy các trường LIÊN TỤC — `x`, `y`, `scale`, `xoay`, `nhin` —
+   * từ mốc trước tới mốc này, ease-in-out; tư thế/mắt/miệng vẫn snap ở đầu quãng.
+   * Dùng khi nhân vật DI CHUYỂN trong khung: trước đây đổi `x` là nhảy cóc một
+   * frame, nhìn giật; `truot` cho nó lướt sang thật.
+   * KHÔNG dùng `truot` cho đổi tư thế — mượt hoá cả tư thế là mất chất vẽ tay.
+   */
+  chuyen?: 'snap' | 'truot';
   dang?: string;
   /** góc nhìn nhân vật */
   goc?: GocNhin;
@@ -92,6 +103,13 @@ export type DienVien = {
   cam?: string;
   /** cách vào khung: pop (1 frame, mặc định) | lao (key nghiêng 1 frame + overshoot) */
   vao?: 'pop' | 'lao';
+  /**
+   * Nhịp thở/nhún khi nhân vật ĐỨNG YÊN — chống "chết hình" ở những quãng dài
+   * không có mốc act nào. Nhún ±0.35% chiều cao theo chu kỳ 5 frame giữ (on-fives),
+   * biên độ nhỏ tới mức không đọc ra là animation, chỉ thấy nhân vật "còn sống".
+   * Mặc định BẬT; đặt `tho: false` cho tượng, người chết lặng, nhân vật nền.
+   */
+  tho?: boolean;
   /** tóc/kiểu tuỳ biến cho nhân vật phụ `trang` */
   toc?: {mau: string; mai: 'lech-phai' | 'lech-trai' | 'ngang' | 're-giua' | 'hat' | 'dung'; lon: 0 | 2 | 4; sau: 'khong' | 'bob' | 'dai' | 'duoi-ngua' | 'bui' | 'ngan'};
 };
@@ -323,6 +341,54 @@ export type BoardChuong = {
   shots: Shot[];
 };
 
+/**
+ * BỐI CẢNH TỰ DỰNG — khi 28 bối cảnh dựng sẵn không có chỗ bạn cần.
+ *
+ * Không vẽ gì mới: một bối cảnh chỉ là DANH SÁCH PROP đặt đúng chỗ. Prop lấy từ
+ * thư viện (`PROP_TEN`) hoặc từ chính `board.prop_tu_ve` của dự án — nên "quán
+ * net", "phòng xử án", "sạp báo" đều dựng được mà không đụng mã TS.
+ *
+ * Tên khai ở đây dùng được trong `Shot.boi_canh` y như tên dựng sẵn; trùng tên
+ * với bối cảnh thư viện thì bản của board THẮNG (cho phép sửa lại cảnh có sẵn).
+ *
+ * Luật giữ đúng phong cách (docs/nghien-cuu-storytime.md 4.4):
+ *   - THƯA: 3–5 prop, không sàn, không tường, không đường chân trời
+ *   - prop mặt đất đặt tâm đáy đúng chân nhân vật của cỡ: rong y = 0.84, trung y = 1.04
+ *   - chừa dải x 0.3–0.7 cho nhân vật; chỉ prop treo cao (mây, đồng hồ) mới vào giữa
+ *   - prop ở xa: y nhỏ hơn + co nhỏ hơn (phối cảnh một điểm tụ, KHÔNG vẽ đường tụ)
+ */
+export type BoiCanhTuVe = {
+  /** mô tả một dòng — cho người đọc board và cho thu-vien */
+  moTa: string;
+  /** prop cho cỡ rong (chân ở y 0.84). Bỏ trống → dùng `trung` */
+  rong?: Prop[];
+  /** prop cho cỡ trung (chân ở y 1.04). Bỏ trống → dùng `rong` */
+  trung?: Prop[];
+};
+
+/**
+ * ĐỒ CẦM TAY TỰ VẼ — khi 10 vật dựng sẵn không có thứ nhân vật cần cầm.
+ *
+ * Cùng DSL với `PropTuVe`, nhưng toạ độ là HỆ CỔ TAY và đơn vị là HỆ SỐ DAU
+ * (không phải px): gốc (0,0) = điểm cầm giữa nắm tay, +y chạy tiếp ra đầu ngón,
+ * +x vuông góc. Khai `hinh` bằng số thực nhỏ (0.3 = 0.3 bề rộng sọ).
+ *
+ * `nam` quyết định vật xoay theo tay thế nào:
+ *   'doc'   dọc theo cẳng tay, phần chính ở +y   (kiếm, ô, micro, gậy)
+ *   'ngang' vắt ngang nắm tay, đầu làm việc ở -x (bút, thước, dao)
+ *   'dung'  LUÔN thẳng đứng theo thế giới        (ly, sách, thư, bánh)
+ *
+ * Tên khai ở đây dùng được trong `DienVien.cam` và `HanhDong.cam` như đồ thư viện.
+ */
+export type DoCamTuVe = {
+  moTa: string;
+  /** chiều dài tổng (hệ số DAU) — để validator và người viết ước cỡ */
+  dai: number;
+  nam: 'doc' | 'ngang' | 'dung';
+  /** hình vẽ, toạ độ theo HỆ SỐ DAU (0.3 = 0.3 bề rộng sọ), gốc = điểm cầm */
+  hinh: HinhVe[];
+};
+
 export type Board = {
   du_an: string;
   /** người kể mặc định cho truc-dien */
@@ -330,5 +396,9 @@ export type Board = {
   mac_dinh?: Pick<Shot, 'loai' | 'co' | 'nen'>;
   /** prop tự vẽ của dự án — tên ở đây dùng được trong Shot.prop[].ten và DienVien.cam như prop thư viện */
   prop_tu_ve?: Record<string, PropTuVe>;
+  /** bối cảnh tự dựng — tên dùng được trong Shot.boi_canh như bối cảnh dựng sẵn */
+  boi_canh_tu_ve?: Record<string, BoiCanhTuVe>;
+  /** đồ cầm tay tự vẽ — tên dùng được trong DienVien.cam / HanhDong.cam */
+  do_cam_tu_ve?: Record<string, DoCamTuVe>;
   chuong: BoardChuong[];
 };
