@@ -115,11 +115,12 @@ if (hong.length && !daCo.length) console.log('  KHÔNG tải được bản nào
 
 if (SFX) {
   console.log('\nsinh tiếng động (public/sfx):');
+  // Bản Node, không cần python/numpy — image Linux của instance không có cả hai.
   try {
-    execFileSync('python3', [path.join(ROOT, 'pipeline/sfx.py')], {cwd: ROOT, stdio: 'inherit'});
+    execFileSync(process.execPath, [path.join(ROOT, 'pipeline/sfx.mjs')], {cwd: ROOT, stdio: 'inherit'});
   } catch (e) {
-    console.log(`  ✗ cần python3 + numpy: ${String(e.message).slice(0, 80)}`);
-    console.log('    cài: pip3 install numpy — thiếu thì video mất tiếng động, vẫn render được.');
+    console.log(`  ✗ sinh tiếng động lỗi: ${String(e.message).slice(0, 120)}`);
+    console.log('    thiếu tiếng động thì video vẫn render được, chỉ mất sfx.');
   }
 }
 
