@@ -10,6 +10,7 @@ import {CanhTest} from './dev/canh-test';
 import {AnDuTest} from './dev/an-du-test';
 import {RigV2Test, RIG_TEST_W, RIG_TEST_H} from './v2/dev/rig-test';
 import {DU_AN_V2} from './projects/du-an.generated';
+import {PropTuVeXem, XEM_W, XEM_H} from './v2/dev/prop-tu-ve-xem';
 import {PropsV2Test, PROPS_TEST_W, PROPS_TEST_H} from './v2/dev/props-test';
 import {ActV2Test, ACT_TEST_W, ACT_TEST_H, ACT_TEST_DAI} from './v2/dev/act-test';
 import {BanSacTest, BAN_SAC_W, BAN_SAC_H} from './v2/dev/ban-sac-test';
@@ -25,6 +26,7 @@ export const RemotionRoot: React.FC = () => (
     {DU_AN_V2.map((p) => (
       <Composition key={p.id} id={p.id} component={p.Phim} durationInFrames={p.total} fps={FPS} width={1920} height={1080} />
     ))}
+    <Composition id="PropTuVeXem" component={PropTuVeXem} durationInFrames={1} fps={FPS} width={XEM_W} height={XEM_H} defaultProps={{}} />
     <Composition id="RigV2Test" component={RigV2Test} durationInFrames={30} fps={FPS} width={RIG_TEST_W} height={RIG_TEST_H} />
     <Composition id="PropsV2Test" component={PropsV2Test} durationInFrames={60} fps={FPS} width={PROPS_TEST_W} height={PROPS_TEST_H} />
     <Composition id="ActV2Test" component={ActV2Test} durationInFrames={ACT_TEST_DAI} fps={FPS} width={ACT_TEST_W} height={ACT_TEST_H} />

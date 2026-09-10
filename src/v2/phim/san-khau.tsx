@@ -4,7 +4,8 @@ import {NEN, net as tinhNet} from '../rig/hinh';
 import {NhanVat} from '../rig/nhan-vat';
 import {KIEU} from '../rig/kieu';
 import {TU_THE} from '../rig/tu-the';
-import {CO_CANH, DienVien} from '../board/kieu-board';
+import {CO_CANH, DienVien, PropTuVe} from '../board/kieu-board';
+import {PropTuVeVe} from '../props/tu-ve';
 import {bungBoiCanh} from '../boi-canh';
 import {sinhAct, trangThaiTai} from '../act';
 import {PROPS} from '../props';
@@ -37,9 +38,11 @@ type P = {
   voice?: VoiceTrack;
   nguoiKe: string;
   id: string;
+  /** prop tự vẽ của dự án (board.prop_tu_ve) */
+  propTuVe?: Record<string, PropTuVe>;
 };
 
-export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voice, nguoiKe, id}) => {
+export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voice, nguoiKe, id, propTuVe}) => {
   const co = CO_CANH[shot.co];
   const dau = co.dau;
   const net = tinhNet(dau);
@@ -145,9 +148,12 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
     propTatCa
       .filter((p) => t >= (p.tai ?? 0) && Boolean(p.truoc) === truoc)
       .map((p, i) => {
-        const Ve = PROPS[p.ten as keyof typeof PROPS];
-        if (!Ve) return null;
-        return <Ve key={`${p.ten}-${i}`} x={p.x * W} y={p.y * H} co={(p.co ?? 1) * (dau / 330)} net={net} flip={p.flip} />;
+        const Ve = PROPS[p.ten as keyof typeof PROPS] as (React.FC<{x: number; y: number; co: number; net: number; flip?: boolean; chu?: string}> | undefined);
+        const chung = {x: p.x * W, y: p.y * H, co: (p.co ?? 1) * (dau / 330), net, flip: p.flip};
+        if (Ve) return <Ve key={`${p.ten}-${i}`} {...chung} chu={p.chu} />;
+        const tuVe = propTuVe?.[p.ten];
+        if (tuVe) return <PropTuVeVe key={`${p.ten}-${i}`} {...chung} mau={tuVe} chu={p.chu} />;
+        return null;
       });
   const props = veProp(false);
   const propsTruoc = veProp(true);
