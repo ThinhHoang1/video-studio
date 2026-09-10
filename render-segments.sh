@@ -18,14 +18,14 @@ export DYLD_LIBRARY_PATH="$LIB"
 
 # Tính số frame ngay từ manifest thay vì hỏi Remotion — gọi `remotion
 # compositions` phải bung cả Chrome, mất hàng phút cho một con số.
-# Composition V2-<ten>: tổng frame = intro 2 s + Σ(audio + đệm 0.4 s) — khớp src/v2/phim/du-lieu.ts
+# Composition V2-<ten>: tổng frame = thẻ tiêu đề 1.6 s + Σ(audio + đệm 0.4 s) — khớp src/v2/phim/du-lieu.ts
 if [[ "$COMP" == V2-* ]]; then
   TEN_V2="${COMP#V2-}"
   TOTAL=$(node -e "
     const kb = require('./scripts/$TEN_V2.json');
     const d = require('./src/projects/' + kb.project + '/data/$TEN_V2.generated.json');
     const FPS = 30, f = s => Math.round(s * FPS);
-    console.log(f(2.0) + d.chapters.reduce((a, c) => a + f(c.duration) + f(0.4), 0));
+    console.log(f(1.6) + d.chapters.reduce((a, c) => a + f(c.duration) + f(0.4), 0));
   ")
 else
 TOTAL=$(node -e "

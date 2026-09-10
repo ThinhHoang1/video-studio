@@ -217,10 +217,10 @@ node pipeline/xem-shot.mjs <ten> --tat-ca                 # 1 khung mỗi shot c
 ```
 
 → `out/<ten>/shot-<chuong>-<i>.png`. Mốc tính cùng thuật toán với `kiem-tra-v2 --moc`
-và renderer (intro 2 s + Σ chương trước (audio + đệm 0.4 s) + mốc shot + `--lech`).
+và renderer (thẻ tiêu đề 1.6 s đứng SAU chương `mo-bai` — không có mo-bai thì đứng đầu — + Σ chương trước (audio + đệm 0.4 s) + mốc shot + `--lech`).
 Chỉ khi cần frame thô (`npx remotion still src/index.ts V2-<ten> out/<ten>/f300.png
 --frame=300 --browser-executable "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
---log=error`): `frame = 60 + Σ(chương trước: round(duration × 30) + 12) + round(mốc × 30)`
+--log=error`): `frame = 48 (thẻ tiêu đề, cộng sau chương mo-bai) + Σ(chương trước: round(duration × 30) + 12) + round(mốc × 30)`
 — `duration` lấy từ `data/<ten>.generated.json`, mốc từ `--moc`.
 
 ### Bước 10–11 — Render, chấm, metadata (tự động)

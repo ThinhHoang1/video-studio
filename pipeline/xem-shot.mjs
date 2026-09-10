@@ -39,7 +39,7 @@ if (!TEN || (!TAT_CA && !CHON && (!CHUONG || !MOC))) {
   console.error('Dùng: node pipeline/xem-shot.mjs <ten> <chuong-id> <say|#index> [--lech 0.3]   |   node pipeline/xem-shot.mjs <ten> --tat-ca   |   node pipeline/xem-shot.mjs <ten> --chon <chuong>:<i>,...');
   process.exit(2);
 }
-const FPS = 30, INTRO = 2, DEM = 0.4;
+const FPS = 30, INTRO = 1.6, DEM = 0.4;
 const doc = (p) => JSON.parse(readFileSync(path.join(ROOT, p), 'utf8'));
 const kb = doc(`scripts/${TEN}.json`);
 const DU_AN = kb.project ?? TEN;
@@ -49,9 +49,11 @@ const board = doc(`src/projects/${DU_AN}/board.json`);
 const chuan = (s) => String(s ?? '').toLowerCase().replace(/[.,!?;:"'…—–-]/g, '').replace(/[“”‘’]/g, '').replace(/\s+/g, ' ').trim();
 
 /** giây bắt đầu (trong phim) của từng chương */
+// thẻ tiêu đề (INTRO) đứng SAU chương mo-bai nếu có, không thì đứng đầu — cùng luật src/v2/phim/phim-v2.tsx
 const batDau = {};
-let acc = INTRO;
-for (const ch of mf.chapters) { batDau[ch.id] = acc; acc += ch.duration + DEM; }
+let acc = 0;
+const viTriIntro = mf.chapters[0]?.id === 'mo-bai' ? 1 : 0;
+mf.chapters.forEach((ch, i) => { if (i === viTriIntro) acc += INTRO; batDau[ch.id] = acc; acc += ch.duration + DEM; });
 
 /** ước lượng giây của mốc `say` trong chương — cùng thuật toán validator/renderer */
 const mocGiay = (ch, say, viTriTruoc) => {
