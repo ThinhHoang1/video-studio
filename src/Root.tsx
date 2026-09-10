@@ -14,6 +14,7 @@ import {PropTuVeXem, XEM_W, XEM_H} from './v2/dev/prop-tu-ve-xem';
 import {PropsV2Test, PROPS_TEST_W, PROPS_TEST_H} from './v2/dev/props-test';
 import {ActV2Test, ACT_TEST_W, ACT_TEST_H, ACT_TEST_DAI} from './v2/dev/act-test';
 import {BanSacTest, BAN_SAC_W, BAN_SAC_H} from './v2/dev/ban-sac-test';
+import {Avatar, AVATAR_W, AVATAR_H} from './v2/dev/avatar';
 
 /**
  * Chỉ đăng ký những composition đang dùng.
@@ -30,6 +31,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="RigV2Test" component={RigV2Test} durationInFrames={30} fps={FPS} width={RIG_TEST_W} height={RIG_TEST_H} />
     <Composition id="PropsV2Test" component={PropsV2Test} durationInFrames={60} fps={FPS} width={PROPS_TEST_W} height={PROPS_TEST_H} />
     <Composition id="ActV2Test" component={ActV2Test} durationInFrames={ACT_TEST_DAI} fps={FPS} width={ACT_TEST_W} height={ACT_TEST_H} />
+    <Composition id="Avatar" component={Avatar} durationInFrames={1} fps={FPS} width={AVATAR_W} height={AVATAR_H} defaultProps={{}} />
     <Composition id="BanSacTest" component={BanSacTest} durationInFrames={30} fps={FPS} width={BAN_SAC_W} height={BAN_SAC_H} />
     <Composition id="CanhTest" component={CanhTest} durationInFrames={90} fps={FPS} width={2560} height={1080} />
     <Composition id="CastTest" component={CastTest} durationInFrames={60} fps={FPS} width={2400} height={900} />
