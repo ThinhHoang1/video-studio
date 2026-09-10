@@ -33,6 +33,26 @@ const FFMPEG = path.join(LIB, 'ffmpeg');
 const ENV = {...process.env, DYLD_LIBRARY_PATH: LIB, LD_LIBRARY_PATH: LIB};
 const RHUBARB = process.env.RHUBARB ?? path.join(ROOT, 'tools/rhubarb/rhubarb');
 
+/**
+ * Rhubarb chỉ phát hành bản Linux x86_64 — trên máy Linux arm64 (container OpenClaw)
+ * binary chạy được qua qemu-x86_64-static. Trả về [lệnh, ...tiền tố đối số] để mọi
+ * lời gọi bên dưới đi qua cùng một chỗ.
+ */
+const chayRhubarb = (() => {
+  if (process.platform === 'linux' && process.arch === 'arm64') {
+    for (const q of ['qemu-x86_64-static', 'qemu-x86_64']) {
+      try {
+        const p = execFileSync('which', [q], {encoding: 'utf8'}).trim();
+        if (p) return [p, [RHUBARB]];
+      } catch {
+        /* không có qemu */
+      }
+    }
+  }
+  return [RHUBARB, []];
+})();
+const goiRhubarb = (args, opts) => execFileSync(chayRhubarb[0], [...chayRhubarb[1], ...args], opts);
+
 // ── tham số dòng lệnh ──────────────────────────────────────────────────
 const args = process.argv.slice(2);
 const TEN = args.find((a) => !a.startsWith('--'));
@@ -82,7 +102,7 @@ const fileRa = OUT_DIR
   : path.join(ROOT, `src/projects/${DU_AN}/data/${TEN}.mouth.json`);
 mkdirSync(path.dirname(fileRa), {recursive: true});
 
-const version = execFileSync(RHUBARB, ['--version']).toString().trim();
+const version = goiRhubarb(['--version']).toString().trim();
 const cu = !LAM_LAI && existsSync(fileRa) ? JSON.parse(readFileSync(fileRa, 'utf8')) : {};
 
 // ── các bước ───────────────────────────────────────────────────────────
@@ -152,7 +172,7 @@ for (const ch of manifest.chapters) {
   const t0 = performance.now();
   let json;
   try {
-    json = execFileSync(RHUBARB, ['-r', 'phonetic', '-f', 'json', '--extendedShapes', 'GHX', '-q', wav]).toString();
+    json = goiRhubarb(['-r', 'phonetic', '-f', 'json', '--extendedShapes', 'GHX', '-q', wav]).toString();
   } finally {
     rmSync(wav, {force: true});
   }

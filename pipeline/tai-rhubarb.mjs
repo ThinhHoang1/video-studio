@@ -26,12 +26,26 @@ if (existsSync(path.join(DICH, 'rhubarb'))) {
 const os = process.platform;
 const arch = process.arch;
 let goi = null;
+/** có qemu-x86_64 thì máy arm64 vẫn chạy được binary x86_64 */
+const coQemu = () => {
+  for (const q of ['qemu-x86_64-static', 'qemu-x86_64']) {
+    try {
+      if (execFileSync('which', [q], {encoding: 'utf8'}).trim()) return true;
+    } catch {
+      /* không có */
+    }
+  }
+  return false;
+};
+
 if (os === 'darwin') goi = `Rhubarb-Lip-Sync-${VER}-macOS.zip`;
 else if (os === 'linux' && arch === 'x64') goi = `Rhubarb-Lip-Sync-${VER}-Linux.zip`;
+else if (os === 'linux' && arch === 'arm64' && coQemu()) goi = `Rhubarb-Lip-Sync-${VER}-Linux.zip`;
 else if (os === 'win32') goi = `Rhubarb-Lip-Sync-${VER}-Windows.zip`;
 
 if (!goi) {
   console.log(`⚠ Rhubarb không có bản cho ${os}/${arch} (dự án chỉ phát hành macOS, Linux x86_64, Windows).`);
+  if (os === 'linux' && arch === 'arm64') console.log('  Cách chạy được trên arm64: cài qemu-user-static + libc6:amd64 rồi chạy lại script này.');
   console.log('  Pipeline vẫn chạy: renderer dùng miệng theo biên độ thay cho lip-sync thật (xấu hơn).');
   console.log('  Muốn lip-sync thật trên máy này: dựng Rhubarb từ nguồn, đặt binary ở tools/rhubarb/rhubarb.');
   process.exit(0);
