@@ -95,7 +95,43 @@ nhan-vien-so — media/outbound/nhan-vien-so.mp4 — 130.4 s, 62 shot dò đư�
 
 <!-- /BẢNG CHẤM -->
 
-## Mô tả để đăng
+## Mô tả để đăng (YouTube — dán nguyên khối)
+
+```
+Nhà nước muốn có 1 triệu "doanh nghiệp một người" tới năm 2030.
+Mình đăng ký thật. Rồi mình tự sa thải chính mình.
+
+Mình lắp AI làm đủ ba phòng ban, đặt tên cho từng con, sáng nào cũng chào nó.
+Được ba tuần thì AI của mình với AI của khách tự nói chuyện với nhau bốn ngày
+liền, ký nhầm cả giá lẫn tên công ty. Rồi mình đọc được cái báo cáo bảo 65% việc
+hành chính là AI làm được — và nhận ra việc của mình nằm gọn trong đó.
+Cái đau nhất không phải chuyện việc. Là hôm mình sốt 39 độ.
+
+⏱️ Mốc thời gian
+0:00 Bảy giờ sáng, họp một mình
+0:14 Nghị quyết 86 và một triệu ông chủ
+0:29 Lắp đủ phòng ban trong một tuần
+0:46 AI nói chuyện với AI, bốn ngày
+1:03 Tự sa thải chính mình
+1:24 Ốm một hôm là công ty đóng cửa
+1:43 Vẫn nên làm, nhưng giữ lại một việc
+
+📌 Nguồn
+Nghị quyết 86/NQ-CP ngày 5/4/2026 — baochinhphu.vn
+Báo cáo ILO 4/2026: nhóm hành chính/văn phòng 64.9% rủi ro tự động hoá
+Chính sách và con số là thật. Nhân vật, tình huống, hội thoại là hư cấu.
+
+🎵 Nhạc: Kevin MacLeod (incompetech.com) — CC BY 4.0
+
+—
+HTH Animation — chuyện đời đi làm, kể bằng hoạt hình.
+Tập mới T3 & T6. Đăng ký để không lỡ tập nào.
+#doanhnghiepmotnguoi #nghiquyet86 #khoinghiep #AI #storytime #hoathinh #congso
+```
+
+Mẫu mô tả dùng lại cho mọi tập + giới thiệu kênh: `docs/kenh-hth-animation.md`.
+
+## Mô tả cũ (bản ngắn)
 
 > Nhà nước muốn có 1 triệu "doanh nghiệp một người" tới năm 2030. Mình đăng ký
 > thật, lắp AI làm đủ ba phòng ban, đặt tên cho từng con, và tưởng mình là tập
