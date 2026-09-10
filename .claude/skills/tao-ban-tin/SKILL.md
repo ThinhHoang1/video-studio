@@ -9,7 +9,11 @@ Cùng một cỗ máy với `tao-video` (rig, TTS, lip-sync, board, render). Kh�
 và ràng buộc**: bảng tin ra mỗi ngày, người xem xem để **biết việc cần làm hôm nay**,
 và một tin sai nguy hiểm hơn một kịch bản nhạt.
 
-Đọc `tao-video/SKILL.md` cho pipeline; file này chỉ ghi phần khác.
+Đọc `tao-video/SKILL.md` cho pipeline (gồm **Bước 0 — kiểm máy**: thiếu rhubarb/nhạc
+thì video vẫn ra nhưng miệng vô hồn và không nhạc); file này chỉ ghi phần khác.
+
+Hai tài liệu tra nhanh khi dựng: `docs/thu-vien-canh.md` (tên bối cảnh/prop/tư thế/
+mẫu/sfx/nhạc) và `docs/vi-sao-video-bi-dung.md` (video đứng hình, lip-sync không mượt).
 
 ## Ba luật riêng của bảng tin
 
