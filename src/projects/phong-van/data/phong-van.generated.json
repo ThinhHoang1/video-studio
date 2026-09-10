@@ -1,55 +1,55 @@
 {
   "voice": "Fenrir",
-  "style": "Bạn là YouTuber kể chuyện đời mình bằng hoạt hình (kiểu storytime animation). Giọng nam trẻ, NĂNG LƯỢNG CAO, nói nhanh, hào hứng, như đang kể cho hội bạn thân nghe một chuyện vừa xảy ra sáng nay. Tốc độ nhanh hơn bình thường 20%. Lên giọng bất ngờ ở chỗ ngạc nhiên, hạ giọng thì thào ở chỗ bí mật, cười khẽ trong lúc nói khi tự thấy mình ngớ ngẩn. Câu ngắn đọc DỨT, dứt khoát như đấm punchline. Tuyệt đối không đọc đều đều, không trầm buồn, không kiểu kể chuyện ma. Tiếng Việt giọng Bắc, đời thường.",
-  "total": 120.43199999999999,
+  "style": "Bạn là một YouTuber Việt đang NÓI CHUYỆN với người nghe, kể lại chuyện đời mình như đang kể cho thằng bạn thân hoặc cho em đang ngồi đối diện, không đọc kịch bản. Giọng nam trẻ miền Bắc, năng lượng cao, nói nhanh hơn bình thường 20%, câu dài đọc liền một hơi, tới câu ngắn thì ngắt hẳn và nhấn như đấm. Giữ nguyên tiếng đệm (nhá, đấy, xong, ờ, ấy), thở và cười khẽ khi tự chửi mình, hạ giọng thì thào ở chỗ bí mật, lên giọng bất ngờ ở chỗ ngạc nhiên. Từ chửi nhẹ đọc tự nhiên, không nhấn quá. Tuyệt đối không đọc đều đều, không trầm buồn, không kiểu đọc bản tin hay kể chuyện ma.",
+  "total": 119.496,
   "chapters": [
     {
       "id": "mo-bai",
       "kicker": "Đang xảy ra",
       "heading": "Phút 18. Chưa chớp.",
-      "vo": "Tôi đang nhìn thẳng vào mắt chị HR. Phút mười tám. Chưa chớp. Tôi tên Nam, hai mươi hai tuổi, kinh nghiệm: thằng bạn xem bốn trăm video TikTok. Chuyện tôi đậu phỏng vấn nhờ hai điều. Cả hai không phải của tôi.",
+      "vo": "Phút mười tám. Tôi vẫn nhìn thẳng mắt chị HR. Chưa chớp. Các bạn ạ, tôi tên Nam, hai hai tuổi, kinh nghiệm thì bằng không, mà ngu vãi. Hôm nay kể chuyện tôi đậu nhờ hai điều: một của thằng bạn, một của mẹ.",
       "audio": "vo-phong-van/mo-bai.mp3",
-      "duration": 11.232
+      "duration": 13.104
     },
     {
       "id": "long-huan-luyen",
       "kicker": "Tối hôm trước",
-      "heading": "Nghe anh. Bảy điều.",
-      "vo": "Tối trước phỏng vấn, Long phóng xe qua. Long chưa đi làm ngày nào, lướt bốn trăm video TikTok phỏng vấn. Giọng coach: nghe anh. Bảy điều. Điều một: bắt tay phải chặt. Điều hai: nhìn thẳng vào mắt, không chớp. Điều ba: gọi tên người ta ba lần. Điều bốn tới bảy tôi quên, vì lo điều hai. Bao lâu. Long bảo: tới khi họ chớp trước. Tin anh.",
+      "heading": "Long dặn bảy điều",
+      "vo": "Tối trước nhá, thằng Long phóng xe qua, mà nó chưa đi làm ngày nào đâu các bạn, chỉ lướt bốn trăm video TikTok, xong ngồi xuống giọng như thầy: bảy điều. Một, bắt tay phải chặt. Hai, nhìn thẳng vào mắt, không chớp. Ba, gọi tên người ta ba lần. Bốn tới bảy tôi quên sạch, tại tôi ngu, cứ lo mỗi điều hai. Nó bảo: tới khi họ chớp trước.",
       "audio": "vo-phong-van/long-huan-luyen.mp3",
-      "duration": 18.288
+      "duration": 19.368
     },
     {
       "id": "bat-tay",
-      "kicker": "Điều một, hai, ba",
-      "heading": "Bắt tay kiểu chủ nợ",
-      "vo": "Tới sớm bốn lăm phút, ngồi quán cóc, áo sơ mi của bố. Chị Trang phỏng vấn. Cửa miệng: ok em. Tôi bắt tay. Chặt. Kiểu chủ nợ. Chị rút tay, nhìn tay, nhìn tôi. Ok em. Nhìn thẳng vào mắt chị. Không chớp. Chị hỏi: em ổn không. Em ổn, chị Trang. Vâng, chị Trang. Cảm ơn chị Trang. Chị cầm bút ghi. Chưa hỏi gì đã ghi.",
+      "kicker": "Vào phòng",
+      "heading": "Kiểu chủ nợ đi đòi nợ",
+      "vo": "Tới sớm bốn lăm phút, áo sơ mi của bố. Vào là tôi bắt tay chị Trang luôn, mà bắt kiểu gì ấy, kiểu chủ nợ đòi nợ. Chị rút tay ra, xong nhìn tôi. Tôi nghĩ: chết dở. Rồi nhìn thẳng, không chớp. Chị hỏi: em ổn không. Vâng, chị Trang. Cảm ơn chị Trang. Ba lần rồi đấy các bạn. Chị cầm bút ghi. Chưa hỏi đã ghi.",
       "audio": "vo-phong-van/bat-tay.mp3",
-      "duration": 22.056
+      "duration": 22.2
     },
     {
       "id": "me-goi",
-      "kicker": "Rung lần ba",
-      "heading": "CON NHỚ NÓI CON CHỊU KHÓ",
-      "vo": "Câu thứ hai, điện thoại rung. Mẹ. Gọi Zalo. Để im lặng rồi, mẹ gọi thì cái bàn vẫn rung. Rung lần một. Chị nhìn tôi. Rung lần hai. Chị nhìn cái bàn. Rung lần ba. Tắt máy mẹ. Về nhà tính sổ. Ba giây sau, tin nhắn hiện to: CON NHỚ NÓI CON CHỊU KHÓ. ĂN GÌ CHƯA. Cả phòng đọc được. Hướng nội hết phần đời còn lại.",
+      "kicker": "Giữa buổi",
+      "heading": "Mẹ gọi ba lần",
+      "vo": "Câu thứ hai thì điện thoại rung. Mẹ gọi Zalo. Để im lặng rồi mà mẹ gọi thì cái bàn vẫn rung các bạn ạ. Rung lần một, chị nhìn tôi. Rung lần hai, chị nhìn bàn. Rung lần ba, tôi tắt máy mẹ luôn, về nhà tính sổ. Ba giây sau tin nhắn hiện to: CON NHỚ NÓI CON CHỊU KHÓ. ĂN GÌ CHƯA. Cả phòng đọc được. Toang.",
       "audio": "vo-phong-van/me-goi.mp3",
-      "duration": 19.536
+      "duration": 21
     },
     {
       "id": "chiu-kho",
-      "kicker": "Điểm mạnh",
-      "heading": "Cười thật, không phải cười HR",
-      "vo": "Chị hỏi: điểm mạnh của em là gì. Tối qua tra chị Google. Đáp án mẫu: học nhanh. Nhưng não đang nhìn tin nhắn. Em chịu khó. Chị cười. Cười thật, không phải cười HR. Mẹ em dặn à. Vâng. Còn ai dặn nữa không. Thằng bạn em dặn không được chớp. Chị bảo: chị biết, chị đang lo cho em đấy. Tôi chớp. Lần đầu sau hai mươi phút.",
+      "kicker": "Câu hỏi kinh điển",
+      "heading": "Em chịu khó",
+      "vo": "Chị hỏi điểm mạnh của em. Tối qua tra chị Google rồi đấy các bạn, mẫu là học nhanh, mà não tôi thì đang nhìn tin nhắn. Mồm tôi nói: em chịu khó. Ngu thật. Chị cười thật, không phải cười HR. Mẹ em dặn à. Vâng. Còn ai dặn nữa. Thằng bạn dặn không chớp. Chị bảo: chị lo cho em. Tôi chớp. Lần đầu sau hai mươi phút.",
       "audio": "vo-phong-van/chiu-kho.mp3",
-      "duration": 26.544
+      "duration": 21.792
     },
     {
       "id": "ket",
       "kicker": "Hai tuần sau",
-      "heading": "Bà ngoại hỏi lương",
-      "vo": "Hai tuần sau. Trúng. Cuối email ghi: rất tập trung, rất chịu khó. Đọc ba lần. Không chớp. Long xem: thấy chưa, điều hai. Điều bảy là gì. Long bảo: tắt điện thoại. Cảm ơn Long. Rất kịp thời. Mẹ im. Chuyển tiếp nhóm Zalo Gia Đình Yêu Thương. Chú thích: chịu khó là mẹ dặn. Bà ngoại rep: lương bao nhiêu. Mẹ bạn dặn gì? Kể dưới bình luận.",
+      "heading": "Chịu khó là mẹ dặn",
+      "vo": "Hai tuần sau. Trúng. Thư ghi: rất tập trung, chịu khó. Đọc ba lần, không chớp. Long xem xong: thấy chưa, điều hai đấy. Thế điều bảy? Nó bảo: tắt điện thoại. Cảm ơn Long nhá. Mẹ im, chuyển tiếp nhóm Zalo Gia Đình Yêu Thương: chịu khó là mẹ dặn. Bà ngoại rep: lương bao nhiêu. Ngu thật các bạn ạ. Mẹ bạn dặn gì? Kể dưới bình luận.",
       "audio": "vo-phong-van/ket.mp3",
-      "duration": 22.776
+      "duration": 22.032
     }
   ]
 }
