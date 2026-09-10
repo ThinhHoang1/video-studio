@@ -55,10 +55,15 @@ for (const [i, ch] of (kb.chapters ?? []).entries()) {
   tatCaTu.push(new Set(ts.map((t) => t.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ''))));
   const n = ts.length;
   if (ch.id !== 'mo-bai' && (n < 45 || n > 72)) loi.push(`${o}: ${n} từ — cần 45–70`);
-  const dai = cs.filter((c) => tu(c).length > 22);
-  for (const c of dai) loi.push(`${o}: câu ${tu(c).length} từ quá dài (>22) — cắt ra: "${c.slice(0, 60)}…"`);
+  const dai = cs.filter((c) => tu(c).length > 32);
+  for (const c of dai) loi.push(`${o}: câu ${tu(c).length} từ quá dài (>32) — giọng nói chuyện cho câu trôi dài nhưng phải bẻ vào câu ngắn: "${c.slice(0, 60)}…"`);
   const ngan = cs.filter((c) => tu(c).length <= 6).length;
-  if (cs.length && ngan / cs.length < 0.3) canhBao.push(`${o}: chỉ ${ngan}/${cs.length} câu ≤ 6 từ — punchline cần câu ngắn, mục tiêu ≥ 30%`);
+  if (cs.length && ngan / cs.length < 0.2) canhBao.push(`${o}: chỉ ${ngan}/${cs.length} câu ≤ 6 từ — câu dài trôi phải bẻ vào câu ngắn (chỗ cười), mục tiêu ≥ 20%`);
+  // giọng nói chuyện (cẩm nang 1c): tiếng đệm 3–6%, gọi người nghe ≥ 1, tự chửi mình ≥ 1
+  const dem = (vo.match(/\b(nhá|đấy|ấy|xong|thế là|ờ|luôn|kiểu|nhỉ|thật ra|nói chung|mà)\b/gi) ?? []).length;
+  if (dem / Math.max(1, n) < 0.03) canhBao.push(`${o}: tiếng đệm ${dem}/${n} từ (<3%) — đọc lên như văn viết; thêm "xong nhá / đấy / ờ / kiểu" đúng chỗ`);
+  if (!/\b(em ạ|các bạn|mấy bạn|anh em|bạn nào|ông nào|bà nào|mọi người)\b/i.test(vo)) canhBao.push(`${o}: không gọi thẳng người nghe lần nào ("em ạ", "các bạn", "anh em") — phải là nói chuyện, không phải kể suông`);
+  if (!/(tôi|anh|mình|tui) (ngu|dở|tệ|ác|hèn|ngáo|điên|ngớ ngẩn|kém|nhát)|ngu (thật|vãi|chưa)|toang|chết dở/i.test(vo)) canhBao.push(`${o}: thiếu câu tự chửi mình thẳng ("anh ngu thật", "toang", "chết dở")`);
   const thoai = cs.filter((c) => /:|\b(bảo|hỏi|nói|kêu|thì thào|rep|nhắn)\b/i.test(c)).length;
   if (thoai < 2) canhBao.push(`${o}: chỉ ${thoai} câu thoại trực tiếp — cần ≥ 2 (nhân vật phải có giọng)`);
   // chi tiết cụ thể = số đếm + tên app/thương hiệu + tên riêng viết hoa giữa câu

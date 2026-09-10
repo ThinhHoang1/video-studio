@@ -193,6 +193,32 @@ Việt gần nhất. Đã ghi nhận: "mail" → "mèo". Quy tắc:
 Chữ VIẾT HOA cả cụm (tin nhắn của mẹ) TTS vẫn đọc thường — nhấn bằng câu trước
 đó ("tin nhắn hiện to:") và bằng chữ trên màn, không trông vào giọng.
 
+## 1c. GIỌNG NÓI CHUYỆN — kịch bản phải nghe như người đang kể, không như văn viết
+
+User đối chiếu với **Độ Mixi, "Mixi kể chuyện #1"** (transcript: `docs/tham-chieu/mixi-ke-chuyen.txt`,
+125 s, 524 từ) và chê bản punchline-văn-viết là "chán". Số đo từ transcript đó:
+
+| Đặc điểm | Đo được | Luật cho kịch bản |
+|---|---|---|
+| Tốc độ | 4.2 từ/s, nói liền không nghỉ hơi giữa ý | viết như nói một hơi; dấu chấm ít hơn, dấu phẩy nhiều hơn |
+| Ngôi kể | "anh" nói với "em ạ" / "các bạn" (41 lần "anh", 3 lần gọi người nghe) | chọn MỘT cặp ngôi và giữ suốt: anh–em ạ, tôi–các bạn, tui–mấy bạn; mỗi chương ≥ 1 lần gọi thẳng người nghe |
+| Tiếng đệm | 29/524 từ = 5.5% ("nhá", "đấy", "ấy", "xong", "thế", "ờ", "luôn", "kiểu") | 3–6% mỗi chương; đệm đặt đầu ý mới ("Xong nhá,") hoặc cuối câu ("…đấy") — không rải đều máy móc |
+| Câu | câu dài trôi 20–35 từ nối bằng "xong / mà / thế là", rồi BẺ vào một câu 3–6 từ | mỗi chương ≥ 2 cặp "trôi dài → bẻ ngắn"; câu ngắn là chỗ cười |
+| Chửi nhẹ | 9/524 từ ("mẹ", "vãi cứt", "vãi cả đá") làm dấu nhấn cảm xúc | tối đa 1–2 lần/chương, dùng bản TTS đọc được: "vãi", "mẹ ơi", "chết dở", "toang"; không tục nặng |
+| Leo thang bằng số | đợi 2–3 tiếng → để người ta đợi 6 tiếng → gọi mẹ người yêu → ngủ nhà bạn 3 ngày | mỗi vòng leo thang phải có con số hoặc hành động vật lý tăng dần |
+| Tự chửi mình | "tôi ác vãi cả cứt luôn các bạn, tôi tệ vãi cả đá" | mỗi chương ≥ 1 câu tự nhận xét mình thẳng, không tô vẽ |
+| Nghĩ thành tiếng | "Ơ mẹ, nhà của mình mà, tại sao mình lại sang nhà bạn ngủ" | dùng "Ơ", "Ừ nhỉ", "Khoan" để lộ suy nghĩ giữa chuyện |
+| Kết | một câu rút ra ngắn, nói thẳng, không rao giảng | câu rút ra ≤ 15 từ, rồi câu gọi khán giả |
+
+Ví dụ cùng một ý, hai giọng:
+
+- Văn viết (cũ, bị chê): *"Tôi bắt tay. Chặt. Kiểu chủ nợ."*
+- Nói chuyện (đúng): *"Xong nhá, bước vào là anh bắt tay luôn, mà anh bắt kiểu gì ấy, kiểu thằng chủ nợ
+  gặp con nợ sau ba tháng ấy, chị HR rút tay ra nhìn cái tay xong nhìn anh, anh mới nghĩ: ơ, chết dở."*
+
+TTS: trường `style` phải nói rõ "đang NÓI CHUYỆN với người nghe, không đọc kịch bản; giữ tiếng đệm, thở
+giữa câu, cười khẽ khi tự chửi mình; câu dài đọc liền một hơi, câu ngắn ngắt hẳn". Mẫu style mới ở mục 6.
+
 ## 2. Cấu trúc một chương: hook → tình huống → leo thang ×3 → vỡ trận → twist/callback
 
 Một video 1.5–3 phút = **4–8 chương**, mỗi chương **45–70 từ** (≈ 18–25 s với
@@ -366,7 +392,7 @@ nhạc nền chạy quá lâu và người xem quên đang ở đâu.
 {
   "title": "tên hài, có twist hoặc con số, ≤ 12 từ",
   "voice": "Fenrir",
-  "style": "<chép nguyên văn từ scripts/demo-v2.json>",
+  "style": "<chép nguyên văn STYLE_NOI_CHUYEN ở dưới>",
   "project": "kebab-case, trùng tên thư mục output",
   "chapters": [
     {"id": "kebab-case", "kicker": "2–4 từ", "heading": "≤ 8 từ", "vo": "45–70 từ"}
@@ -376,8 +402,14 @@ nhạc nền chạy quá lâu và người xem quên đang ở đâu.
 ```
 
 - `id` **kebab-case**, không dấu, duy nhất trong file.
-- `style`: **chép nguyên văn** style của `scripts/demo-v2.json`. Đó là bản đã đo
-  được 2.9 âm tiết/s và khớp nhịp cắt 1 s/shot. Chỉ đổi khi người dùng yêu cầu
+- `style` — STYLE_NOI_CHUYEN, chép nguyên văn:
+  *"Bạn là một YouTuber Việt đang NÓI CHUYỆN với người nghe, kể lại chuyện đời mình như đang kể cho thằng bạn thân
+  hoặc cho 'em' đang ngồi đối diện — không đọc kịch bản. Giọng nam trẻ miền Bắc, năng lượng cao, nói nhanh hơn
+  bình thường 20%, câu dài đọc liền một hơi, tới câu ngắn thì ngắt hẳn và nhấn như đấm. Giữ nguyên tiếng đệm
+  (nhá, đấy, xong, ờ, ấy), thở và cười khẽ khi tự chửi mình, hạ giọng thì thào ở chỗ bí mật, lên giọng bất
+  ngờ ở chỗ ngạc nhiên. Từ chửi nhẹ đọc tự nhiên, không nhấn quá. Tuyệt đối không đọc đều đều, không trầm buồn,
+  không kiểu đọc bản tin hay kể chuyện ma."*
+  Bản `scripts/demo-v2.json` là style cũ (đọc kịch bản); chỉ dùng khi người dùng đòi đúng giọng cũ. Chỉ đổi khi người dùng yêu cầu
   chất giọng khác, và khi đó phải nói rõ hệ quả: giọng chậm → shot dài → phải
   viết câu ngắn hơn nữa để bù.
 - `voice`: `Fenrir` (bốc, hào hứng) mặc định; `Puck` (tưng tửng) nếu chuyện
