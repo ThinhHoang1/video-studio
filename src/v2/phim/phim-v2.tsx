@@ -49,7 +49,7 @@ const Chuong: React.FC<{d: DuLieuPhim; c: ChuongDung; audio: string; nhac: strin
     <AbsoluteFill style={{background: NEN}}>
       {c.shots.map((s) => (
         <Sequence key={s.idx} from={s.from} durationInFrames={s.len} layout="none">
-          <SanKhau shot={s} frame={Math.max(0, frame - s.from)} frameChuong={frame} cues={c.cues} mouth={d.mouths?.[c.id]} voice={d.voices[c.id]} nguoiKe={d.board.nguoi_ke} id={`${c.id}-${s.idx}`} />
+          <SanKhau shot={s} frame={Math.max(0, frame - s.from)} frameChuong={frame} cues={c.cues} mouth={d.mouths?.[c.id]} voice={d.voices[c.id]} nguoiKe={d.board.nguoi_ke} id={`${c.id}-${s.idx}`} propTuVe={d.board.prop_tu_ve} />
           {s.sfx && <Audio src={staticFile(`sfx/${s.sfx}.wav`)} volume={0.55} />}
         </Sequence>
       ))}

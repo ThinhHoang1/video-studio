@@ -203,6 +203,26 @@ if (board) {
   if (md.loai) bao(TV.loai.has(md.loai), `mac_dinh.loai "${md.loai}" không có trong thư viện`);
   if (md.co) bao(TV.co.has(md.co), `mac_dinh.co "${md.co}" không có trong thư viện`);
 
+  // ── prop tự vẽ: kiểm dữ liệu vẽ ──
+  const LOAI_HINH = new Set(['net', 'khoi', 'hop', 'tron', 'bau', 'gach', 'chu', 'to']);
+  const so = (v) => typeof v === 'number' && Number.isFinite(v);
+  for (const [ten, pv] of Object.entries(board.prop_tu_ve ?? {})) {
+    const o = `prop_tu_ve "${ten}"`;
+    bao(/^[a-z0-9-]+$/.test(ten), `${o}: tên phải kebab-case không dấu`);
+    bao(!TV.prop.has(ten), `${o}: trùng tên prop thư viện — đặt tên khác`);
+    bao(typeof pv?.moTa === 'string' && pv.moTa.length > 0, `${o}: thiếu moTa`);
+    bao(so(pv?.rong) && so(pv?.cao) && pv.rong > 0 && pv.cao > 0, `${o}: rong/cao phải là số dương (px ở co=1)`);
+    bao(Array.isArray(pv?.hinh) && pv.hinh.length > 0 && pv.hinh.length <= 80, `${o}: hinh phải là mảng 1–80 hình`);
+    for (const [k, h] of (pv?.hinh ?? []).entries()) {
+      const oh = `${o} hình ${k + 1}`;
+      if (!LOAI_HINH.has(h?.loai)) { loi.push(`${oh}: loai "${h?.loai}" — chỉ có: ${[...LOAI_HINH].join(', ')}`); continue; }
+      const can = {net: ['d'], khoi: ['d'], hop: ['x', 'y', 'w', 'h'], tron: ['cx', 'cy', 'r'], bau: ['cx', 'cy', 'rx', 'ry'], gach: ['x1', 'y1', 'x2', 'y2'], chu: ['x', 'y', 'text'], to: ['d', 'mau']}[h.loai];
+      for (const t of can) bao(h[t] !== undefined && (t === 'd' || t === 'text' || t === 'mau' ? typeof h[t] === 'string' : so(h[t])), `${oh} (${h.loai}): thiếu/sai kiểu trường ${t}`);
+      if (typeof h.d === 'string') bao(/^[MmLlHhVvCcSsQqTtAaZz0-9\s,.\-]+$/.test(h.d), `${oh}: path d có ký tự lạ`);
+      if (h.loai === 'to') nhac(/^#[0-9a-f]{6}$/i.test(h.mau ?? ''), `${oh}: mau phải dạng #rrggbb; màu ngoài bảng cho phép sẽ bị vẽ trắng`);
+    }
+  }
+  const tenTuVe = new Set(Object.keys(board.prop_tu_ve ?? {}));
   const chuongBoard = new Set();
   for (const ch of board.chuong ?? []) {
     const id = ch.id ?? '?';
@@ -247,7 +267,7 @@ if (board) {
       if (s.boi_canh) kiemNeuCo(TV.boiCanh, s.boi_canh, `${oS}: bối cảnh "${s.boi_canh}" không có trong thư viện`);
 
       for (const [j, p] of (s.prop ?? []).entries()) {
-        bao(p && TV.prop.has(p.ten), `${oS}: prop ${j + 1} "${p?.ten}" không có trong thư viện`);
+        bao(p && (TV.prop.has(p.ten) || tenTuVe.has(p.ten)), `${oS}: prop ${j + 1} "${p?.ten}" không có trong thư viện lẫn board.prop_tu_ve — thiếu thì TỰ VẼ (xem SKILL.md mục "Thiếu prop")`);
         bao(p && typeof p.x === 'number' && typeof p.y === 'number', `${oS}: prop ${j + 1} "${p?.ten}" thiếu x/y`);
       }
       for (const [j, c] of (s.chu ?? []).entries()) {

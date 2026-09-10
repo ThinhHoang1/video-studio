@@ -103,6 +103,35 @@ export type Prop = {
   tai?: number;
   /** vẽ TRƯỚC nhân vật (bàn che chân người ngồi) */
   truoc?: boolean;
+  /** chữ điền vào prop có nhãn (bang-hieu, hop-nhan, bieu-tuong...) */
+  chu?: string;
+};
+
+/**
+ * PROP TỰ VẼ — khi thư viện thiếu, agent VẼ prop mới bằng dữ liệu (không cần code TSX).
+ *
+ * Toạ độ cục bộ px ở co = 1: gốc (0,0) là TÂM ĐÁY prop, x sang phải, y ÂM hướng lên
+ * (cùng quy ước prop thư viện). Máy vẽ với đúng luật nét: viền đen dày `net`, thân
+ * tô trắng nền, không đổ bóng; chỉ 'to' được tô màu và phải là màu nhấn phẳng.
+ * Xem thử: node pipeline/xem-prop.mjs <du-an> <ten>  → out/<du-an>/prop-<ten>.png
+ */
+export type HinhVe =
+  | {loai: 'net'; d: string} // đường nét hở (path SVG), không tô
+  | {loai: 'khoi'; d: string} // khối kín: path SVG tô trắng + viền
+  | {loai: 'hop'; x: number; y: number; w: number; h: number; bo?: number} // hộp (x,y góc trên trái), bo = bo góc
+  | {loai: 'tron'; cx: number; cy: number; r: number}
+  | {loai: 'bau'; cx: number; cy: number; rx: number; ry: number}
+  | {loai: 'gach'; x1: number; y1: number; x2: number; y2: number}
+  | {loai: 'chu'; x: number; y: number; text: string; co?: number; dam?: boolean} // chữ đen, co = cỡ px
+  | {loai: 'to'; d: string; mau: string}; // khối tô màu nhấn phẳng (đỏ #f81000, xám #656565, pastel)
+
+export type PropTuVe = {
+  /** mô tả một dòng — để thu-vien và người sau hiểu */
+  moTa: string;
+  /** khung bao (px ở co=1): rộng toàn phần và cao từ đáy lên */
+  rong: number;
+  cao: number;
+  hinh: HinhVe[];
 };
 
 export const PROP_TEN = [
@@ -222,5 +251,7 @@ export type Board = {
   /** người kể mặc định cho truc-dien */
   nguoi_ke: string;
   mac_dinh?: Pick<Shot, 'loai' | 'co' | 'nen'>;
+  /** prop tự vẽ của dự án — tên ở đây dùng được trong Shot.prop[].ten và DienVien.cam như prop thư viện */
+  prop_tu_ve?: Record<string, PropTuVe>;
   chuong: BoardChuong[];
 };

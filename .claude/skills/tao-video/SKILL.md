@@ -26,9 +26,8 @@ ghi trong một file JSON (`board.json`), máy lo phần còn lại.
 
 1. **Video thành phẩm nằm ở `media/outbound/<ten>.mp4` kèm `<ten>.md`.** `out/` là nháp.
 2. **`node pipeline/kiem-tra-v2.mjs <ten>` phải exit 0 trước khi render.**
-3. **Chỉ dùng tên có trong `thu-vien-v2.json`.** Không tự nghĩ tên tư thế / prop / sfx.
-   Không sửa mã TS trong `src/v2/`. Thiếu prop thì dùng prop gần nhất và ghi vào
-   `ghi_chu` của shot để người vẽ thêm sau.
+3. **Chỉ dùng tên có trong `thu-vien-v2.json`** (tư thế / mắt / miệng / sfx / nhạc / prop)
+   hoặc prop bạn **tự vẽ** trong `board.prop_tu_ve`. Không sửa mã TS trong `src/v2/`.
 
 ## Một lệnh chạy hết
 
@@ -179,9 +178,50 @@ chạy lại từ `--tu kiem`. Render ~17 khung/s: 90 s video ≈ 2.5 phút.
 
 Nhạc là CC BY (`public/audio/CREDITS.md`): **không ghi công khi đăng là vi phạm giấy phép.**
 
+## Thiếu prop? TỰ VẼ, không bỏ ý
+
+Thư viện không có thứ câu chuyện cần (máy bán nước, con mèo, cái cúp) thì bạn **vẽ nó
+bằng dữ liệu** ngay trong `board.json`, mục `prop_tu_ve`. Không cần sửa mã TS, không
+cần hỏi người. Ba cách, ưu tiên từ trên xuống:
+
+1. **Prop có nhãn chữ** (nhanh nhất, kiểu Jaiden vẽ cái hộp rồi ghi chữ lên):
+   `{"ten": "bang-hieu", "x": 0.7, "y": 0.86, "chu": "PHÒNG NHÂN SỰ"}` — cũng có
+   `hop-nhan`, `bieu-tuong`, `to-giay`, `man-hinh` (trường `chu`).
+2. **Prop tự vẽ** — khai một lần trong `board.prop_tu_ve`, dùng như prop thư viện:
+
+```json
+"prop_tu_ve": {
+  "may-ban-nuoc": {
+    "moTa": "máy bán nước tự động", "rong": 260, "cao": 560,
+    "hinh": [
+      {"loai": "hop", "x": -130, "y": -560, "w": 260, "h": 560, "bo": 14},
+      {"loai": "hop", "x": -105, "y": -530, "w": 150, "h": 300, "bo": 6},
+      {"loai": "tron", "cx": -70, "cy": -490, "r": 22},
+      {"loai": "gach", "x1": -105, "y1": -430, "x2": 45, "y2": -430},
+      {"loai": "chu", "x": 0, "y": -140, "text": "{chu}", "co": 44},
+      {"loai": "to", "d": "M -60 -520 h 30 v 20 h -30 z", "mau": "#f81000"},
+      {"loai": "net", "d": "M -130 -30 q 130 -25 260 0"}
+    ]
+  }
+}
+```
+
+   Toạ độ px ở `co = 1`, gốc **tâm đáy**, y âm hướng lên; nhân vật cỡ trung cao ~858 px
+   nên vật để bàn ~150–300 px, đồ đứng ~500–900 px. Hình: `net` (đường hở), `khoi`
+   (path kín tô trắng), `hop`, `tron`, `bau`, `gach`, `chu` (có `{chu}` thì lấy từ
+   `prop[].chu`), `to` (tô màu nhấn, chỉ màu trong bảng ở `src/v2/props/tu-ve.tsx`).
+   Máy tự vẽ viền đen dày đều, thân trắng — bạn chỉ lo hình dáng. **Bắt buộc xem
+   trước khi dùng:** `node pipeline/xem-prop.mjs <du-an> may-ban-nuoc --chu COCA`
+   → `out/<du-an>/prop-may-ban-nuoc.png`, mở bằng Read, chỉnh tới khi nhận ra được
+   ở cỡ nhỏ (thu 25% vẫn hiểu là gì). Validator kiểm tên/kiểu/hình, không kiểm đẹp.
+3. **Ảnh chèn** (`loai: insert`) cho thứ quá đặc thù hoặc meme.
+
+Prop tự vẽ dùng được ở `prop[].ten` mọi shot của dự án. Nếu vẽ đẹp và dùng lại nhiều,
+ghi vào `ghi_chu` để người vẽ đưa vào thư viện chung.
+
 ## Không làm
 
-- Không vẽ prop/nhân vật mới trong một lượt. Chỉ tên trong `thu-vien-v2.json`.
+- Không nghĩ tên prop bừa: tên phải có trong `thu-vien-v2.json` hoặc `board.prop_tu_ve`. Thiếu thì tự vẽ (mục trên), không bỏ ý.
 - Không tween, không fade, không zoom trượt: schema không có, đừng cố mô tả trong `ghi_chu`.
 - Không để nhân vật nói mà đứng yên quá 1.5 s (thêm `act`), không để trực diện quá 3 s liền.
 - Không dùng `truc-dien` cho hơn một người `noi`.
