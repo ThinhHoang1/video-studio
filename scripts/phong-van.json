@@ -1,0 +1,38 @@
+{
+  "title": "Lần đầu phỏng vấn: Long dặn bảy điều, tôi nhớ hai",
+  "voice": "Fenrir",
+  "style": "Bạn là YouTuber kể chuyện đời mình bằng hoạt hình (kiểu storytime animation). Giọng nam trẻ, NĂNG LƯỢNG CAO, nói nhanh, hào hứng, như đang kể cho hội bạn thân nghe một chuyện vừa xảy ra sáng nay. Tốc độ nhanh hơn bình thường 20%. Lên giọng bất ngờ ở chỗ ngạc nhiên, hạ giọng thì thào ở chỗ bí mật, cười khẽ trong lúc nói khi tự thấy mình ngớ ngẩn. Câu ngắn đọc DỨT, dứt khoát như đấm punchline. Tuyệt đối không đọc đều đều, không trầm buồn, không kiểu kể chuyện ma. Tiếng Việt giọng Bắc, đời thường.",
+  "project": "phong-van",
+  "chapters": [
+    {
+      "id": "long-huan-luyen",
+      "kicker": "Tối hôm trước",
+      "heading": "Long dặn bảy điều",
+      "vo": "Tối trước phỏng vấn, Long qua nhà. Long chưa đi làm ngày nào nhưng xem đúng bốn trăm video dạy phỏng vấn. Nó dặn bảy điều. Điều một: bắt tay phải chặt. Điều hai: nhìn thẳng vào mắt, không chớp. Điều ba: gọi tên người ta ít nhất ba lần. Điều bốn tới bảy tôi quên, vì lo điều hai. Bao lâu. Long bảo: tới khi họ chớp trước."
+    },
+    {
+      "id": "bat-tay",
+      "kicker": "Điều một, hai, ba",
+      "heading": "Chị Trang rút tay ra",
+      "vo": "Người phỏng vấn là chị Trang. Tôi bắt tay. Chặt. Rất chặt. Chị Trang rút tay ra, nhìn tay, rồi nhìn tôi. Tôi nhìn thẳng vào mắt chị. Không chớp. Chị hỏi: em ổn không. Em ổn, chị Trang. Chị Trang mời ngồi. Cảm ơn chị Trang. Ba lần rồi, điều ba xong. Chị Trang cầm bút bắt đầu ghi. Chưa hỏi gì đã ghi."
+    },
+    {
+      "id": "me-goi",
+      "kicker": "Rung lần ba",
+      "heading": "CON NHỚ NÓI CON CHỊU KHÓ",
+      "vo": "Đang câu thứ hai, điện thoại rung. Mẹ. Tôi để im lặng, nhưng mẹ gọi thì cái bàn nó vẫn rung. Rung lần một. Chị Trang nhìn tôi. Rung lần hai. Chị Trang nhìn cái bàn. Rung lần ba. Tôi bấm tắt. Ba giây sau, tin nhắn hiện to trên màn hình: CON NHỚ NÓI CON CHỊU KHÓ. Viết hoa hết. Chị Trang đọc được. Cả phòng đọc được."
+    },
+    {
+      "id": "chiu-kho",
+      "kicker": "Điểm mạnh",
+      "heading": "Chị đang lo cho em đấy",
+      "vo": "Chị Trang hỏi: điểm mạnh của em là gì. Tôi định nói học nhanh. Nhưng não tôi đang nhìn tin nhắn. Tôi nói: em chịu khó. Chị bật cười. Cười thật. Chị hỏi: mẹ em dặn à. Vâng. Còn ai dặn nữa không. Thằng bạn em dặn không được chớp mắt. Chị bảo: chị biết, chị đang lo cho em đấy. Tôi chớp. Lần đầu sau hai mươi phút."
+    },
+    {
+      "id": "ket",
+      "kicker": "Hai tuần sau",
+      "heading": "Điều bảy là gì",
+      "vo": "Hai tuần sau, mail. Trúng. Cuối mail ghi: ứng viên rất tập trung, và rất chịu khó. Tôi đọc lại ba lần. Không chớp. Long xem xong bảo: thấy chưa, điều hai. Thế điều bảy là gì. Long bảo: tắt điện thoại. Cảm ơn Long. Rất kịp thời. Mẹ đọc mail, không nói gì, chỉ chuyển tiếp cho cả họ. Kèm chú thích: chịu khó là mẹ dặn."
+    }
+  ]
+}
