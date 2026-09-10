@@ -22,10 +22,18 @@ ghi trong một file JSON (`board.json`), máy lo phần còn lại.
 | `docs/thu-vien-canh.md` | tra nhanh tên: 28 bối cảnh (kèm prop bung ra), 103 prop, 43 tư thế, 21 mẫu hành động, 10 đồ cầm, sfx, nhạc |
 | `thu-vien-v2.json` | **danh mục tên hợp lệ** dạng máy đọc (nguồn của bảng trên) |
 | `src/v2/board/kieu-board.ts` + `README.md` | schema board đầy đủ, chú thích từng trường (giới hạn chữ `the`, trường `ten` ghi chú diễn viên) |
-| `src/projects/demo-v2/board.json` | ví dụ thật 77 shot đã render ra `media/outbound/demo-v2.mp4` |
+| `src/projects/demo-v2/board.json` | ví dụ thật 77 shot đã render ra `media/outbound/demo-v2.mp4` — đọc để học **ngữ pháp shot**, KHÔNG chép nguyên khối |
 
-## Ba luật không phá
+## Bốn luật không phá
 
+0. **KHÔNG BAO GIỜ render lại một kịch bản đã có phim.** Mọi file trong `scripts/`
+   là **ví dụ đã dựng xong**, không phải bản mẫu để chạy lại. Người dùng bảo "làm
+   video về X" mà `scripts/X.json` đã nằm sẵn đó → **đặt tên khác** (`X-2`) và
+   **viết kịch bản mới**: nhân vật khác, tình huống khác, punchline khác. Giao lại
+   đúng video cũ là làm hỏng việc, dù pipeline chạy trơn tru.
+   Hai cổng máy chặn chuyện này: `tao-video.mjs` dừng khi `media/outbound/<ten>.mp4`
+   đã có (bỏ qua có chủ đích: `--lam-lai`), và `cham-kich-ban.mjs` chặn khi lời bình
+   trùng > 45% với bất kỳ kịch bản nào khác trong `scripts/`.
 1. **Video thành phẩm nằm ở `media/outbound/<ten>.mp4` kèm `<ten>.md`.** `out/` là nháp.
 2. **`node pipeline/kiem-tra-v2.mjs <ten>` phải exit 0 trước khi render.**
 3. **Chỉ dùng tên có trong `thu-vien-v2.json`** (tư thế / mắt / miệng / sfx / nhạc / prop)

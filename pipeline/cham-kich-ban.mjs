@@ -12,7 +12,7 @@
  *
  * Thoát 0 = được TTS; 1 = viết lại.
  */
-import {existsSync, readFileSync} from 'node:fs';
+import {existsSync, readdirSync, readFileSync} from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
@@ -29,6 +29,59 @@ if (!existsSync(p)) {
 const kb = JSON.parse(readFileSync(p, 'utf8'));
 const loi = [];
 const canhBao = [];
+
+/**
+ * CHỐNG CHÉP LẠI KỊCH BẢN ĐÃ CÓ.
+ *
+ * Repo chứa sẵn các kịch bản đã dựng thành phim (`scripts/*.json`) để làm ví dụ.
+ * Chuyện đã xảy ra thật: người dùng bảo agent "làm video về X", agent thấy
+ * `scripts/X.json` đã nằm sẵn đó nên render lại nguyên bản của người khác và
+ * báo là đã làm xong — không sáng tạo gì cả, và người dùng chỉ phát hiện khi
+ * xem thấy y hệt video cũ.
+ *
+ * Cổng này đo trùng lặp bằng Jaccard trên 3-gram từ, so chương-với-chương giữa
+ * kịch bản đang chấm và MỌI kịch bản khác trong scripts/. Chép nguyên = 1.0.
+ *   > 0.45  → CHẶN (chép lại, dù có đổi vài từ)
+ *   > 0.25  → cảnh báo (ý trùng, nên kể góc khác)
+ * Ngưỡng đo trên 10 kịch bản có sẵn: hai kịch bản khác chủ đề của cùng một
+ * người viết trùng cao nhất 0.06 — nên 0.45 là rất rộng tay, chỉ bắt chép thật.
+ */
+const ngram = (t) => {
+  const w = String(t).toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, ' ').split(/\s+/).filter(Boolean);
+  const g = new Set();
+  for (let i = 0; i + 2 < w.length; i++) g.add(`${w[i]} ${w[i + 1]} ${w[i + 2]}`);
+  return g;
+};
+const jaccard = (a, b) => {
+  if (!a.size || !b.size) return 0;
+  let chung = 0;
+  for (const x of a) if (b.has(x)) chung++;
+  return chung / (a.size + b.size - chung);
+};
+const trungLap = () => {
+  const ta = (kb.chapters ?? []).map((c) => ngram(c.vo ?? ''));
+  const ket = [];
+  for (const f of readdirSync(path.join(ROOT, 'scripts'))) {
+    if (!f.endsWith('.json') || f === `${TEN}.json`) continue;
+    let khac;
+    try {
+      khac = JSON.parse(readFileSync(path.join(ROOT, 'scripts', f), 'utf8'));
+    } catch {
+      continue;
+    }
+    const tb = (khac.chapters ?? []).map((c) => ngram(c.vo ?? ''));
+    let max = 0;
+    let tong = 0;
+    for (const a of ta) {
+      let m = 0;
+      for (const b of tb) m = Math.max(m, jaccard(a, b));
+      max = Math.max(max, m);
+      tong += m;
+    }
+    if (ta.length && max > 0.15) ket.push({file: f.replace(/\.json$/, ''), max, tb: tong / ta.length});
+  }
+  return ket.sort((x, y) => y.max - x.max);
+};
 /**
  * Hai định dạng, một cổng.
  *   storytime (mặc định) — kể một chuyện đời, cần thoại trực tiếp + callback cuối bài.
@@ -125,6 +178,19 @@ if (!BT && tatCaTu.length >= 3) {
   const pho = new Set(['không', 'nhưng', 'người', 'được', 'chuyện', 'lúc', 'cái', 'thằng', 'này', 'đấy', 'rồi', 'thì', 'cũng', 'đang', 'phải', 'nhìn', 'bảo', 'hỏi']);
   const cb = [...cuoi].filter((t) => t.length >= 4 && !pho.has(t) && tatCaTu.slice(0, -1).filter((s) => s.has(t)).length >= 1);
   if (cb.length < 2) canhBao.push(`callback: chương cuối không nhặt lại từ khoá gieo trước — twist/callback yếu (thấy: ${cb.join(', ') || 'không có'})`);
+}
+
+// chống chép lại kịch bản đã có trong repo
+for (const t of trungLap()) {
+  if (t.max > 0.45) {
+    loi.push(
+      `TRÙNG kịch bản "${t.file}" đã có trong repo (${(t.max * 100).toFixed(0)}% chương giống nhất, ` +
+        `${(t.tb * 100).toFixed(0)}% trung bình) — kịch bản trong scripts/ là VÍ DỤ, không phải bản mẫu để render lại. ` +
+        `Cùng chủ đề thì phải kể chuyện khác: nhân vật khác, tình huống khác, punchline khác.`
+    );
+  } else if (t.max > 0.25) {
+    canhBao.push(`gần giống kịch bản "${t.file}" (${(t.max * 100).toFixed(0)}%) — kiểm lại xem có đang kể lặp ý của bản đó không`);
+  }
 }
 
 // rubric tự chấm

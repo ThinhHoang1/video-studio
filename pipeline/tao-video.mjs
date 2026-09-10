@@ -74,6 +74,17 @@ if (chay('kich-ban')) {
   tieuDe('1/11 kịch bản');
   if (!DU_AN) dung('kịch bản thiếu trường "project" — V2 bắt buộc (vd "project": "' + TEN + '")');
   if (!kb.voice || !kb.style) dung('kịch bản thiếu voice/style');
+  // Kịch bản này ĐÃ thành phim rồi → gần như chắc chắn agent đang định render lại
+  // sản phẩm của người khác thay vì viết mới. Chuyện đã xảy ra thật: người dùng bảo
+  // "làm video về X", agent thấy scripts/X.json nằm sẵn trong repo nên chạy thẳng
+  // pipeline và báo đã xong — ra đúng video cũ, không sáng tạo gì.
+  if (existsSync(path.join(ROOT, `media/outbound/${TEN}.mp4`)) && !process.argv.includes('--lam-lai')) {
+    dung(
+      `"${TEN}" ĐÃ có phim ở media/outbound/${TEN}.mp4 — kịch bản trong scripts/ là VÍ DỤ, không phải bản mẫu để chạy lại.\n` +
+        `  Muốn làm video MỚI cùng chủ đề: đặt tên khác (vd ${TEN}-2) và VIẾT LẠI kịch bản — nhân vật khác, tình huống khác, punchline khác.\n` +
+        `  Chỉ dựng lại đúng bản cũ (sửa board, đọc lại giọng): thêm cờ --lam-lai`
+    );
+  }
   console.log(`  ✓ ${kb.chapters.length} chương, giọng ${kb.voice}`);
   if (BO_CHAM) console.log('  ⚠ --bo-cham: bỏ qua cổng chấm kịch bản (pipeline/cham-kich-ban.mjs)');
   else if (node('pipeline/cham-kich-ban.mjs', TEN) !== 0) dung('kịch bản chưa qua cổng chấm — sửa theo dòng ✗ rồi chạy lại (cố ý bỏ qua: --bo-cham)');
