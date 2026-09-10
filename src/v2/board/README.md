@@ -13,7 +13,9 @@ File: `src/projects/<du-an>/board.json`, kiểu `Board` trong `kieu-board.ts`.
 | Nền | trắng trơn; prop chỉ khi câu nhắc tới vật đó |
 | Chuyển động | KHÔNG tween — đổi tư thế tức thời (`act[].tai`), giữ 0.4–1.5 s rồi đổi |
 | Đầu | không gật, không nhún khi nói; chỉ miệng đổi |
-| Nhân vật phụ | `kieu: "trang"` đầu trắng không mặt; cho `mat`/`mieng` khi họ có vai |
+| Nhân vật phụ | `kieu: "trang"` đầu trắng không mặt; cho `mat`/`mieng` khi họ có vai. Trùng tên với người trong chuyện ("chị Trang") thì thêm `ten: "chị Trang (HR)"` — chỉ là ghi chú cho người đọc board, không ảnh hưởng render |
+| Chữ `the` | xuống dòng bằng `"\n"`; kèm nhân vật (`vi_tri` trai/phai) ≤ 14 ký tự/dòng, `vao: phong` ≤ 12, `giua` ≤ 20. `vi_tri: duoi` đè phụ đề tự động → chỉ dùng ở shot không có lời |
+| Chiều cao | `thay`/`me`/`trang` cao ≈ 2.95 DAU (khung người lớn) → ở cỡ `can` đặt `co` 0.85–0.9, ở `sat` 0.8, kẻo mất đỉnh đầu |
 
 ## Một chương mẫu
 
@@ -25,13 +27,13 @@ File: `src/projects/<du-an>/board.json`, kiểu `Board` trong `kieu-board.ts`.
     {"say": "cô chủ nhiệm đổi chỗ ngồi cả lớp", "loai": "minh-hoa", "co": "rong",
      "prop": [{"ten": "day-ban-lop", "x": 0.5, "y": 0.86}],
      "dien": [
-       {"kieu": "thay", "x": 0.2, "dang": "dung", "act": [{"tai": 0, "dang": "dung"}, {"tai": 0.7, "dang": "chi", "mat": "khe"}]},
+       {"kieu": "thay", "ten": "cô chủ nhiệm", "x": 0.2, "dang": "dung", "act": [{"tai": 0, "dang": "dung"}, {"tai": 0.7, "dang": "chi", "mat": "khe"}]},
        {"kieu": "trang", "x": 0.55, "co": 0.8}, {"kieu": "trang", "x": 0.7, "co": 0.8}, {"kieu": "trang", "x": 0.85, "co": 0.8}
      ]},
     {"say": "không theo ý ai", "loai": "phan-ung", "dien": [{"kieu": "nam", "x": 0.5, "mat": "soc", "mieng": "meu"}],
      "chu": [{"noi_dung": "?!", "kieu": "tay", "vi_tri": "canh-dau"}]},
     {"say": "Bạn ấy tên Hà", "loai": "chu", "chu": [{"noi_dung": "HÀ.", "kieu": "the", "vao": "phong"}], "sfx": "ding"},
-    {"tai": 14.2, "loai": "trong", "dai": 0.6},
+    {"tai": 14.2, "loai": "trong", "dai": 0.6, "ghi_chu": "chèn ngay trước shot kế (mốc 14.8 từ --moc) — không append cuối chương"},
     {"say": "Hoá ra không", "loai": "tieu-canh", "dien": [{"kieu": "nam", "x": 0.5, "dang": "nhunVai", "mat": "nho"}]}
   ]
 }
@@ -44,3 +46,4 @@ File: `src/projects/<du-an>/board.json`, kiểu `Board` trong `kieu-board.ts`.
 - chương có ≥ 1 shot mỗi 2.5 s trung bình; đoạn trực diện liên tục ≤ 7 s
 - shot `truc-dien` phải có đúng một diễn viên `noi`
 - shot `insert` phải có `anh` tồn tại trong `public/`
+- không kiểm: `ten` (ghi chú), độ dài chữ, vị trí chữ có đè phụ đề — soát bằng still (`pipeline/xem-shot.mjs`)

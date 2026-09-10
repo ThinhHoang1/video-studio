@@ -57,12 +57,33 @@ Quy tắc chuyển:
 |---|---|---|---|---|
 | `nho` | 110 | 0.66 | nhân vật bé giữa trắng | `tieu-canh` |
 | `rong` | 200 | 0.84 | toàn thân + prop lớn (dãy bàn, cổng trường) | `dong-nguoi`, thiết lập |
-| `trung` | 330 | 1.04 | cắt ở gối | `minh-hoa` mặc định, `chu` có nhân vật |
-| `can` | 560 | 1.50 | cắt ở ngực | `truc-dien`, `phan-ung`, đối thoại 2 người |
+| `trung` | 330 | 1.04 | cắt ở cổ chân (bàn chân ngoài khung), thấy cả gối | `minh-hoa` mặc định, `chu` có nhân vật |
+| `can` | 560 | 1.50 | cắt ngang eo (nửa thân trên + tay) | `truc-dien`, `phan-ung`, đối thoại 2 người |
 | `sat` | 900 | 2.20 | chỉ mặt | `dac-ta` mặt |
 
-Prop có `co` riêng, **nhân theo DAU/330**: cùng `co: 1` ở `rong` vẽ 0.6×, ở
-`can` 1.7×, ở `sat` 2.7× so với `trung`. Toạ độ `x`, `y` của prop là **tâm đáy**
+### Cỡ prop trên màn: một công thức, không đoán
+
+```
+px trên màn = px khai (ở co = 1, thiết kế cho cỡ trung DAU 330) × co × DAU_cỡ / 330
+DAU_cỡ: nho 110 · rong 200 · trung 330 · can 560 · sat 900
+```
+
+Cùng `co: 1`: ở `rong` vẽ 0.6×, `can` 1.7×, `sat` 2.7× so với `trung`. Muốn prop
+**cao H px khai** chiếm ~60–70% khung (≈ 650–750 px, mức đặc tả đẹp) thì
+`co ≈ 700 / (H × DAU_cỡ / 330)`:
+
+| H khai (px ở co 1) | ví dụ | `rong` | `trung` | `can` | `sat` |
+|---|---|---|---|---|---|
+| 150 | `but`, `sach`, vật để bàn | (để 0.6–1, không cần đầy) | (0.6–1) | 2.4–2.8 | **1.6–1.8** |
+| 260 | `dien-thoai` 130×260, `dong-ho` | 2.5–4 | 1.5–2.7 | 1.4–1.6 | **0.9–1.0** |
+| 560 | máy bán nước, `tu-lanh`, `cua` | 1.5–2 | 1.0–1.25 | 0.65–0.75 | **0.42–0.46** |
+| 900 | `cot-dien`, `cong-truong`, đồ đứng cao | 1.0–1.3 | 0.7–0.8 | 0.4–0.46 | **0.27–0.3** |
+
+Ví dụ: `dien-thoai` (130×260) đặc tả ở `sat` → `co ≈ 0.9` (không phải 2–2.4: con số
+đó chỉ đúng cho prop bé ~100–150 px như `but`, `sach`). Với prop **tự vẽ** không cần
+tính tay: `node pipeline/xem-prop.mjs <du-an> <ten> --co 0.9 --co-canh sat --thu 0.25`
+vẽ prop trong đúng khung cỡ `sat` cạnh nhân vật cùng cỡ, in % khung và `co` gợi ý,
+kèm bản thu 25% để kiểm "còn nhận ra là gì". Toạ độ `x`, `y` của prop là **tâm đáy**
 theo tỉ lệ khung. Bộ toạ độ đã kiểm trên still (`demo-v2`):
 
 | Prop | `trung` | `rong` | `can` | `sat` (đặc tả) |
@@ -82,6 +103,26 @@ theo tỉ lệ khung. Bộ toạ độ đã kiểm trên still (`demo-v2`):
 
 `truoc: true` = vẽ **trước** nhân vật (bàn che chân người ngồi). Người đứng
 cạnh bàn thì không dùng.
+
+### Chiều cao nhân vật theo cỡ: ai bị cắt đầu ở đâu
+
+Rig (`src/v2/rig/hinh.ts`): khung chính **2.6 DAU** (`nam`, `ha`, `long`, `mai`,
+`nam-lon`, `ha-lon`), khung người lớn **3.6 DAU** (`me`, `thay`, `trang`; renderer
+thu 0.82 → **≈ 2.95 DAU** của cỡ cảnh; `me` có co riêng 0.95 → 2.8; `long`/`nam-lon`
+co 1.05 → 2.73). Chân đặt ở `chanY` của cỡ nên **cỡ càng gần, đầu người cao càng
+vọt khỏi mép trên**:
+
+| Nhân vật | Cao (DAU cỡ cảnh) | `rong` / `nho` | `trung` | `can` | `sat` | `co` gợi ý |
+|---|---|---|---|---|---|---|
+| `nam` `ha` `mai` `ha-lon` | 2.6 | trọn người | cắt cổ chân, đỉnh đầu y ≈ 0.25 | cắt eo, đỉnh đầu y ≈ 0.2 | chỉ mặt (sọ y 0.13–0.9) | 1 ở mọi cỡ |
+| `long` `nam-lon` | 2.73 | trọn người | cắt cổ chân | cắt hông, đỉnh đầu y ≈ 0.14 | mặt + tóc chạm mép | 1; `sat` 0.95 |
+| `thay` `trang` | 2.95 | trọn người | cắt cổ chân, đỉnh đầu y ≈ 0.14 | **mất đỉnh đầu + tóc** (đỉnh sọ ở y −0.04) | **chỉ thấy nửa mặt dưới** (sọ tâm y 0.04) | `can` **0.85**, `sat` **0.8** |
+| `me` | 2.8 | trọn người | cắt cổ chân | mất tóc (đỉnh sọ y 0.04) | nửa mặt | `can` **0.9**, `sat` **0.8** |
+
+Đọc bảng: cỡ `can` mà có `thay`/`me`/`trang` thì ghi `co: 0.85–0.9` cho họ (ví dụ
+§9b đã làm vậy); cỡ `sat` đặc tả mặt thầy → `co: 0.8`. Muốn thầy **cao hơn** học
+sinh trong cùng khung thì giữ `co` nhưng đổi cỡ sang `trung`/`rong`, đừng phóng
+`co` ở `can`. Đám đông `trang` ở `dong-nguoi` (`rong`) dùng `co: 0.8` như §3.
 
 Prop **chỉ vẽ đúng vật câu đang nhắc** (tham chiếu: 84% shot nền trắng + 1–2
 prop; không sàn, không tường). Lớp học = `day-ban-lop` + `bang-den`; không thêm
@@ -140,59 +181,118 @@ cửa, đèn, tủ cho "đủ phòng".
 
 ## 4. Mẫu hành động `mau` (đã nối renderer)
 
-`DienVien.mau` + `mau_tham_so` sinh `act` tự động (danh sách và tham số: `src/v2/act/README.md`)
-(`src/v2/act/`, chưa có). Tên **dự kiến**: `vao-chay`, `ra-chay`, `vao-di`,
-`giat-minh`, `nga`, `lac-dau`, `gat-gu`, `run`, `go-ban`, `nhin-quanh`,
-`cuoi-lan`, `ngu-gat`, `viet-bang`, `quay-lai`. Được ghi vào board ngay từ giờ
-(validator không kiểm trường này), nhưng **hiện chưa thấy trên hình**, nên
-**luôn viết `act` tay kèm theo** (act tay sẽ đè lên mẫu khi mẫu chạy). Cách
-giả từng mẫu bằng `act` hôm nay:
+`DienVien.mau` + `mau_tham_so` → máy bung thành chuỗi mốc `act` (snap từng frame,
+số liệu đo từ tham chiếu), rồi **trộn với `act` tay của cùng diễn viên: trùng mốc
+thì `act` tay thắng**. Không cần viết `act` giả nữa; chỉ thêm `act` khi muốn
+đổi mắt/miệng/tư thế ở mốc khác. Validator kiểm tên `mau` theo `thu-vien-v2.json`
+(mục `mau_hanh_dong`, 21 mẫu, có tham số và "dùng khi" từng mẫu). Chi tiết
+chuỗi frame và API: `src/v2/act/README.md`.
 
-| Mẫu | `act` tay tương đương |
-|---|---|
-| `vao-chay` | `vao: "lao"` hoặc `x` từ 0.05 → vị trí trong 3 mốc 0.35 s, `nhay1`/`nhay2` |
-| `ra-chay` | 3 mốc `x` tăng dần ra mép + `nhay1`/`nhay2`; shot kế cắt |
-| `vao-di` | như `vao-chay` nhưng mốc cách 0.5 s, `dang: dung` |
-| `giat-minh` | 1 mốc: `mat: soc-lon`, `mieng: o`, `dang: epNguc`, `moHoi: true` |
-| `nga` | `dang: cuiNguoi` rồi 0.3 s sau `mat: xoan`, `mieng: meu`, `y` không đổi được → dùng `tieu-canh` |
-| `lac-dau` | `nhin: -0.6` / `0.6` / `-0.6` cách 0.45 s |
-| `gat-gu` | `mat: nham` / `nho` xen kẽ 0.5 s + `dang: chongCam` |
-| `run` | `x` ±0.005 luân phiên mỗi 0.1 s, `mieng: hoang`, `moHoi: true` |
-| `go-ban` | `dang: goMay` / `chi` xen kẽ 0.4 s |
-| `nhin-quanh` | `nhin: -1` → `1` → `0` cách 0.5 s, `mat: soc` |
-| `cuoi-lan` | `mat: cung` `mieng: cuoi-toe`, `dang: cuiNguoi` → `omDau` cách 0.6 s |
-| `ngu-gat` | `dang: chongCam`, `mat: nham`, `mieng: thang` + chữ `tay` "zzz" `canh-dau` |
-| `viet-bang` | `dang: chi` hướng bảng + chữ `tay` `vi_tri: phai` có `tai` 0.3–0.5 |
-| `quay-lai` | `flip` đảo tại một mốc, `mat: soc` |
+```json
+{"kieu": "ha", "x": 0.3, "mau": "vao-chay", "mau_tham_so": {"huong": "trai", "tai": 0.2},
+ "act": [{"tai": 1.4, "dang": "chi", "mat": "cung", "mieng": "cuoi-toe"}]}
+```
+
+→ Hà ẩn tới 0.2 s, chạy từ mép trái vào `x` 0.3 (hình chạy đổi mỗi 2 frame, 36 px/frame,
+vượt 1.5% một frame rồi đứng), tới 1.4 s snap sang `chi` cười.
+
+| Nhóm | `mau` | Tham số hay dùng (mặc định) | Dùng khi |
+|---|---|---|---|
+| vào khung | `vao-chay`, `vao-di`, `vao-lao`, `pop` | `tai`, `huong` trai\|phai (mép gần), `tu` (x xuất phát), `tocDo` (1), `dang` (dung) | đến muộn / vào lớp / xông vào / bật ra |
+| ra khung | `ra-chay`, `ra-di`, `ra-lao` | `tai`, `huong`, `den`, `tocDo` | bỏ chạy / rời đi / lao ra tức tối |
+| di chuyển trong khung | `di-bo`, `chay-den` | `den` (x + 0.25 / 0.3), `tocDo`, `dang` | đổi chỗ, lao tới ai |
+| phản ứng 1 nhịp | `giat-minh`, `nga`, `cuoi-lan`, `nhay-mung` | `huong`, `lui` (0.02) / `mat`, `mieng` / `giu` (12) / `lap` (3) | bị gọi bất ngờ, vấp, punchline, ăn mừng |
+| lặp tới hết shot | `run`, `go-ban`, `viet-bang`, `ngu-gat` | `lap` (bỏ trống = lặp hết `dai` shot), `giu`, `sau` (12) | sợ, sốt ruột, thầy ghi bảng, buồn ngủ |
+| đầu / mắt | `lac-dau`, `gat-gu`, `nhin-quanh`, `quay-lai` | `bienDo` (0.6 / 0.8), `giu` (5 / 6 / 8), `lap`; `quay-lai`: `tu`, `den` (góc) | "không không", "ừ ừ", tìm ai, nghe gọi quay lại |
+
+Mẫu lặp **không tự dừng** khi nhân vật bắt đầu nói — muốn dừng sớm đặt `lap`.
+`mau` ghi ở `DienVien`, không ghi trong từng mốc `act`.
 
 ## 5. Góc nhìn `goc` và cầm đồ `cam` (đã nối renderer)
 
-- `goc`: `truoc` | `ba-phan-tu` | `nghieng` | `sau` — renderer vẽ đúng góc; mỗi shot đối thoại nên có ít nhất một người `ba-phan-tu`/`nghieng`. Trước đây renderer vẽ mọi nhân
-  vật `truoc`; hướng chỉ giả bằng `flip` (quay trái/phải), `nhin` (liếc) và
-  `dang: quayLung` (`sau`); nay dùng `goc` trực tiếp.
-- `cam`: tên prop cầm tay phải (`but`, `dien-thoai`, `sach`, `la-thu`, `ly-tra-sua`,
-  `may-bay-giay`). Hiện giả bằng: đặt prop nhỏ **cạnh bàn tay** (cỡ `can`: `but`
-  x 0.5 y 0.58 co 0.8 giữa hai người) hoặc dùng `dang: camDT` cho điện thoại.
-  Đưa vật cho nhau = prop có `tai` xuất hiện đúng lúc + snap `dang: chi` của
-  người đưa.
+- `goc`: `truoc` (mặc định) | `ba-phan-tu` | `nghieng` | `sau` — ghi ở `DienVien` hoặc
+  trong một mốc `act` để đổi góc giữa shot (snap, như `quay-lai`). Renderer vẽ đầu,
+  tóc, mắt, miệng theo góc; `flip` vẫn dùng để chọn quay trái/phải. Mỗi shot đối
+  thoại nên có ít nhất một người `ba-phan-tu`/`nghieng` cho khung có chiều sâu;
+  `sau` cho người viết bảng, người bỏ đi.
+- `cam`: tên trong `thu-vien-v2.json` mục `do_cam` (10 vật: `but`, `phan`, `dien-thoai`,
+  `ly-tra-sua`, `sach`, `thuoc`, `kiem`, `o`, `la-thu`, `micro`) — vật **dính vào tay
+  phải**, theo tư thế: `camDT` + `dien-thoai` = áp lên tai, `gioTay` + `o` = che mưa,
+  `chi` + `kiem` = chĩa kiếm, `vietBang` + `phan`. Bỏ `cam` ở một mốc `act` = buông.
+  **Không** đặt thêm prop cùng tên cạnh tay nữa (hai cái bút).
+- Đưa vật cho nhau: người đưa `cam` tại mốc 0, người nhận `cam` từ mốc sau, người đưa
+  bỏ `cam` cùng mốc:
+
+```json
+"dien": [
+  {"kieu": "long", "x": 0.3, "goc": "ba-phan-tu", "cam": "la-thu", "dang": "chi",
+   "act": [{"tai": 0.6, "cam": "", "dang": "dung"}]},
+  {"kieu": "nam", "x": 0.7, "goc": "ba-phan-tu", "dang": "dung", "mat": "soc", "mieng": "o",
+   "act": [{"tai": 0.6, "cam": "la-thu", "dang": "epNguc", "mat": "cung"}]}
+]
+```
+
+(`"cam": ""` = buông; validator chấp nhận chuỗi rỗng, chỉ chặn tên không có trong `do_cam`.)
 
 ## 6. Bối cảnh dựng sẵn `boi_canh` (đã nối renderer)
 
-Tên dự kiến: `lop-hoc`, `san-truong`, `hanh-lang`, `cang-tin`, `phong-ngu`,
-`phong-khach`, `bep`, `duong-pho`, `tram-xe`, `quan-cafe`, `cong-vien`,
-`ngoai-troi-mua`, `dem`, `man-hinh-dien-thoai`. `boi_canh` bung thành
-bộ prop chuẩn, prop khai thêm vẽ chồng. **Hiện phải ghép tay** bằng prop có sẵn:
+`shot.boi_canh` bung thành bộ prop đã canh toạ độ theo cỡ (`src/v2/boi-canh.ts` có
+bộ `rong` và bộ `trung`; cỡ `nho`/`rong` dùng bộ `rong`, còn lại bộ `trung`), vẽ
+**sau** nhân vật; `prop` khai thêm vẽ chồng lên. Ba quy tắc:
 
-| `boi_canh` | Prop hiện có để ghép (cỡ `rong`/`trung`) |
-|---|---|
-| `lop-hoc` | `day-ban-lop` 0.5/0.86 `truoc` + `bang-den` 0.5/0.3 (+ `dong-ho` 0.9/0.2, `cua-so` 0.1/0.5) |
-| `san-truong` | `cong-truong` 0.5/0.86 + `goc-cay` |
-| `cong-vien` | `ghe-da` + `goc-cay` |
-| `quan-cafe` | `ban-cafe` + `ly-tra-sua` |
-| `duong-pho` | `cot-dien` + `xe-dap` |
-| `ngoai-troi-mua` | `mua` (phủ khung, `tai` 0.3–0.6 để đổ mưa) + `ao-mua` + `cot-dien` |
-| `hanh-lang`, `phong-ngu`, `phong-khach`, `bep`, `cang-tin`, `tram-xe`, `dem` | chưa có prop riêng: dùng `cua` + `cua-so` + đồ cầm (`sach`, `dien-thoai`, `laptop`) và **chữ `nhan`** nói rõ nơi ("bếp nhà tôi"); ghi `ghi_chu` để người vẽ thêm |
-| `man-hinh-dien-thoai` | `dac-ta` `dien-thoai` co 2 + chữ `tay` `giua` làm nội dung tin nhắn |
+1. **Đã dùng `boi_canh` thì KHÔNG khai lại prop có trong nó** (bảng dưới liệt kê) —
+   khai lại là vẽ hai cái bảng đen chồng nhau. Chỉ khai prop *khác* (đồ cầm, gag,
+   `giot-mo-hoi`, `mui-ten`, prop có nhãn).
+2. **Dải x 0.3–0.7 là chỗ trống cho nhân vật** — mọi bối cảnh đặt đồ lệch hai bên;
+   đặt diễn viên x 0.35–0.65 là không đè. Người ngồi bàn trong `lop-hoc`: `ban-hoc` đã
+   nằm trong bối cảnh với `truoc: true`, chỉ cần `dang: ngoi` x 0.5.
+3. **Prop treo cao** (`dong-ho`, `bang-den`, `cua-so`, mây, trăng) đã ở đúng y; đừng
+   chỉnh bằng prop thêm. Muốn cảnh khác bố cục có sẵn thì bỏ `boi_canh`, ghép tay bằng
+   prop lẻ theo toạ độ §2.
+
+Bối cảnh chỉ có nghĩa ở `rong`/`trung`; ở `can`/`sat` renderer vẫn vẽ (bộ `trung`
+phóng theo DAU) nên thường lòi một mảnh đồ to sau lưng — bỏ `boi_canh` ở shot cận.
+`man-hinh-dien-thoai` là ngoại lệ: cố ý chiếm giữa khung cho shot `chu`/`insert`
+(chữ `tay` `giua` làm nội dung tin nhắn).
+
+```json
+{"say": "cả lớp quay lại", "loai": "dong-nguoi", "co": "rong", "boi_canh": "lop-hoc",
+ "prop": [{"ten": "giot-mo-hoi", "x": 0.63, "y": 0.42, "co": 0.8, "tai": 0.4}],
+ "dien": [{"kieu": "nam", "x": 0.5, "dang": "ngoi", "mat": "soc", "mieng": "o"}]}
+```
+
+28 bối cảnh (sinh từ `thu-vien-v2.json` mục `boi_canh`, mỗi mục có `moTa` + `prop`):
+
+| `boi_canh` | Bố cục | Prop bên trong (không khai lại) |
+|---|---|---|
+| `lop-hoc` | lớp học nhìn từ cuối lớp: bảng bên trái, cửa sổ + bàn bên phải, đồng hồ trên cao | `bang-den`, `cua-so`, `day-ban-lop`, `dong-ho`, `ban-hoc` |
+| `lop-hoc-nhin-tu-bang` | góc thầy nhìn xuống lớp: hai dãy bàn quay lưng hai bên, cửa cuối lớp, đồng hồ tường sau | `day-ban-sau`, `cua`, `dong-ho` |
+| `san-truong` | sân trường: cột cờ bên trái, cây bên phải, cổng xa nhỏ, mây | `cong-truong`, `cot-co`, `goc-cay`, `may`, `may-2` |
+| `cong-truong` | trước cổng trường: cổng bên phải, hàng rào + cây nhỏ bên trái, mây | `cay-nho`, `hang-rao`, `cong-truong`, `may` |
+| `hanh-lang` | hành lang: cửa lớp gần bên trái, hai cửa lùi xa bên phải, đồng hồ trên cao | `cua`, `dong-ho` |
+| `cang-tin` | căng tin: quầy có tủ kính + bảng thực đơn bên phải, bàn ăn bên trái, thùng rác góc | `quay-cang-tin`, `ban-an`, `thung-rac`, `khay-com` |
+| `phong-ngu` | phòng ngủ: giường bên trái, cửa sổ + đèn ngủ bên phải | `giuong`, `cua-so`, `den-ngu` |
+| `phong-khach` | phòng khách: sofa bên trái, tivi bên phải, đồng hồ trên cao | `ghe-sofa`, `tivi`, `dong-ho` |
+| `bep` | bếp: bàn ăn bên trái, tủ lạnh bên phải, cửa sổ nhỏ trên cao lệch phải | `ban-an`, `cua-so`, `tu-lanh` |
+| `duong-pho` | đường phố: đèn đường + thùng rác bên trái, hàng rào có cây nhỏ phía sau bên phải | `den-duong`, `thung-rac`, `cay-nho`, `hang-rao` |
+| `tram-xe` | trạm xe: trạm chờ bên trái, xe buýt cửa mở bên phải, mây | `tram-xe-buyt`, `xe-buyt`, `may` |
+| `quan-cafe` | quán cà phê: bàn tròn + hai ghế bên trái, cửa sổ bên phải | `ghe-nha-hang`, `ban-cafe`, `cua-so` |
+| `cong-vien` | công viên: ghế đá bên trái, cây to bên phải, hai đám mây | `ghe-da`, `goc-cay`, `may`, `may-2` |
+| `ngoai-troi-mua` | ngoài trời mưa: vạch mưa phủ khung, cột điện bên trái, đèn đường bên phải | `mua`, `cot-dien`, `den-duong` |
+| `dem` | đêm: trăng + sao góc trên trái, đèn đường bên phải, cây nhỏ / hàng rào góc | `mat-trang`, `cay-nho`, `den-duong`, `hang-rao` |
+| `man-hinh-dien-thoai` | màn hình điện thoại: khung chat lớn giữa khung (cố ý chiếm chỗ nhân vật; dùng cho shot chữ / insert) | `man-hinh-chat` |
+| `van-phong` | văn phòng: bàn làm việc có màn hình bên trái, tủ hồ sơ + máy in bên phải, đồng hồ trên cao | `ban-lam-viec`, `tu-ho-so`, `may-in`, `dong-ho` |
+| `phong-hop` | phòng họp: bảng trắng bên trái, hai ghế xoay bên phải, đồng hồ trên cao | `bang-trang`, `ghe-xoay`, `dong-ho` |
+| `quan-pho` | quán phở: xe đẩy nồi phở bốc khói bên trái, bảng hiệu PHỞ + ghế bên phải | `xe-day-hang-rong`, `bang-hieu`, `ghe-nha-hang` |
+| `quan-nhau` | quán nhậu: bàn nhậu 3 cốc bia + ghế bên trái, bảng hiệu QUÁN NHẬU + ghế bên phải | `ghe-nha-hang`, `ban-nhau`, `bang-hieu` |
+| `san-bay` | sân bay: bảng CỔNG 12 bên trái, máy bay nhỏ bay xa trên cao bên phải, ghế chờ dài, đồng hồ | `bang-hieu`, `may-bay`, `ghe-da`, `dong-ho` |
+| `ben-xe` | bến xe: bảng hiệu BẾN XE + thùng rác bên trái, xe buýt bên phải, mây | `bang-hieu`, `thung-rac`, `xe-buyt`, `may` |
+| `benh-vien` | bệnh viện: giường bệnh có cọc truyền bên trái, bảng CẤP CỨU + cửa bên phải | `giuong-benh`, `bang-hieu`, `cua`, `hop-thuoc` |
+| `phong-gym` | phòng gym: hai tạ tay bên trái, bảng hiệu GYM + tạ bên phải, đồng hồ | `ta-tap`, `bang-hieu`, `dong-ho` |
+| `san-bong` | sân bóng: bóng bên trái, khung thành hơi xa bên phải, hai đám mây | `bong-da`, `khung-thanh`, `may`, `may-2` |
+| `bai-bien` | bãi biển: cây dừa bên trái, sóng biển thấp bên phải, mặt trời + mây trên cao | `cay-dua`, `bien-song`, `mat-troi`, `may` |
+| `cho` | chợ: xe đẩy hàng rong bên trái, bảng hiệu CHỢ bên phải, bó hoa góc phải | `xe-day-hang-rong`, `bang-hieu`, `hoa` |
+| `phong-lam-viec-nha` | phòng làm việc ở nhà: cửa sổ + cây nhỏ bên trái, bàn làm việc (lật) bên phải | `cua-so`, `cay-nho`, `ban-lam-viec` |
 
 ## 7. Chữ trên màn: bốn kiểu
 
@@ -203,14 +303,24 @@ bộ prop chuẩn, prop khai thêm vẽ chồng. **Hiện phải ghép tay** b�
 | `nhan` | 34 px + **mũi tên** tới diễn viên đầu tiên | `tren` | gọi tên vật/người ("12 bước", "Nam Anh (thật)", "nửa viên phấn"), liệt kê 0.4–0.8 s/mục | `tuc-thi` |
 | `tay` | 36 px viết tay nghiêng | `canh-dau` | tiếng lòng, âm thanh ("zzz", "RẮC", "...", "?!"), chữ trên bảng, chú thích tiểu cảnh | `tuc-thi` |
 
-- `vao: tuc-thi` hiện 1 khung (mặc định). `tung-tu`: từng từ hiện theo cụm lời
-  đang đọc. `phong`: phóng 0.3 → 1.6 trong 10 khung rồi giữ, cho thẻ punchline.
-  Không có fade; chữ biến mất khi cắt shot.
+- `vao: tuc-thi` hiện 1 khung (mặc định). `tung-tu`: từng từ hiện theo nhịp đọc
+  cụm lời trong shot; dòng đang đọc dở vẫn canh giữa. `phong`: phóng 0.3 → 1.6
+  trong 10 khung rồi giữ, cho thẻ punchline. Không có fade; chữ biến mất khi cắt shot.
+- **Giới hạn chữ `the`** (khối rộng 0.9 W, cỡ tự chọn 140 / 118 / 96 px theo tổng ký
+  tự ≤ 16 / ≤ 32 / hơn): `giua` không nhân vật ≤ 20 ký tự/dòng, ≤ 2 dòng; **kèm nhân
+  vật** (`vi_tri` trai/phai) **≤ 14 ký tự/dòng**; **`vao: phong` ≤ 12 ký tự/dòng**
+  (phóng 1.6× nên 14 ký tự đã chạm hai mép). Xuống dòng bằng `"\n"` — renderer
+  tách dòng và canh giữa từng dòng: `"Em ổn, chị\nTrang."`, `"CHẶT.\nRẤT CHẶT."`,
+  `"XE BUÝT:\n7:00."`. Không ngắt thì chữ dài tự xuống dòng ở 0.9 W và **tràn qua
+  nhân vật**.
+- **Phụ đề tự động**: renderer vẽ lời bình ở đáy khung (y ≈ 0.90–0.97 H, chữ 34 px
+  in hoa). `vi_tri: duoi` (tâm y 0.86) **đè lên phụ đề** khi shot có lời → chỉ dùng
+  `duoi` ở shot không có lời (`trong`, im hình); đặc tả vật ở giữa thì dùng `tren`.
 - `tai`: giây xuất hiện trong shot (chữ đến sau nhân vật 0.3–1 s cho có nhịp).
 - `mau`: mặc định đen; `#c0392b` chỉ cho thẻ punchline đỏ, tối đa 1–2 lần/chương.
 - **Vị trí tránh đè nhân vật**: TD x 0.72 → chữ `trai`/`canh-dau`; nhân vật nhỏ
   bên trái (x 0.2, `co` 0.8) → `the` `vi_tri: "phai"`; đặc tả vật ở giữa → chữ
-  `tren` hoặc `duoi`; `canh-dau` bám đầu diễn viên đầu tiên.
+  `tren` (không `duoi` — đè phụ đề); `canh-dau` bám đầu diễn viên đầu tiên.
 - Thẻ punchline chuẩn (tham chiếu "YOU'RE WRONG"/"NOPE!"): `chu` `the` `phong`
   giữ 0.5–1.2 s → `trong` 0.3–0.5 s → shot kế. Kèm `sfx` `vine-boom`/`boom`/`ding`.
 
@@ -222,6 +332,11 @@ bộ prop chuẩn, prop khai thêm vẽ chồng. **Hiện phải ghép tay** b�
 
 - `tai` = **mốc shot kế − `dai`**, lấy mốc từ `node pipeline/kiem-tra-v2.mjs <ten> --moc`.
   Sửa lời hay đọc lại giọng thì mốc trôi → đặt lại.
+- **Chèn shot `trong` đúng vị trí thời gian trong mảng `shots`** (ngay trước shot kế
+  mà nó dẫn vào), **không append xuống cuối chương**. Renderer sắp theo mốc nên vẫn
+  chạy, nhưng validator ⚠ "thứ tự shot khác thứ tự thời gian", `--moc` đọc rối, và
+  người sửa sau sẽ đặt lại `tai` nhầm. Quy trình 2 vòng (SKILL bước 5–6): viết board
+  nháp chỉ `say` + `loai` → `--moc` → rồi mới chèn `trong`.
 - Hoặc neo bằng lời khi lời nói đúng chỗ trống: `{"say": "Im lặng", "loai": "trong"}`
   (kéo tới mốc sau, validator ⚠ vì không có `dai`, chấp nhận được khi cố ý).
 - Trước ý mới / sau khi rời TD: 0.3–0.6 s. Sau câu chốt: 0.9–1.5 s. Im hình dài
@@ -260,7 +375,7 @@ Lời: *"Ok nghe này. Sáng đó tôi dậy muộn. Đồng hồ chỉ bảy gi
 
   {"say": "Đồng hồ chỉ bảy giờ mười lăm", "loai": "dac-ta", "co": "sat", "sfx": "tick",
    "prop": [{"ten": "dong-ho", "x": 0.5, "y": 0.85, "co": 2.2}],
-   "chu": [{"noi_dung": "7:15", "kieu": "kem", "vi_tri": "duoi", "tai": 0.3}]},
+   "chu": [{"noi_dung": "7:15", "kieu": "kem", "vi_tri": "tren", "tai": 0.3}]},
 
   {"say": "Bảy giờ mười lăm.", "loai": "phan-ung", "co": "can",
    "prop": [{"ten": "giot-mo-hoi", "x": 0.63, "y": 0.42, "co": 1, "tai": 0.2}],
@@ -285,7 +400,7 @@ Lời: *"Thầy hỏi: bài đâu. Tôi bảo: ở nhà. Thầy hỏi: nhà đâ
 [
   {"say": "Thầy hỏi", "loai": "minh-hoa", "co": "can", "sfx": "pop",
    "prop": [{"ten": "ban-giao-vien", "x": 0.28, "y": 1.45, "co": 0.7}],
-   "dien": [{"kieu": "thay", "x": 0.28, "dang": "khoanhTay", "mat": "khe", "may": "tuc", "mieng": "thang",
+   "dien": [{"kieu": "thay", "x": 0.28, "co": 0.85, "dang": "khoanhTay", "mat": "khe", "may": "tuc", "mieng": "thang",
              "act": [{"tai": 0, "dang": "khoanhTay"}, {"tai": 0.5, "dang": "chi", "mieng": "gat"}]},
             {"kieu": "nam", "x": 0.72, "dang": "dung", "mat": "soc", "mieng": "mim", "flip": true}]},
 
@@ -302,7 +417,7 @@ Lời: *"Thầy hỏi: bài đâu. Tôi bảo: ở nhà. Thầy hỏi: nhà đâ
    "chu": [{"noi_dung": "ở nhà.", "kieu": "the", "vao": "tuc-thi", "vi_tri": "trai"}]},
 
   {"say": "nhà đâu", "loai": "minh-hoa", "co": "can", "sfx": "suspense",
-   "dien": [{"kieu": "thay", "x": 0.28, "dang": "chi", "mat": "khe", "may": "tuc", "mieng": "gat",
+   "dien": [{"kieu": "thay", "x": 0.28, "co": 0.85, "dang": "chi", "mat": "khe", "may": "tuc", "mieng": "gat",
              "act": [{"tai": 0, "dang": "chi"}, {"tai": 0.6, "dang": "tayHong", "mat": "nham", "mieng": "mim"}]},
             {"kieu": "nam", "x": 0.72, "dang": "epNguc", "mat": "soc-lon", "mieng": "o", "flip": true, "moHoi": true}],
    "chu": [{"noi_dung": "nhà đâu?", "kieu": "kem", "vi_tri": "tren", "tai": 0.2}]},
@@ -316,7 +431,8 @@ Lời: *"Thầy hỏi: bài đâu. Tôi bảo: ở nhà. Thầy hỏi: nhà đâ
 ```
 
 Cách dựng đối thoại: **hai người cùng khung một lần** (thiết lập), rồi mỗi câu
-thoại là một shot `chu` hoặc `phan-ung` riêng, đảo bên: thầy bên trái (x 0.2–0.28),
+thoại là một shot `chu` hoặc `phan-ung` riêng, đảo bên: thầy bên trái (x 0.2–0.28,
+`co: 0.85` vì khung người lớn 2.95 DAU vọt khỏi mép trên ở cỡ `can` — bảng §2),
 Nam bên phải (x 0.72–0.8, `flip: true` để quay mặt vào). Chữ đặt về **phía trống**
 đối diện người nói. Không ai `noi` khi người kể đang đọc lời dẫn; chỉ đánh
 `noi: true` cho nhân vật khi câu đó là thoại của họ và bạn muốn miệng nhép.
@@ -373,6 +489,9 @@ sóng quay đầu; đặc tả hai đầu trắng + chữ "× 40" thay cho vẽ 
 - [ ] Nhân vật không nói có `mieng`; nhân vật khác người kể không dùng `mat: oval`
 - [ ] Người ngồi có bàn `truoc: true`; prop treo tường đúng `y` theo bảng §2
 - [ ] Chữ nằm phía trống, không đè nhân vật
-- [ ] `trong` có `tai` = mốc kế − `dai` (lấy từ `--moc`)
+- [ ] `trong` có `tai` = mốc kế − `dai` (lấy từ `--moc`) và nằm đúng chỗ trong mảng `shots`
+- [ ] Shot có `boi_canh` không khai lại prop đã nằm trong bối cảnh (bảng §6)
+- [ ] `thay`/`me`/`trang` ở cỡ `can` có `co` 0.85–0.9, ở `sat` 0.8 (bảng §2)
+- [ ] Chữ `the` kèm nhân vật ≤ 14 ký tự/dòng, `phong` ≤ 12; không `vi_tri: duoi` ở shot có lời
 - [ ] Mỗi chương có `nhac` (nhóm `vui_nhon` cho hài), đổi bài giữa các chương
 - [ ] Prop chỉ là vật câu đang nhắc; thiếu prop thì ghi `ghi_chu`

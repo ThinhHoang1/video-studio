@@ -6,8 +6,8 @@ description: Tạo video storytime animation (kiểu JaidenAnimations, nền tr�
 # Đạo diễn một video storytime (V2)
 
 Bạn **đạo diễn**, không **vẽ**. Rig 9 nhân vật × 4 góc nhìn, 43 tư thế, 10 đồ cầm tay,
-53 prop, 16 bối cảnh dựng sẵn, 21 mẫu hành động, 4 kiểu chữ, 29 tiếng động, 16 bản nhạc
-đã có sẵn trong `src/v2/` và `public/`. Việc của bạn: viết kịch bản hài,
+103 prop, 28 bối cảnh dựng sẵn, 21 mẫu hành động, 4 kiểu chữ, 29 tiếng động, 16 bản nhạc
+đã có sẵn trong `src/v2/` và `public/` (số đếm in ra khi chạy `node pipeline/thu-vien-v2.mjs`). Việc của bạn: viết kịch bản hài,
 rồi quyết định **câu nào → shot gì, cỡ nào, ai làm gì lúc nào**. Mọi quyết định
 ghi trong một file JSON (`board.json`), máy lo phần còn lại.
 
@@ -19,7 +19,7 @@ ghi trong một file JSON (`board.json`), máy lo phần còn lại.
 | `references/dao-dien.md` | ngữ pháp shot có số liệu, 3 ví dụ đầy đủ |
 | `references/loi-hay-gap.md` | lỗi validator hay bắt và cách sửa |
 | `thu-vien-v2.json` | **danh mục tên hợp lệ** (nhân vật, tư thế, mắt, miệng, prop, sfx, nhạc) |
-| `src/v2/board/kieu-board.ts` + `README.md` | schema board đầy đủ, chú thích từng trường |
+| `src/v2/board/kieu-board.ts` + `README.md` | schema board đầy đủ, chú thích từng trường (giới hạn chữ `the`, trường `ten` ghi chú diễn viên) |
 | `src/projects/demo-v2/board.json` | ví dụ thật 77 shot đã render ra `media/outbound/demo-v2.mp4` |
 
 ## Ba luật không phá
@@ -38,7 +38,7 @@ node pipeline/tao-video.mjs <ten> --soat
 11 bước, bước nào đã có kết quả thì bỏ qua, dừng đúng chỗ cần bạn:
 
 ```
- 1 kich-ban   kiểm scripts/<ten>.json
+ 1 kich-ban   kiểm scripts/<ten>.json + cổng chấm cham-kich-ban.mjs (✗ → dừng; --bo-cham để bỏ qua)
  2 giong      tts-gemini          (cần GEMINI_API_KEYS trong .env)
  3 nhip       analyze-voice
  4 mieng      lipsync (Rhubarb)
@@ -46,7 +46,7 @@ node pipeline/tao-video.mjs <ten> --soat
  6 kiem       kiem-tra-v2         (✗ → dừng, sửa board, chạy lại --tu kiem)
  7 thong-ke   thong-ke-board      (⚠ không chặn)
  8 dang-ky    dang-ky.mjs sinh composition V2-<ten> — KHÔNG sửa Root.tsx / render-segments.sh
- 9 soat       6 khung thử ra out/<ten>/soat-*.png (khi --soat) → XEM bằng Read
+ 9 soat       ≤ 8 shot đáng soát nhất → out/<ten>/shot-<chuong>-<i>.png (khi --soat) → XEM bằng Read
 10 render     render-segments.sh V2-<ten> media/outbound/<ten>.mp4
 11 cham       cham-diem.mjs so với tham chiếu + ghi media/outbound/<ten>.md; exit 0 chỉ khi ≥ 90%
 ```
@@ -81,6 +81,24 @@ kéo shot dài ra, nhịp storytime sụp.
 Mỗi chương **45–70 từ** (≈ 18–25 s đọc), 4–8 chương cho video 1.5–3 phút.
 `id` chương là kebab-case không dấu, dùng làm tên file mp3 và khoá trong board.
 
+**Viết xong PHẢI qua cổng chấm trước khi tốn hạn mức TTS:**
+
+1. Tự chấm **rubric 10 tiêu chí** theo mục 5 của `references/kich-ban-storytime.md`,
+   mỗi tiêu chí 0 / 0.5 / 1, ghi vào khoá `rubric` của kịch bản, đúng tên khoá:
+   ```json
+   "rubric": {"hook": 1, "mat_do": 1, "chi_tiet": 0.5, "leo_thang": 1, "twist_callback": 0.5,
+              "nhan_vat_phu": 1, "cau_chot": 1, "giong_rieng": 0.5, "viet_hoa": 1, "cam": 1}
+   ```
+   Thiếu khoá, thiếu tiêu chí, hoặc tổng **< 7** → chặn.
+2. `node pipeline/cham-kich-ban.mjs <ten>` tới khi in `✓ được TTS`. Máy **chặn** (✗):
+   chương ngoài 45–70 từ, câu > 22 từ, sáo ngữ đạo lý ("hành trình", "bài học quý",
+   "vô cùng", "nhận ra rằng"…), rubric thiếu/dưới 7. Máy **cảnh báo** (⚠, sửa gần hết):
+   < 30% câu ≤ 6 từ, < 2 câu thoại trực tiếp/chương, < 3 chi tiết cụ thể (số, tên riêng,
+   tên app), từ tiếng Anh trần Gemini đọc sai ("mail" → "mèo": viết "email"/từ Việt),
+   hook đầu > 12 từ, chương cuối không nhặt lại từ khoá đã gieo (callback yếu).
+3. `tao-video.mjs` tự chạy cổng này ở bước 1 và dừng khi ✗; chỉ dùng `--bo-cham` khi
+   người dùng cố ý bỏ qua.
+
 ### Bước 2–4 — Giọng, nhịp, miệng
 
 ```bash
@@ -100,10 +118,14 @@ node pipeline/lipsync.mjs <ten>                 # → data/<ten>.mouth.json  (h�
   (xấu hơn hẳn, chỉ dùng khi bí).
 - TTS đọc dài gấp đôi số từ dự kiến sẽ bị `tts-gemini` tự đọc lại (tối đa 4 lần).
 
-### Bước 5 — Bảng phân cảnh `src/projects/<du-an>/board.json`
+### Bước 5 — Bảng phân cảnh `src/projects/<du-an>/board.json`: viết 2 VÒNG
 
 Đọc `references/dao-dien.md`. Đây là chỗ quyết định video giống storytime hay
-giống slide thuyết trình.
+giống slide thuyết trình. Mốc thời gian của shot **suy từ file giọng**, bạn không
+biết trước câu nào rơi ở giây nào — nên board viết hai vòng, không viết một lần.
+
+**Vòng 1 — board NHÁP: chỉ `say` + `loai` (+ `co`)**, chưa `trong`, chưa `act`, chưa
+`tai`. Mỗi shot neo vào một mẩu lời `say` có **nguyên văn** trong `vo`:
 
 ```json
 {
@@ -112,19 +134,43 @@ giống slide thuyết trình.
   "mac_dinh": {"loai": "minh-hoa", "co": "trung", "nen": "trang"},
   "chuong": [
     {"id": "goi-ten", "nhac": "25-silly-fun", "shots": [
-      {"say": "Ok nghe này", "loai": "truc-dien", "dien": [{"kieu": "nam", "x": 0.72, "noi": true}]},
-      {"say": "Lớp tám, giờ toán", "loai": "chu", "sfx": "ding",
-       "chu": [{"noi_dung": "LỚP 8. GIỜ TOÁN.", "kieu": "the", "vao": "tung-tu"}]},
-      {"tai": 15.23, "loai": "trong", "dai": 0.5}
+      {"say": "Ok nghe này", "loai": "truc-dien"},
+      {"say": "Lớp tám, giờ toán", "loai": "chu"},
+      {"say": "Thằng Long ngồi cạnh", "loai": "minh-hoa"}
     ]}
   ]
 }
 ```
 
-Nguyên tắc gốc: **mỗi shot neo vào một mẩu lời `say` có nguyên văn trong `vo`**;
-thời điểm suy ra từ file giọng, không tự đặt. Nhịp mục tiêu: **1.0–1.6 s/shot,
-≥ 30% shot dưới 1 s, trực diện ≤ 20% thời gian, ≥ 1 chữ / 15 s, nhịp trắng 5–10%**.
-Với chương 20 s → 14–20 shot.
+Rồi lấy mốc thật:
+
+```bash
+node pipeline/kiem-tra-v2.mjs <ten> --moc      # in giây bắt đầu từng shot, theo voice.json
+```
+
+```
+  chương "goi-ten" — mốc ước lượng theo voice.json, thời lượng 21.40s
+      1    0.00s  truc-dien  "Ok nghe này"
+      2    2.13s  chu        "Lớp tám, giờ toán"
+      3    2.31s  minh-hoa   "Thằng Long ngồi cạnh"     ← chỉ 0.18 s sau shot 2
+```
+
+**Vòng 2 — hoàn thiện theo mốc thật:**
+
+1. **Gộp hoặc bỏ shot cách mốc kế < 0.25 s** (validator ✗ `chỉ 0.18s (< 0.25s)`).
+   Hai `say` quá sát trong lời — ví dụ *"Chặt."* rồi ngay *"Rất chặt."* — không thành
+   hai shot được: gộp thành một shot `say: "Chặt"` với chữ `the` hai dòng
+   `"CHẶT.\nRẤT CHẶT."` `vao: tung-tu`, hoặc bỏ shot sau.
+2. **Đặt nhịp trắng**: `trong` có `tai` = **mốc shot kế − `dai`**, và **chèn vào đúng
+   vị trí thời gian trong mảng `shots`** (ngay trước shot nó dẫn vào, không append cuối
+   chương). Shot kế ở 15.74 s → `{"tai": 15.23, "loai": "trong", "dai": 0.5}` đặt ngay
+   trước shot đó.
+3. **Thêm `dien` / `act` / `mau` / `prop` / `chu` / `sfx`** cho từng shot; shot > 1.5 s có
+   nhân vật cần ≥ 1 mốc `act`; nhân vật không nói cần `mieng`.
+4. Chạy lại `--moc` sau mỗi lần sửa lời hay đọc lại giọng — mốc trôi, `tai` phải đặt lại.
+
+Nhịp mục tiêu: **1.0–1.6 s/shot, ≥ 30% shot dưới 1 s, trực diện ≤ 20% thời gian,
+≥ 1 chữ / 15 s, nhịp trắng 5–10%**. Với chương 20 s → 14–20 shot.
 
 ### Bước 6 — Kiểm máy (bắt buộc)
 
@@ -133,9 +179,9 @@ node pipeline/kiem-tra-v2.mjs <ten>          # ✗ lỗi chặn / ⚠ cảnh bá
 node pipeline/kiem-tra-v2.mjs <ten> --moc    # in mốc ước lượng (giây) của từng shot
 ```
 
-`--moc` là công cụ đặt nhịp trắng: đọc mốc shot kế tiếp, đặt `tai` của shot
-`trong` lùi trước đó 0.3–0.6 s. Sửa cho tới khi `✓ <ten>: qua hết`. Lỗi hay
-gặp và cách sửa: `references/loi-hay-gap.md`.
+Sửa cho tới khi `✓ <ten>: qua hết`. Lỗi hay gặp và cách sửa: `references/loi-hay-gap.md`.
+`⚠ thứ tự shot trong file khác thứ tự thời gian` gần như luôn là `trong` bị append
+cuối chương thay vì chèn đúng chỗ (bước 5, vòng 2).
 
 ### Bước 7 — Đo nhịp so tham chiếu
 
@@ -151,20 +197,31 @@ biết mức đa dạng.
 ### Bước 8–9 — Đăng ký và soát khung (tự động)
 
 `node pipeline/tao-video.mjs <ten> --tu dang-ky --den soat --soat` sinh
-`src/projects/du-an.generated.ts` (composition `V2-<ten>`), chạy `tsc`, rồi render
-6 khung rải đều ra `out/<ten>/soat-*.png`. **Mở từng ảnh bằng tool Read** và nhìn:
-chữ có đè mặt không, prop có lơ lửng không, người ngồi có bị bàn che sai không,
-nhân vật có rơi ra ngoài khung không, góc nhìn/đồ cầm có đúng ý không. Sửa board
-rồi chạy lại `--tu kiem --den soat --soat`. Tối đa 4 vòng; vòng nào cũng phải sửa
-được gì cụ thể. Muốn xem một frame bất kỳ:
+`src/projects/du-an.generated.ts` (composition `V2-<ten>`), chạy `tsc`, rồi **chọn
+tối đa 8 shot đáng soát nhất** trong board (ưu tiên: có prop tự vẽ, có `boi_canh`,
+≥ 2 diễn viên, có chữ `the`, cỡ `sat`; rải đều các chương) và render mỗi shot một
+khung ra `out/<ten>/shot-<chuong>-<i>.png` (`<i>` = vị trí trong mảng `shots`, đếm
+từ 0; lệnh in danh sách kèm lý do chọn). **Mở từng ảnh bằng tool Read** và nhìn:
+chữ có đè mặt hay đè phụ đề không, prop có lơ lửng không, người ngồi có bị bàn che
+sai không, nhân vật (nhất là `thay`/`me`/`trang` ở cỡ `can`/`sat`) có mất đỉnh đầu
+không, góc nhìn/đồ cầm có đúng ý không. Sửa board rồi chạy lại `--tu kiem --den soat
+--soat`. Tối đa 4 vòng; vòng nào cũng phải sửa được gì cụ thể.
+
+Muốn xem **một shot bất kỳ** — không tính frame tay:
 
 ```bash
-npx remotion still src/index.ts V2-<ten> out/<ten>/f300.png --frame=300 \
-  --browser-executable "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --log=error
+node pipeline/xem-shot.mjs <ten> <chuong-id> "<say>"      # theo mẩu lời (khớp nguyên văn hoặc chứa)
+node pipeline/xem-shot.mjs <ten> <chuong-id> "#7"         # theo vị trí trong mảng shots (đếm từ 0)
+node pipeline/xem-shot.mjs <ten> <chuong-id> "#7" --lech 0.8   # giây tính từ đầu shot (mặc định 0.3)
+node pipeline/xem-shot.mjs <ten> --tat-ca                 # 1 khung mỗi shot có nhân vật / prop tự vẽ / bối cảnh (chậm)
 ```
 
-Tính frame: `frame = 60 + Σ(chương trước: duration×30 + 12) + mốc_shot×30`
-(intro 2 s = 60 frame; mỗi chương thêm 12 frame đệm; mốc shot lấy từ `kiem-tra-v2 --moc`).
+→ `out/<ten>/shot-<chuong>-<i>.png`. Mốc tính cùng thuật toán với `kiem-tra-v2 --moc`
+và renderer (intro 2 s + Σ chương trước (audio + đệm 0.4 s) + mốc shot + `--lech`).
+Chỉ khi cần frame thô (`npx remotion still src/index.ts V2-<ten> out/<ten>/f300.png
+--frame=300 --browser-executable "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+--log=error`): `frame = 60 + Σ(chương trước: round(duration × 30) + 12) + round(mốc × 30)`
+— `duration` lấy từ `data/<ten>.generated.json`, mốc từ `--moc`.
 
 ### Bước 10–11 — Render, chấm, metadata (tự động)
 
@@ -212,8 +269,12 @@ cần hỏi người. Ba cách, ưu tiên từ trên xuống:
    `prop[].chu`), `to` (tô màu nhấn, chỉ màu trong bảng ở `src/v2/props/tu-ve.tsx`).
    Máy tự vẽ viền đen dày đều, thân trắng — bạn chỉ lo hình dáng. **Bắt buộc xem
    trước khi dùng:** `node pipeline/xem-prop.mjs <du-an> may-ban-nuoc --chu COCA`
-   → `out/<du-an>/prop-may-ban-nuoc.png`, mở bằng Read, chỉnh tới khi nhận ra được
-   ở cỡ nhỏ (thu 25% vẫn hiểu là gì). Validator kiểm tên/kiểu/hình, không kiểm đẹp.
+   → `out/<du-an>/prop-may-ban-nuoc.png` (co 1 cạnh nhân vật cỡ trung), mở bằng Read.
+   Sẽ dùng ở cỡ cảnh nào thì xem đúng cỡ đó: `--co 0.45 --co-canh sat --thu 0.25` →
+   `prop-may-ban-nuoc-sat.png` (prop trong khung 1920×1080 cỡ `sat` cạnh nhân vật cùng
+   cỡ, in "cao N% khung" và `co` gợi ý) + `prop-may-ban-nuoc-sat-thu.png` (bản 25%:
+   không nhận ra là gì thì nét quá mảnh, vẽ to hơn). Công thức cỡ và bảng `co` theo
+   cỡ cảnh: `dao-dien.md` §2. Validator kiểm tên/kiểu/hình, không kiểm đẹp.
 3. **Ảnh chèn** (`loai: insert`) cho thứ quá đặc thù hoặc meme.
 
 Prop tự vẽ dùng được ở `prop[].ten` mọi shot của dự án. Nếu vẽ đẹp và dùng lại nhiều,
@@ -223,7 +284,9 @@ ghi vào `ghi_chu` để người vẽ đưa vào thư viện chung.
 
 - Không nghĩ tên prop bừa: tên phải có trong `thu-vien-v2.json` hoặc `board.prop_tu_ve`. Thiếu thì tự vẽ (mục trên), không bỏ ý.
 - Không tween, không fade, không zoom trượt: schema không có, đừng cố mô tả trong `ghi_chu`.
-- Không để nhân vật nói mà đứng yên quá 1.5 s (thêm `act`), không để trực diện quá 3 s liền.
+- Không để nhân vật nói mà đứng yên quá 1.5 s (thêm `act` hoặc `mau`), không để trực diện quá 3 s liền.
+- Không khai lại prop đã nằm trong `boi_canh`; không dùng `boi_canh` ở cỡ `can`/`sat`.
+- Không đặt chữ `vi_tri: duoi` ở shot có lời (đè phụ đề); chữ `the` kèm nhân vật ≤ 14 ký tự/dòng, ngắt bằng `\n`.
 - Không dùng `truc-dien` cho hơn một người `noi`.
 - Không lấy file từ `out/`. Không force-push, không sửa lịch sử git.
 - Không dùng pipeline V1 (`board.ts`, `kiem-tra.mjs`, `thu-vien.json`) cho video mới. V1 chỉ còn để render lại `TinhDau` / `RaTruongVui`.

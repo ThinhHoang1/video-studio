@@ -13,7 +13,9 @@ import {MUC} from './rig/hinh';
  *   tay  : chữ viết tay 36px (Patrick Hand, có subset tiếng Việt), hơi nghiêng
  *
  * Cách vào (reports/timing.md): tuc-thi = hiện 1 frame; tung-tu = mỗi từ hiện
- * tại chỗ theo cues (frame tính từ đầu shot) hoặc chia đều theo shotLen;
+ * theo cues (frame tính từ đầu shot) hoặc chia đều theo shotLen — từ chưa hiện
+ * KHÔNG chiếm chỗ (display none) nên dòng đang đọc dở vẫn canh giữa; dòng chưa
+ * bắt đầu giữ chiều cao bằng một ký tự rỗng để khối không nhảy dọc;
  * phong = scale tuyến tính 0.3 → 1.6 trong 10 frame rồi giữ, KHÔNG ease.
  * Tuyệt đối không fade opacity, không trượt. Chữ chỉ biến mất khi cắt shot.
  *
@@ -106,11 +108,23 @@ export const ChuTrenMan: React.FC<ChuTrenManProps> = ({chu, frame, shotLen, W, H
   const tongTu = dong.reduce((s, d) => s + d.length, 0);
 
   // từ thứ i đã hiện chưa (tung-tu)
+  // cues là các CỤM lời của chương (đã dời về frame đầu shot), thô hơn số từ của chữ (cụm ~7 từ,
+  // chữ 2–5 từ) → cắt cụm về đoạn [batDau, shotLen], nối các đoạn lại thành "thời gian đang đọc"
+  // trong shot, rồi rải từ đều theo vị trí i/tongTu trên đoạn nối đó. Từ đầu hiện đúng lúc chữ vào.
+  const cuesShot = (cues ?? [])
+    .map((c) => ({start: Math.max(batDau, c.start), end: Math.min(shotLen, c.end)}))
+    .filter((c) => c.end > c.start);
+  const tongDoc = cuesShot.reduce((a, c) => a + (c.end - c.start), 0);
   const hien = (i: number) => {
     if (vao !== 'tung-tu') return true;
-    if (cues && cues.length) {
-      const c = cues[Math.min(i, cues.length - 1)];
-      return frame >= c.start;
+    if (tongDoc > 0) {
+      let conLai = (i / tongTu) * tongDoc;
+      for (const c of cuesShot) {
+        const dai = c.end - c.start;
+        if (conLai <= dai) return frame >= c.start + conLai;
+        conLai -= dai;
+      }
+      return true;
     }
     const khoang = Math.max(1, (shotLen - batDau) / (tongTu + 1));
     return t >= i * khoang;
@@ -178,19 +192,27 @@ export const ChuTrenMan: React.FC<ChuTrenManProps> = ({chu, frame, shotLen, W, H
           ...font,
         }}
       >
-        {dong.map((tu, di) => (
-          <div key={di}>
-            {tu.map((w, wi) => {
-              const i = idx++;
-              return (
-                <span key={wi} style={{visibility: hien(i) ? 'visible' : 'hidden'}}>
-                  {w}
-                  {wi < tu.length - 1 ? ' ' : ''}
-                </span>
-              );
-            })}
-          </div>
-        ))}
+        {dong.map((tu, di) => {
+          const dau = idx;
+          const spans = tu.map((w, wi) => {
+            const i = idx++;
+            // từ chưa hiện: không chiếm chỗ → phần đã hiện của dòng vẫn canh giữa
+            if (!hien(i)) return null;
+            return (
+              <span key={wi}>
+                {w}
+                {wi < tu.length - 1 ? ' ' : ''}
+              </span>
+            );
+          });
+          const coTu = spans.some(Boolean);
+          return (
+            <div key={di}>
+              {/* dòng chưa có từ nào: giữ chiều cao dòng bằng ký tự rỗng, để khối chữ không nhảy dọc khi dòng sau hiện */}
+              {coTu ? spans : <span key={`rong-${dau}`}>{'\u200b'}</span>}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
