@@ -344,9 +344,9 @@ dong(tong.trucDienLienTucMax <= MUC_TIEU.trucDienLienTuc, 'trực diện liền 
 dong(tong.trangDaiNhat <= MUC_TIEU.trangDaiNhat, 'một nhịp trắng dài nhất', giay(tong.trangDaiNhat), `<= ${MUC_TIEU.trangDaiNhat}s`, 'tham chiếu 0.5-1.25 s thường, 3.6 s sau câu chốt');
 console.log('');
 dong(null, 'prop khác nhau', tong.prop.length, '', tong.prop.join(', ') || '(không có)');
-dong(null, 'góc nhìn', tong.goc.length ? tong.goc.join(', ') : 'truoc', '', tong.goc.length ? 'schema có, renderer chưa nối' : 'chưa khai goc; schema có truoc/ba-phan-tu/nghieng/sau (renderer chưa nối)');
-dong(null, 'mẫu hành động', tong.mau.length, '', tong.mau.length ? tong.mau.join(', ') + ' (renderer chưa nối)' : 'chưa dùng `mau`; act thủ công thay thế');
-dong(null, 'bối cảnh dựng sẵn', tong.boiCanh.length, '', tong.boiCanh.length ? tong.boiCanh.join(', ') + ' (renderer chưa nối)' : 'chưa dùng `boi_canh`');
+dong(null, 'góc nhìn', tong.goc.length ? tong.goc.join(', ') : 'truoc', '', tong.goc.length ? 'schema có, đã nối renderer' : 'chưa khai goc; schema có truoc/ba-phan-tu/nghieng/sau (đã nối renderer)');
+dong(null, 'mẫu hành động', tong.mau.length, '', tong.mau.length ? tong.mau.join(', ') + ' (đã nối renderer)' : 'chưa dùng `mau`; act thủ công thay thế');
+dong(null, 'bối cảnh dựng sẵn', tong.boiCanh.length, '', tong.boiCanh.length ? tong.boiCanh.join(', ') + ' (đã nối renderer)' : 'chưa dùng `boi_canh`');
 dong(null, 'loại shot dùng', `${tong.loai.length}/9`, '', tong.loai.join(', '));
 dong(null, 'nhân vật', tong.nhanVat.length, '', tong.nhanVat.join(', '));
 dong(null, 'act / shot có diễn viên', tong.actMoiShotCoDien.toFixed(1), '', 'tham chiếu: đổi tư thế mỗi 0.3-1.8 s trong shot');

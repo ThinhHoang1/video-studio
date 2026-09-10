@@ -136,8 +136,8 @@ const Mui: React.FC<{dau: number; cx: number; cy: number; net: number; mui: NonN
  */
 const Tai: React.FC<{dau: number; cx: number; cy: number; rx: number; net: number; goc: GocNhin; f: 1 | -1}> = ({dau: d, cx, cy, rx, net, goc, f}) => {
   const ben: number[] = goc === 'truoc' || goc === 'sau' ? [-1, 1] : goc === 'ba-phan-tu' ? [-0.92 * f] : [-0.55 * f];
-  const r = 0.085 * d;
-  const y = cy + 0.1 * d;
+  const r = 0.1 * d;
+  const y = cy + 0.14 * d;
   return (
     <g>
       {ben.map((b) => {

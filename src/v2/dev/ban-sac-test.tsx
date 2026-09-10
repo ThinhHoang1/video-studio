@@ -3,6 +3,7 @@ import {AbsoluteFill} from 'remotion';
 import {Dau, NhanVat} from '../rig/nhan-vat';
 import {KIEU, Kieu, PhongCach, PHONG_CACH_MAC_DINH} from '../rig/kieu';
 import {NEN, MUC} from '../rig/hinh';
+import {TrangThaiMat} from '../rig/mat';
 import {FONT} from '../../engine/font';
 
 /**
@@ -12,7 +13,7 @@ import {FONT} from '../../engine/font';
  * Render: npx remotion still src/index.ts BanSacTest out/v2/ban-sac.png
  */
 export const BAN_SAC_W = 2560;
-export const BAN_SAC_H = 2140;
+export const BAN_SAC_H = 3040;
 
 type PhuongAn = {
   ma: string;
@@ -56,8 +57,10 @@ const Nhan: React.FC<{x: number; y: number; t: string; s?: number; anchor?: 'mid
 
 const CAST = Object.keys(KIEU);
 const DANG = ['dung', 'motTayHong', 'dung', 'chi', 'dung', 'tayHong', 'motTayHong', 'dung', 'dung'];
-const HANG_CAO = 500;
+const HANG_CAO = 600;
 const Y0 = 110;
+const MAT_TT: TrangThaiMat[] = ['oval', 'nho', 'cham', 'soc', 'soc-lon', 'khe', 'cung', 'gach', 'xoan', 'chan', 'nham'];
+const KIEU_MAT: [string, NonNullable<PhongCach['mat']>][] = [['A hat-dau', 'hat-dau'], ['B tron-nguoi', 'tron-nguoi'], ['C lech', 'lech']];
 
 export const BanSacTest: React.FC = () => (
   <AbsoluteFill style={{background: NEN}}>
@@ -70,7 +73,7 @@ export const BanSacTest: React.FC = () => (
       </text>
       {PHUONG_AN.map((pa, r) => {
         const yTop = Y0 + r * HANG_CAO;
-        const yChan = yTop + 430;
+        const yChan = yTop + 545;
         const ap = (i: number): Kieu => {
           const ten = CAST[i];
           return {...KIEU[ten], phongCach: pa.cua(i, ten)};
@@ -86,7 +89,7 @@ export const BanSacTest: React.FC = () => (
             </text>
             {/* 9 nhân vật DAU 120 */}
             {CAST.map((ten, i) => {
-              const x = 130 + i * 178;
+              const x = 120 + i * 172;
               return (
                 <g key={ten}>
                   <NhanVat kieu={ap(i)} dau={120} x={x} y={yChan} dang={DANG[i]} mieng={ten === 'trang' ? undefined : i % 3 === 0 ? 'cuoi-nhe' : i % 3 === 1 ? 'C' : 'mim'} id={`${pa.ma}c${i}`} />
@@ -95,16 +98,41 @@ export const BanSacTest: React.FC = () => (
               );
             })}
             {/* cận DAU 300: nam nói, hà sốc */}
-            <Dau kieu={ap(0)} dau={300} cx={1880} cy={yTop + 250} mieng="C" mat="oval" nhin={0.2} id={`${pa.ma}big0`} />
-            <Nhan x={1880} y={yChan + 28} t="nam · nói (C) DAU 300" s={18} />
-            <Dau kieu={ap(1)} dau={300} cx={2250} cy={yTop + 250} mieng="hoang" mat="soc" id={`${pa.ma}big1`} />
-            <Nhan x={2250} y={yChan + 28} t="hà · sốc DAU 300" s={18} />
-            {/* đầu nhỏ DAU 60 */}
-            <Dau kieu={ap(3)} dau={60} cx={2500} cy={yTop + 300} mieng="B" mat="oval" id={`${pa.ma}small`} />
-            <Nhan x={2500} y={yChan + 28} t="mai · 60" s={16} />
+            <Dau kieu={ap(0)} dau={300} cx={1760} cy={yTop + 330} mieng="C" mat="oval" nhin={0.2} id={`${pa.ma}big0`} />
+            <Nhan x={1760} y={yChan + 28} t="nam · nói (C) DAU 300" s={18} />
+            <Dau kieu={ap(1)} dau={300} cx={2160} cy={yTop + 330} mieng="hoang" mat="soc" id={`${pa.ma}big1`} />
+            <Nhan x={2160} y={yChan + 28} t="hà · sốc DAU 300" s={18} />
+            {/* đầu nhỏ DAU 60 — kiểm đọc được ở cỡ nhỏ nhất */}
+            <Dau kieu={ap(0)} dau={60} cx={2500} cy={yTop + 505} mieng="B" mat="oval" id={`${pa.ma}small`} />
+            <Nhan x={2500} y={yChan + 28} t="nam · DAU 60" s={16} />
           </g>
         );
       })}
+      {/* kiểm: 11 trạng thái mắt × 3 kiểu mắt mới (E1 oval / E2 nho / E9 chan đổi hình; các trạng thái cảm xúc khác giữ nguyên) */}
+      {(() => {
+        const yTop = Y0 + PHUONG_AN.length * HANG_CAO;
+        return (
+          <g>
+            <line x1={30} y1={yTop - 6} x2={BAN_SAC_W - 30} y2={yTop - 6} stroke="#d5d5d5" strokeWidth={1.5} />
+            <text x={40} y={yTop + 26} fontFamily={FONT} fontSize={26} fontWeight={700} fill={MUC}>
+              Kiểm 11 trạng thái mắt × 3 kiểu mắt mới (hà, DAU 100) — chỉ oval / nho / chan đổi hình, sốc vẫn lòng trắng + ngươi, cung vẫn ^^
+            </text>
+            {KIEU_MAT.map(([nhan, km], r) =>
+              MAT_TT.map((m, i) => {
+                const cx = 280 + i * 135;
+                const cy = yTop + 120 + r * 150;
+                return (
+                  <g key={`${km}${m}`}>
+                    {i === 0 && <Nhan x={40} y={cy + 6} t={nhan} s={18} anchor="start" />}
+                    <Dau kieu={{...KIEU.ha, phongCach: {mat: km, mui: r === 0 ? 'gach' : r === 1 ? 'cham' : 'moc'}}} dau={100} cx={cx} cy={cy} mat={m} mieng="thang" id={`k${r}${i}`} />
+                    {r === 2 && <Nhan x={cx} y={cy + 85} t={m} s={16} />}
+                  </g>
+                );
+              })
+            )}
+          </g>
+        );
+      })()}
     </svg>
   </AbsoluteFill>
 );
