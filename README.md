@@ -12,8 +12,9 @@ miệng đổi hình theo âm). Mọi con số thẩm mỹ đo từ tham chiếu
 ## Cần làm video? Dùng skill
 
 Người dùng nói "làm video về X" → gọi skill **`tao-video`**
-(`.claude/skills/tao-video/SKILL.md`): quy trình 9 bước có lệnh thật, ngữ pháp
-shot có số liệu, danh mục lỗi validator bắt.
+(`.claude/skills/tao-video/SKILL.md`): một lệnh `node pipeline/tao-video.mjs <ten>`
+chạy 11 bước và dừng đúng chỗ cần agent viết `board.json`; cẩm nang hài, ngữ pháp
+shot có số liệu, danh mục lỗi validator bắt, cách **tự vẽ prop** khi thư viện thiếu.
 
 ## Luồng dữ liệu V2
 
@@ -33,12 +34,14 @@ src/projects/<du-an>/board.json    bảng phân cảnh: chuong[].shots[] {say, l
    ├─ node pipeline/kiem-tra-v2.mjs <ten>      ✗/⚠ — tên trong thu-vien-v2.json, say có thật, nhịp, cấu trúc
    └─ node pipeline/thong-ke-board.mjs <ten>   s/shot, % <1 s, % trực diện, chữ/15 s, % trắng so tham chiếu
 
-src/projects/<du-an>/phim.tsx      taoPhim({board, manifest, voices, mouths}) → Composition
+node pipeline/dang-ky.mjs          → src/projects/du-an.generated.ts: composition "V2-<ten>" cho mọi dự án đủ dữ liệu
    │   src/v2/phim/du-lieu.ts       neo `say` → frame (rải ký tự lên frame đang nói của voice.json)
    │   src/v2/phim/san-khau.tsx     vẽ một shot: rig + prop + chữ + insert, snap theo act
-   │   src/v2/rig/*                 nhân vật: hình khối, tư thế, mắt, miệng, tóc, tay
-   │   src/v2/props/*               28 prop nét đen
-   └─ ./render-segments.sh <Comp> media/outbound/<ten>.mp4     (Chrome hệ thống, đoạn 900 frame, ghép ffmpeg)
+   │   src/v2/rig/*                 nhân vật: 4 góc nhìn, 43 tư thế, 21 miệng, 11 mắt, 10 đồ cầm, nét tay vẽ
+   │   src/v2/act/*                 21 mẫu hành động (vào chạy, giật mình, ngã, viết bảng...) → act snap
+   │   src/v2/props/* + boi-canh.ts prop nét đen + bối cảnh dựng sẵn; board.prop_tu_ve = prop agent tự vẽ
+   ├─ ./render-segments.sh V2-<ten> media/outbound/<ten>.mp4    (Chrome hệ thống, đoạn 900 frame, ghép ffmpeg)
+   └─ node pipeline/cham-diem.mjs <ten>   14 tiêu chí đo trên video so tham chiếu; ngưỡng 90%
 ```
 
 ## Chạy
@@ -48,15 +51,18 @@ npm install
 cp .env.example .env            # GEMINI_API_KEYS=key1,key2
 # rhubarb cho lip-sync: tools/README.md (tải 1 lần, ~90 MB, chạy qua Rosetta)
 
-# ví dụ dựng lại demo-v2 (giọng đã có trong public/vo-demo-v2/)
-node pipeline/analyze-voice.mjs demo-v2
-node pipeline/lipsync.mjs demo-v2
+# MỘT LỆNH: kịch bản → giọng → lip-sync → (dừng đòi board.json) → kiểm → render → chấm
+node pipeline/tao-video.mjs demo-v2 --soat
+node pipeline/tao-video.mjs demo-v2 --tu kiem       # sau khi sửa board.json
+
+# lệnh lẻ khi cần
 node pipeline/kiem-tra-v2.mjs demo-v2            # ✓ demo-v2: qua hết
-node pipeline/thong-ke-board.mjs demo-v2         # bảng ✓/⚠
-SEG_LEN=900 ./render-segments.sh DemoV2 media/outbound/demo-v2.mp4
+node pipeline/thong-ke-board.mjs demo-v2         # bảng ✓/⚠ nhịp dựng
+node pipeline/xem-prop.mjs demo-v2 <ten-prop>    # xem prop tự vẽ trong board.prop_tu_ve
+node pipeline/cham-diem.mjs demo-v2              # điểm so tham chiếu
 
 # xem một khung
-npx remotion still src/index.ts DemoV2 out/v2/thu.png --frame=300 \
+npx remotion still src/index.ts V2-demo-v2 out/v2/thu.png --frame=300 \
   --browser-executable "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --log=error
 
 # studio tương tác

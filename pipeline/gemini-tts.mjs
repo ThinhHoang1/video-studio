@@ -77,7 +77,6 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // Free tier gemini-*-tts chỉ cho 3 request/phút -> tự giãn nhịp + backoff theo
 // đúng số giây API bảo chờ.
 let lastCall = 0;
-const MIN_GAP_MS = Number(process.env.GEMINI_MIN_GAP_MS ?? 21000);
 
 /** Mọi cặp (key, model) — mỗi cặp một hạn mức riêng. */
 const slots = () => {
@@ -88,41 +87,56 @@ const slots = () => {
 };
 
 let slotIdx = 0;
+/** lần gọi cuối theo TỪNG cặp key×model — hạn mức 3 req/phút là của mỗi cặp, không phải toàn cục */
+const lanCuoi = new Map();
+/** cặp bị 429: né tới thời điểm này */
+const neTới = new Map();
+const idSlot = (s) => `${s.key.slice(-6)}|${s.model}`;
 
+/**
+ * Xoay tua liên tục qua mọi cặp key×model: mỗi lần gọi lấy cặp kế tiếp, chỉ chờ
+ * khi CHÍNH cặp đó vừa được gọi dưới MIN_GAP_MS. 3 key × 3 model = 9 cặp → ~9 lượt / 21 s
+ * khi gọi song song, thay vì 1 lượt / 21 s như bản cũ (gap toàn cục).
+ */
 export const speak = async (opts) => {
   const all = slots();
-  let exhausted = 0;
+  const gap = Number(process.env.GEMINI_MIN_GAP_MS ?? 21000);
 
   for (let attempt = 1; attempt <= all.length * 3; attempt++) {
-    const slot = all[slotIdx % all.length];
-    const wait = lastCall + MIN_GAP_MS - Date.now();
+    // chọn cặp: xoay vòng, bỏ qua cặp đang bị né; nếu tất cả bị né thì chờ cặp hết né sớm nhất
+    let slot = null;
+    for (let k = 0; k < all.length; k++) {
+      const s = all[(slotIdx + k) % all.length];
+      if ((neTới.get(idSlot(s)) ?? 0) <= Date.now()) { slot = s; slotIdx = (slotIdx + k + 1) % all.length; break; }
+    }
+    if (!slot) {
+      const somNhat = Math.min(...all.map((s) => neTới.get(idSlot(s)) ?? 0));
+      const cho = Math.max(1000, somNhat - Date.now());
+      console.log(`  … hết hạn mức cả ${all.length} cặp key×model, chờ ${(cho / 1000).toFixed(0)}s`);
+      await sleep(cho);
+      continue;
+    }
+    const id = idSlot(slot);
+    const wait = (lanCuoi.get(id) ?? 0) + gap - Date.now();
     if (wait > 0) await sleep(wait);
-    lastCall = Date.now();
+    lanCuoi.set(id, Date.now());
 
     try {
       return await speakOnce({...opts, key: slot.key, model: opts.model ?? slot.model});
     } catch (err) {
       const quota = /quota|rate limit|resource_exhausted/i.test(err.message);
-      // "không có audio" (finishReason OTHER) và "quá dài" đều là lỗi chập chờn
-      // của model, thử lại ở cặp khác là qua.
-      const transient =
-        /unavailable|internal error|deadline|overloaded|không có audio|quá dài/i.test(err.message);
+      const transient = /unavailable|internal error|deadline|overloaded|không có audio|quá dài/i.test(err.message);
       if (!quota && !transient) throw err;
-
-      // Hết hạn mức ở cặp này -> nhảy sang cặp khác NGAY, không nằm chờ.
-      slotIdx += 1;
-      if (quota) exhausted += 1;
-
-      if (exhausted >= all.length) {
-        // đã thử hết mọi cặp -> lúc này mới đành chờ
+      const short = slot.model.replace('gemini-', '').replace('-preview', '');
+      const soKey = apiKeys().indexOf(slot.key) + 1;
+      if (quota) {
+        // "retry in Ns" → né đúng bấy nhiêu; không có thì né 65 s (hạn mức phút) — hết hạn mức NGÀY thì lần sau vẫn 429 và tiếp tục né
         const m = /retry in ([\d.]+)s/i.exec(err.message);
-        const backoff = m ? Math.ceil(Number(m[1]) * 1000) + 2000 : 60000;
-        console.log(`  … hết hạn mức cả ${all.length} cặp key×model, chờ ${(backoff / 1000).toFixed(0)}s`);
-        await sleep(backoff);
-        exhausted = 0;
+        const ne = m ? Math.ceil(Number(m[1]) * 1000) + 1500 : 65000;
+        neTới.set(id, Date.now() + ne);
+        console.log(`  … ${short}/key${soKey} hết lượt (né ${(ne / 1000).toFixed(0)}s), đổi cặp khác`);
       } else {
-        const short = slot.model.replace('gemini-', '').replace('-preview', '');
-        console.log(`  … ${short}/key${(all.indexOf(slot) % apiKeys().length) + 1} hết lượt, đổi cặp khác`);
+        console.log(`  … ${short}/key${soKey} lỗi tạm (${err.message.slice(0, 60)}), đổi cặp khác`);
       }
     }
   }
