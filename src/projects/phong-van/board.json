@@ -114,6 +114,311 @@
  },
  "chuong": [
   {
+   "id": "mo-bai",
+   "nhac": "24-grand-chase",
+   "shots": [
+    {
+     "say": "Tôi đang nhìn thẳng vào mắt chị HR",
+     "loai": "dac-ta",
+     "co": "sat",
+     "boi_canh": "phong-hop",
+     "sfx": "suspense",
+     "dien": [
+      {
+       "kieu": "nam",
+       "x": 0.5,
+       "mat": "soc-lon",
+       "mieng": "mim",
+       "act": [
+        {
+         "tai": 0,
+         "mat": "soc-lon"
+        },
+        {
+         "tai": 0.8,
+         "moHoi": true
+        },
+        {
+         "tai": 1.6,
+         "nhin": 0.15
+        }
+       ]
+      }
+     ],
+     "chu": [
+      {
+       "noi_dung": "chị HR",
+       "kieu": "nhan",
+       "vi_tri": "tren",
+       "tai": 0.9
+      }
+     ]
+    },
+    {
+     "say": "Phút mười tám",
+     "loai": "chu",
+     "sfx": "vine-boom",
+     "chu": [
+      {
+       "noi_dung": "PHÚT 18.",
+       "kieu": "the",
+       "vao": "phong",
+       "mau": "#c0392b"
+      }
+     ]
+    },
+    {
+     "say": "Chưa chớp",
+     "loai": "phan-ung",
+     "co": "can",
+     "sfx": "tick",
+     "prop": [
+      {
+       "ten": "giot-mo-hoi",
+       "x": 0.63,
+       "y": 0.42,
+       "co": 1,
+       "tai": 0.2
+      }
+     ],
+     "dien": [
+      {
+       "kieu": "nam",
+       "x": 0.5,
+       "mat": "soc-lon",
+       "mieng": "mim",
+       "moHoi": true,
+       "mau": "run",
+       "mau_tham_so": {
+        "px": 2,
+        "mat": "soc-lon"
+       },
+       "act": [
+        {
+         "tai": 0,
+         "mat": "soc-lon"
+        },
+        {
+         "tai": 0.5,
+         "nhin": -0.4
+        }
+       ]
+      }
+     ],
+     "chu": [
+      {
+       "noi_dung": "...",
+       "kieu": "tay",
+       "vi_tri": "canh-dau",
+       "tai": 0.3
+      }
+     ]
+    },
+    {
+     "say": "Tôi tên Nam",
+     "loai": "truc-dien",
+     "co": "can",
+     "sfx": "whoosh-short",
+     "dien": [
+      {
+       "kieu": "nam",
+       "x": 0.72,
+       "noi": true,
+       "dang": "gioTay",
+       "mat": "oval",
+       "act": [
+        {
+         "tai": 0,
+         "dang": "gioTay"
+        },
+        {
+         "tai": 0.6,
+         "dang": "chi",
+         "mat": "cung"
+        },
+        {
+         "tai": 1.3,
+         "dang": "haiTayXoe",
+         "mat": "oval"
+        }
+       ]
+      }
+     ],
+     "chu": [
+      {
+       "noi_dung": "Nam, 22",
+       "kieu": "kem",
+       "vi_tri": "trai",
+       "tai": 0.4
+      }
+     ]
+    },
+    {
+     "say": "hai mươi hai tuổi",
+     "loai": "tieu-canh",
+     "co": "nho",
+     "sfx": "deflate",
+     "dien": [
+      {
+       "kieu": "nam",
+       "x": 0.5,
+       "dang": "dung",
+       "mat": "cham",
+       "mieng": "mim",
+       "act": [
+        {
+         "tai": 0,
+         "dang": "dung"
+        },
+        {
+         "tai": 0.6,
+         "dang": "gaiDau",
+         "mat": "cham"
+        }
+       ]
+      }
+     ],
+     "chu": [
+      {
+       "noi_dung": "22 tuổi. chưa đi làm.",
+       "kieu": "tay",
+       "vi_tri": "canh-dau",
+       "tai": 0.3
+      }
+     ]
+    },
+    {
+     "say": "kinh nghiệm",
+     "loai": "minh-hoa",
+     "co": "trung",
+     "boi_canh": "phong-ngu",
+     "sfx": "pop",
+     "prop": [
+      {
+       "ten": "man-hinh",
+       "x": 0.32,
+       "y": 0.92,
+       "co": 1,
+       "chu": "400 VIDEO\nTIKTOK"
+      }
+     ],
+     "dien": [
+      {
+       "kieu": "long",
+       "mat": "nho",
+       "mieng": "thang",
+       "x": 0.66,
+       "goc": "sau",
+       "dang": "dung",
+       "act": [
+        {
+         "tai": 0,
+         "dang": "dung",
+         "goc": "sau"
+        },
+        {
+         "tai": 0.8,
+         "goc": "ba-phan-tu",
+         "dang": "chiLen",
+         "mat": "cung",
+         "mieng": "cuoi",
+         "flip": true
+        },
+        {
+         "tai": 1.8,
+         "dang": "chi",
+         "mieng": "smirk"
+        }
+       ]
+      }
+     ],
+     "chu": [
+      {
+       "noi_dung": "kinh nghiệm:",
+       "kieu": "nhan",
+       "vi_tri": "tren",
+       "tai": 0.3
+      },
+      {
+       "noi_dung": "thằng bạn",
+       "kieu": "tay",
+       "vi_tri": "canh-dau",
+       "tai": 1.0
+      }
+     ]
+    },
+    {
+     "say": "Chuyện tôi đậu phỏng vấn",
+     "loai": "truc-dien",
+     "co": "can",
+     "sfx": "whoosh-short",
+     "dien": [
+      {
+       "kieu": "nam",
+       "x": 0.72,
+       "noi": true,
+       "dang": "chi",
+       "mat": "oval",
+       "act": [
+        {
+         "tai": 0,
+         "dang": "chi"
+        },
+        {
+         "tai": 0.7,
+         "dang": "chiLen",
+         "mat": "cung"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "say": "nhờ hai điều",
+     "loai": "chu",
+     "sfx": "pop",
+     "dien": [
+      {
+       "kieu": "nam",
+       "mat": "cung",
+       "mieng": "cuoi",
+       "dang": "chiLen",
+       "x": 0.8,
+       "co": 0.85,
+       "flip": true
+      }
+     ],
+     "chu": [
+      {
+       "noi_dung": "Nhờ hai điều.",
+       "kieu": "the",
+       "vao": "tung-tu",
+       "vi_tri": "trai"
+      }
+     ]
+    },
+    {
+     "say": "Cả hai không phải của tôi",
+     "loai": "chu",
+     "sfx": "rimshot",
+     "chu": [
+      {
+       "noi_dung": "KHÔNG PHẢI\nCỦA TÔI.",
+       "kieu": "the",
+       "vao": "phong",
+       "mau": "#c0392b"
+      }
+     ]
+    },
+    {
+     "tai": 10.73,
+     "loai": "trong",
+     "dai": 0.5,
+     "ghi_chu": "nhịp trắng 0.5 s sau tease, trước chương 1 — ƯỚC LƯỢNG 18.06−0.5 khi chưa có TTS, đặt lại bằng --moc"
+    }
+   ]
+  },
+  {
    "id": "long-huan-luyen",
    "nhac": "25-silly-fun",
    "shots": [
@@ -2804,7 +3109,7 @@
      "sfx": "rimshot"
     },
     {
-     "tai": 25.54,
+     "tai": 25.14,
      "loai": "trong",
      "dai": 1.4,
      "ghi_chu": "sau câu chốt, tới hết chương 26.54"
@@ -2841,13 +3146,13 @@
      ]
     },
     {
-     "tai": 2.77,
+     "tai": 2.47,
      "loai": "trong",
      "dai": 0.4,
      "ghi_chu": "trước 'ứng viên rất tập trung' 3.17"
     },
     {
-     "say": "ứng viên rất tập trung",
+     "say": "rất tập trung",
      "loai": "dac-ta",
      "co": "sat",
      "sfx": "tick",
@@ -2870,7 +3175,7 @@
      ]
     },
     {
-     "say": "và rất chịu khó",
+     "say": "rất chịu khó",
      "loai": "dac-ta",
      "co": "sat",
      "sfx": "ding",
@@ -3115,7 +3420,7 @@
      ]
     },
     {
-     "tai": 11.53,
+     "tai": 10.6,
      "loai": "trong",
      "dai": 0.4,
      "ghi_chu": "trước 'Cảm ơn Long' 11.93"
@@ -3178,7 +3483,7 @@
      }
     },
     {
-     "say": "Mẹ không nói gì",
+     "say": "Mẹ im",
      "loai": "minh-hoa",
      "co": "trung",
      "boi_canh": "bep",
@@ -3436,7 +3741,7 @@
      "sfx": "rimshot"
     },
     {
-     "say": "Bà ngoại rep ngay",
+     "say": "Bà ngoại rep",
      "loai": "dac-ta",
      "co": "sat",
      "sfx": "ding",
@@ -3471,10 +3776,82 @@
      ]
     },
     {
-     "tai": 21.99,
+     "tai": 19.75,
      "loai": "trong",
      "dai": 0.63,
-     "ghi_chu": "sau câu chốt, tới hết chương 22.22"
+     "ghi_chu": "sau 'lương bao nhiêu', trước 'Mẹ bạn dặn gì' — mốc cũ, đặt lại bằng --moc sau TTS"
+    },
+    {
+     "say": "Mẹ bạn dặn gì",
+     "loai": "truc-dien",
+     "co": "can",
+     "sfx": "whoosh-short",
+     "dien": [
+      {
+       "kieu": "nam",
+       "x": 0.72,
+       "noi": true,
+       "dang": "haiTayXoe",
+       "mat": "oval",
+       "act": [
+        {
+         "tai": 0,
+         "dang": "haiTayXoe"
+        },
+        {
+         "tai": 0.6,
+         "dang": "chi",
+         "mat": "cung",
+         "nhin": 0.3
+        }
+       ]
+      }
+     ],
+     "chu": [
+      {
+       "noi_dung": "mẹ bạn?",
+       "kieu": "tay",
+       "vi_tri": "trai",
+       "tai": 0.3
+      }
+     ]
+    },
+    {
+     "say": "Kể dưới bình luận",
+     "loai": "truc-dien",
+     "co": "can",
+     "sfx": "ding",
+     "dien": [
+      {
+       "kieu": "nam",
+       "x": 0.72,
+       "noi": true,
+       "dang": "chiSau",
+       "mat": "cung",
+       "act": [
+        {
+         "tai": 0,
+         "dang": "chiSau"
+        },
+        {
+         "tai": 0.5,
+         "dang": "gioHaiTay",
+         "mat": "cung",
+         "mieng": "cuoi-toe"
+        }
+       ]
+      }
+     ],
+     "chu": [
+      {
+       "noi_dung": "KỂ DƯỚI\nBÌNH LUẬN.",
+       "kieu": "the",
+       "vao": "phong",
+       "vi_tri": "trai",
+       "mau": "#c0392b",
+       "tai": 0.2
+      }
+     ]
     }
    ]
   }

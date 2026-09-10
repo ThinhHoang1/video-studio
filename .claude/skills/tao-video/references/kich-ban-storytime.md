@@ -217,7 +217,7 @@ Người xem quyết định ở lại trong 3–5 giây đầu. Kênh storytime
 một cú "đang xảy ra" rồi mới giới thiệu. Kịch bản thiếu chương này bị
 `cham-kich-ban.mjs` chặn (user đã chê thẳng video không có mở bài: "quá chán").
 
-**Chương đầu bắt buộc `id: "mo-bai"`, 28–45 từ (≤ 10 s), đúng ba nhịp:**
+**Chương đầu bắt buộc `id: "mo-bai"`, 28–45 từ (≈ 9–15 s ở nhịp 3.2 từ/s), đúng ba nhịp:**
 
 | Nhịp | Làm gì | Ví dụ |
 |---|---|---|

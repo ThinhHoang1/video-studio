@@ -84,7 +84,8 @@ for (const [i, ch] of (kb.chapters ?? []).entries()) {
     const vo = dau.vo ?? '';
     const n = tu(vo).length;
     if (n < 28 || n > 45) loi.push(`mo-bai: ${n} từ — cần 28–45 (≤ 10 giây)`);
-    if (!/\b(tôi|mình|tui|tao|em) (là|tên)\b/i.test(vo)) loi.push('mo-bai: thiếu câu tự giới thiệu ("tôi là …" + một nét tự trào)');
+    // \b không hiểu chữ có dấu trong JS → dùng lookaround theo khoảng trắng
+    if (!/(^|\s)(tôi|mình|tui|tao|em) (là|tên)(?=\s|$|[,.:])/iu.test(vo)) loi.push('mo-bai: thiếu câu tự giới thiệu ("tôi là …" + một nét tự trào)');
     if (!/(hôm nay|chuyện|kể|vì sao|tại sao|làm sao)/i.test(vo)) loi.push('mo-bai: thiếu lời hứa/tease cho người xem (có "hôm nay/chuyện/kể/vì sao")');
     if (/(xin chào các bạn|chào mừng|hôm nay mình sẽ|hello mọi người)/i.test(vo)) loi.push('mo-bai: mở kiểu "xin chào các bạn / chào mừng / hôm nay mình sẽ" — cấm, mở bằng khoảnh khắc đang xảy ra');
   }
