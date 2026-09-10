@@ -8,7 +8,7 @@
  *      (Gemini TTS đọc sai: "mail" → "mèo"), thiếu câu ngắn (punchline), thiếu thoại trực tiếp,
  *      thiếu chi tiết cụ thể, thiếu callback, hook mở đầu dài.
  *   2. Agent tự chấm theo rubric trong .claude/skills/tao-video/references/kich-ban-storytime.md và
- *      GHI vào kịch bản: "rubric": {"tu_trao":1,"leo_thang":1,...} (10 tiêu chí, mỗi 0–1). Tổng < 7 → chặn.
+ *      GHI vào kịch bản: "rubric": {"hook":1,"mat_do":1,"chi_tiet":0.5,...} (10 tiêu chí mục 5 cẩm nang, mỗi 0/0.5/1). Tổng < 7 → chặn.
  *
  * Thoát 0 = được TTS; 1 = viết lại.
  */
@@ -30,7 +30,8 @@ const kb = JSON.parse(readFileSync(p, 'utf8'));
 const loi = [];
 const canhBao = [];
 
-const TIEU_CHI = ['tu_trao', 'leo_thang', 'chi_tiet', 'lat_ky_vong', 'callback', 'nhan_vat_phu', 'hook', 'chu_man', 'viet_hoa', 'giong_rieng'];
+/** 10 tiêu chí đúng thứ tự bảng ở references/kich-ban-storytime.md mục 5 */
+const TIEU_CHI = ['hook', 'mat_do', 'chi_tiet', 'leo_thang', 'twist_callback', 'nhan_vat_phu', 'cau_chot', 'giong_rieng', 'viet_hoa', 'cam'];
 /** sáo ngữ / giọng đạo lý — storytime không dùng */
 const SAO_NGU = ['hành trình', 'trải nghiệm đáng nhớ', 'bài học quý', 'bài học đắt giá', 'cảm xúc lẫn lộn', 'không thể tin được', 'thật sự rất', 'vô cùng', 'tuyệt vời', 'ý nghĩa sâu sắc', 'trưởng thành hơn', 'nhận ra rằng', 'quả thật', 'biết bao'];
 /**
