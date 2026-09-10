@@ -28,5 +28,17 @@
       "heading": "Câu nói tôi nhớ tới bây giờ",
       "vo": "Thầy nhìn bảng. Nhìn tôi. Rồi nói một câu tôi nhớ tới bây giờ. Thầy gọi Nam Anh. Không phải em. Im lặng. Ba giây. Cả lớp nổ tung. Hà cười gục xuống bàn. Nam Anh đứng lên, làm bài đúng một phút, xong. Tôi đi về chỗ, bước dài gấp đôi lúc lên. Từ hôm đó thằng Long gọi tôi là Nam Bảng. Suốt ba năm. Thật sự luôn."
     }
-  ]
+  ],
+  "rubric": {
+    "hook": 0.5,
+    "mat_do": 0.5,
+    "chi_tiet": 0.5,
+    "leo_thang": 1,
+    "twist_callback": 1,
+    "nhan_vat_phu": 0.5,
+    "cau_chot": 1,
+    "giong_rieng": 0.5,
+    "viet_hoa": 0,
+    "cam": 1
+  }
 }
