@@ -17,6 +17,11 @@ số liệu dựng (từ `node pipeline/thong-ke-board.mjs <ten>`), mô tả đ�
 
 File `.mp4` không đẩy lên git (`.gitignore`); metadata `.md` thì có.
 
+**Phần người viết trong `.md` được giữ nguyên khi render lại.** `tao-video.mjs` bước 11
+chỉ thay đúng khối giữa `<!-- BẢNG CHẤM: máy ghi, đừng sửa tay -->` và `<!-- /BẢNG CHẤM -->`.
+Nguồn tham khảo, tiêu đề để đăng, hashtag, mô tả — viết ngoài khối đó thì an toàn.
+(Trước đây bước này ghi đè cả file, làm mất sạch phần người viết mỗi lần render lại.)
+
 ## Video hiện có
 
 | File | Dài | Giọng | Pipeline | Nội dung |

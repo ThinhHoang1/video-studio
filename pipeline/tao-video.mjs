@@ -205,7 +205,14 @@ if (chay('cham')) {
   const r = spawnSync(process.execPath, [path.join(ROOT, 'pipeline/cham-diem.mjs'), TEN, mp4], {cwd: ROOT, encoding: 'utf8'});
   process.stdout.write(r.stdout ?? '');
   const diem = Number((r.stdout ?? '').match(/Điểm: \d+\/\d+ = (\d+)%/)?.[1] ?? 0);
-  const md = `# ${TEN}.mp4 — ${kb.title ?? TEN}
+  // ── metadata: máy CHỈ ghi khối bảng chấm, giữ nguyên phần người viết ──
+  // Trước đây bước này ghi đè CẢ file .md, nên mỗi lần render lại là mất sạch phần
+  // người viết tay: nguồn tham khảo của từng con số, mô tả để đăng, tiêu đề, hashtag.
+  // Đã xảy ra thật với nhan-vien-so.md — phải moi lại từ git. Giờ máy chỉ thay đúng
+  // khối giữa hai mốc dưới đây; mọi thứ ngoài khối đó là của người, không đụng tới.
+  const MOC_DAU = '<!-- BẢNG CHẤM: máy ghi, đừng sửa tay -->';
+  const MOC_CUOI = '<!-- /BẢNG CHẤM -->';
+  const khoi = `${MOC_DAU}
 
 - Giọng: ${kb.voice} · ${kb.chapters.length} chương · project ${DU_AN}
 - Tạo bằng: node pipeline/tao-video.mjs ${TEN}
@@ -215,9 +222,21 @@ if (chay('cham')) {
 ${(r.stdout ?? '').trim()}
 \`\`\`
 
-Nhạc nền CC BY — ghi công theo public/audio/CREDITS.md khi đăng.
-`;
-  writeFileSync(path.join(ROOT, `media/outbound/${TEN}.md`), md);
+${MOC_CUOI}`;
+  const duongMd = path.join(ROOT, `media/outbound/${TEN}.md`);
+  let md;
+  if (existsSync(duongMd)) {
+    const cu = readFileSync(duongMd, 'utf8');
+    const i = cu.indexOf(MOC_DAU);
+    const j = cu.indexOf(MOC_CUOI);
+    md = i >= 0 && j > i
+      ? cu.slice(0, i) + khoi + cu.slice(j + MOC_CUOI.length)
+      : // file cũ chưa có mốc → chèn khối vào cuối, KHÔNG xoá gì
+        `${cu.trimEnd()}\n\n${khoi}\n`;
+  } else {
+    md = `# ${TEN}.mp4 — ${kb.title ?? TEN}\n\n${khoi}\n\nNhạc nền CC BY — ghi công theo public/audio/CREDITS.md khi đăng.\n`;
+  }
+  writeFileSync(duongMd, md);
   console.log(`→ ${mp4} + media/outbound/${TEN}.md`);
   process.exit(diem >= 90 ? 0 : 1);
 }
