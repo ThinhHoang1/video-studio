@@ -108,27 +108,11 @@ export const ChuTrenMan: React.FC<ChuTrenManProps> = ({chu, frame, shotLen, W, H
   const tongTu = dong.reduce((s, d) => s + d.length, 0);
 
   // từ thứ i đã hiện chưa (tung-tu)
-  // cues là các CỤM lời của chương (đã dời về frame đầu shot), thô hơn số từ của chữ (cụm ~7 từ,
-  // chữ 2–5 từ) → cắt cụm về đoạn [batDau, shotLen], nối các đoạn lại thành "thời gian đang đọc"
-  // trong shot, rồi rải từ đều theo vị trí i/tongTu trên đoạn nối đó. Từ đầu hiện đúng lúc chữ vào.
-  const cuesShot = (cues ?? [])
-    .map((c) => ({start: Math.max(batDau, c.start), end: Math.min(shotLen, c.end)}))
-    .filter((c) => c.end > c.start);
-  const tongDoc = cuesShot.reduce((a, c) => a + (c.end - c.start), 0);
-  const hien = (i: number) => {
-    if (vao !== 'tung-tu') return true;
-    if (tongDoc > 0) {
-      let conLai = (i / tongTu) * tongDoc;
-      for (const c of cuesShot) {
-        const dai = c.end - c.start;
-        if (conLai <= dai) return frame >= c.start + conLai;
-        conLai -= dai;
-      }
-      return true;
-    }
-    const khoang = Math.max(1, (shotLen - batDau) / (tongTu + 1));
-    return t >= i * khoang;
-  };
+  // Rải từ trong một CỬA SỔ NGẮN rồi giữ nguyên cả câu tới hết shot. Trước đây rải đều suốt shot
+  // nên shot 2 s chỉ 3 từ để lộ một từ lơ lửng trên nền trắng gần một giây — nhìn như lỗi.
+  // Cửa sổ = 8 frame/từ (~3.7 từ/s, đúng nhịp nói), tối đa 60% shot.
+  const cuaSo = Math.max(1, Math.min((shotLen - batDau) * 0.6, tongTu * 8));
+  const hien = (i: number) => vao !== 'tung-tu' || t >= (i / Math.max(1, tongTu)) * cuaSo;
 
   const font: React.CSSProperties =
     kieu === 'the'

@@ -219,7 +219,7 @@ node pipeline/xem-shot.mjs <ten> --tat-ca                 # 1 khung mỗi shot c
 → `out/<ten>/shot-<chuong>-<i>.png`. Mốc tính cùng thuật toán với `kiem-tra-v2 --moc`
 và renderer (thẻ tiêu đề 1.6 s đứng SAU chương `mo-bai` — không có mo-bai thì đứng đầu — + Σ chương trước (audio + đệm 0.4 s) + mốc shot + `--lech`).
 Chỉ khi cần frame thô (`npx remotion still src/index.ts V2-<ten> out/<ten>/f300.png
---frame=300 --browser-executable "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+--frame=300
 --log=error`): `frame = 48 (thẻ tiêu đề, cộng sau chương mo-bai) + Σ(chương trước: round(duration × 30) + 12) + round(mốc × 30)`
 — `duration` lấy từ `data/<ten>.generated.json`, mốc từ `--moc`.
 
@@ -279,6 +279,14 @@ cần hỏi người. Ba cách, ưu tiên từ trên xuống:
 
 Prop tự vẽ dùng được ở `prop[].ten` mọi shot của dự án. Nếu vẽ đẹp và dùng lại nhiều,
 ghi vào `ghi_chu` để người vẽ đưa vào thư viện chung.
+
+## Máy khác macOS (Linux, CI, agent)
+
+- Trình duyệt render tự dò: `REMOTION_BROWSER`/`CHROME` → đường dẫn quen thuộc → `which chromium`.
+  Không tìm thấy thì Remotion tự tải bản headless. Không cắm cứng đường dẫn nữa.
+- ffmpeg lấy theo `@remotion/compositor-<os>-<arch>` của máy, thiếu thì dùng ffmpeg hệ thống.
+- `public/audio/` (nhạc, 93 MB) và `public/sfx/` KHÔNG nằm trong git. Thiếu thì video vẫn render,
+  chỉ mất nhạc. Muốn có nhạc: `node pipeline/tai-nhac.mjs` (thêm `--sfx` để sinh tiếng động).
 
 ## Không làm
 
