@@ -3,14 +3,16 @@
 import {execFileSync} from 'node:child_process';
 import {readFileSync, writeFileSync, mkdirSync, existsSync, rmSync} from 'node:fs';
 import path from 'node:path';
+import {timLibDir} from './moi-truong.mjs';
 
 const ROOT = path.dirname(new URL(import.meta.url).pathname);
-const FFMPEG = path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64/ffmpeg');
-const FFPROBE = path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64/ffprobe');
+const LIB0 = timLibDir(ROOT) ?? path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64');
+const FFMPEG = path.join(LIB0, 'ffmpeg');
+const FFPROBE = path.join(LIB0, 'ffprobe');
 const OUT = path.join(ROOT, 'public/vo');
 const RATE = Number(process.env.TTS_RATE ?? 165);
-const LIBDIR = path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64');
-const ENV = {...process.env, DYLD_LIBRARY_PATH: LIBDIR};
+const LIBDIR = LIB0;
+const ENV = {...process.env, DYLD_LIBRARY_PATH: LIBDIR, LD_LIBRARY_PATH: LIBDIR};
 
 const script = JSON.parse(readFileSync(path.join(ROOT, 'script/narration.json'), 'utf8'));
 

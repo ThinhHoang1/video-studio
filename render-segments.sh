@@ -29,7 +29,13 @@ BROWSER_ARG=()
 # ffmpeg đi kèm Remotion: chọn gói theo hệ điều hành + kiến trúc máy (macOS/Linux, arm64/x64)
 case "$(uname -s)" in Darwin) OSN=darwin;; Linux) OSN=linux;; *) OSN=linux;; esac
 case "$(uname -m)" in arm64|aarch64) ARCHN=arm64;; *) ARCHN=x64;; esac
-LIB="$PWD/node_modules/@remotion/compositor-$OSN-$ARCHN"
+# Gói compositor trên Linux còn mang hậu tố libc (linux-arm64-gnu, linux-x64-musl) —
+# thiếu hậu tố là không thấy ffmpeg nào và bước ghép segment hỏng im lặng.
+LIB=""
+for HAU in "" "-gnu" "-musl" "-eabi"; do
+  CAND="$PWD/node_modules/@remotion/compositor-$OSN-$ARCHN$HAU"
+  [ -x "$CAND/ffmpeg" ] && { LIB="$CAND"; break; }
+done
 export DYLD_LIBRARY_PATH="$LIB" LD_LIBRARY_PATH="$LIB"
 FFMPEG="$LIB/ffmpeg"
 [ -x "$FFMPEG" ] || FFMPEG="$(command -v ffmpeg || true)"

@@ -11,11 +11,12 @@ import {execFileSync} from 'node:child_process';
 import {readFileSync, writeFileSync, existsSync, rmSync} from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import {timLibDir} from './moi-truong.mjs';
 
 // pipeline/ nằm dưới gốc repo một cấp
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
-const LIB = path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64');
-const ENV = {...process.env, DYLD_LIBRARY_PATH: LIB};
+const LIB = timLibDir(ROOT) ?? path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64');
+const ENV = {...process.env, DYLD_LIBRARY_PATH: LIB, LD_LIBRARY_PATH: LIB};
 const FPS = 30;
 const SR = 16000;
 

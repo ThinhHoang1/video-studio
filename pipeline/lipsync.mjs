@@ -23,12 +23,14 @@ import {readFileSync, writeFileSync, existsSync, mkdirSync, rmSync} from 'node:f
 import {createHash} from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
+import {timLibDir} from './moi-truong.mjs';
 
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
-const LIB = path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64');
+const LIB = timLibDir(ROOT) ?? path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64');
 const FFMPEG = path.join(LIB, 'ffmpeg');
-// ffmpeg của Remotion cần DYLD_LIBRARY_PATH trỏ vào chính thư mục của nó (ARCHITECTURE.md)
-const ENV = {...process.env, DYLD_LIBRARY_PATH: LIB};
+// ffmpeg của Remotion cần DYLD_LIBRARY_PATH (macOS) / LD_LIBRARY_PATH (Linux) trỏ vào
+// chính thư mục của nó (ARCHITECTURE.md)
+const ENV = {...process.env, DYLD_LIBRARY_PATH: LIB, LD_LIBRARY_PATH: LIB};
 const RHUBARB = process.env.RHUBARB ?? path.join(ROOT, 'tools/rhubarb/rhubarb');
 
 // ── tham số dòng lệnh ──────────────────────────────────────────────────
