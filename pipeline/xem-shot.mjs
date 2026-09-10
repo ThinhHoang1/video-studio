@@ -12,6 +12,7 @@
 import {execFileSync} from 'node:child_process';
 import {existsSync, mkdirSync, readFileSync} from 'node:fs';
 import path from 'node:path';
+import {coTrinhDuyet} from './moi-truong.mjs';
 
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
 const args = process.argv.slice(2);
@@ -71,11 +72,11 @@ const mocGiay = (ch, say, viTriTruoc) => {
   return dangNoi[Math.min(dangNoi.length - 1, Math.floor(p * dangNoi.length))] / fps;
 };
 
-const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const CO_TD = coTrinhDuyet(); // dò trình duyệt theo máy (macOS / Linux / Windows)
 const outDir = path.join(ROOT, `out/${TEN}`);
 mkdirSync(outDir, {recursive: true});
 const render = (frame, out) => {
-  execFileSync('npx', ['remotion', 'still', 'src/index.ts', `V2-${TEN}`, out, '--frame', String(frame), '--browser-executable', CHROME, '--log=error'], {cwd: ROOT, stdio: 'inherit'});
+  execFileSync('npx', ['remotion', 'still', 'src/index.ts', `V2-${TEN}`, out, '--frame', String(frame), ...CO_TD, '--log=error'], {cwd: ROOT, stdio: 'inherit'});
   console.log(`→ ${path.relative(ROOT, out)}  (frame ${frame})`);
 };
 

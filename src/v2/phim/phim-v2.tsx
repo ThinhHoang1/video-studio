@@ -28,6 +28,17 @@ export type DuLieuPhim = {
 /** board ghi tên trong thư viện ('25-silly-fun') hoặc đường dẫn ('audio/25-silly-fun.mp3') */
 const duongNhac = (t?: string) => (!t ? undefined : t.includes('/') ? t : `audio/${t}.mp3`);
 
+/**
+ * Nhạc nền và tiếng động nằm ngoài git (public/audio 93 MB, public/sfx) — bản clone mới KHÔNG có.
+ * Trước đây thiếu file là Remotion ném "Could not play audio" và hỏng cả bản render.
+ * Nay thiếu thì bỏ qua, video vẫn ra, chỉ mất nhạc; chạy `node pipeline/tai-nhac.mjs` để có nhạc.
+ */
+const CoTiengNeuCo: React.FC<{src: string; volume?: number; loop?: boolean}> = ({src, volume, loop}) => {
+  const [hong, datHong] = React.useState(false);
+  if (hong) return null;
+  return <Audio src={staticFile(src)} volume={volume} loop={loop} onError={() => datHong(true)} />;
+};
+
 const NHAC_VUI = ['audio/25-silly-fun.mp3', 'audio/22-flutey-funk.mp3', 'audio/23-got-funk.mp3', 'audio/26-style-funk.mp3', 'audio/20-daily-beetle.mp3', 'audio/27-the-builder.mp3'];
 
 export const dungPhim = (d: DuLieuPhim) => {
@@ -55,12 +66,12 @@ const Chuong: React.FC<{d: DuLieuPhim; c: ChuongDung; audio: string; nhac: strin
       {c.shots.map((s) => (
         <Sequence key={s.idx} from={s.from} durationInFrames={s.len} layout="none">
           <SanKhau shot={s} frame={Math.max(0, frame - s.from)} frameChuong={frame} cues={c.cues} mouth={d.mouths?.[c.id]} voice={d.voices[c.id]} nguoiKe={d.board.nguoi_ke} id={`${c.id}-${s.idx}`} propTuVe={d.board.prop_tu_ve} />
-          {s.sfx && <Audio src={staticFile(`sfx/${s.sfx}.wav`)} volume={0.55} />}
+          {s.sfx && <CoTiengNeuCo src={`sfx/${s.sfx}.wav`} volume={0.55} />}
         </Sequence>
       ))}
       {phuDe && <Sub cues={c.cues} toi />}
       <Audio src={staticFile(audio)} />
-      <Audio src={staticFile(nhac)} volume={0.09} loop />
+      <CoTiengNeuCo src={nhac} volume={0.09} loop />
     </AbsoluteFill>
   );
 };
@@ -84,7 +95,7 @@ export const taoPhim = (d: DuLieuPhim) => {
       {INTRO > 0 && (
         <Sequence from={introTai} durationInFrames={INTRO}>
           <TieuDe t={d.tieuDe!} />
-          <Audio src={staticFile('sfx/whoosh-up.wav')} volume={0.6} />
+          <CoTiengNeuCo src="sfx/whoosh-up.wav" volume={0.6} />
         </Sequence>
       )}
       {chuong.map((c, i) => (

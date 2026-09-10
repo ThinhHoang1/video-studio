@@ -12,9 +12,27 @@ cd "$(dirname "$0")"
 COMP="${1:-LamPhatV2}"
 OUT="${2:-out/${COMP}.mp4}"
 SEG_LEN="${SEG_LEN:-700}"
-CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-LIB="$PWD/node_modules/@remotion/compositor-darwin-arm64"
-export DYLD_LIBRARY_PATH="$LIB"
+# Trình duyệt render: REMOTION_BROWSER/CHROME > đường dẫn quen thuộc > which.
+# Cắm cứng đường dẫn macOS khiến agent chạy trên Linux (chromium) không render được.
+CHROME="${REMOTION_BROWSER:-${CHROME:-}}"
+if [ -z "$CHROME" ] || [ ! -x "$CHROME" ]; then
+  for c in "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+           "/Applications/Chromium.app/Contents/MacOS/Chromium" \
+           /usr/bin/chromium /usr/bin/chromium-browser /usr/bin/google-chrome /usr/bin/google-chrome-stable /snap/bin/chromium; do
+    [ -x "$c" ] && CHROME="$c" && break
+  done
+fi
+[ -z "$CHROME" ] && CHROME="$(command -v chromium || command -v chromium-browser || command -v google-chrome || true)"
+# rỗng = để Remotion tự tải bản headless của nó
+BROWSER_ARG=()
+[ -n "$CHROME" ] && BROWSER_ARG=(--browser-executable "$CHROME")
+# ffmpeg đi kèm Remotion: chọn gói theo hệ điều hành + kiến trúc máy (macOS/Linux, arm64/x64)
+case "$(uname -s)" in Darwin) OSN=darwin;; Linux) OSN=linux;; *) OSN=linux;; esac
+case "$(uname -m)" in arm64|aarch64) ARCHN=arm64;; *) ARCHN=x64;; esac
+LIB="$PWD/node_modules/@remotion/compositor-$OSN-$ARCHN"
+export DYLD_LIBRARY_PATH="$LIB" LD_LIBRARY_PATH="$LIB"
+FFMPEG="$LIB/ffmpeg"
+[ -x "$FFMPEG" ] || FFMPEG="$(command -v ffmpeg || true)"
 
 # Tính số frame ngay từ manifest thay vì hỏi Remotion — gọi `remotion
 # compositions` phải bung cả Chrome, mất hàng phút cho một con số.
@@ -80,7 +98,7 @@ while [ "$start" -lt "$TOTAL" ]; do
   else
     echo "đoạn $i ($start-$end)…"
     npx remotion render "$COMP" "$seg" \
-      --browser-executable="$CHROME" \
+      "${BROWSER_ARG[@]}" \
       --frames="$start-$end" \
       --crf=20 --timeout=120000 --concurrency=2 --log=error
   fi
@@ -90,5 +108,5 @@ while [ "$start" -lt "$TOTAL" ]; do
   start=$((end + 1))
 done
 
-"$LIB/ffmpeg" -y -f concat -safe 0 -i "$list" -c copy "$OUT"
+"$FFMPEG" -y -f concat -safe 0 -i "$list" -c copy "$OUT"
 echo "-> $OUT"

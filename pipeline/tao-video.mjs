@@ -24,6 +24,7 @@
 import {execFileSync, spawnSync} from 'node:child_process';
 import {existsSync, mkdirSync, readFileSync, writeFileSync} from 'node:fs';
 import path from 'node:path';
+import {coTrinhDuyet} from './moi-truong.mjs';
 
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
 const args = process.argv.slice(2);
@@ -123,7 +124,7 @@ if (chay('dang-ky')) {
   if (r.status !== 0) dung('tsc lỗi — board.json có trường sai kiểu? xem lỗi ở trên');
 }
 // 9
-const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const CO_TD = coTrinhDuyet(); // dò trình duyệt theo máy (macOS / Linux / Windows)
 /**
  * Chọn shot đáng soát: chấm điểm từng shot theo thứ dễ hỏng trên still (prop tự vẽ, bối cảnh,
  * nhiều diễn viên, chữ `the`, cỡ sat), lấy tối đa `toiDa` shot, rải đều các chương

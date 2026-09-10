@@ -18,6 +18,7 @@ import {execFileSync} from 'node:child_process';
 import {existsSync, mkdirSync, readFileSync, writeFileSync} from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import {coTrinhDuyet} from './moi-truong.mjs';
 
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
 const args = process.argv.slice(2);
@@ -82,11 +83,11 @@ if (CO_CANH) {
   console.log(`  gợi ý: muốn prop cao ~65% khung ở cỡ ${CO_CANH} thì co ≈ ${goiY.toFixed(2)}`);
 }
 
-const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const CO_TD = coTrinhDuyet(); // dò trình duyệt theo máy (macOS / Linux / Windows)
 const render = (props, out, scale) => {
   const propsFile = path.join(os.tmpdir(), `xem-prop-${process.pid}-${path.basename(out)}.json`);
   writeFileSync(propsFile, JSON.stringify(props));
-  const a = ['remotion', 'still', 'src/index.ts', 'PropTuVeXem', out, `--props=${propsFile}`, '--browser-executable', CHROME, '--log=error'];
+  const a = ['remotion', 'still', 'src/index.ts', 'PropTuVeXem', out, `--props=${propsFile}`, ...CO_TD, '--log=error'];
   if (scale && scale !== 1) a.push(`--scale=${scale}`);
   execFileSync('npx', a, {cwd: ROOT, stdio: 'inherit'});
   console.log(`→ ${path.relative(ROOT, out)}`);

@@ -48,7 +48,8 @@ node pipeline/dang-ky.mjs          → src/projects/du-an.generated.ts: composit
 
 ```bash
 npm install
-cp .env.example .env            # GEMINI_API_KEYS=key1,key2
+cp .env.example .env
+node pipeline/tai-nhac.mjs --sfx   # nhạc + tiếng động (không nằm trong git); thiếu vẫn render được, chỉ mất nhạc            # GEMINI_API_KEYS=key1,key2
 # rhubarb cho lip-sync: tools/README.md (tải 1 lần, ~90 MB, chạy qua Rosetta)
 
 # MỘT LỆNH: kịch bản → giọng → lip-sync → (dừng đòi board.json) → kiểm → render → chấm
@@ -63,7 +64,7 @@ node pipeline/cham-diem.mjs demo-v2              # điểm so tham chiếu
 
 # xem một khung
 npx remotion still src/index.ts V2-demo-v2 out/v2/thu.png --frame=300 \
-  --browser-executable "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --log=error
+  --log=error
 
 # studio tương tác
 npm run dev

@@ -1,0 +1,55 @@
+{
+  "voice": "Fenrir",
+  "style": "Bạn là một YouTuber Việt đang NÓI CHUYỆN với người nghe, kể lại chuyện đời mình như đang kể cho thằng bạn thân hoặc cho em đang ngồi đối diện, không đọc kịch bản. Giọng nam trẻ miền Bắc, năng lượng cao, nói nhanh hơn bình thường 20%, câu dài đọc liền một hơi, tới câu ngắn thì ngắt hẳn và nhấn như đấm. Giữ nguyên tiếng đệm (nhá, đấy, xong, ờ, ấy), thở và cười khẽ khi tự chửi mình, hạ giọng thì thào ở chỗ bí mật, lên giọng bất ngờ ở chỗ ngạc nhiên. Từ chửi nhẹ đọc tự nhiên, không nhấn quá. Tuyệt đối không đọc đều đều, không trầm buồn, không kiểu đọc bản tin hay kể chuyện ma.",
+  "total": 97.224,
+  "chapters": [
+    {
+      "id": "mo-bai",
+      "kicker": "Đang xảy ra",
+      "heading": "Ly trà sữa còn đầy",
+      "vo": "Tôi ngồi trước mặt em ấy. Ly trà sữa còn đầy. Ba mươi phút chưa nói được câu nào. Tôi tên Nam, hai ba tuổi, lần đầu đi hẹn hò, mà ngu vãi các bạn ạ. Hôm nay kể buổi hẹn đầu của tôi.",
+      "audio": "vo-first-date/mo-bai.mp3",
+      "duration": 11.904
+    },
+    {
+      "id": "chuan-bi",
+      "kicker": "Tối hôm trước",
+      "heading": "Mười hai chủ đề",
+      "vo": "Tối trước nhá, tôi mượn áo sơ mi của thằng Long, xịt nước hoa của bố, xong ngồi tra Google: chủ đề nói chuyện lần đầu gặp mặt. Ra mười hai chủ đề, tôi chép hết vào ghi chú điện thoại. Long nhắn: cứ tự nhiên là được. Tự nhiên kiểu gì khi trong máy có mười hai chủ đề hả các bạn. Ngu thật.",
+      "audio": "vo-first-date/chuan-bi.mp3",
+      "duration": 15.912
+    },
+    {
+      "id": "den-som",
+      "kicker": "Bốn mươi phút",
+      "heading": "Đổ luôn cái ghế",
+      "vo": "Tôi tới sớm bốn mươi phút, ngồi ôm ly trà sữa, tập nói trước cái camera điện thoại. Em ấy tới muộn mười phút thôi mà tôi đứng bật dậy nhanh quá, đổ luôn cái ghế. Cả quán quay lại nhìn. Em ấy bảo: anh ổn không. Ổn, ổn. Toang từ giây thứ nhất các bạn ạ.",
+      "audio": "vo-first-date/den-som.mp3",
+      "duration": 15.528
+    },
+    {
+      "id": "con-meo",
+      "kicker": "Chủ đề số một",
+      "heading": "Tám phút về con mèo",
+      "vo": "Xong tôi mở ghi chú ra, chủ đề một: em ăn cơm chưa. Em bảo rồi. Hết. Năm phút sau tôi lại hỏi em ăn cơm chưa. Rồi tôi kể về con mèo nhà tôi, tên Mít, kể tám phút liền, các bạn ạ, tám phút về một con mèo. Em ấy bắt đầu nhìn điện thoại. Tôi ngu thật.",
+      "audio": "vo-first-date/con-meo.mp3",
+      "duration": 17.64
+    },
+    {
+      "id": "tra-tien",
+      "kicker": "Lúc tính tiền",
+      "heading": "Cái ví có chân",
+      "vo": "Tới lúc trả tiền nhá. Tôi rút ví ra rất ngầu, mà cái ví thì đang nằm trên bàn học ở nhà. Mồ hôi chảy xuống lưng. Tôi giả vờ tìm thêm ba mươi giây, kiểu ví có chân. Em ấy đưa thẻ ra bảo: để em. Anh ngồi đi. Chết dở các bạn ạ, hai trăm nghìn, người ta trả hộ tôi.",
+      "audio": "vo-first-date/tra-tien.mp3",
+      "duration": 16.44
+    },
+    {
+      "id": "ket",
+      "kicker": "Về nhà",
+      "heading": "Buồn cười tức là sao",
+      "vo": "Về nhà, mẹ nhắn: hôm nay đi đâu mà diện thế con. Tôi chưa kịp trả lời thì em ấy nhắn trước: mai đi ăn tiếp nhé, anh buồn cười lắm. Tôi đọc ba lần. Buồn cười tức là sao ạ. Hôm sau tôi mang ví, và không kể chuyện con Mít nữa. Ngu một lần thôi. Buổi hẹn đầu của các bạn ngu kiểu gì? Kể dưới bình luận.",
+      "audio": "vo-first-date/ket.mp3",
+      "duration": 19.8
+    }
+  ]
+}
