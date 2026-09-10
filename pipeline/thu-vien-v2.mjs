@@ -97,11 +97,20 @@ for (const [key, {moTa, dongDau}] of Object.entries(keysObject(nguonKieu, 'expor
   const sau = dongDau.match(/sau:\s*'([^']+)'/)?.[1];
   const phuKien = dongDau.match(/phuKien:\s*'([^']+)'/)?.[1];
   const khung = dongDau.match(/khung:\s*'([^']+)'/)?.[1];
+  const coKieu = Number(dongDau.match(/\bco:\s*([\d.]+)/)?.[1] ?? 1);
   const chiTiet = [];
   if (mai || sau) chiTiet.push(`tóc mái ${mai ?? '?'}, sau ${sau ?? '?'}`);
   if (phuKien && phuKien !== 'khong') chiTiet.push(`phụ kiện ${phuKien}`);
-  if (khung === 'phu') chiTiet.push('khung người lớn (3.6 đầu)');
-  nhanVat[key] = moTa || [ten, chiTiet.join('; ')].filter(Boolean).join(' — ');
+  // chiều cao rig (src/v2/rig/hinh.ts: CHINH 2.6 DAU, PHU 3.6 DAU); renderer (san-khau.tsx) thu khung phu 0.82
+  // → chiều cao THẬT trên màn tính theo DAU của cỡ cảnh, kèm hệ số co riêng của kiểu
+  const caoRig = khung === 'phu' ? 3.6 : 2.6;
+  const caoMan = caoRig * (khung === 'phu' ? 0.82 : 1) * coKieu;
+  chiTiet.push(
+    khung === 'phu'
+      ? `khung người lớn cao 3.6 đầu (trên màn ≈ ${caoMan.toFixed(2)} DAU cỡ cảnh; ở can đặt co 0.85, ở sat co 0.8 kẻo mất đỉnh đầu)`
+      : `khung chính cao 2.6 đầu${coKieu !== 1 ? ` × co ${coKieu} ≈ ${caoMan.toFixed(2)} DAU` : ''} (vừa mọi cỡ cảnh)`
+  );
+  nhanVat[key] = [moTa || ten, chiTiet.join('; ')].filter(Boolean).join(' — ');
 }
 
 // ── tư thế ─────────────────────────────────────────────────────────────

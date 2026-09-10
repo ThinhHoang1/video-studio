@@ -10,15 +10,15 @@
   },
   "nhan_vat": {
     "_": "trường `kieu` của mỗi diễn viên trong `dien`. Nhân vật phụ vô danh dùng `trang`.",
-    "nam": "Nam — tóc mái hat, sau ngan; phụ kiện ca-vat",
-    "ha": "Hà — tóc mái lech-trai, sau duoi-ngua; phụ kiện no",
-    "long": "Long — tóc mái dung, sau ngan",
-    "mai": "Mai — tóc mái ngang, sau bob; phụ kiện kinh",
-    "me": "Mẹ — tóc mái re-giua, sau bui; khung người lớn (3.6 đầu)",
-    "thay": "Thầy — tóc mái re-giua, sau ngan; phụ kiện kinh; khung người lớn (3.6 đầu)",
-    "nam-lon": "Nam 30 — tóc mái lech-phai, sau ngan",
-    "ha-lon": "Hà 30 — tóc mái lech-trai, sau dai",
-    "trang": "nhân vật phụ vô danh — đầu trắng không mặt; tóc tuỳ chọn"
+    "nam": "Nam — tóc mái hat, sau ngan; phụ kiện ca-vat; khung chính cao 2.6 đầu (vừa mọi cỡ cảnh)",
+    "ha": "Hà — tóc mái lech-trai, sau duoi-ngua; phụ kiện no; khung chính cao 2.6 đầu (vừa mọi cỡ cảnh)",
+    "long": "Long — tóc mái dung, sau ngan; khung chính cao 2.6 đầu × co 1.05 ≈ 2.73 DAU (vừa mọi cỡ cảnh)",
+    "mai": "Mai — tóc mái ngang, sau bob; phụ kiện kinh; khung chính cao 2.6 đầu (vừa mọi cỡ cảnh)",
+    "me": "Mẹ — tóc mái re-giua, sau bui; khung người lớn cao 3.6 đầu (trên màn ≈ 2.80 DAU cỡ cảnh; ở can đặt co 0.85, ở sat co 0.8 kẻo mất đỉnh đầu)",
+    "thay": "Thầy — tóc mái re-giua, sau ngan; phụ kiện kinh; khung người lớn cao 3.6 đầu (trên màn ≈ 2.95 DAU cỡ cảnh; ở can đặt co 0.85, ở sat co 0.8 kẻo mất đỉnh đầu)",
+    "nam-lon": "Nam 30 — tóc mái lech-phai, sau ngan; khung chính cao 2.6 đầu × co 1.05 ≈ 2.73 DAU (vừa mọi cỡ cảnh)",
+    "ha-lon": "Hà 30 — tóc mái lech-trai, sau dai; khung chính cao 2.6 đầu (vừa mọi cỡ cảnh)",
+    "trang": "nhân vật phụ vô danh — đầu trắng không mặt; tóc tuỳ chọn — tóc mái ngang, sau khong; khung người lớn cao 3.6 đầu (trên màn ≈ 2.95 DAU cỡ cảnh; ở can đặt co 0.85, ở sat co 0.8 kẻo mất đỉnh đầu)"
   },
   "tu_the": {
     "_": "trường `dang` của diễn viên và của mỗi mốc `act`.",
@@ -257,8 +257,8 @@
   "co_canh": {
     "_": "trường `co` của shot — cỡ cảnh quyết định bề rộng sọ.",
     "rong": "toàn thân, thấy cả prop (sọ 200px)",
-    "trung": "cắt ở gối — mặc định minh hoạ (sọ 330px)",
-    "can": "cắt ở ngực — mặc định trực diện, phản ứng (sọ 560px)",
+    "trung": "cắt ở cổ chân, thấy cả gối — mặc định minh hoạ (sọ 330px)",
+    "can": "cắt ngang eo — mặc định trực diện, phản ứng; thay/me/trang cần co 0.85–0.9 (sọ 560px)",
     "sat": "chỉ mặt — đặc tả (sọ 900px)",
     "nho": "nhân vật bé giữa khung trắng (sọ 110px)"
   },

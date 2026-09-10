@@ -3,7 +3,8 @@
  *
  *   node pipeline/xem-shot.mjs <ten> <chuong-id> <say | #index> [--lech 0.3]
  *   node pipeline/xem-shot.mjs <ten> --tat-ca          → 1 khung mỗi shot có nhân vật/prop tự vẽ/bối cảnh (nhiều ảnh, chậm)
- *   → out/<ten>/shot-<chuong>-<index>.png
+ *   node pipeline/xem-shot.mjs <ten> --chon <chuong>:<index>[,<chuong>:<index>...]   → đúng các shot liệt kê (tao-video --soat dùng)
+ *   → out/<ten>/shot-<chuong>-<index>.png     (<index> = vị trí shot trong mảng `shots` của chương, đếm từ 0)
  *
  * Mốc shot ước lượng cùng cách với validator (rải ký tự lên frame đang nói của voice.json);
  * --lech là giây cộng thêm từ đầu shot (mặc định 0.3 để qua frame đầu vào khung).
@@ -14,12 +15,28 @@ import path from 'node:path';
 
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
 const args = process.argv.slice(2);
-const [TEN, CHUONG, MOC] = args.filter((a) => !a.startsWith('--'));
+const CO_GIA_TRI = new Set(['--lech', '--chon']);
+const viTri = [];
+for (let i = 0; i < args.length; i++) {
+  if (args[i].startsWith('--')) {
+    if (CO_GIA_TRI.has(args[i])) i++;
+    continue;
+  }
+  viTri.push(args[i]);
+}
+const [TEN, CHUONG, MOC] = viTri;
 const opt = (k, d) => { const i = args.indexOf(`--${k}`); return i >= 0 ? Number(args[i + 1]) : d; };
 const LECH = opt('lech', 0.3);
 const TAT_CA = args.includes('--tat-ca');
-if (!TEN || (!TAT_CA && (!CHUONG || !MOC))) {
-  console.error('Dùng: node pipeline/xem-shot.mjs <ten> <chuong-id> <say|#index> [--lech 0.3]   |   node pipeline/xem-shot.mjs <ten> --tat-ca');
+const iChon = args.indexOf('--chon');
+/** {chuong: Set<index>} khi --chon */
+const CHON = iChon >= 0 ? (args[iChon + 1] ?? '').split(',').filter(Boolean).reduce((o, m) => {
+  const [c, i] = m.split(':');
+  (o[c] ??= new Set()).add(Number(i));
+  return o;
+}, {}) : null;
+if (!TEN || (!TAT_CA && !CHON && (!CHUONG || !MOC))) {
+  console.error('Dùng: node pipeline/xem-shot.mjs <ten> <chuong-id> <say|#index> [--lech 0.3]   |   node pipeline/xem-shot.mjs <ten> --tat-ca   |   node pipeline/xem-shot.mjs <ten> --chon <chuong>:<i>,...');
   process.exit(2);
 }
 const FPS = 30, INTRO = 2, DEM = 0.4;
@@ -64,14 +81,16 @@ const viec = [];
 for (const bc of board.chuong) {
   const ch = mf.chapters.find((c) => c.id === bc.id);
   if (!ch) continue;
-  if (!TAT_CA && bc.id !== CHUONG) continue;
+  if (CHON ? !CHON[bc.id] : !TAT_CA && bc.id !== CHUONG) continue;
   const viTri = {v: 0};
   bc.shots.forEach((s, i) => {
     const giay = typeof s.tai === 'number' ? s.tai : s.say ? mocGiay(ch, s.say, viTri) : null;
     if (giay === null) return;
-    const khop = TAT_CA
-      ? (s.dien?.length || s.boi_canh || (s.prop ?? []).some((p) => board.prop_tu_ve?.[p.ten]))
-      : MOC.startsWith('#') ? i === Number(MOC.slice(1)) : chuan(s.say ?? '') === chuan(MOC) || (s.say ?? '').includes(MOC);
+    const khop = CHON
+      ? CHON[bc.id].has(i)
+      : TAT_CA
+        ? (s.dien?.length || s.boi_canh || (s.prop ?? []).some((p) => board.prop_tu_ve?.[p.ten]))
+        : MOC.startsWith('#') ? i === Number(MOC.slice(1)) : chuan(s.say ?? '') === chuan(MOC) || (s.say ?? '').includes(MOC);
     if (khop) viec.push({frame: Math.round((batDau[bc.id] + giay + LECH) * FPS), out: path.join(outDir, `shot-${bc.id}-${i}.png`), say: s.say ?? `tai=${s.tai}`});
   });
 }

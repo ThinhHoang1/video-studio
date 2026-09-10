@@ -1,8 +1,16 @@
 /**
  * Xem một prop tự vẽ trong board.prop_tu_ve trước khi dùng.
  *
- *   node pipeline/xem-prop.mjs <du-an> <ten-prop> [--chu "NHÃN"]
- *   → out/<du-an>/prop-<ten-prop>.png   (mở bằng tool Read, sửa board, chạy lại)
+ *   node pipeline/xem-prop.mjs <du-an> <ten-prop> [--chu "NHÃN"] [--co 1] [--co-canh sat|can|trung|rong|nho] [--thu 0.25]
+ *   → out/<du-an>/prop-<ten-prop>.png                (mở bằng tool Read, sửa board, chạy lại)
+ *   → out/<du-an>/prop-<ten-prop>-<co-canh>.png      (khi --co-canh: giả lập khung 1920×1080 của cỡ đó)
+ *   → out/<du-an>/prop-<ten-prop>[-<co-canh>]-thu.png (khi --thu: bản thu nhỏ theo tỉ lệ, kiểm "nhận ra ở 25%")
+ *
+ * --co       : `co` sẽ ghi trong board.prop[] (mặc định 1)
+ * --co-canh  : nhân thêm DAU_cỡ/330 đúng như renderer (rong 200 / trung 330 / can 560 / sat 900 / nho 110)
+ *              và vẽ trong khung đúng cỡ cảnh, cạnh nhân vật cùng cỡ — thấy prop chiếm bao nhiêu khung.
+ *              Công thức: px trên màn = px khai × co × DAU_cỡ/330.
+ * --thu      : render thêm một ảnh nhỏ (remotion --scale), bỏ lưới và chú thích; prop phải còn nhận ra được.
  *
  * Không có <ten-prop>: liệt kê prop tự vẽ của dự án.
  */
@@ -12,11 +20,38 @@ import os from 'node:os';
 import path from 'node:path';
 
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
-const [DU_AN, TEN] = process.argv.slice(2).filter((a) => !a.startsWith('--'));
-const iChu = process.argv.indexOf('--chu');
-const CHU = iChu >= 0 ? process.argv[iChu + 1] : undefined;
+const args = process.argv.slice(2);
+const optCo = new Set(['--chu', '--co', '--co-canh', '--thu']);
+const viTri = [];
+for (let i = 0; i < args.length; i++) {
+  if (args[i].startsWith('--')) {
+    if (optCo.has(args[i])) i++;
+    continue;
+  }
+  viTri.push(args[i]);
+}
+const [DU_AN, TEN] = viTri;
+const opt = (k) => {
+  const i = args.indexOf(`--${k}`);
+  return i >= 0 ? args[i + 1] : undefined;
+};
+const CHU = opt('chu');
+const CO_BOARD = Number(opt('co') ?? 1);
+const CO_CANH = opt('co-canh');
+const THU = opt('thu') != null ? Number(opt('thu')) : undefined;
+/** bề rộng sọ theo cỡ cảnh — chép từ CO_CANH trong src/v2/board/kieu-board.ts */
+const DAU = {rong: 200, trung: 330, can: 560, sat: 900, nho: 110};
+
 if (!DU_AN) {
-  console.error('Dùng: node pipeline/xem-prop.mjs <du-an> <ten-prop> [--chu "NHÃN"]');
+  console.error('Dùng: node pipeline/xem-prop.mjs <du-an> <ten-prop> [--chu "NHÃN"] [--co 1] [--co-canh sat|can|trung|rong|nho] [--thu 0.25]');
+  process.exit(2);
+}
+if (CO_CANH && !DAU[CO_CANH]) {
+  console.error(`✗ --co-canh "${CO_CANH}" không hợp lệ. Chọn: ${Object.keys(DAU).join(', ')}`);
+  process.exit(2);
+}
+if (THU != null && !(THU > 0 && THU <= 1)) {
+  console.error('✗ --thu phải trong (0, 1], ví dụ 0.25');
   process.exit(2);
 }
 const boardPath = path.join(ROOT, `src/projects/${DU_AN}/board.json`);
@@ -37,12 +72,30 @@ if (!tuVe[TEN]) {
 }
 const outDir = path.join(ROOT, `out/${DU_AN}`);
 mkdirSync(outDir, {recursive: true});
-const propsFile = path.join(os.tmpdir(), `xem-prop-${process.pid}.json`);
-writeFileSync(propsFile, JSON.stringify({ten: TEN, mau: tuVe[TEN], chu: CHU}));
-const out = path.join(outDir, `prop-${TEN}.png`);
-execFileSync(
-  'npx',
-  ['remotion', 'still', 'src/index.ts', 'PropTuVeXem', out, `--props=${propsFile}`, '--browser-executable', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '--log=error'],
-  {cwd: ROOT, stdio: 'inherit'}
-);
-console.log(`→ ${path.relative(ROOT, out)}`);
+
+const co = CO_CANH ? CO_BOARD * (DAU[CO_CANH] / 330) : CO_BOARD;
+const mau = tuVe[TEN];
+if (CO_CANH) {
+  const caoMan = Math.round(mau.cao * co);
+  console.log(`  ${TEN} khai ${mau.rong}×${mau.cao} px · co board ${CO_BOARD} · cỡ ${CO_CANH} (DAU ${DAU[CO_CANH]}) → co trên màn ${co.toFixed(2)} → cao ${caoMan} px = ${Math.round((caoMan / 1080) * 100)}% khung`);
+  const goiY = (0.65 * 1080) / (mau.cao * (DAU[CO_CANH] / 330));
+  console.log(`  gợi ý: muốn prop cao ~65% khung ở cỡ ${CO_CANH} thì co ≈ ${goiY.toFixed(2)}`);
+}
+
+const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const render = (props, out, scale) => {
+  const propsFile = path.join(os.tmpdir(), `xem-prop-${process.pid}-${path.basename(out)}.json`);
+  writeFileSync(propsFile, JSON.stringify(props));
+  const a = ['remotion', 'still', 'src/index.ts', 'PropTuVeXem', out, `--props=${propsFile}`, '--browser-executable', CHROME, '--log=error'];
+  if (scale && scale !== 1) a.push(`--scale=${scale}`);
+  execFileSync('npx', a, {cwd: ROOT, stdio: 'inherit'});
+  console.log(`→ ${path.relative(ROOT, out)}`);
+};
+
+const duoi = CO_CANH ? `-${CO_CANH}` : '';
+const propsChung = {ten: TEN, mau, chu: CHU, co, coCanh: CO_CANH};
+render(propsChung, path.join(outDir, `prop-${TEN}${duoi}.png`));
+if (THU != null && THU < 1) {
+  render({...propsChung, thu: THU}, path.join(outDir, `prop-${TEN}${duoi}-thu.png`), THU);
+  console.log(`  bản thu ${Math.round(THU * 100)}%: mở bằng Read — không nhận ra là gì thì nét quá mảnh / chi tiết quá nhỏ, vẽ to hơn.`);
+}

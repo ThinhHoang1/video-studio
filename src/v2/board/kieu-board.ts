@@ -27,8 +27,8 @@ export type LoaiShot =
 export type CoCanh = 'rong' | 'trung' | 'can' | 'sat' | 'nho';
 export const CO_CANH: Record<CoCanh, {dau: number; chanY: number; moTa: string}> = {
   rong: {dau: 200, chanY: 0.84, moTa: 'toàn thân, thấy cả prop'},
-  trung: {dau: 330, chanY: 1.04, moTa: 'cắt ở gối — mặc định minh hoạ'},
-  can: {dau: 560, chanY: 1.5, moTa: 'cắt ở ngực — mặc định trực diện, phản ứng'},
+  trung: {dau: 330, chanY: 1.04, moTa: 'cắt ở cổ chân, thấy cả gối — mặc định minh hoạ'},
+  can: {dau: 560, chanY: 1.5, moTa: 'cắt ngang eo — mặc định trực diện, phản ứng; thay/me/trang cần co 0.85–0.9'},
   sat: {dau: 900, chanY: 2.2, moTa: 'chỉ mặt — đặc tả'},
   nho: {dau: 110, chanY: 0.66, moTa: 'nhân vật bé giữa khung trắng'},
 };
@@ -58,6 +58,12 @@ export type HanhDong = {
 export type DienVien = {
   /** tên trong KIEU (src/v2/rig/kieu.ts): nam, ha, long, mai, me, thay, nam-lon, ha-lon, trang */
   kieu: string;
+  /**
+   * ghi chú hiển thị cho người đọc board — KHÔNG ảnh hưởng render, validator không kiểm.
+   * Dùng khi rig `kieu` không trùng tên trong chuyện: {"kieu": "trang", "ten": "chị Trang (HR)"}
+   * — `trang` là đầu trắng vô danh, còn "chị Trang" là nhân vật có tên trong kịch bản.
+   */
+  ten?: string;
   /** vị trí chân theo tỉ lệ bề rộng khung 0..1 */
   x: number;
   /** vị trí chân theo tỉ lệ chiều cao (mặc định theo cỡ cảnh) */
@@ -251,9 +257,21 @@ export const PROP_TEN = [
 export type TenProp = (typeof PROP_TEN)[number];
 
 export type Chu = {
+  /**
+   * Xuống dòng bằng "\n" (renderer split('\n'), mỗi dòng canh giữa riêng).
+   * Giới hạn `the` (khối rộng 0.9 W, cỡ tự chọn 140/118/96 px theo tổng ký tự):
+   *   - `giua` không nhân vật: ≤ 20 ký tự/dòng, ≤ 2 dòng
+   *   - kèm nhân vật (`vi_tri` trai/phai, nhân vật ở nửa kia): ≤ 14 ký tự/dòng, ngắt bằng "\n"
+   *   - `vao: phong` (phóng 1.6×): ≤ 12 ký tự/dòng
+   *   Ví dụ: "Em ổn, chị\nTrang." · "CHẶT.\nRẤT CHẶT."
+   */
   noi_dung: string;
   /** kem: chữ kèm cạnh nhân vật | the: tiêu đề to giữa khung | nhan: nhãn nhỏ có mũi tên | tay: chữ viết tay nhỏ */
   kieu?: 'kem' | 'the' | 'nhan' | 'tay';
+  /**
+   * `duoi` (tâm y 0.86 H) ĐÈ LÊN PHỤ ĐỀ tự động (renderer vẽ lời bình ở đáy, y ≈ 0.90–0.97 H)
+   * → chỉ dùng `duoi` ở shot không có lời (trong/nhịp im); có lời thì dùng `tren` hoặc `giua`.
+   */
   vi_tri?: 'giua' | 'trai' | 'phai' | 'tren' | 'duoi' | 'canh-dau';
   /** tuc-thi: hiện 1 frame (mặc định) | tung-tu: hiện từng từ theo nhịp đọc | phong: phóng to tuyến tính rồi cắt */
   vao?: 'tuc-thi' | 'tung-tu' | 'phong';

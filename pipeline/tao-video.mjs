@@ -1,10 +1,12 @@
 /**
  * MỘT LỆNH cho agent: chạy toàn bộ pipeline V2 từ kịch bản tới video trong media/outbound/.
  *
- *   node pipeline/tao-video.mjs <ten> [--tu <buoc>] [--den <buoc>] [--soat]
+ *   node pipeline/tao-video.mjs <ten> [--tu <buoc>] [--den <buoc>] [--soat] [--bo-cham]
  *
  * Các bước (idempotent — bước nào đã có kết quả thì bỏ qua):
- *   1 kich-ban   kiểm scripts/<ten>.json (trường bắt buộc, số từ, project)
+ *   1 kich-ban   kiểm scripts/<ten>.json (trường bắt buộc, project) rồi chạy cổng chấm
+ *                pipeline/cham-kich-ban.mjs (số từ, câu dài, sáo ngữ, tiếng Anh trần, rubric tự chấm ≥ 7)
+ *                — exit ≠ 0 → dừng; --bo-cham bỏ qua cổng khi người dùng cố ý
  *   2 giong      node pipeline/tts-gemini.mjs      (cần GEMINI_API_KEYS trong .env)
  *   3 nhip       node pipeline/analyze-voice.mjs
  *   4 mieng      node pipeline/lipsync.mjs
@@ -12,7 +14,8 @@
  *   6 kiem       node pipeline/kiem-tra-v2.mjs      (lỗi → dừng)
  *   7 thong-ke   node pipeline/thong-ke-board.mjs   (cảnh báo, không chặn)
  *   8 dang-ky    node pipeline/dang-ky.mjs          (sinh composition V2-<ten>)
- *   9 soat       render 6 khung thử ra out/<ten>/soat.jpg (chỉ khi --soat)
+ *   9 soat       chọn tối đa 8 shot đáng soát nhất trong board (prop tự vẽ, bối cảnh, ≥ 2 diễn viên,
+ *                chữ `the`, cỡ sat) rồi gọi pipeline/xem-shot.mjs --chon → out/<ten>/shot-<chuong>-<i>.png (chỉ khi --soat)
  *  10 render     ./render-segments.sh V2-<ten> media/outbound/<ten>.mp4
  *  11 cham       node pipeline/cham-diem.mjs + ghi media/outbound/<ten>.md
  *
@@ -37,6 +40,7 @@ const BUOC = ['kich-ban', 'giong', 'nhip', 'mieng', 'board', 'kiem', 'thong-ke',
 const tu = BUOC.indexOf(opt('tu') ?? 'kich-ban');
 const den = BUOC.indexOf(opt('den') ?? 'cham');
 const SOAT = args.includes('--soat');
+const BO_CHAM = args.includes('--bo-cham');
 const chay = (b) => {
   const i = BUOC.indexOf(b);
   return i >= tu && i <= den;
@@ -69,11 +73,9 @@ if (chay('kich-ban')) {
   tieuDe('1/11 kịch bản');
   if (!DU_AN) dung('kịch bản thiếu trường "project" — V2 bắt buộc (vd "project": "' + TEN + '")');
   if (!kb.voice || !kb.style) dung('kịch bản thiếu voice/style');
-  for (const c of kb.chapters ?? []) {
-    const n = (c.vo ?? '').split(/\s+/).length;
-    if (n < 30 || n > 110) console.log(`  ⚠ chương ${c.id}: ${n} từ (khuyên 45–70 cho storytime)`);
-  }
   console.log(`  ✓ ${kb.chapters.length} chương, giọng ${kb.voice}`);
+  if (BO_CHAM) console.log('  ⚠ --bo-cham: bỏ qua cổng chấm kịch bản (pipeline/cham-kich-ban.mjs)');
+  else if (node('pipeline/cham-kich-ban.mjs', TEN) !== 0) dung('kịch bản chưa qua cổng chấm — sửa theo dòng ✗ rồi chạy lại (cố ý bỏ qua: --bo-cham)');
 }
 // 2–4
 if (chay('giong')) {
@@ -122,16 +124,61 @@ if (chay('dang-ky')) {
 }
 // 9
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+/**
+ * Chọn shot đáng soát: chấm điểm từng shot theo thứ dễ hỏng trên still (prop tự vẽ, bối cảnh,
+ * nhiều diễn viên, chữ `the`, cỡ sat), lấy tối đa `toiDa` shot, rải đều các chương
+ * (mỗi chương không quá ceil(toiDa / số chương) + 1). Trả về "chuong:index,..." cho xem-shot --chon.
+ */
+const chonShotSoat = (bd, toiDa = 8) => {
+  const ung = [];
+  for (const c of bd.chuong ?? []) {
+    (c.shots ?? []).forEach((s, i) => {
+      if (s.loai === 'trong' || s.loai === 'insert') return;
+      let diem = 0;
+      const lyDo = [];
+      if ((s.prop ?? []).some((p) => bd.prop_tu_ve?.[p.ten])) { diem += 5; lyDo.push('prop tự vẽ'); }
+      if (s.boi_canh) { diem += 4; lyDo.push(`bối cảnh ${s.boi_canh}`); }
+      if ((s.dien ?? []).length >= 2) { diem += 3; lyDo.push(`${s.dien.length} diễn viên`); }
+      if ((s.chu ?? []).some((ch) => ch.kieu === 'the')) { diem += 2; lyDo.push('chữ the'); }
+      if (s.co === 'sat' || (!s.co && s.loai === 'dac-ta')) { diem += 2; lyDo.push('cỡ sat'); }
+      if ((s.prop ?? []).length) { diem += 1; }
+      if ((s.dien ?? []).length) { diem += 1; }
+      if ((s.dien ?? []).some((d) => d.cam || d.goc || d.mau)) { diem += 1; lyDo.push('cam/goc/mau'); }
+      if (diem > 0) ung.push({chuong: c.id, i, diem, lyDo});
+    });
+  }
+  ung.sort((a, b) => b.diem - a.diem || a.chuong.localeCompare(b.chuong) || a.i - b.i);
+  const soChuong = Math.max(1, (bd.chuong ?? []).length);
+  const tranChuong = Math.ceil(toiDa / soChuong) + 1;
+  const demChuong = {};
+  const chon = [];
+  for (const u of ung) {
+    if (chon.length >= toiDa) break;
+    if ((demChuong[u.chuong] ?? 0) >= tranChuong) continue;
+    demChuong[u.chuong] = (demChuong[u.chuong] ?? 0) + 1;
+    chon.push(u);
+  }
+  // còn chỗ mà vì trần chương bỏ qua → lấp bằng shot điểm cao nhất còn lại
+  for (const u of ung) {
+    if (chon.length >= toiDa) break;
+    if (!chon.includes(u)) chon.push(u);
+  }
+  return chon;
+};
+
 if (chay('soat') && SOAT) {
   tieuDe('9/11 khung thử');
-  const outDir = path.join(ROOT, `out/${TEN}`);
-  mkdirSync(outDir, {recursive: true});
-  const total = Math.round(kb.chapters.length * 0.4 * 30 + 60 + kb.chapters.reduce((s, c) => s + (c.vo.split(/\s+/).length / 3.3) * 30, 0));
-  const frames = [0.08, 0.22, 0.38, 0.55, 0.72, 0.9].map((k) => Math.floor(total * k));
-  for (const f of frames) {
-    spawnSync('npx', ['remotion', 'still', 'src/index.ts', `V2-${TEN}`, `out/${TEN}/soat-${f}.png`, '--frame', String(f), '--browser-executable', CHROME, '--log=error'], {cwd: ROOT, stdio: 'inherit'});
+  mkdirSync(path.join(ROOT, `out/${TEN}`), {recursive: true});
+  const bd = JSON.parse(readFileSync(path.join(ROOT, board), 'utf8'));
+  const chon = chonShotSoat(bd, 8);
+  if (!chon.length) {
+    console.log('  board không có shot nào có diễn viên/prop/chữ — không có gì để soát');
+  } else {
+    for (const u of chon) console.log(`  · ${u.chuong} #${u.i}  (${u.lyDo.join(', ') || 'có hình'})`);
+    const danhSach = chon.map((u) => `${u.chuong}:${u.i}`).join(',');
+    if (node('pipeline/xem-shot.mjs', TEN, '--chon', danhSach) !== 0) console.log('  ⚠ xem-shot lỗi ở một khung — xem log trên');
+    console.log(`  → out/${TEN}/shot-<chuong>-<i>.png — XEM từng ảnh bằng Read trước khi render dài; muốn xem shot khác: node pipeline/xem-shot.mjs ${TEN} <chuong> "<say>"`);
   }
-  console.log(`  → out/${TEN}/soat-*.png — XEM trước khi render dài`);
 }
 // 10
 const mp4 = `media/outbound/${TEN}.mp4`;
