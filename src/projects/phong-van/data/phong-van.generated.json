@@ -1,8 +1,16 @@
 {
   "voice": "Fenrir",
   "style": "Bạn là YouTuber kể chuyện đời mình bằng hoạt hình (kiểu storytime animation). Giọng nam trẻ, NĂNG LƯỢNG CAO, nói nhanh, hào hứng, như đang kể cho hội bạn thân nghe một chuyện vừa xảy ra sáng nay. Tốc độ nhanh hơn bình thường 20%. Lên giọng bất ngờ ở chỗ ngạc nhiên, hạ giọng thì thào ở chỗ bí mật, cười khẽ trong lúc nói khi tự thấy mình ngớ ngẩn. Câu ngắn đọc DỨT, dứt khoát như đấm punchline. Tuyệt đối không đọc đều đều, không trầm buồn, không kiểu kể chuyện ma. Tiếng Việt giọng Bắc, đời thường.",
-  "total": 108.64800000000001,
+  "total": 120.43199999999999,
   "chapters": [
+    {
+      "id": "mo-bai",
+      "kicker": "Đang xảy ra",
+      "heading": "Phút 18. Chưa chớp.",
+      "vo": "Tôi đang nhìn thẳng vào mắt chị HR. Phút mười tám. Chưa chớp. Tôi tên Nam, hai mươi hai tuổi, kinh nghiệm: thằng bạn xem bốn trăm video TikTok. Chuyện tôi đậu phỏng vấn nhờ hai điều. Cả hai không phải của tôi.",
+      "audio": "vo-phong-van/mo-bai.mp3",
+      "duration": 11.232
+    },
     {
       "id": "long-huan-luyen",
       "kicker": "Tối hôm trước",
@@ -39,9 +47,9 @@
       "id": "ket",
       "kicker": "Hai tuần sau",
       "heading": "Bà ngoại hỏi lương",
-      "vo": "Hai tuần sau, email. Trúng. Cuối email ghi: ứng viên rất tập trung, và rất chịu khó. Đọc ba lần. Không chớp. Long xem, bảo: thấy chưa, điều hai. Điều bảy là gì. Long bảo: tắt điện thoại. Cảm ơn Long. Rất kịp thời. Mẹ không nói gì. Chuyển tiếp nhóm Zalo Gia Đình Yêu Thương. Chú thích: chịu khó là mẹ dặn. Bà ngoại rep ngay: lương bao nhiêu.",
+      "vo": "Hai tuần sau. Trúng. Cuối email ghi: rất tập trung, rất chịu khó. Đọc ba lần. Không chớp. Long xem: thấy chưa, điều hai. Điều bảy là gì. Long bảo: tắt điện thoại. Cảm ơn Long. Rất kịp thời. Mẹ im. Chuyển tiếp nhóm Zalo Gia Đình Yêu Thương. Chú thích: chịu khó là mẹ dặn. Bà ngoại rep: lương bao nhiêu. Mẹ bạn dặn gì? Kể dưới bình luận.",
       "audio": "vo-phong-van/ket.mp3",
-      "duration": 22.224
+      "duration": 22.776
     }
   ]
 }
