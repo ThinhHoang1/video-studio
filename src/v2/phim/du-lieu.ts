@@ -130,23 +130,23 @@ export const dungChuong = (ch: ChuongAudio, bc: BoardChuong | undefined, macDinh
 };
 
 /** chữ Rhubarb → hình miệng; `bien` đổi theo lượt lặp để hai frame liền không y hệt */
-export const miengTaiFrame = (mt: MouthTrack | undefined, vt: VoiceTrack | undefined, frame: number): {hinh: HinhMieng | null; bien: number} => {
+export const miengTaiFrame = (mt: MouthTrack | undefined, vt: VoiceTrack | undefined, frame: number): {hinh: HinhMieng | null; bien: number; rung: number} => {
   if (mt) {
     const i = Math.min(mt.frames.length - 1, Math.max(0, Math.round((frame / FPS) * mt.fps)));
     const c = mt.frames[i] as HinhMieng | undefined;
-    if (!c || c === 'X') return {hinh: null, bien: 0};
+    if (!c || c === 'X') return {hinh: null, bien: 0, rung: 0};
     // số lần chữ này đã lặp liên tiếp trước đó → chẵn/lẻ
     let k = 0;
     for (let j = i - 1; j >= 0 && mt.frames[j] === c; j--) k++;
-    return {hinh: c, bien: Math.floor(k / 2) % 2};
+    return {hinh: c, bien: Math.floor(k / 2) % 2, rung: k % 2};
   }
   if (vt) {
     const a = vt.am[frame] ?? 0;
-    if (a < 0.3) return {hinh: null, bien: 0};
+    if (a < 0.3) return {hinh: null, bien: 0, rung: 0};
     const hinh: HinhMieng = a > 0.75 ? 'D' : a > 0.5 ? 'C' : 'B';
-    return {hinh, bien: Math.floor(frame / 2) % 2};
+    return {hinh, bien: Math.floor(frame / 2) % 2, rung: frame % 2};
   }
-  return {hinh: null, bien: 0};
+  return {hinh: null, bien: 0, rung: 0};
 };
 
 /** đang ở cụm (câu ngắn) thứ mấy — dùng để đổi cử chỉ tự động theo nhịp câu */

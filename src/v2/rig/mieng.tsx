@@ -33,6 +33,8 @@ type P = {
   goc?: GocNhin;
   /** mặt quay về -x (chỉ Dau đứng riêng có flip) */
   lat?: boolean;
+  /** rung từng frame (0/1): scale ±5%, xoay ±2° quanh tâm miệng — tham chiếu vẽ lại miệng mỗi frame (82% frame đổi) */
+  rung?: number;
 };
 
 /** lệch tâm miệng theo góc nhìn (hệ số DAU, chưa nhân hướng mặt) */
@@ -54,7 +56,16 @@ const Luoi: React.FC<{x: number; y: number; w: number; h: number; net: number}> 
   <path d={`M ${x - w / 2} ${y} q ${w / 2} ${-h} ${w} 0`} fill="none" stroke={MUC} strokeWidth={net} strokeLinecap="round" />
 );
 
-export const Mieng: React.FC<P> = ({dau: d, cx, cy, net, hinh, nhin = 0, bien = 0, goc = 'truoc', lat}) => {
+export const Mieng: React.FC<P> = (props) => {
+  const {dau: d, cx, cy, nhin = 0, goc = 'truoc', lat, rung} = props;
+  const than = <MiengThan {...props} />;
+  if (!rung) return than;
+  const x = cx + nhin * MAT.lechNhin * d + lechMieng(goc) * (lat ? -1 : 1) * d;
+  const y = cy + MAT.miengY * d;
+  return <g transform={`translate(${x} ${y}) scale(${1.05}) rotate(${2}) translate(${-x} ${-y})`}>{than}</g>;
+};
+
+const MiengThan: React.FC<P> = ({dau: d, cx, cy, net, hinh, nhin = 0, bien = 0, goc = 'truoc', lat}) => {
   if (goc === 'sau') return null;
   const x = cx + nhin * MAT.lechNhin * d + lechMieng(goc) * (lat ? -1 : 1) * d;
   const y = cy + MAT.miengY * d;

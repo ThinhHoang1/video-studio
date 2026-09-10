@@ -39,6 +39,8 @@ export type NhanVatProps = {
   mieng?: HinhMieng;
   /** biến thể hình miệng 0/1 — lip-sync đổi mỗi frame */
   bien?: number;
+  /** rung miệng từng frame 0/1 (lip-sync) */
+  rung?: number;
   /** hướng nhìn -1..1 */
   nhin?: number;
   flip?: boolean;
@@ -205,6 +207,8 @@ export type DauProps = {
   may?: TrangThaiMay;
   mieng?: HinhMieng;
   bien?: number;
+  /** rung miệng từng frame 0/1 (lip-sync) */
+  rung?: number;
   nhin?: number;
   /** mặt quay về -x (Dau đứng riêng); trong NhanVat cả nhóm lật nên luôn false */
   flip?: boolean;
@@ -218,7 +222,7 @@ export type DauProps = {
 };
 
 /** Đầu + mặt + tóc, tâm sọ tại (cx, cy). Dùng riêng cho bảng thử và cận đặc tả. */
-export const Dau: React.FC<DauProps> = ({kieu, dau: d, cx, cy, net, mat, may, mieng, bien, nhin = 0, flip, ma, moHoi, quayLung, goc: gocProp, tayVe = true, id}) => {
+export const Dau: React.FC<DauProps> = ({kieu, dau: d, cx, cy, net, mat, may, mieng, bien, rung, nhin = 0, flip, ma, moHoi, quayLung, goc: gocProp, tayVe = true, id}) => {
   const auto = useId();
   const k = layKieu(kieu);
   const n = net ?? tinhNet(d);
@@ -262,10 +266,10 @@ export const Dau: React.FC<DauProps> = ({kieu, dau: d, cx, cy, net, mat, may, mi
           <Mui dau={d} cx={cx} cy={cyM} net={n} mui={pc.mui} goc={goc} f={f} />
           {goc === 'nghieng' ? (
             <g clipPath={`url(#${clip})`}>
-              <Mieng dau={d} cx={cx} cy={cyM} net={n} hinh={mieng ?? 'X'} nhin={nhin} bien={bien} goc={goc} lat={flip} />
+              <Mieng dau={d} cx={cx} cy={cyM} net={n} hinh={mieng ?? 'X'} nhin={nhin} bien={bien} rung={rung} goc={goc} lat={flip} />
             </g>
           ) : (
-            <Mieng dau={d} cx={cx} cy={cyM} net={n} hinh={mieng ?? 'X'} nhin={nhin} bien={bien} goc={goc} lat={flip} />
+            <Mieng dau={d} cx={cx} cy={cyM} net={n} hinh={mieng ?? 'X'} nhin={nhin} bien={bien} rung={rung} goc={goc} lat={flip} />
           )}
           <PhuKienMat dau={d} cx={cx} cy={cyM} net={n} ma={ma} moHoi={moHoi} goc={goc} lat={flip} />
         </g>
@@ -301,7 +305,7 @@ export const Dau: React.FC<DauProps> = ({kieu, dau: d, cx, cy, net, mat, may, mi
   );
 };
 
-export const NhanVat: React.FC<NhanVatProps> = ({kieu, dau, x, y, dang = 'dung', mat, may, mieng, bien, nhin = 0, flip, ma, moHoi, net, id, goc: gocProp, cam: camProp, tayVe = true}) => {
+export const NhanVat: React.FC<NhanVatProps> = ({kieu, dau, x, y, dang = 'dung', mat, may, mieng, bien, rung, nhin = 0, flip, ma, moHoi, net, id, goc: gocProp, cam: camProp, tayVe = true}) => {
   const k = layKieu(kieu);
   const pc = layPhongCach(k);
   const d = dau * (k.co ?? 1);
@@ -473,7 +477,7 @@ export const NhanVat: React.FC<NhanVatProps> = ({kieu, dau, x, y, dang = 'dung',
           {coAo && k.phuKien === 'huy-hieu' && <circle cx={xT + 0.18 * d * hep + lechCoAo} cy={vaiY + 0.22 * d} r={0.05 * d} fill={k.mauNhan ?? '#b8d8f8'} stroke={MUC} strokeWidth={n * 0.8} />}
           {/* đầu */}
           <g transform={dauT}>
-            <Dau kieu={k} dau={d} cx={xT + lechThan} cy={soY} net={n} mat={mat} may={may} mieng={mieng} bien={bien} nhin={nhin} ma={ma} moHoi={moHoi} goc={goc} tayVe={tayVe} id={id} />
+            <Dau kieu={k} dau={d} cx={xT + lechThan} cy={soY} net={n} mat={mat} may={may} mieng={mieng} bien={bien} rung={rung} nhin={nhin} ma={ma} moHoi={moHoi} goc={goc} tayVe={tayVe} id={id} />
           </g>
           {/* tay trước thân */}
           {!sau.has('trai') && veTay(-1)}

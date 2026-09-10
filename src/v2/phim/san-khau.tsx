@@ -67,7 +67,7 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
   const dien = shot.dien ?? (shot.loai === 'truc-dien' ? [{kieu: nguoiKe, x: 0.72, noi: true}] : []);
   const coNoi = dien.some((d) => d.noi);
   const cum = cumTaiFrame(cues, frameChuong);
-  const {hinh: miengNoi, bien: bienNoi} = miengTaiFrame(mouth, voice, frameChuong);
+  const {hinh: miengNoi, bien: bienNoi, rung: rungNoi} = miengTaiFrame(mouth, voice, frameChuong);
   const dangNoi = miengNoi !== null;
 
   let neoX = W * 0.5;
@@ -125,6 +125,7 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
         may={s.may}
         mieng={mieng}
         bien={bienM}
+        rung={noi && dangNoi ? rungNoi : 0}
         nhin={s.nhin ?? (shot.loai === 'truc-dien' ? 0 : dv.x > 0.5 ? -0.5 : 0.5)}
         flip={s.flip ?? dv.flip ?? (shot.loai !== 'truc-dien' && dv.x > 0.5)}
         ma={s.ma}

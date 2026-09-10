@@ -1,11 +1,28 @@
-# demo-v2.mp4 — "Lần đầu bị gọi lên bảng"
+# demo-v2.mp4 — Lần đầu bị gọi lên bảng
 
-- Thời lượng: 1:27 · 1920×1080 · 30 fps · 7.9 MB
-- Giọng: Gemini TTS **Fenrir**, style "YouTuber storytime, năng lượng cao, nhanh hơn 20%"
-- Pipeline V2: `scripts/demo-v2.json` → `tts-gemini` → `analyze-voice` → `lipsync` (Rhubarb, phonetic) → `src/projects/demo-v2/board.json` → `kiem-tra-v2` → `render-segments.sh DemoV2`
-- Số liệu dựng: 77 shot / 83 s lời = **1.08 s/shot**; 49% shot dưới 1 s; nói trực diện 12%; 38 shot có chữ trên màn; 15 prop khác nhau; 3 shot đông người; 1 insert meme
-- Miệng: 563 cue Rhubarb, ~6.9 cue/s khi nói, đổi hình mỗi 1–3 frame
+- Giọng: Fenrir · 4 chương · project demo-v2
+- Tạo bằng: node pipeline/tao-video.mjs demo-v2
+- Điểm bảng chấm (pipeline/cham-diem.mjs): **100%** (ngưỡng 90)
 
-Nhạc nền CC BY (xem `public/audio/CREDITS.md`): Silly Fun, Flutey Funk, Got Funk, Style Funk — Kevin MacLeod (incompetech.com).
+```
+demo-v2 — media/outbound/demo-v2.mp4 — 87.0 s, 60 shot dò được
 
-Biết trước khi đăng: lip-sync phonetic đúng ~60% cấp âm vị (đủ cho cỡ trung, soát lại cận đặc tả); prop `bang-den` ở cỡ nhỏ dễ đọc thành laptop.
+  ✓  Shot trung vị (s)                      1.17   mốc 1.25–1.6
+  ✓  Shot dưới 1 s                           40%   mốc ≥ 30%
+  ✓  Khung đứng yên (hold, 12fps)            75%   mốc 60–80%
+  ✓  Khung trắng (nhịp trắng)                 6%   mốc 4–12%
+  ✓  Nói trực diện (theo shot)               10%   mốc ≤ 20%
+  ✓  Chữ trên màn / 15 s                    6.55   mốc ≥ 1
+  ✓  Số tư thế khác nhau                      23   mốc ≥ 15
+  ✓  Số góc nhìn khác nhau                     4   mốc ≥ 3
+  ✓  Mẫu hành động dùng                       12   mốc ≥ 5
+  ✓  Bối cảnh dựng sẵn dùng                    3   mốc ≥ 3
+  ✓  Prop khác nhau                           13   mốc ≥ 12
+  ✓  Cầm đồ (số vật)                           3   mốc ≥ 2
+  ✓  Mốc act / phút                       108.28   mốc ≥ 40
+  ✓  Miệng đổi hình khi nói (frame)            1   mốc ≥ 60%
+
+  Điểm: 14/14 = 100%  (ngưỡng nghiệm thu 90%)
+```
+
+Nhạc nền CC BY — ghi công theo public/audio/CREDITS.md khi đăng.
