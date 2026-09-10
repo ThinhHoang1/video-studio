@@ -18,7 +18,9 @@ ghi trong một file JSON (`board.json`), máy lo phần còn lại.
 | `references/kich-ban-storytime.md` | viết kịch bản có punchline |
 | `references/dao-dien.md` | ngữ pháp shot có số liệu, 3 ví dụ đầy đủ |
 | `references/loi-hay-gap.md` | lỗi validator hay bắt và cách sửa |
-| `thu-vien-v2.json` | **danh mục tên hợp lệ** (nhân vật, tư thế, mắt, miệng, prop, sfx, nhạc) |
+| `docs/vi-sao-video-bi-dung.md` | **video ra đứng hình / cắt như slide / lip-sync vô hồn** — đọc TRƯỚC khi viết board, không phải sau khi hỏng |
+| `docs/thu-vien-canh.md` | tra nhanh tên: 28 bối cảnh (kèm prop bung ra), 103 prop, 43 tư thế, 21 mẫu hành động, 10 đồ cầm, sfx, nhạc |
+| `thu-vien-v2.json` | **danh mục tên hợp lệ** dạng máy đọc (nguồn của bảng trên) |
 | `src/v2/board/kieu-board.ts` + `README.md` | schema board đầy đủ, chú thích từng trường (giới hạn chữ `the`, trường `ten` ghi chú diễn viên) |
 | `src/projects/demo-v2/board.json` | ví dụ thật 77 shot đã render ra `media/outbound/demo-v2.mp4` |
 
@@ -28,6 +30,28 @@ ghi trong một file JSON (`board.json`), máy lo phần còn lại.
 2. **`node pipeline/kiem-tra-v2.mjs <ten>` phải exit 0 trước khi render.**
 3. **Chỉ dùng tên có trong `thu-vien-v2.json`** (tư thế / mắt / miệng / sfx / nhạc / prop)
    hoặc prop bạn **tự vẽ** trong `board.prop_tu_ve`. Không sửa mã TS trong `src/v2/`.
+
+## Bước 0 — kiểm máy TRƯỚC khi tốn hạn mức TTS
+
+Clone mới **không có** nhạc, tiếng động và binary lip-sync (`.gitignore`). Thiếu
+thì pipeline **vẫn chạy tới cùng và vẫn ra mp4**, chỉ là mất nhạc và miệng nhìn
+như con rối — không có lỗi nào báo cho bạn biết. Kiểm một lần:
+
+```bash
+ls tools/rhubarb/rhubarb          || node pipeline/tai-rhubarb.mjs   # lip-sync thật
+ls public/audio/*.mp3 >/dev/null  || node pipeline/tai-nhac.mjs --sfx # nhạc CC BY + 29 sfx
+node -e 'import("./pipeline/moi-truong.mjs").then(m=>console.log(m.timTrinhDuyet()||"KHÔNG CÓ → npx remotion browser ensure"))'
+```
+
+Linux arm64 (container OpenClaw) cần thêm, chạy bằng root **một lần**:
+
+```bash
+apt-get install -y libglib2.0-0 libnss3 libnspr4 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 \
+  libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 \
+  libpango-1.0-0 libcairo2 libasound2 libatspi2.0-0 fonts-liberation  # THIẾU LÀ KHÔNG RENDER ĐƯỢC
+dpkg --add-architecture amd64 && apt-get update
+apt-get install -y qemu-user-static libc6:amd64 libstdc++6:amd64      # Rhubarb chỉ có bản x86_64
+```
 
 ## Một lệnh chạy hết
 
@@ -113,9 +137,12 @@ node pipeline/lipsync.mjs <ten>                 # → data/<ten>.mouth.json  (h�
   ~60 chương/ngày. Hết hạn mức thì báo người dùng, không chờ.
 - Chạy lại an toàn: chương đã đọc và lời chưa đổi thì bỏ qua (vân tay `.sig`).
   Sửa `vo` là chương đó tự đọc lại; sau đó **phải chạy lại cả 3 và 4**.
-- `lipsync.mjs` cần `tools/rhubarb/` (x86_64, chạy qua Rosetta). Thiếu thì làm
-  theo `tools/README.md`; không có rhubarb thì renderer rơi về miệng theo biên độ
-  (xấu hơn hẳn, chỉ dùng khi bí).
+- `lipsync.mjs` cần `tools/rhubarb/`. Thiếu thì `node pipeline/tai-rhubarb.mjs`
+  (tự chọn bản theo hệ điều hành; arm64 Linux chạy bản x86_64 qua qemu).
+- ⚠️ **KIỂM `data/<ten>.mouth.json` CÓ THẬT KHÔNG.** Thiếu file này renderer rơi
+  từ **9 hình miệng theo âm vị** xuống **3 hình B/C/D theo độ to âm thanh** —
+  miệng mở đóng vô hồn, và **bảng chấm vẫn cho ✓** nên không ai phát hiện. Đây là
+  nguyên nhân số một của "lip-sync không mượt".
 - TTS đọc dài gấp đôi số từ dự kiến sẽ bị `tts-gemini` tự đọc lại (tối đa 4 lần).
 
 ### Bước 5 — Bảng phân cảnh `src/projects/<du-an>/board.json`: viết 2 VÒNG
@@ -171,6 +198,37 @@ node pipeline/kiem-tra-v2.mjs <ten> --moc      # in giây bắt đầu từng sh
 
 Nhịp mục tiêu: **1.0–1.6 s/shot, ≥ 30% shot dưới 1 s, trực diện ≤ 20% thời gian,
 ≥ 1 chữ / 15 s, nhịp trắng 5–10%**. Với chương 20 s → 14–20 shot.
+
+#### Sáu định mức chống video đứng hình — soát TRƯỚC khi render
+
+Đây là sáu tiêu chí board hay rớt nhất, và rớt là video nhìn như slide có tiếng.
+Số bên phải là của một video đã đạt 15/15 (`media/outbound/nhan-vien-so.md`).
+
+| Định mức | Mốc | Đạt 100% | Không đạt thì sao |
+|---|---|---|---|
+| mốc `act` / phút | ≥ 40 | 67.6 | nhân vật đứng như tượng cả shot |
+| `mau` khác nhau | ≥ 5 | 10 | không ai chạy, giật mình, lắc đầu |
+| `goc` khác nhau | ≥ 3 | 4 | nhìn thẳng suốt phim |
+| `cam` (đồ cầm) | ≥ 2 vật | 3 | tay trống trơn cả video |
+| nhịp trắng | 4–12% | 9% | punchline không có chỗ thở, trung vị shot bị kéo dài |
+| shot < 1 s | ≥ 30% | 38% | cắt đều đều, không có nhịp |
+
+**Luật tay:** mỗi diễn viên **≥ 3 mốc `act`** trong MỌI shot có mặt — kể cả shot
+ngắn. Một mốc `act` chỉ cần đổi mắt hoặc miệng, không phải đổi cả tư thế:
+
+```jsonc
+"act": [{"tai": 0, "dang": "ngoiGoBan", "mat": "chan"},
+        {"tai": 0.5, "mat": "soc", "mieng": "o"},
+        {"tai": 0.9, "dang": "chi", "mat": "cung"}]
+```
+
+Nhịp trắng đặt **ngay trước câu chốt**, lấy mốc từ `--moc`, tìm khoảng trống ≥ 1.8 s:
+
+```jsonc
+{"tai": 12.74, "loai": "trong", "dai": 0.55, "ghi_chu": "nhịp trắng trước \"Chết dở\""}
+```
+
+Vì sao và cách sửa từng cái: `docs/vi-sao-video-bi-dung.md`.
 
 ### Bước 6 — Kiểm máy (bắt buộc)
 
@@ -285,8 +343,12 @@ ghi vào `ghi_chu` để người vẽ đưa vào thư viện chung.
 - Trình duyệt render tự dò: `REMOTION_BROWSER`/`CHROME` → đường dẫn quen thuộc → `which chromium`.
   Không tìm thấy thì Remotion tự tải bản headless. Không cắm cứng đường dẫn nữa.
 - ffmpeg lấy theo `@remotion/compositor-<os>-<arch>` của máy, thiếu thì dùng ffmpeg hệ thống.
-- `public/audio/` (nhạc, 93 MB) và `public/sfx/` KHÔNG nằm trong git. Thiếu thì video vẫn render,
-  chỉ mất nhạc. Muốn có nhạc: `node pipeline/tai-nhac.mjs` (thêm `--sfx` để sinh tiếng động).
+- `public/audio/` (nhạc, 93 MB), `public/sfx/` và `tools/` KHÔNG nằm trong git. Thiếu thì video
+  vẫn render — mất nhạc, mất tiếng động, và **lip-sync rơi về chế độ biên độ**. Xem Bước 0.
+- Tiếng động sinh bằng Node (`pipeline/sfx.mjs`), không cần python/numpy — image Linux không có
+  cả hai. `pipeline/sfx.py` chỉ còn là bản tham chiếu, không được gọi nữa.
+- Rhubarb không có bản Linux arm64; `lipsync.mjs` tự chạy bản x86_64 qua `qemu-x86_64-static`
+  khi thấy máy arm64. Thiếu qemu thì `tai-rhubarb.mjs` nói thẳng chứ không im lặng.
 
 ## Không làm
 
