@@ -29,6 +29,17 @@ if (!existsSync(p)) {
 const kb = JSON.parse(readFileSync(p, 'utf8'));
 const loi = [];
 const canhBao = [];
+/**
+ * Hai định dạng, một cổng.
+ *   storytime (mặc định) — kể một chuyện đời, cần thoại trực tiếp + callback cuối bài.
+ *   ban-tin  — bảng tin hằng ngày (kiểu BeatVN): mỗi chương là MỘT tin, không có
+ *              thoại nhân vật và không có callback truyện, nhưng BẮT BUỘC có
+ *              `nguon` (link kiểm chứng được) + `kicker` + `heading`, và chương
+ *              cuối phải chốt việc-cần-làm. Bịa tin nguy hiểm hơn kịch bản nhạt,
+ *              nên thiếu nguồn là CHẶN, không phải cảnh báo.
+ * Khai bằng "dinh_dang": "ban-tin" trong scripts/<ten>.json.
+ */
+const BT = kb.dinh_dang === 'ban-tin';
 
 /** 10 tiêu chí đúng thứ tự bảng ở references/kich-ban-storytime.md mục 5 */
 const TIEU_CHI = ['hook', 'mat_do', 'chi_tiet', 'leo_thang', 'twist_callback', 'nhan_vat_phu', 'cau_chot', 'giong_rieng', 'viet_hoa', 'cam'];
@@ -45,7 +56,7 @@ const soChu = /\b(một|hai|ba|bốn|năm|sáu|bảy|tám|chín|mười|trăm|ng
 const cau = (vo) => vo.split(/(?<=[.!?…:])\s+/).map((c) => c.trim()).filter(Boolean);
 const tu = (s) => s.split(/\s+/).filter(Boolean);
 
-console.log(`\n${TEN} — "${kb.title ?? ''}" — ${kb.chapters?.length ?? 0} chương\n`);
+console.log(`\n${TEN} — "${kb.title ?? ''}" — ${kb.chapters?.length ?? 0} chương${BT ? ' · định dạng BẢNG TIN' : ''}\n`);
 const tatCaTu = [];
 for (const [i, ch] of (kb.chapters ?? []).entries()) {
   const o = `chương ${i + 1} (${ch.id})`;
@@ -54,7 +65,15 @@ for (const [i, ch] of (kb.chapters ?? []).entries()) {
   const cs = cau(vo);
   tatCaTu.push(new Set(ts.map((t) => t.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ''))));
   const n = ts.length;
-  if (ch.id !== 'mo-bai' && (n < 45 || n > 72)) loi.push(`${o}: ${n} từ — cần 45–70`);
+  const [min, max] = BT ? [35, 75] : [45, 72];
+  if (ch.id !== 'mo-bai' && (n < min || n > max)) loi.push(`${o}: ${n} từ — cần ${min}–${max === 72 ? 70 : max}`);
+  if (BT && i > 0 && i < (kb.chapters.length - 1)) {
+    // mỗi tin phải kiểm chứng được: thiếu link là chặn, không cho TTS đọc tin bịa
+    const ng = Array.isArray(ch.nguon) ? ch.nguon.filter((u) => /^https?:\/\//.test(String(u))) : [];
+    if (!ng.length) loi.push(`${o}: thiếu "nguon": ["https://…"] — mỗi tin phải có link kiểm chứng được`);
+    if (!ch.kicker || !ch.heading) loi.push(`${o}: thiếu "kicker"/"heading" — bảng tin phải có nhãn mục và tiêu đề tin`);
+    if (!/(nên|hãy|đi|cứ|nhớ|đừng|khỏi|cập nhật|thử|bật|tắt|lên bản|chờ)/iu.test(vo)) canhBao.push(`${o}: tin không có việc-cần-làm cho người xem ("lên bản này đi", "chờ đã", "đừng đụng")`);
+  }
   const dai = cs.filter((c) => tu(c).length > 32);
   for (const c of dai) loi.push(`${o}: câu ${tu(c).length} từ quá dài (>32) — giọng nói chuyện cho câu trôi dài nhưng phải bẻ vào câu ngắn: "${c.slice(0, 60)}…"`);
   const ngan = cs.filter((c) => tu(c).length <= 6).length;
@@ -66,7 +85,7 @@ for (const [i, ch] of (kb.chapters ?? []).entries()) {
   if (!/(?<![\p{L}])(em ạ|các bạn|mấy bạn|anh em|bạn nào|ông nào|bà nào|mọi người|các ông|mấy ông)(?![\p{L}])/giu.test(vo)) canhBao.push(`${o}: không gọi thẳng người nghe lần nào ("em ạ", "các bạn", "anh em") — phải là nói chuyện, không phải kể suông`);
   if (!/(tôi|anh|mình|tui) (ngu|dở|tệ|ác|hèn|ngáo|điên|ngớ ngẩn|kém|nhát)|ngu (thật|vãi|chưa|người)|toang|chết dở|xong đời|tiêu rồi|nhục/iu.test(vo)) canhBao.push(`${o}: thiếu câu tự chửi mình thẳng ("anh ngu thật", "toang", "chết dở")`);
   const thoai = cs.filter((c) => /:|\b(bảo|hỏi|nói|kêu|thì thào|rep|nhắn)\b/i.test(c)).length;
-  if (thoai < 2) canhBao.push(`${o}: chỉ ${thoai} câu thoại trực tiếp — cần ≥ 2 (nhân vật phải có giọng)`);
+  if (!BT && thoai < 2) canhBao.push(`${o}: chỉ ${thoai} câu thoại trực tiếp — cần ≥ 2 (nhân vật phải có giọng)`);
   // chi tiết cụ thể = số đếm + tên app/thương hiệu + tên riêng viết hoa giữa câu
   const dauCau = new Set(cs.map((c) => tu(c)[0]?.replace(/[^\p{L}]/gu, '')));
   const tenRieng = (vo.match(/\b[A-ZĐÂĂÊÔƠƯ][a-zà-ỹ]+/g) ?? []).filter((w) => !dauCau.has(w));
@@ -96,11 +115,12 @@ for (const [i, ch] of (kb.chapters ?? []).entries()) {
     if (/(xin chào các bạn|chào mừng|hôm nay mình sẽ|hello mọi người)/i.test(vo)) loi.push('mo-bai: mở kiểu "xin chào các bạn / chào mừng / hôm nay mình sẽ" — cấm, mở bằng khoảnh khắc đang xảy ra');
   }
   const cuoi = kb.chapters?.[kb.chapters.length - 1];
+  if (BT && cuoi && !/(chốt lại|việc hôm nay|tóm lại|nhắc lại|gọn thôi)/i.test(cuoi.vo ?? '')) canhBao.push(`chương cuối (${cuoi.id}): bảng tin phải CHỐT việc hôm nay ("chốt lại nhá", "việc hôm nay") trước câu gọi khán giả`);
   if (cuoi && !/(bình luận|comment|điểm danh|kể cho|bạn thì sao|còn bạn|còn các bạn)/i.test(cuoi.vo ?? '')) loi.push(`chương cuối (${cuoi.id}): thiếu câu gọi khán giả ≤ 10 từ bám đúng chuyện (bình luận / điểm danh / còn bạn) — xem cẩm nang mục 2b`);
 }
 
 // callback: một từ khoá (≥4 chữ, không phải từ phổ thông) xuất hiện ở ≥2 chương trong đó có chương cuối
-if (tatCaTu.length >= 3) {
+if (!BT && tatCaTu.length >= 3) {
   const cuoi = tatCaTu[tatCaTu.length - 1];
   const pho = new Set(['không', 'nhưng', 'người', 'được', 'chuyện', 'lúc', 'cái', 'thằng', 'này', 'đấy', 'rồi', 'thì', 'cũng', 'đang', 'phải', 'nhìn', 'bảo', 'hỏi']);
   const cb = [...cuoi].filter((t) => t.length >= 4 && !pho.has(t) && tatCaTu.slice(0, -1).filter((s) => s.has(t)).length >= 1);
