@@ -66,7 +66,9 @@ for (let i = 0; i < N; i++) {
   let sum = 0;
   let toi = 0;
   // khung trắng = gần như không có pixel mực; nhân vật bé giữa khung vẫn để lại ≥ 8 px tối ở 64×36
-  for (let k = 0; k < W * H; k++) if (a[k] < 200) toi++;
+  // bỏ 12% dưới (vùng phụ đề) — tham chiếu không có phụ đề, nhịp trắng của ta vẫn hiện caption
+  const hMuc = Math.floor(H * 0.88);
+  for (let k = 0; k < W * hMuc; k++) if (a[k] < 200) toi++;
   trang.push(toi < 4);
   if (i === 0) continue;
   const b = khung(i - 1);
@@ -121,10 +123,11 @@ if (existsSync(path.join(ROOT, duongMouth))) {
   let noi = 0;
   let doi = 0;
   // cùng luật với renderer (src/v2/phim/du-lieu.ts::miengTaiFrame): hình = chữ + biến thể đổi mỗi 2 frame lặp
+  // hình miệng = chữ + biến thể (đổi mỗi 2 frame) + rung (đổi mỗi frame) — cùng luật renderer
   const hinh = (f, i) => {
     let k = 0;
     for (let j = i - 1; j >= 0 && f[j] === f[i]; j--) k++;
-    return `${f[i]}${Math.floor(k / 2) % 2}`;
+    return `${f[i]}${Math.floor(k / 2) % 2}${k % 2}`;
   };
   for (const ch of Object.values(m)) {
     const f = ch.frames ?? '';
