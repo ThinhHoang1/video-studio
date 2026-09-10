@@ -33,14 +33,19 @@ const NHAC_VUI = ['audio/25-silly-fun.mp3', 'audio/22-flutey-funk.mp3', 'audio/2
 export const dungPhim = (d: DuLieuPhim) => {
   const theoId = new Map(d.board.chuong.map((c) => [c.id, c]));
   const chuong: ChuongDung[] = d.manifest.chapters.map((ch) => dungChuong(ch, theoId.get(ch.id), d.board.mac_dinh, d.voices[ch.id]));
-  const INTRO = d.tieuDe ? f(2) : 0;
+  const INTRO = d.tieuDe ? f(1.6) : 0;
+  // có chương mo-bai → cold open chạy trước, thẻ tiêu đề chèn SAU nó như logo kênh; không có → thẻ đứng đầu
+  const viTriIntro = chuong[0]?.id === 'mo-bai' ? 1 : 0;
   const starts: number[] = [];
-  let acc = INTRO;
-  for (const c of chuong) {
+  let acc = 0;
+  let introTai = 0;
+  chuong.forEach((c, i) => {
+    if (i === viTriIntro) { introTai = acc; acc += INTRO; }
     starts.push(acc);
     acc += c.total;
-  }
-  return {chuong, starts, INTRO, total: acc};
+  });
+  if (viTriIntro >= chuong.length) { introTai = acc; acc += INTRO; }
+  return {chuong, starts, INTRO, introTai, total: acc};
 };
 
 const Chuong: React.FC<{d: DuLieuPhim; c: ChuongDung; audio: string; nhac: string; phuDe: boolean}> = ({d, c, audio, nhac, phuDe}) => {
@@ -73,12 +78,13 @@ const TieuDe: React.FC<{t: string}> = ({t}) => {
 
 /** Sub cần cues theo frame CHƯƠNG — Sub dùng useCurrentFrame nên đặt trong Sequence chương là đúng. */
 export const taoPhim = (d: DuLieuPhim) => {
-  const {chuong, starts, INTRO, total} = dungPhim(d);
+  const {chuong, starts, INTRO, introTai, total} = dungPhim(d);
   const Phim: React.FC = () => (
     <AbsoluteFill style={{background: NEN}}>
       {INTRO > 0 && (
-        <Sequence durationInFrames={INTRO}>
+        <Sequence from={introTai} durationInFrames={INTRO}>
           <TieuDe t={d.tieuDe!} />
+          <Audio src={staticFile('sfx/whoosh-up.wav')} volume={0.6} />
         </Sequence>
       )}
       {chuong.map((c, i) => (

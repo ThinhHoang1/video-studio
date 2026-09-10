@@ -91,9 +91,9 @@ const duoi1 = shot.filter((s) => s < 1).length / Math.max(1, shot.length);
 const hold = diffs.filter((d) => d < 1).length / Math.max(1, diffs.length);
 const tiLeTrang = trang.filter(Boolean).length / Math.max(1, N);
 const thoiLuong = N / FPSD;
-// thời lượng phải khớp audio: intro 2 s + Σ duration + đệm 0.4 s/chương (src/v2/phim/du-lieu.ts) — lệch > 1.5 s là ghép đoạn sai
+// thời lượng phải khớp audio: thẻ tiêu đề 1.6 s + Σ duration + đệm 0.4 s/chương (src/v2/phim/du-lieu.ts) — lệch > 1.5 s là ghép đoạn sai
 const manifestPath = `src/projects/${DU_AN}/data/${TEN}.generated.json`;
-const kyVong = existsSync(path.join(ROOT, manifestPath)) ? (() => { const mf = doc(manifestPath); return 2 + mf.chapters.reduce((a, c) => a + c.duration + 0.4, 0); })() : null;
+const kyVong = existsSync(path.join(ROOT, manifestPath)) ? (() => { const mf = doc(manifestPath); return 1.6 + mf.chapters.reduce((a, c) => a + c.duration + 0.4, 0); })() : null;
 
 // ── 2. từ board ────────────────────────────────────────────────────────
 const duongBoard = `src/projects/${DU_AN}/board.json`;

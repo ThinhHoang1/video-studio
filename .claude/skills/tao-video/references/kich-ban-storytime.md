@@ -207,9 +207,37 @@ vòng lớn đủ năm nhịp.
 | **Vỡ trận** | 1–2 câu: hành động sai + hậu quả vật lý hoặc xã hội (rơi, im lặng, người lớn bỏ bút) | Chương 3–4 |
 | **Twist / callback** | Câu chốt ≤ 6 từ, đứng riêng, lật hoặc gọi lại | Chương cuối: một thông tin đảo lại toàn bộ + một callback về chương 1 |
 
-Video 5–6 chương: thêm một vòng leo thang hoặc một vỡ trận thứ hai, **không thêm
-mở bài**, **không có chương bài học**. Câu chốt cuối cùng của video là callback
-hoặc một câu tự trào ngắn ("Mẹ chịu khó." / "Thật sự luôn.").
+Video 5–6 chương: thêm một vòng leo thang hoặc một vỡ trận thứ hai, **không có chương
+bài học**. Câu chốt cuối cùng của video là callback hoặc một câu tự trào ngắn, rồi
+MỘT câu gọi khán giả (xem 2b).
+
+### 2b. MỞ BÀI và KẾT BÀI — bắt buộc, máy kiểm
+
+Người xem quyết định ở lại trong 3–5 giây đầu. Kênh storytime nào cũng mở bằng
+một cú "đang xảy ra" rồi mới giới thiệu. Kịch bản thiếu chương này bị
+`cham-kich-ban.mjs` chặn (user đã chê thẳng video không có mở bài: "quá chán").
+
+**Chương đầu bắt buộc `id: "mo-bai"`, 28–45 từ (≤ 10 s), đúng ba nhịp:**
+
+| Nhịp | Làm gì | Ví dụ |
+|---|---|---|
+| Cold open (1–2 câu) | ném người xem vào khoảnh khắc điên nhất của chuyện, thì hiện tại, có con số | "Tôi đang nhìn thẳng vào mắt chị HR. Phút thứ mười tám. Chưa chớp." |
+| Tự giới thiệu (1 câu) | tên + một nét tự trào, có "tôi là / mình là / tui là" | "Tôi là Nam, hai mươi hai tuổi, chưa đi làm ngày nào nhưng có thằng bạn xem bốn trăm video TikTok." |
+| Lời hứa / tease (1 câu) | nói người xem sẽ được gì, KHÔNG spoil twist; có "hôm nay / chuyện / kể / vì sao" | "Hôm nay kể chuyện tôi đậu phỏng vấn nhờ đúng cái lỗi bị dặn phải tránh." |
+
+Cấm trong mở bài: "Xin chào các bạn", "Chào mừng đến với kênh", "Hôm nay mình sẽ",
+giới thiệu dài quá một câu, nhạc dạo không lời quá 1.5 s.
+
+**Chương cuối bắt buộc có câu gọi khán giả** (call to action) ≤ 10 từ, đứng sau
+callback, kiểu Việt và bám đúng chuyện — không phải "nhớ like share":
+"Mẹ bạn dặn gì trước phỏng vấn? Kể dưới bình luận." / "Ai từng không chớp hai
+mươi phút, điểm danh." Máy kiểm bằng từ khoá: bình luận / comment / điểm danh /
+kể cho / bạn thì sao / còn bạn.
+
+Trên hình (`board.json`): mở bài = 1 shot cận đặc tả cold open + chữ `the`
+phóng, 1 shot trực diện tự giới thiệu có chữ kèm tên, 1 shot chữ đỏ lời hứa,
+nhịp trắng 0.5 s rồi vào chương 1; thẻ tiêu đề của renderer tự chèn SAU
+chương `mo-bai` (như logo kênh), không chèn trước.
 
 ### Chi tiết cụ thể là thứ vẽ được
 
@@ -290,7 +318,7 @@ Chấm bằng cách đếm thật (split whitespace, đếm câu), không chấm
 
 | # | Tiêu chí | 1 điểm khi | 0.5 khi | 0 khi |
 |---|---|---|---|---|
-| 1 | **Hook 5 s đầu** | câu 1 chương 1 ≤ 12 từ, có chi tiết lạ hoặc joke, không có "xin chào/hôm nay" | có hook nhưng joke đầu tới sau giây 10 | mở bằng giới thiệu hoặc "hôm đó" |
+| 1 | **Mở bài (mục 2b)** | chương `mo-bai` đủ 3 nhịp: cold open ≤ 12 từ có chi tiết lạ, tự giới thiệu có tự trào, lời hứa không spoil; joke trong 5 s đầu | đủ 3 nhịp nhưng cold open chưa có joke, hoặc quá 45 từ | thiếu chương mo-bai, hoặc mở bằng "xin chào/hôm nay mình sẽ" |
 | 2 | **Mật độ joke** (≥ 1 joke / 10 s) | mọi chương ≥ 3 punchline | có chương chỉ 2 | có chương ≤ 1 |
 | 3 | **Tỉ lệ câu có chi tiết cụ thể** (con số, danh từ lạ, tên vật) | ≥ 50% số câu | 30–50% | < 30% |
 | 4 | **Leo thang ×3** | ≥ 2 chương có vòng 1-2-BÙM trọn vẹn | 1 chương | không có |

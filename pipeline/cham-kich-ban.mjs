@@ -54,7 +54,7 @@ for (const [i, ch] of (kb.chapters ?? []).entries()) {
   const cs = cau(vo);
   tatCaTu.push(new Set(ts.map((t) => t.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ''))));
   const n = ts.length;
-  if (n < 45 || n > 72) loi.push(`${o}: ${n} từ — cần 45–70`);
+  if (ch.id !== 'mo-bai' && (n < 45 || n > 72)) loi.push(`${o}: ${n} từ — cần 45–70`);
   const dai = cs.filter((c) => tu(c).length > 22);
   for (const c of dai) loi.push(`${o}: câu ${tu(c).length} từ quá dài (>22) — cắt ra: "${c.slice(0, 60)}…"`);
   const ngan = cs.filter((c) => tu(c).length <= 6).length;
@@ -70,10 +70,26 @@ for (const [i, ch] of (kb.chapters ?? []).entries()) {
   const anh = ts.map((t) => t.replace(/[.,!?;:"'…]/g, '').toLowerCase()).filter((t) => ANH_XAU.has(t));
   for (const a of new Set(anh)) canhBao.push(`${o}: từ tiếng Anh trần "${a}" — Gemini TTS có thể đọc sai (đo được: "mail" → "mèo"); viết "email"/từ Việt hoặc phiên âm`);
   if (i === 0) {
-    const hook = cs[0] ?? '';
+    const hook = cs[0] ?? ''; // câu đầu mo-bai = cold open
     if (tu(hook).length > 12) canhBao.push(`hook: câu đầu ${tu(hook).length} từ — 3 giây đầu quyết định người ở lại, mở bằng câu ≤ 12 từ có tình huống`);
   }
   console.log(`  ${o.padEnd(28)} ${String(n).padStart(3)} từ · ${cs.length} câu · ${ngan} ngắn · ${thoai} thoại`);
+}
+
+// mở bài bắt buộc: chương đầu id "mo-bai", 28–45 từ, có tự giới thiệu + lời hứa; không "xin chào các bạn"
+{
+  const dau = kb.chapters?.[0];
+  if (!dau || dau.id !== 'mo-bai') loi.push('thiếu chương mở bài: chương đầu phải có id "mo-bai" (cold open → tự giới thiệu → lời hứa, 28–45 từ) — xem cẩm nang mục 2b');
+  else {
+    const vo = dau.vo ?? '';
+    const n = tu(vo).length;
+    if (n < 28 || n > 45) loi.push(`mo-bai: ${n} từ — cần 28–45 (≤ 10 giây)`);
+    if (!/\b(tôi|mình|tui|tao|em) (là|tên)\b/i.test(vo)) loi.push('mo-bai: thiếu câu tự giới thiệu ("tôi là …" + một nét tự trào)');
+    if (!/(hôm nay|chuyện|kể|vì sao|tại sao|làm sao)/i.test(vo)) loi.push('mo-bai: thiếu lời hứa/tease cho người xem (có "hôm nay/chuyện/kể/vì sao")');
+    if (/(xin chào các bạn|chào mừng|hôm nay mình sẽ|hello mọi người)/i.test(vo)) loi.push('mo-bai: mở kiểu "xin chào các bạn / chào mừng / hôm nay mình sẽ" — cấm, mở bằng khoảnh khắc đang xảy ra');
+  }
+  const cuoi = kb.chapters?.[kb.chapters.length - 1];
+  if (cuoi && !/(bình luận|comment|điểm danh|kể cho|bạn thì sao|còn bạn|còn các bạn)/i.test(cuoi.vo ?? '')) loi.push(`chương cuối (${cuoi.id}): thiếu câu gọi khán giả ≤ 10 từ bám đúng chuyện (bình luận / điểm danh / còn bạn) — xem cẩm nang mục 2b`);
 }
 
 // callback: một từ khoá (≥4 chữ, không phải từ phổ thông) xuất hiện ở ≥2 chương trong đó có chương cuối
