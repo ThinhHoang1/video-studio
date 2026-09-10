@@ -24,6 +24,8 @@ export type PropProps = {
   net: number;
   /** lật ngang quanh trục dọc qua tâm đáy */
   flip?: boolean;
+  /** chữ điền vào prop có nhãn (bang-hieu, hop-nhan, bieu-tuong, to-giay, man-hinh, bien-bao) */
+  chu?: string;
 };
 
 export type Diem = [number, number];
