@@ -24,12 +24,14 @@ Ba chỗ dùng chữ khác nhau, đừng dùng chung một đoạn:
 > Không phải kênh dạy làm giàu. Không có "5 bí quyết thành công". Chỉ có chuyện
 > thật, cười được, và cái gì đó đọng lại sau khi tắt màn hình.
 >
-> Tập mới **thứ Ba và thứ Sáu hàng tuần**.
->
 > Bạn có chuyện muốn kể? Bình luận hoặc gửi về: <email>
 
-**Ba chỗ phải sửa trước khi dán:** lịch đăng (đừng hứa 2 tập/tuần nếu chưa chắc —
-hứa 1 tập/tuần rồi ra đều còn hơn), email, và câu thứ hai nếu định hướng kênh khác.
+**KHÔNG HỨA LỊCH ĐĂNG.** Không viết "tập mới thứ Ba & thứ Sáu" ở bất cứ đâu — banner,
+giới thiệu kênh, bio, cuối mô tả video. Một lời hứa nhịp đăng với người lạ chỉ có
+đường lỗ: ra đều thì chẳng ai khen, lỡ một tuần là tự tố mình. Khi nào ra đều được
+sáu tháng rồi hãy in lên.
+
+**Hai chỗ phải sửa trước khi dán:** email, và câu thứ hai nếu định hướng kênh khác.
 
 **Dòng đầu quan trọng nhất.** YouTube chỉ hiện ~100 ký tự đầu ở chỗ tìm kiếm và
 gợi ý, phần sau bị cắt. Câu `HTH Animation — chuyện đời đi làm, kể bằng hoạt hình.`
@@ -37,9 +39,9 @@ gợi ý, phần sau bị cắt. Câu `HTH Animation — chuyện đời đi là
 
 ## 2. Bio ngắn
 
-- **TikTok** (80 ký tự): `Chuyện đời đi làm, kể bằng hoạt hình 🎬 Tập mới T3 & T6`
+- **TikTok** (80 ký tự): `Chuyện đời đi làm, kể bằng hoạt hình 🎬`
 - **Banner YouTube**: `CHUYỆN ĐỜI ĐI LÀM · KỂ BẰNG HOẠT HÌNH`
-- **Facebook page**: `HTH Animation — hoạt hình kể chuyện đi làm của người Việt. Tập mới T3 & T6.`
+- **Facebook page**: `HTH Animation — hoạt hình kể chuyện đi làm của người Việt.`
 
 ## 3. Mẫu mô tả video (YouTube)
 
@@ -63,7 +65,7 @@ trước khi người xem bấm "xem thêm", nên đó phải là móc câu, kh�
 
 —
 HTH Animation — chuyện đời đi làm, kể bằng hoạt hình.
-Tập mới T3 & T6. Đăng ký để không lỡ tập nào.
+Đăng ký để không lỡ tập nào.
 #hashtag #hashtag #hashtag
 ```
 

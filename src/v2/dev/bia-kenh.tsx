@@ -32,7 +32,11 @@ export type BiaKenhProps = {
   ten?: string;
   /** một dòng nói kênh này kể cái gì */
   tagline?: string;
-  /** lịch ra tập — bỏ trống thì không vẽ */
+  /**
+   * Lịch ra tập — MẶC ĐỊNH TRỐNG, cố ý.
+   * Banner in "tập mới thứ Ba & thứ Sáu" là một lời hứa với người lạ; lỡ một tuần
+   * là banner tự tố mình. Kênh mới đừng hứa nhịp đăng: ra đều rồi hãy in lên.
+   */
   lich?: string;
   nen?: string;
   /** vẽ khung vùng an toàn để căn chỉnh; KHÔNG bật ở bản đăng thật */
@@ -53,7 +57,7 @@ export const BiaKenh: React.FC<BiaKenhProps> = ({
   khung = 'youtube',
   ten = 'HTH ANIMATION',
   tagline = 'CHUYỆN ĐỜI ĐI LÀM, KỂ BẰNG HOẠT HÌNH',
-  lich = 'TẬP MỚI THỨ BA & THỨ SÁU',
+  lich = '',
   nen = '#f7e7a9',
   vienAnToan = false,
 }) => {
@@ -105,7 +109,7 @@ export const BiaKenh: React.FC<BiaKenhProps> = ({
         {/* khối chữ nằm TRỌN trong vùng an toàn */}
         <text
           x={W / 2}
-          y={atY + atH * 0.38}
+          y={atY + atH * (lich ? 0.38 : 0.46)}
           textAnchor="middle"
           fontFamily={FONT}
           fontSize={coTen}
@@ -120,7 +124,7 @@ export const BiaKenh: React.FC<BiaKenhProps> = ({
         </text>
         <text
           x={W / 2}
-          y={atY + atH * 0.56}
+          y={atY + atH * (lich ? 0.56 : 0.65)}
           textAnchor="middle"
           fontFamily={FONT}
           fontSize={coTag}
