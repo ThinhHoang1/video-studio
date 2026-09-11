@@ -58,15 +58,22 @@ export type Kieu = {
   phongCach?: PhongCach;
 };
 
+/**
+ * BẢNG MÀU TRANG PHỤC — đo từ kênh tham chiếu (docs/nghien-cuu-tuna.md): nhân vật tô
+ * màu BÃO HOÀ, không phải pastel nhạt, để nổi trên nền màu và đọc được ở cỡ nhỏ.
+ * Mặt vẫn giữ nét đen trên nền trắng — đó là bản sắc của repo này, không đổi.
+ * Áo và quần mỗi người một cặp màu cố định: người xem nhận ra nhân vật bằng MÀU
+ * trước khi kịp nhìn mặt.
+ */
 export const KIEU: Record<string, Kieu> = {
-  nam: {ten: 'Nam', toc: {mau: '#1c1a22', mai: 'hat', lon: 0, sau: 'ngan'}, phuKien: 'ca-vat', mauNhan: '#c0392b', phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#bfe8dc'}},
-  ha: {ten: 'Hà', toc: {mau: '#2b1a12', mai: 'lech-trai', lon: 2, sau: 'duoi-ngua'}, phuKien: 'no', mauNhan: '#c0392b', phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#f6c9d4'}},
-  long: {ten: 'Long', toc: {mau: '#3a2a1c', mai: 'dung', lon: 0, sau: 'ngan'}, phuKien: 'khong', co: 1.05, phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#f7e7a9'}},
-  mai: {ten: 'Mai', toc: {mau: '#5a3b1e', mai: 'ngang', lon: 2, sau: 'bob'}, phuKien: 'kinh', phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#bfe0f5'}},
-  me: {ten: 'Mẹ', toc: {mau: '#2a2126', mai: 're-giua', lon: 0, sau: 'bui'}, phuKien: 'khong', khung: 'phu', co: 0.95, phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#d9c8f0'}},
-  thay: {ten: 'Thầy', toc: {mau: '#8a8a8a', mai: 're-giua', lon: 0, sau: 'ngan'}, phuKien: 'kinh', khung: 'phu', phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#e1e1e1'}},
-  'nam-lon': {ten: 'Nam 30', toc: {mau: '#1c1a22', mai: 'lech-phai', lon: 0, sau: 'ngan'}, phuKien: 'khong', co: 1.05, phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#f8d3b0'}},
-  'ha-lon': {ten: 'Hà 30', toc: {mau: '#2b1a12', mai: 'lech-trai', lon: 2, sau: 'dai'}, phuKien: 'khong', phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#cfe8b8'}},
+  nam: {ten: 'Nam', toc: {mau: '#1c1a22', mai: 'hat', lon: 0, sau: 'ngan'}, phuKien: 'ca-vat', mauNhan: '#d32f2f', phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#3fb98a', mauQuan: '#2d4a7a'}},
+  ha: {ten: 'Hà', toc: {mau: '#2b1a12', mai: 'lech-trai', lon: 2, sau: 'duoi-ngua'}, phuKien: 'no', mauNhan: '#d32f2f', phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#f06292', mauQuan: '#6d4c9f'}},
+  long: {ten: 'Long', toc: {mau: '#3a2a1c', mai: 'dung', lon: 0, sau: 'ngan'}, phuKien: 'khong', co: 1.05, phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#f9c22e', mauQuan: '#3f6d4e'}},
+  mai: {ten: 'Mai', toc: {mau: '#5a3b1e', mai: 'ngang', lon: 2, sau: 'bob'}, phuKien: 'kinh', phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#4aa3df', mauQuan: '#24405c'}},
+  me: {ten: 'Mẹ', toc: {mau: '#2a2126', mai: 're-giua', lon: 0, sau: 'bui'}, phuKien: 'khong', khung: 'phu', co: 0.95, phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#9b6bd6', mauQuan: '#4a3b6b'}},
+  thay: {ten: 'Thầy', toc: {mau: '#8a8a8a', mai: 're-giua', lon: 0, sau: 'ngan'}, phuKien: 'kinh', khung: 'phu', phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#b0b6bd', mauQuan: '#3a3f45'}},
+  'nam-lon': {ten: 'Nam 30', toc: {mau: '#1c1a22', mai: 'lech-phai', lon: 0, sau: 'ngan'}, phuKien: 'khong', co: 1.05, phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#f2843c', mauQuan: '#2f3e52'}},
+  'ha-lon': {ten: 'Hà 30', toc: {mau: '#2b1a12', mai: 'lech-trai', lon: 2, sau: 'dai'}, phuKien: 'khong', phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#7cc47f', mauQuan: '#4b5d3a'}},
   /** nhân vật phụ vô danh — đầu trắng không mặt; tóc tuỳ chọn */
   trang: {ten: 'người', toc: {mau: '#fdfdfd', mai: 'ngang', lon: 0, sau: 'khong'}, khung: 'phu'},
 };

@@ -311,7 +311,6 @@ if (board) {
 
       if (s.loai) bao(TV.loai.has(s.loai), `${oS}: loại "${s.loai}" không có trong thư viện. Chọn: ${goiY(TV.loai)}`);
       if (co) bao(TV.co.has(co), `${oS}: cỡ cảnh "${co}" không có trong thư viện. Chọn: ${goiY(TV.co)}`);
-      if (s.nen) bao(NEN.includes(s.nen), `${oS}: nền "${s.nen}" — chỉ có: ${NEN.join(', ')}`);
       if (s.sfx) bao(TV.sfx.has(s.sfx), `${oS}: sfx "${s.sfx}" không có trong thư viện`);
       if (s.chuyen) bao(CHUYEN.includes(s.chuyen), `${oS}: chuyen "${s.chuyen}" — chỉ có: ${CHUYEN.join(', ')}`);
       if (s.boi_canh && !tenBoiCanhTuVe.has(s.boi_canh)) kiemNeuCo(TV.boiCanh, s.boi_canh, `${oS}: bối cảnh "${s.boi_canh}" không có trong thư viện lẫn board.boi_canh_tu_ve — thiếu thì TỰ DỰNG (xem SKILL.md mục "Thiếu cảnh")`);
@@ -322,6 +321,13 @@ if (board) {
         // đề, nên prop khai y > 1 sẽ bị cắt mất phần dưới. Nhắc để người viết biết.
         if (p && typeof p.y === 'number' && p.y > 1.02) nhac(false, `${oS}: prop "${p.ten}" y=${p.y} — sân khấu chỉ cao tới 1.0; phần dưới bị cắt (đáy khung đã dành cho phụ đề)`);
         bao(p && typeof p.x === 'number' && typeof p.y === 'number', `${oS}: prop ${j + 1} "${p?.ten}" thiếu x/y`);
+      }
+      // nền: 'trang' | '#rrggbb' | {mau,hoa_tiet} | {tren,duoi}
+      if (s.nen !== undefined && s.nen !== 'trang') {
+        const mau = (v) => typeof v === 'string' && /^#[0-9a-f]{6}$/i.test(v);
+        const n = s.nen;
+        const ok = mau(n) || (n && typeof n === 'object' && ((mau(n.mau) && (n.hoa_tiet === undefined || ['toa', 'cheo', 'cham', 'song'].includes(n.hoa_tiet))) || (mau(n.tren) && mau(n.duoi))));
+        bao(ok, `${oS}: nen không hợp lệ — dùng "trang", "#rrggbb", {mau:"#rrggbb",hoa_tiet:"toa|cheo|cham|song"} hoặc {tren:"#rrggbb",duoi:"#rrggbb"}`);
       }
       for (const [j, c] of (s.chu ?? []).entries()) {
         if (c?.vi_tri === 'duoi' && s.loai !== 'trong') nhac(false, `${oS}: chữ ${j + 1} đặt vi_tri "duoi" ở shot CÓ LỜI — dải đáy là của phụ đề, chữ sẽ chồng lên nhau; dùng "tren" hoặc "giua"`);

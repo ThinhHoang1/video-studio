@@ -14,6 +14,7 @@ import {CO_CANH, DienVien, PropTuVe, type BoiCanhTuVe, type DoCamTuVe} from '../
 export const KHUNG_AN_TOAN = 0.855;
 import {PropTuVeVe} from '../props/tu-ve';
 import {bungBoiCanh} from '../boi-canh';
+import {LopNen} from './nen';
 import {sinhAct, trangThaiTai} from '../act';
 import {PROPS} from '../props';
 import {ChuTrenMan} from '../chu';
@@ -160,9 +161,11 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
       .map((p, i) => {
         const Ve = PROPS[p.ten as keyof typeof PROPS] as (React.FC<{x: number; y: number; co: number; net: number; flip?: boolean; chu?: string}> | undefined);
         const chung = {x: p.x * W, y: p.y * H, co: (p.co ?? 1) * (dau / 330), net, flip: p.flip};
-        if (Ve) return <Ve key={`${p.ten}-${i}`} {...chung} chu={p.chu} />;
+        // prop tô màu: bọc trong <g> đặt biến CSS, prop vẽ fill="var(--to, NEN)"
+        const boc = (el: React.ReactNode) => (p.mau ? <g key={`${p.ten}-${i}`} style={{['--to' as never]: p.mau}}>{el}</g> : el);
+        if (Ve) return boc(<Ve key={`${p.ten}-${i}`} {...chung} chu={p.chu} />);
         const tuVe = propTuVe?.[p.ten];
-        if (tuVe) return <PropTuVeVe key={`${p.ten}-${i}`} {...chung} mau={tuVe} chu={p.chu} />;
+        if (tuVe) return boc(<PropTuVeVe key={`${p.ten}-${i}`} {...chung} mau={tuVe} chu={p.chu} />);
         return null;
       });
   const props = veProp(false);
@@ -177,8 +180,11 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
   const goc = `translate(${W / 2} 0) scale(${KHUNG_AN_TOAN}) translate(${-W / 2} 0)`;
   const bienDoiZoom = zoom !== 1 ? `translate(${W / 2} ${H / 2}) scale(${zoom}) translate(${-W / 2} ${-H / 2})` : '';
   return (
-    <AbsoluteFill style={{background: NEN}}>
+    <AbsoluteFill style={{background: typeof shot.nen === 'string' && shot.nen !== 'trang' ? shot.nen : NEN}}>
       <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{position: 'absolute', inset: 0}}>
+        {/* nền vẽ TRƯỚC và KHÔNG bị thu theo khung an toàn: nền phải phủ kín khung,
+            kể cả dải đáy dành cho phụ đề, nếu không sẽ hở một vệt trắng dưới chân. */}
+        <LopNen nen={shot.nen ?? 'trang'} W={W} H={H} id={id} />
         <g transform={goc}>
           <g transform={bienDoiZoom || undefined}>
             {props}

@@ -129,6 +129,7 @@ if (board) {
       return dem([...shots.flatMap((s) => (s.prop ?? []).map((p) => p.ten)), ...trongBoiCanh]);
     })(),
     cam: dem([...dien.map((d) => d.cam), ...acts.map((a) => a.cam)]),
+    nen: dem(shots.map((s) => (typeof s.nen === 'object' ? JSON.stringify(s.nen) : s.nen ?? 'trang'))),
     actMoc: acts.length,
     shotCoDien: shots.filter((x) => (x.dien ?? []).length).length,
   };
@@ -163,12 +164,16 @@ if (existsSync(path.join(ROOT, duongMouth))) {
 // [tên, giá trị đo, mốc tham chiếu (chuỗi), hàm đạt]
 const tieuChi = [
   ...(kyVong !== null ? [['Thời lượng khớp audio (lệch s)', Math.abs(thoiLuong - kyVong), '≤ 1.5', (v) => v <= 1.5]] : []),
-  // NHỊP: đo lại sau góp ý của người dựng phim ("ít animation trong một ý mà chuyển
-  // cảnh quá nhanh"). Bảng chấm bản trước THƯỞNG cho shot ngắn (≥30% dưới 1 s) nên
-  // cách dễ nhất để lên điểm là cắt vụn — máy khen, mắt người chê. Giờ đổi hướng:
-  // shot phải ĐỦ DÀI để người xem kịp đọc hình, và chuyển động phải nằm TRONG shot.
-  ['Shot trung vị (s)', median, '1.8–3.0', (v) => v >= 1.7 && v <= 3.2],
-  ['Shot dưới 1 s (cắt vụn)', duoi1, '≤ 15%', (v) => v <= 0.15],
+  // NHỊP — đo thật trên Monsieur Tuna, Tuổi Thơ Có Gì Vui (10,7tr view), 3 cửa sổ:
+  //   1:00–2:10 trung vị 0.79 s · 66% dưới 1 s · 49 lần đổi hình/phút
+  //   3:50–4:35 trung vị 1.01 s · 44% dưới 1 s · 44 lần/phút
+  //   9:20–10:05 (đoạn cảm động) trung vị 1.80 s · 18% dưới 1 s · 31 lần/phút
+  // Tức là kênh hay CẮT NHANH, không chậm. Trước đó bảng này bắt trung vị 1.8–3.0 s
+  // vì hiểu sai lời chê "chuyển cảnh nhanh": cái làm người xem thấy vụn KHÔNG phải
+  // nhịp cắt mà là NỀN TRẮNG TRƠN — cắt nhanh trên nền trống thì không có gì để nhìn.
+  // Sửa nền (Shot.nen) rồi thì trả nhịp về đúng tham chiếu.
+  ['Shot trung vị (s)', median, '0.9–1.8', (v) => v >= 0.8 && v <= 2.0],
+  ['Shot dưới 1 s', duoi1, '25–60%', (v) => v >= 0.2 && v <= 0.65],
   ['Khung đứng yên (hold, 12fps)', hold, '60–80%', (v) => v >= 0.55 && v <= 0.85],
   ['Khung trắng (nhịp trắng)', tiLeTrang, '4–12%', (v) => v >= 0.03 && v <= 0.15],
 ];
@@ -180,6 +185,9 @@ if (bd) {
     ['Số góc nhìn khác nhau', bd.goc, '≥ 3', (v) => v >= 3],
     ['Mẫu hành động dùng', bd.mau, '≥ 5', (v) => v >= 5],
     ['Bối cảnh dựng sẵn dùng', bd.boiCanh, '≥ 3', (v) => v >= 3],
+    // Nền khác nhau: thứ cho phép cắt nhanh mà khung vẫn có gì để nhìn.
+    // Tham chiếu đổi nền gần như mỗi shot; ở đây đòi tối thiểu 4 nền khác trắng.
+    ['Nền khác nhau (kể cả trắng)', bd.nen, '≥ 4', (v) => v >= 4],
     ['Prop khác nhau', bd.prop, '≥ 12', (v) => v >= 12],
     ['Cầm đồ (số vật)', bd.cam, '≥ 2', (v) => v >= 2],
     ['Mốc act / phút', (bd.actMoc / thoiLuong) * 60, '≥ 40', (v) => v >= 40],

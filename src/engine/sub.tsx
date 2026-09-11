@@ -5,14 +5,17 @@ import {FONT} from './font';
 export type Cue = {text: string; start: number; end: number};
 
 /**
- * Phụ đề kiểu kênh kể chuyện: nhỏ, in hoa, trắng trơn, nằm sát đáy.
+ * Phụ đề: CHỮ VÀNG VIỀN ĐEN, in hoa, sát đáy.
  *
- * Bản trước dùng chữ 58px, viền 13px, từ có số tô vàng, từ chửi tô đỏ, lại
- * chạy karaoke sáng dần. Đo lại kênh tham chiếu (MSA, 11,9tr view) thì họ
- * làm ngược hẳn: chữ nhỏ, một màu, không hiệu ứng. Lý do rõ ràng — phụ đề
- * to và nhiều màu tranh mất sự chú ý với chính cái hình mà nó đang chú thích.
+ * Đo trên Monsieur Tuna (Tuổi Thơ Có Gì Vui, 10,7tr view — docs/nghien-cuu-tuna.md):
+ * phụ đề vàng viền đen dày, nằm sát đáy, KHÔNG hiệu ứng karaoke. Vàng-trên-đen đọc
+ * được trên MỌI nền: ảnh thật sáng, nền màu bão hoà, nền trắng, bảng đen.
+ *
+ * Trước đây repo dùng chữ đen trơn vì mọi cảnh đều nền trắng. Từ khi shot có `nen`
+ * màu và ảnh chèn thì chữ đen chìm mất — và trên nền trắng nó đụng nét đen của
+ * nhân vật, đúng như người dựng phim chỉ ra. Vàng + viền đen giải quyết cả hai.
  */
-export const Sub: React.FC<{cues: Cue[]; /** chữ tối cho nền trắng (V2) */ toi?: boolean}> = ({cues, toi}) => {
+export const Sub: React.FC<{cues: Cue[]; /** giữ cho tương thích, không còn tác dụng — phụ đề luôn vàng viền đen */ toi?: boolean}> = ({cues}) => {
   const frame = useCurrentFrame();
   const cue = cues.find((c) => frame >= c.start && frame < c.end) ?? null;
   if (!cue) return null;
@@ -27,18 +30,19 @@ export const Sub: React.FC<{cues: Cue[]; /** chữ tối cho nền trắng (V2) 
       <div
         style={{
           fontFamily: FONT,
-          fontSize: 34,
-          fontWeight: 700,
-          letterSpacing: 0.6,
-          lineHeight: 1.34,
-          textTransform: 'uppercase',
-          color: toi ? '#1a1a1a' : '#ffffff',
+          fontSize: 44,
+          fontWeight: 800,
+          letterSpacing: 0.4,
+          lineHeight: 1.28,
+          color: '#ffd400',
           textAlign: 'center',
-          maxWidth: 1180,
+          maxWidth: 1320,
           opacity: hienRa,
-          // bóng đổ thay cho viền dày: đọc được trên nền sáng lẫn nền tối
-          // mà không biến chữ thành một khối đặc
-          textShadow: toi ? 'none' : '0 2px 4px rgba(0,0,0,0.9), 0 0 14px rgba(0,0,0,0.75)',
+          // viền đen thật (paint-order) chứ không phải bóng đổ: giữ được nét chữ
+          // sắc ở mọi nền, kể cả nền vàng/cam cùng tông
+          WebkitTextStroke: '7px #000',
+          paintOrder: 'stroke fill',
+          textShadow: '0 3px 0 rgba(0,0,0,0.55)',
         }}
       >
         {cue.text}

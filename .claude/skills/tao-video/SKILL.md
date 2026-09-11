@@ -39,6 +39,22 @@ ghi trong một file JSON (`board.json`), máy lo phần còn lại.
 3. **Chỉ dùng tên có trong `thu-vien-v2.json`** (tư thế / mắt / miệng / sfx / nhạc / prop)
    hoặc prop bạn **tự vẽ** trong `board.prop_tu_ve`. Không sửa mã TS trong `src/v2/`.
 
+## Luật cổng: render KHÔNG BAO GIỜ được đụng cổng 3000
+
+`remotion render` và `remotion still` đều dựng một HTTP server để phục vụ bundle,
+và mặc định chúng **bò dần từ cổng 3000 lên**. Cổng 3000 là một service khác của
+workspace này.
+
+Mọi lệnh render trong repo đã ghim cổng `39170–39173`. **Đừng gọi `npx remotion`
+trần** — gọi qua `render-segments.sh` / `pipeline/xem-shot.mjs`. Cần cổng khác:
+đặt biến `REMOTION_PORT`.
+
+Đã xảy ra thật: một tiến trình render treo giữ cổng 3000 gần 16 giờ, làm một service khác không khởi động được mà không báo lỗi gì.
+
+`render-segments.sh` giờ còn tự dọn: khoá cũ mà không có tiến trình nào giữ thì
+xoá và chạy tiếp; tiến trình render treo của **chính composition đó** bị giết
+trước khi bắt đầu và khi thoát.
+
 ## Bước 0 — kiểm máy TRƯỚC khi tốn hạn mức TTS
 
 Clone mới **không có** nhạc, tiếng động và binary lip-sync (`.gitignore`). Thiếu
