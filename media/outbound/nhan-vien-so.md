@@ -125,7 +125,7 @@ Chính sách và con số là thật. Nhân vật, tình huống, hội thoại 
 
 —
 HTH Animation — chuyện đời đi làm, kể bằng hoạt hình.
-Tập mới T3 & T6. Đăng ký để không lỡ tập nào.
+Đăng ký để không lỡ tập nào.
 #doanhnghiepmotnguoi #nghiquyet86 #khoinghiep #AI #storytime #hoathinh #congso
 ```
 
