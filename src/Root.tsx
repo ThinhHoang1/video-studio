@@ -15,6 +15,8 @@ import {PropsV2Test, PROPS_TEST_W, PROPS_TEST_H} from './v2/dev/props-test';
 import {ActV2Test, ACT_TEST_W, ACT_TEST_H, ACT_TEST_DAI} from './v2/dev/act-test';
 import {BanSacTest, BAN_SAC_W, BAN_SAC_H} from './v2/dev/ban-sac-test';
 import {Avatar, AVATAR_W, AVATAR_H} from './v2/dev/avatar';
+import {Bia, BIA_W, BIA_H} from './v2/dev/bia';
+import {BiaKenh, KENH_W, KENH_H} from './v2/dev/bia-kenh';
 
 /**
  * Chỉ đăng ký những composition đang dùng.
@@ -32,6 +34,11 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="PropsV2Test" component={PropsV2Test} durationInFrames={60} fps={FPS} width={PROPS_TEST_W} height={PROPS_TEST_H} />
     <Composition id="ActV2Test" component={ActV2Test} durationInFrames={ACT_TEST_DAI} fps={FPS} width={ACT_TEST_W} height={ACT_TEST_H} />
     <Composition id="Avatar" component={Avatar} durationInFrames={1} fps={FPS} width={AVATAR_W} height={AVATAR_H} defaultProps={{}} />
+    <Composition id="Bia" component={Bia} durationInFrames={1} fps={FPS} width={BIA_W} height={BIA_H} defaultProps={{}} />
+    <Composition id="BiaKenh" component={BiaKenh} durationInFrames={1} fps={FPS} width={KENH_W} height={KENH_H} defaultProps={{khung: 'youtube' as const}} />
+    {/* Facebook cover có tỉ lệ khác hẳn YouTube nên phải là composition riêng — không đổi
+        được kích thước bằng --props. */}
+    <Composition id="BiaKenhFb" component={BiaKenh} durationInFrames={1} fps={FPS} width={1640} height={856} defaultProps={{khung: 'facebook' as const}} />
     <Composition id="BanSacTest" component={BanSacTest} durationInFrames={30} fps={FPS} width={BAN_SAC_W} height={BAN_SAC_H} />
     <Composition id="CanhTest" component={CanhTest} durationInFrames={90} fps={FPS} width={2560} height={1080} />
     <Composition id="CastTest" component={CastTest} durationInFrames={60} fps={FPS} width={2400} height={900} />

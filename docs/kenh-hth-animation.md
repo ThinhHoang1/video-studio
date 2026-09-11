@@ -77,7 +77,41 @@ Tập mới T3 & T6. Đăng ký để không lỡ tập nào.
 4. **Ghi công nhạc CC BY là nghĩa vụ giấy phép**, không phải phép lịch sự. Thiếu
    là vi phạm, dù kênh nhỏ.
 
-## 4. Mô tả TikTok
+## 4. Ảnh bìa và avatar — dựng bằng rig, không phải Canva
+
+Ba composition trong repo, đổi chữ/màu qua `--props`, không sửa mã:
+
+| Composition | Cỡ | Dùng ở đâu |
+|---|---|---|
+| `Avatar` | 1080×1080 | avatar YouTube / Facebook / TikTok |
+| `Bia` | 1280×720 | ảnh bìa TỪNG VIDEO (thumbnail) |
+| `BiaKenh` | 2560×1440 | banner kênh YouTube |
+| `BiaKenhFb` | 1640×856 | ảnh bìa trang Facebook |
+
+```bash
+CH="$(node -e 'import("./pipeline/moi-truong.mjs").then(m=>console.log(m.timTrinhDuyet()))')"
+npx remotion still src/index.ts BiaKenh   out/banner-yt.png --browser-executable "$CH"
+npx remotion still src/index.ts BiaKenhFb out/banner-fb.png --browser-executable "$CH"
+npx remotion still src/index.ts Avatar    out/avatar.png    --browser-executable "$CH"
+npx remotion still src/index.ts Bia       out/bia.png       --browser-executable "$CH" \
+  --props='{"chu":"MẸ DÚI|2 TRIỆU","nhan":"TẬP 1","mat":"soc-lon","mieng":"o"}'
+```
+
+**VÙNG AN TOÀN là thứ quyết định banner sống hay chết.** YouTube cắt banner khác
+nhau trên mỗi thiết bị: ảnh tải lên 2560×1440 nhưng **điện thoại chỉ thấy dải giữa
+1546×423**. Mọi chữ và bốn nhân vật trong cùng đều nằm trọn trong dải đó; hai người
+ngoài rìa là phần thưởng cho ai xem trên TV, mất cũng không sao. Facebook tương tự:
+1640×856 nhưng mobile cắt hai bên, vùng chắc ăn ~1090×540 ở giữa.
+
+Xem vùng an toàn khi căn chỉnh: thêm `"vienAnToan":true` vào `--props` (KHÔNG bật
+ở bản đăng thật).
+
+Hai lỗi đã gặp khi dựng, đừng lặp lại:
+- **Đầu bị cắt cụt** vì đặt chân nhân vật quá cao — `Bia` đặt chân dưới đáy khung 30%.
+- **Chữ đè lên mặt** — `Bia` tự co cỡ chữ theo dòng dài nhất và chặn trong 58% bề
+  rộng trái; `BiaKenh` đẩy hai người trong cùng ra ngoài bề rộng khối chữ.
+
+## 5. Mô tả TikTok
 
 Khác hẳn YouTube: TikTok cắt sau ~1 dòng, không ai bấm xem thêm. Viết đúng **một
 câu móc câu + 3–4 hashtag**, bỏ hết mốc thời gian và nguồn (đưa vào bình luận ghim).

@@ -1,0 +1,62 @@
+{
+  "title": "Bỏ quê lên Sài Gòn: mẹ dúi hai triệu, mình cầm mà tay run",
+  "project": "len-sai-gon",
+  "voice": "Fenrir",
+  "style": "Bạn là YouTuber kể chuyện đời mình bằng hoạt hình (kiểu storytime animation). Giọng nam trẻ, NĂNG LƯỢNG CAO, nói nhanh, hào hứng, như đang kể cho hội bạn thân nghe một chuyện vừa xảy ra sáng nay. Tốc độ nhanh hơn bình thường 20%. Lên giọng bất ngờ ở chỗ ngạc nhiên, hạ giọng thì thào ở chỗ bí mật, cười khẽ trong lúc nói khi tự thấy mình ngớ ngẩn. Câu ngắn đọc DỨT, dứt khoát như đấm punchline. Tuyệt đối không đọc đều đều, không trầm buồn, không kiểu kể chuyện ma. Tiếng Việt giọng Bắc, đời thường.",
+  "chapters": [
+    {
+      "id": "mo-bai",
+      "kicker": "Bốn giờ sáng",
+      "heading": "Mẹ dúi hai triệu",
+      "vo": "Bốn giờ sáng, mẹ dúi vào tay mình hai triệu. Mẹ bảo: cầm đi con. Mình bảo: con không lấy. Ờ, mình hèn thật. Mình là Thịnh, hai hai tuổi. Hôm nay mình kể các bạn chuyện mình bỏ quê lên Sài Gòn."
+    },
+    {
+      "id": "vi-sao-di",
+      "kicker": "Ở quê",
+      "heading": "Năm triệu một tháng",
+      "vo": "Ở quê mình làm năm triệu một tháng nhá các bạn. Sáng đi, tối về, mười năm nữa vẫn thế. Ông chú ngồi uống trà bảo: mày ở đây cả đời cũng chỉ đến thế thôi. Mình hỏi: thế cháu đi đâu. Chú không nói gì. Câu đấy cắm vào đầu mình ba tháng. Xong mình đi, chả tính gì, ngu thật."
+    },
+    {
+      "id": "ngay-dau",
+      "kicker": "Ngày đầu",
+      "heading": "Phòng trọ mười hai mét",
+      "vo": "Xuống bến xe Miền Đông, sáu giờ sáng, nắng gắt luôn các bạn ạ. Mình thuê phòng quận mười hai, mười hai mét vuông, một triệu tám. Chủ trọ bảo: ở đây mưa hơi ngập tí thôi. Mình hỏi: tí là bao nhiêu ạ. Bà cười. Xong tối đó nước lên tới mắt cá chân. Mình ôm vali cười một mình, chết dở."
+    },
+    {
+      "id": "tien",
+      "kicker": "Tháng đầu",
+      "heading": "Mười hai triệu bốc hơi",
+      "vo": "Lương mười hai triệu nhá các bạn. Gấp hơn hai lần ở quê. Mình gọi về khoe, mẹ bảo: giỏi thế con. Xong cuối tháng ngồi tính: trọ một tám, điện nước ba trăm, xăng năm trăm, ăn bốn triệu, cà phê hai triệu. Còn đúng ba triệu. Mà mình hứa gửi về nhà hai triệu rồi. Toang."
+    },
+    {
+      "id": "co-don",
+      "kicker": "Tháng thứ tư",
+      "heading": "Đông mà không ai biết mình",
+      "vo": "Cái này mới đau các bạn ạ. Sài Gòn tám triệu người, mà tối thứ Bảy mình ngồi ăn cơm một mình. Thằng Long bạn thân cưới ở quê, mình xem qua điện thoại. Nó nhắn: sao mày không về. Mình bảo: bận. Nói dối đấy. Vé xe bảy trăm, mình không có. Hôm đó mình khóc. Mình hèn thật."
+    },
+    {
+      "id": "ve-tet",
+      "kicker": "Tết",
+      "heading": "Bao giờ về hẳn",
+      "vo": "Tết mình về. Mẹ nấu nguyên nồi cá kho, gắp liên tục ba bốn lần. Xong mẹ hỏi: bao giờ về hẳn con. Mình bảo: sang năm mẹ ạ. Mình biết mình nói dối. Mẹ chắc cũng biết. Nhưng cả hai cùng gật. Bữa cơm đấy mình ăn không nổi, nghẹn thật. Mình hèn thật các bạn ạ."
+    },
+    {
+      "id": "ket",
+      "kicker": "Chốt",
+      "heading": "Vẫn ở lại",
+      "vo": "Sáu năm rồi nhá. Mình vẫn ở đây. Không giàu. Nhưng ông chú nói đúng một nửa thôi. Ở quê mình chỉ đến thế. Còn ở đây mình chưa biết đến đâu, mà chưa biết thì còn đi được. Mẹ vẫn hỏi câu cũ, mình vẫn nói dối, hèn thật. Ai cầm hai triệu của mẹ mà chưa dám lên xe, lên đi nhá. Còn bạn, xa nhà mấy năm rồi?"
+    }
+  ],
+  "rubric": {
+    "hook": 1,
+    "mat_do": 1,
+    "chi_tiet": 1,
+    "leo_thang": 1,
+    "twist_callback": 1,
+    "nhan_vat_phu": 1,
+    "cau_chot": 1,
+    "giong_rieng": 1,
+    "viet_hoa": 1,
+    "cam": 1
+  }
+}
