@@ -5,6 +5,13 @@ import {NhanVat} from '../rig/nhan-vat';
 import {KIEU} from '../rig/kieu';
 import {TU_THE} from '../rig/tu-the';
 import {CO_CANH, DienVien, PropTuVe, type BoiCanhTuVe, type DoCamTuVe} from '../board/kieu-board';
+
+/**
+ * Phần chiều cao khung dành cho HÌNH. 14.5% còn lại ở đáy là của phụ đề
+ * (engine/sub.tsx: chữ 34px, lineHeight 1.34, cách đáy 54px → dải y 0.866–0.95 H).
+ * Đổi số này thì phải đổi cả padding của Sub, nếu không hình lại đè lên chữ.
+ */
+export const KHUNG_AN_TOAN = 0.855;
 import {PropTuVeVe} from '../props/tu-ve';
 import {bungBoiCanh} from '../boi-canh';
 import {sinhAct, trangThaiTai} from '../act';
@@ -161,20 +168,32 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
   const props = veProp(false);
   const propsTruoc = veProp(true);
 
+  // KHUNG AN TOÀN: phụ đề chiếm dải đáy (engine/sub.tsx vẽ ở y ≈ 0.87–0.95 H).
+  // Trước đây hình được vẽ full khung nên chân nhân vật và prop chạy thẳng vào dải
+  // đó — nét đen dưới chữ đen làm phụ đề khó đọc, và người dựng phim chỉ ra ngay ở
+  // lần xem đầu. Giờ CẢ SÂN KHẤU (hình + chữ trên màn) thu về 85.5% chiều cao, neo
+  // mép trên: hình không bao giờ chạm dải phụ đề nữa. Thu đều hai chiều nên không
+  // méo, và lề trái/phải sinh ra cũng là lề thở, không phải mất hình.
+  const goc = `translate(${W / 2} 0) scale(${KHUNG_AN_TOAN}) translate(${-W / 2} 0)`;
+  const bienDoiZoom = zoom !== 1 ? `translate(${W / 2} ${H / 2}) scale(${zoom}) translate(${-W / 2} ${-H / 2})` : '';
   return (
     <AbsoluteFill style={{background: NEN}}>
       <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{position: 'absolute', inset: 0}}>
-        <g transform={zoom !== 1 ? `translate(${W / 2} ${H / 2}) scale(${zoom}) translate(${-W / 2} ${-H / 2})` : undefined}>
-          {props}
-          {nv}
-          {propsTruoc}
+        <g transform={goc}>
+          <g transform={bienDoiZoom || undefined}>
+            {props}
+            {nv}
+            {propsTruoc}
+          </g>
         </g>
       </svg>
-      {(shot.chu ?? [])
-        .filter((c) => t >= (c.tai ?? 0))
-        .map((c, i) => (
-          <ChuTrenMan key={i} chu={c} frame={frame - f(c.tai ?? 0)} shotLen={shot.len} W={W} H={H} neoX={neoX} neoY={neoY} net={net} cues={cues.map((q) => ({start: q.start - shot.from, end: q.end - shot.from}))} />
-        ))}
+      <div style={{position: 'absolute', inset: 0, transform: `scale(${KHUNG_AN_TOAN})`, transformOrigin: 'top center'}}>
+        {(shot.chu ?? [])
+          .filter((c) => t >= (c.tai ?? 0))
+          .map((c, i) => (
+            <ChuTrenMan key={i} chu={c} frame={frame - f(c.tai ?? 0)} shotLen={shot.len} W={W} H={H} neoX={neoX} neoY={neoY} net={net} cues={cues.map((q) => ({start: q.start - shot.from, end: q.end - shot.from}))} />
+          ))}
+      </div>
     </AbsoluteFill>
   );
 };

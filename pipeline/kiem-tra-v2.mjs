@@ -318,9 +318,13 @@ if (board) {
 
       for (const [j, p] of (s.prop ?? []).entries()) {
         bao(p && (TV.prop.has(p.ten) || tenTuVe.has(p.ten)), `${oS}: prop ${j + 1} "${p?.ten}" không có trong thư viện lẫn board.prop_tu_ve — thiếu thì TỰ VẼ (xem SKILL.md mục "Thiếu prop")`);
+        // Renderer thu sân khấu về 85.5% chiều cao (KHUNG_AN_TOAN) để chừa đáy cho phụ
+        // đề, nên prop khai y > 1 sẽ bị cắt mất phần dưới. Nhắc để người viết biết.
+        if (p && typeof p.y === 'number' && p.y > 1.02) nhac(false, `${oS}: prop "${p.ten}" y=${p.y} — sân khấu chỉ cao tới 1.0; phần dưới bị cắt (đáy khung đã dành cho phụ đề)`);
         bao(p && typeof p.x === 'number' && typeof p.y === 'number', `${oS}: prop ${j + 1} "${p?.ten}" thiếu x/y`);
       }
       for (const [j, c] of (s.chu ?? []).entries()) {
+        if (c?.vi_tri === 'duoi' && s.loai !== 'trong') nhac(false, `${oS}: chữ ${j + 1} đặt vi_tri "duoi" ở shot CÓ LỜI — dải đáy là của phụ đề, chữ sẽ chồng lên nhau; dùng "tren" hoặc "giua"`);
         bao(c && typeof c.noi_dung === 'string' && c.noi_dung.length > 0, `${oS}: chữ ${j + 1} thiếu noi_dung`);
         if (c?.kieu) bao(CHU_KIEU.includes(c.kieu), `${oS}: chữ ${j + 1} kieu "${c.kieu}" — chỉ có: ${CHU_KIEU.join(', ')}`);
         if (c?.vi_tri) bao(CHU_VI_TRI.includes(c.vi_tri), `${oS}: chữ ${j + 1} vi_tri "${c.vi_tri}" — chỉ có: ${CHU_VI_TRI.join(', ')}`);

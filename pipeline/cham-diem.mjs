@@ -88,7 +88,17 @@ for (const c of cuts) {
 shot.push(N / FPSD - truoc);
 const sorted = [...shot].sort((a, b) => a - b);
 const median = sorted[Math.floor(sorted.length / 2)] ?? 0;
-const duoi1 = shot.filter((s) => s < 1).length / Math.max(1, shot.length);
+// "Cắt vụn" = shot CÓ HÌNH mà quá ngắn. NHỊP TRẮNG (loai "trong", 0.5–0.6 s) cũng
+// nằm dưới 1 s nhưng nó là chỗ THỞ trước câu chốt, đếm vào đây là phạt nhầm thứ tốt —
+// nên trừ đúng số nhịp trắng khai trong board ra khỏi cả tử lẫn mẫu.
+const soTrang = (() => {
+  try {
+    return doc(`src/projects/${DU_AN}/board.json`).chuong.flatMap((c) => c.shots).filter((x) => x.loai === 'trong').length;
+  } catch {
+    return 0;
+  }
+})();
+const duoi1 = Math.max(0, shot.filter((s) => s < 1).length - soTrang) / Math.max(1, shot.length - soTrang);
 const hold = diffs.filter((d) => d < 1).length / Math.max(1, diffs.length);
 const tiLeTrang = trang.filter(Boolean).length / Math.max(1, N);
 const thoiLuong = N / FPSD;
@@ -120,6 +130,7 @@ if (board) {
     })(),
     cam: dem([...dien.map((d) => d.cam), ...acts.map((a) => a.cam)]),
     actMoc: acts.length,
+    shotCoDien: shots.filter((x) => (x.dien ?? []).length).length,
   };
 }
 
@@ -152,8 +163,12 @@ if (existsSync(path.join(ROOT, duongMouth))) {
 // [tên, giá trị đo, mốc tham chiếu (chuỗi), hàm đạt]
 const tieuChi = [
   ...(kyVong !== null ? [['Thời lượng khớp audio (lệch s)', Math.abs(thoiLuong - kyVong), '≤ 1.5', (v) => v <= 1.5]] : []),
-  ['Shot trung vị (s)', median, '1.25–1.6', (v) => v >= 0.9 && v <= 1.8],
-  ['Shot dưới 1 s', duoi1, '≥ 30%', (v) => v >= 0.3],
+  // NHỊP: đo lại sau góp ý của người dựng phim ("ít animation trong một ý mà chuyển
+  // cảnh quá nhanh"). Bảng chấm bản trước THƯỞNG cho shot ngắn (≥30% dưới 1 s) nên
+  // cách dễ nhất để lên điểm là cắt vụn — máy khen, mắt người chê. Giờ đổi hướng:
+  // shot phải ĐỦ DÀI để người xem kịp đọc hình, và chuyển động phải nằm TRONG shot.
+  ['Shot trung vị (s)', median, '1.8–3.0', (v) => v >= 1.7 && v <= 3.2],
+  ['Shot dưới 1 s (cắt vụn)', duoi1, '≤ 15%', (v) => v <= 0.15],
   ['Khung đứng yên (hold, 12fps)', hold, '60–80%', (v) => v >= 0.55 && v <= 0.85],
   ['Khung trắng (nhịp trắng)', tiLeTrang, '4–12%', (v) => v >= 0.03 && v <= 0.15],
 ];
@@ -167,7 +182,10 @@ if (bd) {
     ['Bối cảnh dựng sẵn dùng', bd.boiCanh, '≥ 3', (v) => v >= 3],
     ['Prop khác nhau', bd.prop, '≥ 12', (v) => v >= 12],
     ['Cầm đồ (số vật)', bd.cam, '≥ 2', (v) => v >= 2],
-    ['Mốc act / phút', (bd.actMoc / thoiLuong) * 60, '≥ 40', (v) => v >= 40]
+    ['Mốc act / phút', (bd.actMoc / thoiLuong) * 60, '≥ 40', (v) => v >= 40],
+    // Tiêu chí THAY THẾ cho "shot ngắn": một shot dài chỉ được phép dài nếu bên trong
+    // nó có chuyển động. Đây mới là thứ người xem gọi là "có animation".
+    ['Mốc act / shot có diễn viên', bd.actMoc / Math.max(1, bd.shotCoDien ?? 1), '≥ 3', (v) => v >= 3]
   );
 }
 if (doiMieng !== null) tieuChi.push(['Miệng đổi hình khi nói (frame)', doiMieng, '≥ 60%', (v) => v >= 0.6]);
