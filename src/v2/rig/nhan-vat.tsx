@@ -7,6 +7,7 @@ import {TocSau, TocTruoc} from './toc';
 import {TU_THE, TuThe, Tay, Chan} from './tu-the';
 import {KIEU, Kieu, layPhongCach, PhongCach} from './kieu';
 import {DoCam} from './do-cam';
+import {TaiThuVe, MomVe, SungVe, VanVe, DuoiVe} from './thu';
 import type {DoCamTuVe} from '../board/kieu-board';
 
 /**
@@ -261,8 +262,23 @@ export const Dau: React.FC<DauProps> = ({kieu, dau: d, cx, cy, net, mat, may, mi
           <path d={so} />
         </clipPath>
       </defs>
-      {pc.tai && <Tai dau={d} cx={cx} cy={cyS} rx={rx} net={n} goc={goc} f={f} />}
-      <path d={so} fill={NEN} stroke={MUC} strokeWidth={n} strokeLinejoin="round" />
+      {pc.tai && !k.thu?.tai && <Tai dau={d} cx={cx} cy={cyS} rx={rx} net={n} goc={goc} f={f} />}
+      {/* Tai thú vẽ TRƯỚC sọ: sọ đè mất chân tai nên không thấy khớp. */}
+      {k.thu?.tai && (
+        <TaiThuVe dau={d} cx={cx} cy={cyS} rx={rx} ry={ry} net={n} kieu={k.thu.tai} mau={k.thu.mauLong} goc={goc} f={f} />
+      )}
+      {/* Mõm vẽ TRƯỚC sọ rồi sọ đè lên: phần gốc mõm chìm trong sọ nên hai khối
+          LIỀN nhau. Bản trước vẽ mõm sau sọ, thành ra một cái hộp rời chìa khỏi
+          mặt — nhìn như đeo mỏ giả. Đổi lại thì mắt/miệng cũng nằm trên sọ chứ
+          không trên mõm; đúng như cá sấu của kênh tham chiếu. */}
+      {coMat && k.thu?.mom && (
+        <MomVe dau={d} cx={cx} cy={cyM} net={n} kieu={k.thu.mom} rang={k.thu.rang} mau={k.thu.mauLong} goc={goc} f={f} />
+      )}
+      <path d={so} fill={k.thu?.mauLong ?? NEN} stroke={MUC} strokeWidth={n} strokeLinejoin="round" />
+      {k.thu?.van && k.thu.van !== 'khong' && (
+        <VanVe dau={d} cx={cx} cy={cyS} rx={rx} ry={ry} net={n} kieu={k.thu.van} goc={goc} />
+      )}
+      {k.thu?.sung && <SungVe dau={d} cx={cx} cy={cyS} ry={ry} net={n} kieu={k.thu.sung} mau={k.thu.mauLong} goc={goc} f={f} />}
       {coMat && (
         <g>
           <Mat dau={d} cx={cx} cy={cyM} net={n} mat={matVe} may={may} nhin={nhin} goc={goc} lat={flip} id={id} kieu={pc.mat} />
@@ -456,11 +472,17 @@ export const NhanVat: React.FC<NhanVatProps> = ({kieu, dau, x, y, dang = 'dung',
         {veChan(cP, 1)}
 
         <g transform={thanT}>
+          {/* Đuôi vẽ TRƯỚC mọi thứ trong thân: thân đè mất chân đuôi. */}
+          {k.thu?.duoi && (
+            <DuoiVe dau={d} x={xT + lechThan} y={hong[1] - 0.06 * d} net={n} kieu={k.thu.duoi} mau={k.thu.mauLong} f={lat ? -1 : 1} />
+          )}
           {/* tay sau thân */}
           {sau.has('trai') && veTay(-1)}
           {sau.has('phai') && veTay(1)}
           {/* cổ: khối trắng + hai gạch */}
-          <rect x={xT - coR + lechThan} y={camY - 0.02 * d} width={2 * coR} height={vaiY - camY + 0.06 * d} fill={NEN} />
+          {/* Cổ tô theo màu lông, nếu không thì đầu màu nối vào cổ trắng trông như
+              đeo mặt nạ (thấy rõ ở con cá sấu bản đầu). */}
+          <rect x={xT - coR + lechThan} y={camY - 0.02 * d} width={2 * coR} height={vaiY - camY + 0.06 * d} fill={k.thu?.mauLong ?? NEN} />
           <line x1={xT - coR + lechThan} y1={camY} x2={xT - coR + lechThan} y2={vaiY} stroke={MUC} strokeWidth={n} strokeLinecap="round" />
           <line x1={xT + coR + lechThan} y1={camY} x2={xT + coR + lechThan} y2={vaiY} stroke={MUC} strokeWidth={n} strokeLinecap="round" />
           {/* thân */}

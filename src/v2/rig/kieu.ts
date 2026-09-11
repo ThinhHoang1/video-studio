@@ -1,4 +1,5 @@
 import type {KieuToc} from './toc';
+import type {Thu} from './thu';
 
 /**
  * Dàn nhân vật V2 — thiết kế gốc, học nguyên tắc chứ không sao chép.
@@ -56,6 +57,12 @@ export type Kieu = {
   co?: number;
   /** phong cách hình (mắt/mũi/tai/màu áo/cổ áo/tỉ lệ) — bỏ trống = hình gốc */
   phongCach?: PhongCach;
+  /**
+   * Bộ phận thú lắp lên cùng bộ xương người: tai, mõm, sừng, đuôi, màu lông.
+   * Bỏ trống = người. Xem src/v2/rig/thu.tsx để biết vì sao không vẽ rig riêng
+   * cho từng loài.
+   */
+  thu?: Thu;
 };
 
 /**
@@ -76,6 +83,20 @@ export const KIEU: Record<string, Kieu> = {
   'ha-lon': {ten: 'Hà 30', toc: {mau: '#2b1a12', mai: 'lech-trai', lon: 2, sau: 'dai'}, phuKien: 'khong', phongCach: {mat: 'hat-dau', mui: 'gach', tai: true, mauAo: '#7cc47f', mauQuan: '#4b5d3a'}},
   /** nhân vật phụ vô danh — đầu trắng không mặt; tóc tuỳ chọn */
   trang: {ten: 'người', toc: {mau: '#fdfdfd', mai: 'ngang', lon: 0, sau: 'khong'}, khung: 'phu'},
+
+  // ── DÀN THÚ ─────────────────────────────────────────────────────────────
+  // Cùng bộ xương người: vẫn đứng hai chân, vẫn mặc áo, vẫn bàn tay người —
+  // đúng như kênh tham chiếu. Cái đọc ra loài chỉ là tai + mõm + màu.
+  // Dùng thú để có HAI NHÂN VẬT trong khung mà không phải đẻ thêm người:
+  // một con vật cạnh người kể là cái cớ rẻ nhất để có đối đáp.
+  'ca-sau': {ten: 'Cá sấu', toc: {mau: '#fdfdfd', mai: 'ngang', lon: 0, sau: 'khong'}, phongCach: {mat: 'tron-nguoi', mui: 'khong', mauAo: '#e8e2d0', mauQuan: '#cfc7ae'}, thu: {mom: 'dai', rang: true, mauLong: '#4fa86a', duoi: 'dai'}},
+  meo: {ten: 'Mèo', toc: {mau: '#fdfdfd', mai: 'ngang', lon: 0, sau: 'khong'}, co: 0.9, phongCach: {mat: 'tron-nguoi', mui: 'khong', mauAo: '#f3a15c', mauQuan: '#3c4a63'}, thu: {tai: 'nhon', mom: 'ngan', mauLong: '#f6d9a8', van: 'soc', duoi: 'cong'}},
+  cho: {ten: 'Chó', toc: {mau: '#fdfdfd', mai: 'ngang', lon: 0, sau: 'khong'}, phongCach: {mat: 'tron-nguoi', mui: 'khong', mauAo: '#5b9bd5', mauQuan: '#31465e'}, thu: {tai: 'cup', mom: 'ngan', mauLong: '#d9b389', duoi: 'xu'}},
+  gau: {ten: 'Gấu', toc: {mau: '#fdfdfd', mai: 'ngang', lon: 0, sau: 'khong'}, khung: 'phu', co: 1.1, phongCach: {mat: 'tron-nguoi', mui: 'khong', mauAo: '#c96a4b', mauQuan: '#5a3a2c'}, thu: {tai: 'tron', mom: 'ngan', mauLong: '#a9754f', duoi: 'ngan'}},
+  tho: {ten: 'Thỏ', toc: {mau: '#fdfdfd', mai: 'ngang', lon: 0, sau: 'khong'}, co: 0.85, phongCach: {mat: 'tron-nguoi', mui: 'khong', mauAo: '#f18fb0', mauQuan: '#6d5aa8'}, thu: {tai: 'dai', mom: 'ngan', mauLong: '#fdfdfd', duoi: 'ngan'}},
+  // Kỳ lân KHÔNG khai `tai`: sừng + hai tai nhọn + bờm dài cùng lúc thì đỉnh đầu
+  // thành một mớ, không đọc ra con gì. Bờm để 'ngan' cho khỏi phủ mặt.
+  'ky-lan': {ten: 'Kỳ lân', toc: {mau: '#d98fd4', mai: 'ngang', lon: 0, sau: 'ngan'}, phongCach: {mat: 'tron-nguoi', mui: 'khong', mauAo: '#f6b6d9', mauQuan: '#9b6bd6'}, thu: {mom: 'dai', sung: 'sung', mauLong: '#efe4f7', duoi: 'dai'}},
 };
 
 export const TEN_KIEU = Object.keys(KIEU);

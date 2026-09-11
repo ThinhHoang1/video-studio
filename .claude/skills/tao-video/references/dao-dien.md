@@ -128,6 +128,70 @@ Prop **chỉ vẽ đúng vật câu đang nhắc** (tham chiếu: 84% shot nền
 prop; không sàn, không tường). Lớp học = `day-ban-lop` + `bang-den`; không thêm
 cửa, đèn, tủ cho "đủ phòng".
 
+## 2b. Dàn nhân vật: 9 người + 6 thú + nhân vật riêng của chuyện
+
+**Xem hình trước khi dựng board:**
+```
+node pipeline/xem-nhan-vat.mjs            → cả thư viện
+node pipeline/xem-nhan-vat.mjs <du-an>    → thư viện + nhân vật riêng của dự án
+```
+
+| Tên | Là ai | Dùng khi |
+|---|---|---|
+| `nam` `ha` `long` `mai` | học sinh / bạn bè | nhân vật chính và bạn |
+| `me` `thay` | người lớn (khung cao 3.6 đầu) | phụ huynh, sếp, thầy cô |
+| `nam-lon` `ha-lon` | chính nhân vật lúc 30 tuổi | hồi tưởng / hiện tại |
+| `trang` | đầu trắng vô danh | đám đông, người qua đường |
+| `ca-sau` `meo` `cho` `gau` `tho` `ky-lan` | thú đi hai chân, mặc quần áo | **người thứ hai trong khung** khi chuyện không có ai khác |
+
+Thú vẫn đứng hai chân, vẫn mặc áo, vẫn bàn tay người — đúng lối kênh tham chiếu.
+**Quay thú ở `goc: "nghieng"`**: cái mõm là thứ nói lên loài, nhìn thẳng thì mõm
+thu thành một khối tròn và con nào cũng na ná nhau.
+
+### Nhân vật riêng của chuyện — `board.nhan_vat_tu_ve`
+
+Khai bằng dữ liệu, không đụng mã TS. Tên khai ở đây dùng được trong `dien[].kieu`
+y như nhân vật thư viện; **trùng tên thì bản của board thắng** (đổi màu áo cho
+`nam` mà không sửa thư viện chung).
+
+```json
+"nhan_vat_tu_ve": {
+  "sep": {
+    "ten": "Sếp", "khung": "phu", "phuKien": "kinh",
+    "toc": {"mau": "#2a2126", "mai": "re-giua", "lon": 0, "sau": "ngan"},
+    "phongCach": {"mat": "lech", "mui": "moc", "tai": true, "mauAo": "#8e44ad", "mauQuan": "#2c3e50"}
+  },
+  "muc": {
+    "ten": "Mực (chó nhà)", "co": 0.8,
+    "toc": {"mau": "#fdfdfd", "mai": "ngang", "lon": 0, "sau": "khong"},
+    "phongCach": {"mat": "tron-nguoi", "mauAo": "#34495e"},
+    "thu": {"tai": "cup", "mom": "ngan", "mauLong": "#3d3d3d", "duoi": "xu"}
+  }
+}
+```
+
+Trường của `thu`:
+- `tai`: `tron` (gấu) · `nhon` (mèo, cáo) · `dai` (thỏ) · `cup` (chó)
+- `mom`: `ngan` (chó mèo gấu) · `dai` (cá sấu, ngựa) · `mo` (chim)
+- `rang`: hàng răng nhọn dưới mõm dài — cá sấu, cá mập
+- `sung`: `sung` (một sừng giữa trán) · `mao` (mào gà) · `gac` (gạc hươu)
+- `duoi`: `ngan` · `dai` · `xu` (sóc, cáo) · `cong` (mèo)
+- `mauLong`: tô sọ + tai + mõm + cổ. Bỏ trống = trắng như người
+- `van`: `soc` (hổ, mèo mướp) · `dom`
+
+**Đừng khai cùng lúc `tai` nhọn + `sung` + tóc dài**: đỉnh đầu thành một mớ, không
+đọc ra con gì.
+
+### Ba luật cứng về dàn cảnh (validator chặn)
+
+1. **≥ 35% shot có diễn viên phải có TỪ HAI nhân vật.** Đo bản bị chê nặng nhất:
+   34/49 shot một người đứng một mình. Cái buồn cười nằm ở quan hệ giữa hai cái
+   mặt, không nằm ở lời kể. Hết người thì dùng thú.
+2. **Khai `co` cho ≥ 60% shot, và dùng ≥ 3 cỡ khác nhau**, trong đó ít nhất một
+   cú `sat` cắt cụt mặt mỗi chương.
+3. **Thẻ chữ ≤ 15% số shot.** Xem mục 8b: con số nên vào `chen` trong cảnh đang
+   diễn, không nên chiếm cả khung.
+
 ## 3. Diễn viên và `act`: snap và hold
 
 ```json
@@ -348,6 +412,49 @@ phóng theo DAU) nên thường lòi một mảnh đồ to sau lưng — bỏ `b
   `vine-boom`/`boom` cho thẻ đỏ, `ding`/`pop` cho vật hiện, `rimshot`/`sad-trombone`
   cho câu tự trào, `airhorn` cho đám đông nổ, `suspense` cho thầy tháo kính,
   `record-scratch` cho vỡ trận. Không quá 2 sfx nặng (`boom`, `vine-boom`) một chương.
+
+## 8b. Chèn trong cùng khung `chen` + đẩy máy `zoom`
+
+Hai công cụ để shot **dài mà không chết hình**, thay cho phản xạ "cắt sang shot khác".
+
+### `chen` — bằng chứng bật lên, nhân vật vẫn diễn
+
+```json
+{"say": "Mình rải hai mươi bảy chỗ", "loai": "truc-dien", "co": "can",
+ "chen": [{"anh": "meme/hop-thu-day.jpg", "x": 0.26, "y": 0.34, "co": 0.3, "tai": 0.4, "dai": 1.2, "xoay": -3}]}
+```
+
+Khác `loai: "insert"` một trời một vực: `insert` **cắt** sang shot ảnh full khung,
+mất nhân vật, mạch kể đứt. `chen` nổi **trên** shot đang chạy — người kể vẫn nói,
+tay vẫn khua, ảnh bật lên góc trái rồi tắt. Đo Monsieur Tuna thì phần lớn cú chèn
+của anh ấy là loại thứ hai; loại cắt hẳn chỉ dành cho ảnh cần xem kỹ.
+
+Ba dạng:
+- `{"anh": "..."}` — ảnh thật / meme trong `public/`, có khung đen như ảnh dán.
+- `{"chu": "27 CHỖ", "nen": "#ffd400"}` — thẻ chữ. Dùng khi con số là punchline.
+- `{"prop": "dien-thoai"}` — đồ vật vẽ, **không khung**, như nhân vật vừa lôi ra khoe.
+
+Luật đặt:
+- **1–2 ô mỗi shot**, giữ **0.6–1.5 s**. Ba ô cùng lúc là khung loạn, không phải dày.
+- Tránh nhân vật (thường ở `x` 0.3–0.7) và tránh dải phụ đề (đừng để `y` > 0.8).
+- `xoay` ±3 độ là đủ lệch cho ra chất dán tay; ±10 là trò hề.
+- Ô chèn **không** thay được nhịp cắt: shot vẫn phải có lý do tồn tại.
+
+### `zoom` — máy bò, hình không đứng
+
+```json
+{"say": "Mười tiếng trên xe giường nằm", "loai": "minh-hoa", "zoom": {"tu": 1, "den": 1.08}}
+```
+
+`zoom_buoc` nhảy nấc (cú sốc, gằn giọng); `zoom` nội suy ease-in-out suốt shot.
+**Chỉ MÁY mượt** — tư thế, mắt, miệng vẫn snap, nên không mất chất vẽ tay.
+
+- `1 → 1.06…1.10` cho shot 2–4 s: mắt luôn có việc, không đọc ra là zoom.
+- `1 → 1.3` trở lên chỉ cho cú giật mình, và phải kèm sfx.
+- Kéo ra (`1.1 → 1`) khi câu hạ nhiệt, khi tiết lộ bối cảnh rộng hơn.
+- `tu_giay` / `den_giay` để zoom chỉ chạy một quãng giữa shot.
+- Đừng zoom **mọi** shot: khung nào cũng bò thì thành say sóng. Khoảng **1/4 số
+  shot dài hơn 2 s** là đủ.
 
 ## 9. Ba ví dụ shot đầy đủ
 

@@ -16,7 +16,8 @@ ghi trong một file JSON (`board.json`), máy lo phần còn lại.
 | Đọc | Để làm gì |
 |---|---|
 | `references/kich-ban-storytime.md` | viết kịch bản có punchline |
-| `references/dao-dien.md` | ngữ pháp shot có số liệu, 3 ví dụ đầy đủ |
+| `references/cam-nang-hai.md` | **14 cơ chế gây cười đã đo trên transcript thật** + liều lượng/1000 từ + chất liệu trending còn hạn |
+| `references/dao-dien.md` | ngữ pháp shot có số liệu, 3 ví dụ đầy đủ; **mục 2b: dàn nhân vật + thú + cách khai nhân vật riêng** |
 | `references/loi-hay-gap.md` | lỗi validator hay bắt và cách sửa |
 | `docs/vi-sao-video-bi-dung.md` | **video ra đứng hình / cắt như slide / lip-sync vô hồn** — đọc TRƯỚC khi viết board, không phải sau khi hỏng |
 | `docs/thu-vien-canh.md` | tra nhanh tên: 28 bối cảnh (kèm prop bung ra), 103 prop, 43 tư thế, 21 mẫu hành động, 10 đồ cầm, sfx, nhạc |
@@ -87,7 +88,7 @@ node pipeline/tao-video.mjs <ten> --soat
 
 ```
  1 kich-ban   kiểm scripts/<ten>.json + cổng chấm cham-kich-ban.mjs (✗ → dừng; --bo-cham để bỏ qua)
- 2 giong      tts-gemini          (cần GEMINI_API_KEYS trong .env)
+ 2 giong      tts-gemini          (cần GEMINI_API_KEYS hoặc LITELLM_KEYS trong .env)
  3 nhip       analyze-voice
  4 mieng      lipsync (Rhubarb)
  5 board      DỪNG (exit 3) nếu chưa có src/projects/<du-an>/board.json → bạn viết board rồi chạy lại --tu kiem
@@ -105,7 +106,12 @@ viết và cách đọc kết quả; lệnh lẻ chỉ dùng khi muốn chạy t
 
 ### Bước 1 — Kịch bản `scripts/<ten>.json`
 
-Đọc `references/kich-ban-storytime.md` trước. Khung file:
+Đọc `references/kich-ban-storytime.md` **và `references/cam-nang-hai.md`** trước.
+Cẩm nang hài là chỗ trả lời câu "viết sao cho buồn cười"; storytime chỉ trả lời
+"viết sao cho đúng khung". Bỏ qua cẩm nang thì ra đúng thứ đã bị chê: kịch bản
+đủ khung, không một chỗ nào cười được.
+
+Khung file:
 
 ```json
 {
@@ -156,7 +162,10 @@ node pipeline/analyze-voice.mjs <ten>           # → data/<ten>.voice.json  (am
 node pipeline/lipsync.mjs <ten>                 # → data/<ten>.mouth.json  (hình miệng X A B C D E F G H từng frame)
 ```
 
-- Cần `GEMINI_API_KEYS=key1,key2` trong `.env`. Free tier: **10 request/ngày cho
+- Cần **một trong hai** trong `.env`: `GEMINI_API_KEYS=AIza…` (gọi thẳng Google)
+  hoặc `LITELLM_KEYS=sk-…` + `LITELLM_BASE_URL=…` (proxy riêng, không dính hạn
+  mức free). Có `LITELLM_KEYS` rồi thì **không cần** khoá Gemini — đừng đi xin thêm.
+- Free tier Gemini: **10 request/ngày cho
   mỗi cặp key × model**; pipeline xoay 3 model mặc định nên 2 key = 6 hạn mức =
   ~60 chương/ngày. Hết hạn mức thì báo người dùng, không chờ.
 - Chạy lại an toàn: chương đã đọc và lời chưa đổi thì bỏ qua (vân tay `.sig`).

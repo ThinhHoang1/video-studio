@@ -18,7 +18,13 @@
     "thay": "Thầy — tóc mái re-giua, sau ngan; phụ kiện kinh; khung người lớn cao 3.6 đầu (trên màn ≈ 2.95 DAU cỡ cảnh; ở can đặt co 0.85, ở sat co 0.8 kẻo mất đỉnh đầu)",
     "nam-lon": "Nam 30 — tóc mái lech-phai, sau ngan; khung chính cao 2.6 đầu × co 1.05 ≈ 2.73 DAU (vừa mọi cỡ cảnh)",
     "ha-lon": "Hà 30 — tóc mái lech-trai, sau dai; khung chính cao 2.6 đầu (vừa mọi cỡ cảnh)",
-    "trang": "nhân vật phụ vô danh — đầu trắng không mặt; tóc tuỳ chọn — tóc mái ngang, sau khong; khung người lớn cao 3.6 đầu (trên màn ≈ 2.95 DAU cỡ cảnh; ở can đặt co 0.85, ở sat co 0.8 kẻo mất đỉnh đầu)"
+    "trang": "nhân vật phụ vô danh — đầu trắng không mặt; tóc tuỳ chọn — tóc mái ngang, sau khong; khung người lớn cao 3.6 đầu (trên màn ≈ 2.95 DAU cỡ cảnh; ở can đặt co 0.85, ở sat co 0.8 kẻo mất đỉnh đầu)",
+    "ca-sau": "Cá sấu — tóc mái ngang, sau khong; khung chính cao 2.6 đầu (vừa mọi cỡ cảnh)",
+    "meo": "Mèo — tóc mái ngang, sau khong; khung chính cao 2.6 đầu × co 0.9 ≈ 2.34 DAU (vừa mọi cỡ cảnh)",
+    "cho": "Chó — tóc mái ngang, sau khong; khung chính cao 2.6 đầu (vừa mọi cỡ cảnh)",
+    "gau": "Gấu — tóc mái ngang, sau khong; khung người lớn cao 3.6 đầu (trên màn ≈ 3.25 DAU cỡ cảnh; ở can đặt co 0.85, ở sat co 0.8 kẻo mất đỉnh đầu)",
+    "tho": "Thỏ — tóc mái ngang, sau khong; khung chính cao 2.6 đầu × co 0.85 ≈ 2.21 DAU (vừa mọi cỡ cảnh)",
+    "ky-lan": "Kỳ lân — tóc mái ngang, sau ngan; khung chính cao 2.6 đầu (vừa mọi cỡ cảnh)"
   },
   "tu_the": {
     "_": "trường `dang` của diễn viên và của mỗi mốc `act`.",

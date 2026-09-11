@@ -132,6 +132,14 @@ if (board) {
     nen: dem(shots.map((s) => (typeof s.nen === 'object' ? JSON.stringify(s.nen) : s.nen ?? 'trang'))),
     actMoc: acts.length,
     shotCoDien: shots.filter((x) => (x.dien ?? []).length).length,
+    // Shot THẺ CHỮ: cả khung chỉ có chữ, không diễn viên. Đây là chỗ board hay
+    // ăn gian — hết ý thì quăng một con số to giữa màn trắng gọi là "chuyển cảnh".
+    // Đo thật trên bản bị chê nặng nhất: 13/49 shot = 27%, và phần lớn là đồng hồ.
+    theChu: shots.filter((x) => x.loai === 'chu' || (x.chu?.length && !(x.dien ?? []).length)).length,
+    // Hai công cụ chống chết hình, thêm 2026-09-11. Board không dùng lần nào
+    // nghĩa là vẫn đang dựng theo lối cũ.
+    oChen: shots.filter((x) => (x.chen ?? []).length).length,
+    zoomMuot: shots.filter((x) => x.zoom).length,
   };
 }
 
@@ -193,7 +201,15 @@ if (bd) {
     ['Mốc act / phút', (bd.actMoc / thoiLuong) * 60, '≥ 40', (v) => v >= 40],
     // Tiêu chí THAY THẾ cho "shot ngắn": một shot dài chỉ được phép dài nếu bên trong
     // nó có chuyển động. Đây mới là thứ người xem gọi là "có animation".
-    ['Mốc act / shot có diễn viên', bd.actMoc / Math.max(1, bd.shotCoDien ?? 1), '≥ 3', (v) => v >= 3]
+    ['Mốc act / shot có diễn viên', bd.actMoc / Math.max(1, bd.shotCoDien ?? 1), '≥ 3', (v) => v >= 3],
+    // ── ba tiêu chí thêm 2026-09-11 sau khi xem lại bản bị chê "toàn chữ vớ vẩn" ──
+    // Thẻ chữ là lối thoát hiểm rẻ tiền: không phải vẽ, không phải diễn, mà vẫn
+    // chiếm thời lượng. Quá 15% là board đang trốn việc.
+    ['Shot thẻ chữ (không diễn viên)', bd.theChu / Math.max(1, bd.soShot), '≤ 15%', (v) => v <= 0.15],
+    // Chèn trong cùng khung — thứ giữ mạch kể mà vẫn đổi hình (xem OChen).
+    ['Ô chèn / 30 s', (bd.oChen / thoiLuong) * 30, '≥ 1', (v) => v >= 1],
+    // Máy bò: chống chết hình ở shot dài mà không phải cắt.
+    ['Shot có đẩy máy mượt', bd.zoomMuot / Math.max(1, bd.soShot), '≥ 15%', (v) => v >= 0.15]
   );
 }
 if (doiMieng !== null) tieuChi.push(['Miệng đổi hình khi nói (frame)', doiMieng, '≥ 60%', (v) => v >= 0.6]);

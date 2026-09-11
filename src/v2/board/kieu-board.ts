@@ -1,3 +1,4 @@
+import type {Kieu} from '../rig/kieu';
 import type {TrangThaiMat, TrangThaiMay} from '../rig/mat';
 import type {HinhMieng} from '../rig/mieng';
 
@@ -319,6 +320,45 @@ export type Insert = {
   xoay?: number;
 };
 
+
+/**
+ * Ô CHÈN — ảnh thật / thẻ chữ / món đồ bật lên TRONG CÙNG KHUNG, nhân vật vẫn diễn.
+ *
+ * Khác `Shot.insert` (cắt hẳn sang một shot ảnh full khung, mất nhân vật): ô chèn
+ * KHÔNG cắt cảnh. Đây là cú "chèn ảnh" hay thấy ở Monsieur Tuna — người kể đang
+ * nói dở câu thì bằng chứng bật lên ở góc khung rồi biến mất, mạch kể không đứt.
+ *
+ * Liều lượng: 1–2 ô mỗi shot, giữ 0.6–1.5 s. Ba ô cùng lúc là khung loạn.
+ * Đặt tránh nhân vật (nhân vật thường ở x 0.3–0.7) và tránh dải phụ đề (y > 0.8).
+ */
+export type OChen = {
+  /** ảnh trong public/ (vd 'meme/ket-xe.jpg') */
+  anh?: string;
+  /** hoặc: tên prop thư viện / prop tự vẽ — vẽ trần, không khung ảnh */
+  prop?: string;
+  /** hoặc: chữ trong ô (thẻ chữ); đi kèm `prop` thì là chữ điền vào prop có nhãn */
+  chu?: string;
+  /** tâm ô theo tỉ lệ khung */
+  x: number;
+  y: number;
+  /** bề rộng ô theo tỉ lệ bề rộng khung (mặc định 0.3) */
+  co?: number;
+  /** cao / rộng (mặc định 0.66 — khung ảnh ngang) */
+  ti_le?: number;
+  /** giây xuất hiện tính từ đầu shot (mặc định 0) */
+  tai?: number;
+  /** giữ bao nhiêu giây rồi biến mất (mặc định: tới hết shot) */
+  dai?: number;
+  /** xoay như ảnh dán lệch, độ (±3 là đủ) */
+  xoay?: number;
+  /** nền ô (mặc định trắng) — đặt màu khi làm thẻ chữ */
+  nen?: string;
+  mau_chu?: string;
+  flip?: boolean;
+  /** viền đen quanh ô, mặc định có. Tắt khi muốn ảnh chìm vào nền */
+  khung?: boolean;
+};
+
 export type Shot = {
   /** đoạn lời bình để neo mốc đầu shot (phải có nguyên văn trong `vo`) */
   say?: string;
@@ -351,10 +391,23 @@ export type Shot = {
   dien?: DienVien[];
   chu?: Chu[];
   insert?: Insert;
+  /** ô chèn nổi trong cùng khung — KHÔNG cắt cảnh; xem OChen */
+  chen?: OChen[];
   /** tên sfx trong thu-vien.json, nổ ở đầu shot */
   sfx?: string;
   /** bước zoom cứng trong shot: [giây, hệ số] — vd [[0, 1], [0.75, 1.3]] */
   zoom_buoc?: [number, number][];
+  /**
+   * ĐẨY MÁY MƯỢT trong cùng shot — khác `zoom_buoc` (nhảy cóc từng nấc).
+   *
+   * Máy bò từ `tu` tới `den` suốt shot, ease-in-out. Đây là thứ làm shot dài
+   * không chết hình mà vẫn không phải cắt: khung luôn nhích, mắt luôn có việc.
+   * Biên độ nhỏ mới đúng — 1 → 1.08 cho cả shot 3 s là đã thấy rõ; 1 → 1.4 là
+   * giật mình, chỉ dùng cho cú sốc.
+   *
+   * Tư thế/mắt/miệng vẫn snap như cũ: chỉ MÁY mượt, nhân vật vẫn vẽ tay.
+   */
+  zoom?: {tu: number; den: number; tu_giay?: number; den_giay?: number};
   /** chuyển vào shot này: cut (mặc định) | trang (2 frame trắng) | mo-chong (chỉ khi cần) */
   chuyen?: 'cut' | 'trang' | 'mo-chong';
   ghi_chu?: string;
@@ -426,5 +479,30 @@ export type Board = {
   boi_canh_tu_ve?: Record<string, BoiCanhTuVe>;
   /** đồ cầm tay tự vẽ — tên dùng được trong DienVien.cam / HanhDong.cam */
   do_cam_tu_ve?: Record<string, DoCamTuVe>;
+  /**
+   * NHÂN VẬT RIÊNG CỦA DỰ ÁN — khai bằng dữ liệu, không cần đụng mã TS.
+   *
+   * Tên khai ở đây dùng được trong `DienVien.kieu` y như 9 người + 6 con thú dựng
+   * sẵn; trùng tên với nhân vật thư viện thì bản của board THẮNG (cho phép đổi
+   * màu áo, đổi tóc cho nhân vật có sẵn mà không sửa thư viện).
+   *
+   * Vì sao phải có: mỗi chuyện có dàn nhân vật riêng. Bắt mọi video dùng chung
+   * 9 người là bảo đảm mọi video trông giống nhau — đó đúng là lời chê nặng nhất
+   * đã nhận ("vibe y chang như cũ").
+   *
+   * Xem thử trước khi dựng: `node pipeline/xem-nhan-vat.mjs <du-an>`
+   *
+   * ```json
+   * "nhan_vat_tu_ve": {
+   *   "sep": {"ten": "Sếp", "toc": {"mau": "#2a2126", "mai": "re-giua", "lon": 0, "sau": "ngan"},
+   *           "phuKien": "kinh", "khung": "phu",
+   *           "phongCach": {"mat": "lech", "mui": "moc", "tai": true, "mauAo": "#8e44ad", "mauQuan": "#2c3e50"}},
+   *   "cho-muc": {"ten": "Mực", "toc": {"mau": "#fdfdfd", "mai": "ngang", "lon": 0, "sau": "khong"},
+   *           "co": 0.8, "phongCach": {"mat": "tron-nguoi", "mauAo": "#34495e"},
+   *           "thu": {"tai": "cup", "mom": "ngan", "mauLong": "#3d3d3d", "duoi": "xu"}}
+   * }
+   * ```
+   */
+  nhan_vat_tu_ve?: Record<string, Kieu>;
   chuong: BoardChuong[];
 };

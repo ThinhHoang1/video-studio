@@ -103,6 +103,27 @@ const SAO_NGU = ['hành trình', 'trải nghiệm đáng nhớ', 'bài học qu�
  * Chỉ bắt từ trong danh sách này — không bắt mọi từ không dấu (Long, xe, qua là tiếng Việt).
  */
 const ANH_XAU = new Set(['mail', 'meeting', 'feedback', 'offer', 'check', 'trend', 'content', 'remote', 'update', 'sale', 'job', 'app', 'link', 'comment', 'share', 'follow', 'post', 'upload', 'download', 'stream', 'level', 'boss', 'drama', 'plan', 'report', 'review', 'call', 'chill', 'fail', 'pass', 'test', 'quiz', 'slide', 'file', 'form', 'note', 'block', 'unfriend', 'seen', 'ship', 'order', 'voucher', 'sale', 'flash', 'combo', 'size', 'shop', 'chat', 'nick', 'acc', 'pro', 'noob', 'gg', 'lol', 'ok', 'okay', 'oke']);
+/**
+ * Từ tục — CẢNH BÁO (không chặn). Cố tình KHÔNG có `mẹ`, `bố`: đo Mixi thì 6/541 lần `mẹ` là người
+ * mẹ thật, đưa vào từ điển là bảo đảm bắt nhầm mọi kịch bản có nhân vật gia đình.
+ * Cũng KHÔNG cài luật "bíp phải đứng cuối mệnh đề" — sai với chính nguồn tham
+ * chiếu: 0/4 bíp trong Tuna nằm cuối mệnh đề.
+ */
+const TUC = new Set(['đm', 'dm', 'đmm', 'vcl', 'vl', 'cc', 'clgt', 'đéo', 'đếch', 'cặc', 'lồn', 'buồi', 'địt', 'đụ', 'cứt', 'shit', 'fuck', 'wtf']);
+
+/**
+ * MỐC VĂN HOÁ VIỆT — danh từ hữu hình của đời sống Việt (món ăn, đồ vật, nơi chốn).
+ *
+ * Đây là thứ phân biệt "kịch bản Việt" với "kịch bản Mỹ dịch ra": người xem cười
+ * vì NHẬN RA, không vì câu đó có joke. Tuna: 13 mốc / 2871 từ = 4,5/1000.
+ *
+ * Cố tình KHÔNG đếm token viết hoa giữa câu (nhánh đó từng được đề xuất): hai
+ * transcript tham chiếu là ASR viết hoa ngẫu nhiên ("Nối Khố", "Trong Sợ Hãi"),
+ * nhánh ấy chỉ sinh rác. Danh sách này còn ngắn — bổ sung khi gặp mốc mới, đừng
+ * đổi sang heuristic.
+ */
+const MOC_VIET = /(?<![\p{L}])(mì tôm|mì hảo hảo|hảo hảo|muối vừng|cơm tấm|bánh mì|phở|bún|xôi|chè|trà đá|cà phê sữa đá|bia hơi|nước mắm|rau muống|dưa cà|bánh chưng|bánh tét|lì xì|tết|giỗ|đám cưới|đám giỗ|chùa|đình làng|dép tổ ong|dép lê|nón lá|áo dài|xe máy|xe ôm|grab|xe khách|xe giường nằm|tàu chợ|quán net|quán cóc|vỉa hè|hẻm|ngõ|xóm trọ|phòng trọ|nhà trọ|chung cư mini|chợ|siêu thị|tạp hoá|tạp hóa|karaoke|loa kẹo kéo|ruộng|đồng|trâu|bờ đê|ao làng|giếng|sân trường|bảng đen|phấn|sổ liên lạc|khăn quàng|ghế đá|căng tin|ký túc xá|bến xe|miền tây|miền trung|sài gòn|hà nội|đà nẵng|quê|tỉnh lẻ)(?![\p{L}])/giu;
+
 const APP = /\b(tiktok|zalo|google|facebook|youtube|shopee|grab|messenger|instagram|threads|chatgpt|excel|word|powerpoint|gmail|netflix|spotify|iphone|samsung|xiaomi|vinfast|honda|yamaha|highlands|phúc long|circle k|vinmart|bách hoá xanh)\b/gi;
 const soChu = /\b(một|hai|ba|bốn|năm|sáu|bảy|tám|chín|mười|trăm|nghìn|ngàn|triệu|lăm|mươi|\d+)\b/gi;
 
@@ -143,7 +164,21 @@ for (const [i, ch] of (kb.chapters ?? []).entries()) {
   const dauCau = new Set(cs.map((c) => tu(c)[0]?.replace(/[^\p{L}]/gu, '')));
   const tenRieng = (vo.match(/\b[A-ZĐÂĂÊÔƠƯ][a-zà-ỹ]+/g) ?? []).filter((w) => !dauCau.has(w));
   const cuThe = (vo.match(soChu) ?? []).length + (vo.match(APP) ?? []).length + new Set(tenRieng).size;
-  if (cuThe < 3) canhBao.push(`${o}: ít chi tiết cụ thể (${cuThe}: số, tên riêng, tên app) — mục tiêu ≥ 3`);
+  // Ngưỡng ≥3 gần như không nổ: dry-run 11 kịch bản đã duyệt chỉ 3/110 chương trượt.
+  // Ở ≥5 bắt 18/110 (16%) — đúng liều cho một luật cảnh báo. Xem docs/spec-cong-hai.md A1.
+  if (cuThe < 5) canhBao.push(`${o}: ít chi tiết cụ thể (${cuThe}: số, tên riêng, tên app) — mục tiêu ≥ 5, thay tính từ bằng một con số lẻ hoặc một cái tên`);
+  // CHẶN chữ số dạng số: đo 124/124 câu thoại của 12 kịch bản duyệt đều không có,
+  // nên bật chặn không chặn ai. Là bảo hiểm TTS (đọc "5" thành "năm" sai ngữ cảnh),
+  // không phải phép đo hài. Viết "hai mươi bảy", không viết "27".
+  const chuSo = vo.match(/\d+/g) ?? [];
+  for (const d of new Set(chuSo)) loi.push(`${o}: chữ số "${d}" trong lời đọc — TTS đọc chữ số hay sai, viết bằng chữ ("hai mươi bảy")`);
+  // Từ tục là CẢNH BÁO, không chặn: tông của kênh do người viết quyết định ở câu
+  // prompt, cổng chỉ báo để không ai buột ra mà không biết. Ký hiệu bíp thì khác —
+  // TTS đọc "[ __ ]" thành rác nên phải bỏ, không phải vì nó tục.
+  for (const t of new Set(ts.map((x) => x.toLowerCase().replace(/[^\p{L}]/gu, '')).filter((x) => TUC.has(x)))) {
+    canhBao.push(`${o}: từ tục "${t}" — cố ý thì giữ, lỡ tay thì đổi`);
+  }
+  if (/\[\s*_+\s*\]/.test(vo)) loi.push(`${o}: ký hiệu bíp "[ __ ]" trong lời đọc — TTS đọc thành rác, viết thẳng từ hoặc đổi cách nói`);
   for (const s of SAO_NGU) if (vo.toLowerCase().includes(s)) loi.push(`${o}: sáo ngữ "${s}" — storytime không giảng đạo lý`);
   const anh = ts.map((t) => t.replace(/[.,!?;:"'…]/g, '').toLowerCase()).filter((t) => ANH_XAU.has(t));
   for (const a of new Set(anh)) canhBao.push(`${o}: từ tiếng Anh trần "${a}" — Gemini TTS có thể đọc sai (đo được: "mail" → "mèo"); viết "email"/từ Việt hoặc phiên âm`);
@@ -265,6 +300,98 @@ for (const t of trungLap()) {
     );
   } else if (t.max > 0.25) {
     canhBao.push(`gần giống kịch bản "${t.file}" (${(t.max * 100).toFixed(0)}%) — kiểm lại xem có đang kể lặp ý của bản đó không`);
+  }
+}
+
+/**
+ * ── CỔNG HÀI (docs/spec-cong-hai.md) ─────────────────────────────────────────
+ *
+ * Đo trên TOÀN kịch bản, không theo chương: các cơ chế dưới đây là chuyện của
+ * nhịp cả bài. Tất cả là CẢNH BÁO — mọi đề xuất CHẶN trong nghiên cứu đều chặn
+ * 3–5 trên 11 kịch bản đã duyệt khi dry-run, kể cả bản đã nghiệm thu đạt chuẩn.
+ * Ai muốn nâng lên CHẶN thì dry-run lại toàn corpus trước, đừng nâng bằng niềm tin.
+ */
+if (!BT) {
+  const voTatCa = (kb.chapters ?? []).map((c) => c.vo ?? '').join(' ');
+  const tsAll = tu(voTatCa);
+  const nAll = tsAll.length;
+  const tren1000 = (x) => (x * 1000) / Math.max(1, nAll);
+  const dem = (re) => (voTatCa.match(re) ?? []).length;
+
+  // B1 — mốc văn hoá Việt. Chống giọng dịch: người xem cười vì NHẬN RA.
+  const moc = voTatCa.match(MOC_VIET) ?? [];
+  if (tren1000(moc.length) < 4) {
+    canhBao.push(
+      `mốc văn hoá Việt ${moc.length}/${nAll} từ (${tren1000(moc.length).toFixed(1)}/1000, cần ≥4) — ` +
+        `kịch bản đang đọc như bản dịch. Thay danh từ chung bằng tên thật: "mì Hảo Hảo", "xe giường nằm", "quán cóc"` +
+        (moc.length ? ` (đang có: ${[...new Set(moc.map((m) => m.toLowerCase()))].slice(0, 6).join(', ')})` : '')
+    );
+  }
+
+  // B2 — bẻ ngoặt phải RẢI ĐỀU. Đây là phần đáng giá duy nhất của mục bẻ ngoặt:
+  // nó đo NHỊP. Không đặt ngưỡng mật độ vì `nhưng` là liên từ phổ biến nhất
+  // tiếng Việt — một bài luận nghiêm túc cũng đạt 1/120.
+  const BE_NGOAT = /(?<![\p{L}])(nhưng|hoá ra|hóa ra|ai ngờ|đáng nhẽ|đáng lẽ|thế mà|ngờ đâu)(?![\p{L}])/giu;
+  const viTri = [];
+  for (let k = 0; k < tsAll.length; k++) if (BE_NGOAT.test(tsAll[k] + ' ' + (tsAll[k + 1] ?? ''))) viTri.push(k);
+  BE_NGOAT.lastIndex = 0;
+  const phang = [];
+  for (let d = 0; d + 250 <= nAll; d += 125) {
+    if (!viTri.some((v) => v >= d && v < d + 250)) phang.push(d);
+  }
+  if (phang.length) {
+    canhBao.push(
+      `${phang.length} quãng 250 từ không có một cú bẻ ngoặt nào (bắt đầu ở từ ${phang.slice(0, 3).join(', ')}) — ` +
+        `đoạn đó người xem trôi thẳng, không bị hẫng lần nào`
+    );
+  }
+
+  // B7 — nối kiểu văn viết. Mixi 0/541: người kể thật không bao giờ nói "sau đó".
+  const noiViet = voTatCa.match(/(?<![\p{L}])(sau đó|tiếp theo|kế tiếp|và rồi)(?![\p{L}])/giu) ?? [];
+  for (const w of new Set(noiViet.map((x) => x.toLowerCase()))) {
+    canhBao.push(`nối kiểu văn viết "${w}" — giọng nói dùng "xong", "thế là", "rồi"`);
+  }
+
+  // B6 — mặt dương của cùng chỉ dấu đó. Cố tình KHÔNG đếm `lại` (bắt nhầm
+  // "trở lại", "quay lại", "lại thấy").
+  const xong = dem(/(?<![\p{L}])xong(?![\p{L}])(?!\s+xuôi)/giu);
+  if (tren1000(xong) < 6) {
+    canhBao.push(`"xong" ${xong} lần (${tren1000(xong).toFixed(1)}/1000, cần ≥6) — đây là khớp nối của giọng kể miệng`);
+  }
+
+  // B9 — thán từ vấp giọng. Bỏ `à`, `ê`, `ối`, `ok`: `à mà`, `à ừ` là hư từ
+  // thường, `ok` bắt trúng mọi câu chat.
+  const vap = (voTatCa.match(/(^|[.!?…]\s+)(Ơ|ơ|Ờ|ờ|Ủa|ủa|uây|Uây|ê ê)(?![\p{L}])/gu) ?? []).length;
+  if (tren1000(vap) < 4) {
+    canhBao.push(`thán từ vấp giọng ${vap} lần (${tren1000(vap).toFixed(1)}/1000, cần ≥4) — mở câu bằng "Ơ", "Ủa" để nghe như người đang nhớ ra`);
+  }
+
+  // B4 — misdirection: câu dài dựng kỳ vọng, câu ngắn ngay sau lật nghĩa.
+  const csAll = cau(voTatCa);
+  let lat = 0;
+  for (let k = 0; k + 1 < csAll.length; k++) {
+    if (tu(csAll[k]).length > 12 && tu(csAll[k + 1]).length <= 5 && /^(Không|Hoá ra|Hóa ra|Đúng|Chả|Có|Sai)/.test(csAll[k + 1])) lat++;
+  }
+  if (tren1000(lat) < 1) {
+    canhBao.push(`${lat} cú lật câu ngắn (cần ≥1/1000 từ) — dựng một câu dài rồi đạp bằng câu ≤5 từ: "Không." / "Hoá ra không."`);
+  }
+
+  // B11 — đổi ngôi để tự chấm điểm mình. Mục sạch nhất cả bộ: không cần từ điển
+  // ngôi, tự tìm đại từ chủ đạo rồi bắt lần người kể đổi sang ngôi khác để phán
+  // xét chính mình.
+  const NGOI = ['tôi', 'mình', 'tao', 'tui', 'anh', 'em'];
+  const demNgoi = NGOI.map((x) => [x, dem(new RegExp(`(?<![\\p{L}])${x}(?![\\p{L}])`, 'giu'))]).sort((a, b) => b[1] - a[1]);
+  const chinh = demNgoi[0]?.[1] ? demNgoi[0][0] : null;
+  if (chinh) {
+    const thieuSo = NGOI.filter((x) => x !== chinh);
+    const doi = csAll.filter(
+      (c) =>
+        thieuSo.some((x) => new RegExp(`(?<![\\p{L}])${x}(?![\\p{L}])`, 'iu').test(c)) &&
+        /(ác|tệ|ngu|hèn|dở|khốn|thảm|nhục)/iu.test(c)
+    ).length;
+    if (!doi) {
+      canhBao.push(`không có câu nào đổi ngôi để tự phán xét (đang xưng "${chinh}") — một lần gọi mình bằng ngôi khác kèm từ đánh giá ("thằng đó ác thật") là một điểm cười rẻ mà chắc`);
+    }
   }
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Img, staticFile} from 'remotion';
 import {NEN, net as tinhNet} from '../rig/hinh';
 import {NhanVat} from '../rig/nhan-vat';
-import {KIEU} from '../rig/kieu';
+import {KIEU, type Kieu} from '../rig/kieu';
 import {TU_THE} from '../rig/tu-the';
 import {CO_CANH, DienVien, PropTuVe, type BoiCanhTuVe, type DoCamTuVe} from '../board/kieu-board';
 
@@ -19,6 +19,7 @@ import {sinhAct, trangThaiTai} from '../act';
 import {PROPS} from '../props';
 import {ChuTrenMan} from '../chu';
 import {AnhChen} from '../insert';
+import {OChenVe} from './chen';
 import type {Cum} from '../../engine/neo';
 import {ShotDung, MouthTrack, VoiceTrack, miengTaiFrame, cumTaiFrame, f} from './du-lieu';
 import {FPS} from '../../engine/theme';
@@ -50,9 +51,11 @@ type P = {
   propTuVe?: Record<string, PropTuVe>;
   boiCanhTuVe?: Record<string, BoiCanhTuVe>;
   doCamTuVe?: Record<string, DoCamTuVe>;
+  /** nhân vật riêng của dự án (board.nhan_vat_tu_ve) — đè lên KIEU khi trùng tên */
+  nhanVatTuVe?: Record<string, Kieu>;
 };
 
-export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voice, nguoiKe, id, propTuVe, boiCanhTuVe, doCamTuVe}) => {
+export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voice, nguoiKe, id, propTuVe, boiCanhTuVe, doCamTuVe, nhanVatTuVe}) => {
   const co = CO_CANH[shot.co];
   const dau = co.dau;
   const net = tinhNet(dau);
@@ -72,9 +75,18 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
     );
   }
 
-  // ── zoom bước cứng ───────────────────────────────────────────────
+  // ── zoom: bước cứng, và đẩy máy mượt ─────────────────────────────
   let zoom = 1;
   for (const [tai, z] of shot.zoom_buoc ?? []) if (t >= tai) zoom = z;
+  // Đẩy máy mượt đè lên: nội suy ease-in-out từ `tu` tới `den`. Chỉ MÁY mượt —
+  // tư thế/mắt/miệng vẫn snap, nên không mất chất vẽ tay.
+  if (shot.zoom) {
+    const a = shot.zoom.tu_giay ?? 0;
+    const b = shot.zoom.den_giay ?? shot.len / FPS;
+    const u = b > a ? Math.min(1, Math.max(0, (t - a) / (b - a))) : 1;
+    const e = u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+    zoom = shot.zoom.tu + (shot.zoom.den - shot.zoom.tu) * e;
+  }
 
   // ── diễn viên ────────────────────────────────────────────────────
   const dien = shot.dien ?? (shot.loai === 'truc-dien' ? [{kieu: nguoiKe, x: 0.72, noi: true}] : []);
@@ -91,7 +103,9 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
     // mẫu hành động (dv.mau) bung thành act rồi trộn với act thủ công; trạng thái = mốc cuối ≤ t (snap)
     const s = trangThaiTai(sinhAct(dv, daiShot), dv, t, k * 3);
     if (s.hien === false) return null;
-    const kieu = KIEU[dv.kieu] ?? KIEU.trang;
+    // Nhân vật của board THẮNG nhân vật thư viện khi trùng tên — cho phép dự án
+    // đổi màu áo / đổi loài cho một nhân vật có sẵn mà không sửa thư viện chung.
+    const kieu = nhanVatTuVe?.[dv.kieu] ?? KIEU[dv.kieu] ?? KIEU.trang;
     const noi = dv.noi ?? (!coNoi && k === 0 && shot.loai === 'truc-dien');
     const phu = kieu.khung === 'phu' ? 0.82 : 1;
     const coRieng = (dv.co ?? 1) * phu;
@@ -190,6 +204,13 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
             {props}
             {nv}
             {propsTruoc}
+            {/* ô chèn vẽ SAU CÙNG trong sân khấu: nó phải nằm trên nhân vật và
+                prop, vì cả điểm của nó là "bằng chứng đập vào mặt" giữa lúc kể. */}
+            {(shot.chen ?? [])
+              .filter((c) => t >= (c.tai ?? 0) && (c.dai == null || t < (c.tai ?? 0) + c.dai))
+              .map((c, i) => (
+                <OChenVe key={`chen-${i}`} chen={c} W={W} H={H} net={net} frame={frame - f(c.tai ?? 0)} propTuVe={propTuVe} />
+              ))}
           </g>
         </g>
       </svg>

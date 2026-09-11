@@ -7,7 +7,7 @@
  *   1 kich-ban   kiểm scripts/<ten>.json (trường bắt buộc, project) rồi chạy cổng chấm
  *                pipeline/cham-kich-ban.mjs (số từ, câu dài, sáo ngữ, tiếng Anh trần, rubric tự chấm ≥ 7)
  *                — exit ≠ 0 → dừng; --bo-cham bỏ qua cổng khi người dùng cố ý
- *   2 giong      node pipeline/tts-gemini.mjs      (cần GEMINI_API_KEYS trong .env)
+ *   2 giong      node pipeline/tts-gemini.mjs      (cần GEMINI_API_KEYS hoặc LITELLM_KEYS trong .env)
  *   3 nhip       node pipeline/analyze-voice.mjs
  *   4 mieng      node pipeline/lipsync.mjs
  *   5 board      đòi src/projects/<du-an>/board.json — chưa có thì DỪNG và in hướng dẫn
@@ -22,11 +22,17 @@
  * Thoát 0 khi có video và điểm ≥ 90; 1 khi có video nhưng điểm thấp; 3 khi dừng chờ board.
  */
 import {execFileSync, spawnSync} from 'node:child_process';
-import {existsSync, mkdirSync, readFileSync, writeFileSync} from 'node:fs';
+import {existsSync, mkdirSync, readFileSync, renameSync, writeFileSync} from 'node:fs';
 import path from 'node:path';
-import {coTrinhDuyet} from './moi-truong.mjs';
+import {coTrinhDuyet, timLibDir} from './moi-truong.mjs';
 
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
+
+// ffmpeg đi kèm Remotion; tên gói mang cả hậu tố libc trên Linux nên phải dò,
+// không cắm cứng darwin-arm64.
+const LIBDIR_FF = timLibDir(ROOT) ?? path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64');
+const FFMPEG = path.join(LIBDIR_FF, 'ffmpeg');
+const ENV_FF = {...process.env, DYLD_LIBRARY_PATH: LIBDIR_FF, LD_LIBRARY_PATH: LIBDIR_FF};
 const args = process.argv.slice(2);
 const TEN = args.find((a) => !a.startsWith('--'));
 const opt = (k) => {
@@ -92,7 +98,13 @@ if (chay('kich-ban')) {
 // 2–4
 if (chay('giong')) {
   tieuDe('2/11 giọng đọc');
-  if (!process.env.GEMINI_API_KEYS && !process.env.GEMINI_API_KEY) dung('thiếu GEMINI_API_KEYS trong .env');
+  // Hai đường đọc giọng: Gemini trực tiếp (AIza…) và proxy LiteLLM (sk-…). Chỉ cần
+  // MỘT trong hai là chạy được. Bản trước chỉ kiểm GEMINI_API_KEYS nên máy có đủ
+  // khoá LiteLLM vẫn bị chặn ở đây, và lời báo lỗi còn chỉ người dùng đi dán thêm
+  // khoá Gemini — sai hướng hoàn toàn.
+  if (!process.env.GEMINI_API_KEYS && !process.env.GEMINI_API_KEY && !process.env.LITELLM_KEYS && !process.env.LITELLM_KEY) {
+    dung('chưa có khoá đọc giọng — cần GEMINI_API_KEYS (AIza…) hoặc LITELLM_KEYS (sk-…) trong .env');
+  }
   mkdirSync(path.join(ROOT, `src/projects/${DU_AN}/data`), {recursive: true});
   if (node('pipeline/tts-gemini.mjs', TEN) !== 0) dung('tts-gemini lỗi (hết hạn mức? xem log)');
 }
@@ -198,6 +210,28 @@ if (chay('render')) {
   tieuDe('10/11 render');
   const r = spawnSync('bash', ['render-segments.sh', `V2-${TEN}`, mp4], {cwd: ROOT, stdio: 'inherit', env: {...process.env, SEG_LEN: process.env.SEG_LEN ?? '900'}});
   if (r.status !== 0 || !existsSync(path.join(ROOT, mp4))) dung('render lỗi');
+
+  /**
+   * BẢN XEM NHANH — cùng phim, 640×360, ~450 kbps.
+   *
+   * Vì sao phải có: dashboard KHÔNG lấy được file từ instance bằng URL. Mọi lời
+   * gọi plugin đi qua plugin-proxy của platform — POST trả JSON, cap 10 MB — nên
+   * cách duy nhất đưa phim lên màn là nhét cả file vào JSON dạng data URI. Bản
+   * gốc 1920×1080 nặng 12 MB, base64 thành 16 MB: vượt cap. Bản 640×360 của
+   * cùng phim này nặng ~2 MB, base64 ~2,7 MB — lọt.
+   *
+   * Bản gốc vẫn là bản giao; đây chỉ để xem trên dashboard.
+   */
+  const xem = `media/outbound/${TEN}.xem.mp4`;
+  const rx = spawnSync(
+    FFMPEG,
+    ['-y', '-i', path.join(ROOT, mp4), '-vf', 'scale=640:-2', '-c:v', 'libx264', '-preset', 'veryfast',
+     '-b:v', '450k', '-maxrate', '600k', '-bufsize', '1200k', '-c:a', 'aac', '-b:a', '64k',
+     '-movflags', '+faststart', path.join(ROOT, xem)],
+    {cwd: ROOT, stdio: 'ignore', env: ENV_FF}
+  );
+  if (rx.status === 0) console.log(`  ✓ bản xem nhanh: ${xem}`);
+  else console.log('  ⚠ không tạo được bản xem nhanh — dashboard sẽ không xem được trong khung (file gốc vẫn có)');
 }
 // 11
 if (chay('cham')) {
@@ -237,6 +271,33 @@ ${MOC_CUOI}`;
     md = `# ${TEN}.mp4 — ${kb.title ?? TEN}\n\n${khoi}\n\nNhạc nền CC BY — ghi công theo public/audio/CREDITS.md khi đăng.\n`;
   }
   writeFileSync(duongMd, md);
+
+  /**
+   * DƯỚI NGƯỠNG THÌ KHÔNG ĐƯỢC GIAO.
+   *
+   * Trước đây bước này chỉ `exit 1` rồi thôi — file vẫn nằm nguyên trong
+   * media/outbound/, dashboard vẫn liệt kê, agent vẫn nói "đã xong". Kết quả:
+   * một bản 76% (thẻ chữ chiếm 27% số shot, không ô chèn nào) được giao như hàng
+   * đạt, và người xem phải tự phát hiện. Bao nhiêu lần bị chê "y như cũ" đều lọt
+   * qua đúng chỗ này.
+   *
+   * Giờ dưới ngưỡng thì phim bị dời sang media/nhap/ — còn nguyên để xem và sửa,
+   * nhưng KHÔNG nằm ở chỗ dành cho hàng giao.
+   */
+  if (diem < 90) {
+    const nhap = path.join(ROOT, 'media/nhap');
+    mkdirSync(nhap, {recursive: true});
+    for (const f of [`${TEN}.mp4`, `${TEN}.xem.mp4`, `${TEN}.md`]) {
+      const tu = path.join(ROOT, 'media/outbound', f);
+      if (existsSync(tu)) renameSync(tu, path.join(nhap, f));
+    }
+    console.log(
+      `\n✗ ${diem}% < 90% — CHƯA ĐẠT, không giao.\n` +
+        `  Phim nằm ở media/nhap/${TEN}.mp4 để xem và sửa.\n` +
+        `  Sửa board theo các dòng ✗ ở trên rồi chạy lại: node pipeline/tao-video.mjs ${TEN} --lam-lai --tu render\n` +
+        `  ĐỪNG báo với chủ nhân là đã xong.`
+    );
+    process.exit(1);
+  }
   console.log(`→ ${mp4} + media/outbound/${TEN}.md`);
-  process.exit(diem >= 90 ? 0 : 1);
 }

@@ -135,5 +135,9 @@ while [ "$start" -lt "$TOTAL" ]; do
   start=$((end + 1))
 done
 
+# Thư mục đích có thể chưa tồn tại: git không giữ thư mục rỗng nên bản cài mới
+# không có media/outbound/, và ffmpeg báo lỗi ở ĐÚNG bước cuối — sau khi đã render
+# xong mọi đoạn, tức là mất cả lượt render.
+mkdir -p "$(dirname "$OUT")"
 "$FFMPEG" -y -f concat -safe 0 -i "$list" -c copy "$OUT"
 echo "-> $OUT"

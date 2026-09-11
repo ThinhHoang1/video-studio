@@ -478,6 +478,76 @@ if (board) {
   for (const id of chuongKichBan.keys()) nhac(chuongBoard.has(id), `kịch bản có chương "${id}" nhưng bảng phân cảnh không có`);
 }
 
+/**
+ * ── BA LUẬT CHỐNG "DỰNG THEO LỐI CŨ" (thêm 2026-09-11) ──────────────────
+ *
+ * Đo trên cả board, không theo chương. Cả ba đều CHẶN, vì cả ba đã được xác
+ * nhận bằng một bản phim thật bị chê nặng: 13/49 shot là thẻ chữ (phần lớn là
+ * một con số đồng hồ giữa màn trắng), không một ô chèn nào, không một cú đẩy
+ * máy nào. Bản đó vẫn qua validator cũ và vẫn được giao.
+ *
+ * Chặn ở đây chứ không chỉ ở bảng chấm: bảng chấm chạy SAU render, tức là sau
+ * 40 phút và sau khi đã tốn hạn mức TTS.
+ */
+if (board?.chuong?.length) {
+  const tatCaShot = board.chuong.flatMap((c) => c.shots ?? []);
+  const n = tatCaShot.length;
+  if (n >= 10) {
+    const theChu = tatCaShot.filter((x) => x.loai === 'chu' || (x.chu?.length && !(x.dien ?? []).length)).length;
+    if (theChu / n > 0.15) {
+      loi.push(
+        `thẻ chữ chiếm ${theChu}/${n} shot (${((theChu / n) * 100).toFixed(0)}%) — tối đa 15%. ` +
+          `Thẻ chữ là lối thoát rẻ tiền: không phải vẽ, không phải diễn, mà vẫn chiếm thời lượng. ` +
+          `Thay bằng cảnh có nhân vật, hoặc đặt con số vào ô chèn (\`chen\`) trong chính cảnh đang diễn.`
+      );
+    }
+    const oChen = tatCaShot.filter((x) => (x.chen ?? []).length).length;
+    if (!oChen) {
+      loi.push(
+        `không có ô chèn (\`chen\`) nào trong cả board — xem references/dao-dien.md mục 8b. ` +
+          `Ảnh/thẻ chữ/đồ vật bật lên NGAY TRONG khung đang diễn là cách đổi hình mà không cắt mạch kể.`
+      );
+    }
+    // ── HAI NHÂN VẬT TRONG KHUNG ──
+    // Đo bản bị chê: 34/49 shot có đúng MỘT người đứng một mình, 3 shot có từ hai.
+    // Kênh tham chiếu thì gần như khung nào cũng hai nhân vật phản ứng với nhau —
+    // cái buồn cười nằm ở QUAN HỆ giữa hai cái mặt, không nằm ở lời kể. Một người
+    // đứng nói suốt video là định nghĩa của "đọc chính tả có hình".
+    const coDien = tatCaShot.filter((x) => (x.dien ?? []).length);
+    const doi = coDien.filter((x) => (x.dien ?? []).length >= 2).length;
+    if (coDien.length >= 8 && doi / coDien.length < 0.35) {
+      loi.push(
+        `chỉ ${doi}/${coDien.length} shot có từ hai nhân vật (${((doi / coDien.length) * 100).toFixed(0)}%) — cần ≥ 35%. ` +
+          `Thêm người thứ hai để có đối đáp; hết người thì dùng thú: ca-sau, meo, cho, gau, tho, ky-lan. ` +
+          `Nhân vật riêng của chuyện thì khai trong \`board.nhan_vat_tu_ve\` rồi xem bằng: node pipeline/xem-nhan-vat.mjs <du-an>`
+      );
+    }
+
+    // ── ĐỔI CỠ CẢNH ──
+    // 33/49 shot của bản bị chê không khai `co` → dùng mặc định, tức cả video một
+    // cỡ. Tham chiếu nhảy cỡ liên tục: toàn thân rồi cắt phăng sang cực cận.
+    const coCo = new Set(tatCaShot.filter((x) => x.co).map((x) => x.co));
+    const thieuCo = tatCaShot.filter((x) => !x.co).length;
+    if (thieuCo / n > 0.4) {
+      loi.push(
+        `${thieuCo}/${n} shot không khai \`co\` — cả video một cỡ cảnh thì khung nào cũng như khung nào. ` +
+          `Khai rõ: rong | trung | can | sat | nho.`
+      );
+    }
+    if (coCo.size < 3) {
+      loi.push(`chỉ ${coCo.size} cỡ cảnh khác nhau (${[...coCo].join(', ') || 'không có'}) — cần ≥ 3, và ít nhất một cú \`sat\` cắt cụt mặt.`);
+    }
+
+    const zoom = tatCaShot.filter((x) => x.zoom).length;
+    if (zoom / n < 0.15) {
+      loi.push(
+        `chỉ ${zoom}/${n} shot có đẩy máy mượt (\`zoom\`) — cần ≥ 15%. ` +
+          `Shot dài mà máy đứng im là chết hình; \`zoom: {tu: 1, den: 1.08}\` đủ để mắt luôn có việc.`
+      );
+    }
+  }
+}
+
 // ── kết quả ────────────────────────────────────────────────────────────
 if (thongKe.length) {
   console.log(`  ${'chương'.padEnd(12)} ${'shot'.padStart(4)} ${'dài'.padStart(6)} ${'TB/shot'.padStart(8)} ${'trung vị'.padStart(9)} ${'trực diện'.padStart(10)} ${'chữ'.padStart(4)}`);

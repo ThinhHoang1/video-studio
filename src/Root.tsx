@@ -1,13 +1,6 @@
 import React from 'react';
 import {Composition} from 'remotion';
 import {FPS} from './engine/theme';
-import {RaTruongVui2, VUI2_DURATION} from './projects/ra-truong/vui';
-import {RaTruong, RATRUONG_DURATION} from './projects/ra-truong/buon';
-import {TinhDau, PHIM_DURATION} from './projects/tinh-dau/phim';
-import {PoseTest} from './dev/pose-test';
-import {CastTest} from './dev/cast-test';
-import {CanhTest} from './dev/canh-test';
-import {AnDuTest} from './dev/an-du-test';
 import {RigV2Test, RIG_TEST_W, RIG_TEST_H} from './v2/dev/rig-test';
 import {DU_AN_V2} from './projects/du-an.generated';
 import {PropTuVeXem, XEM_W, XEM_H} from './v2/dev/prop-tu-ve-xem';
@@ -17,14 +10,20 @@ import {BanSacTest, BAN_SAC_W, BAN_SAC_H} from './v2/dev/ban-sac-test';
 import {Avatar, AVATAR_W, AVATAR_H} from './v2/dev/avatar';
 import {Bia, BIA_W, BIA_H} from './v2/dev/bia';
 import {BiaKenh, KENH_W, KENH_H} from './v2/dev/bia-kenh';
+import {DanNhanVat, DAN_W, DAN_H} from './v2/dev/dan-nhan-vat';
 
 /**
  * Chỉ đăng ký những composition đang dùng.
  * Các thí nghiệm cũ nằm ở src/attic/ — giữ để tham khảo, không build.
+ *
+ * ⚠️ KHÔNG import gì từ `src/dev/` hay `src/projects/<dự-án-V1>/`. Bundle giao cho
+ * OpenClaw chỉ mang `src/v2/**` + dự án V2 sinh tự động; mọi import khác làm
+ * Remotion CHẾT NGAY LÚC BUNDLE — không phải lúc render một composition cụ thể —
+ * nên một import thừa giết mọi video. Đã xảy ra thật: `./projects/ra-truong/vui`
+ * còn sót trong file này chặn render của một dự án chẳng liên quan.
  */
 export const RemotionRoot: React.FC = () => (
   <>
-    <Composition id="TinhDau" component={TinhDau} durationInFrames={PHIM_DURATION} fps={FPS} width={1920} height={1080} />
     {/* dự án V2 — sinh tự động bởi pipeline/dang-ky.mjs, id "V2-<ten>" */}
     {DU_AN_V2.map((p) => (
       <Composition key={p.id} id={p.id} component={p.Phim} durationInFrames={p.total} fps={FPS} width={1920} height={1080} />
@@ -39,26 +38,7 @@ export const RemotionRoot: React.FC = () => (
     {/* Facebook cover có tỉ lệ khác hẳn YouTube nên phải là composition riêng — không đổi
         được kích thước bằng --props. */}
     <Composition id="BiaKenhFb" component={BiaKenh} durationInFrames={1} fps={FPS} width={1640} height={856} defaultProps={{khung: 'facebook' as const}} />
+    <Composition id="DanNhanVat" component={DanNhanVat} durationInFrames={1} fps={FPS} width={DAN_W} height={DAN_H} defaultProps={{}} />
     <Composition id="BanSacTest" component={BanSacTest} durationInFrames={30} fps={FPS} width={BAN_SAC_W} height={BAN_SAC_H} />
-    <Composition id="CanhTest" component={CanhTest} durationInFrames={90} fps={FPS} width={2560} height={1080} />
-    <Composition id="CastTest" component={CastTest} durationInFrames={60} fps={FPS} width={2400} height={900} />
-    <Composition id="AnDuTest" component={AnDuTest} durationInFrames={90} fps={FPS} width={2560} height={1080} />
-    <Composition id="PoseTest" component={PoseTest} durationInFrames={60} fps={FPS} width={2400} height={1400} />
-    <Composition
-      id="RaTruongVui"
-      component={RaTruongVui2}
-      durationInFrames={VUI2_DURATION}
-      fps={FPS}
-      width={1920}
-      height={1080}
-    />
-    <Composition
-      id="RaTruongBuon"
-      component={RaTruong}
-      durationInFrames={RATRUONG_DURATION}
-      fps={FPS}
-      width={1920}
-      height={1080}
-    />
   </>
 );
