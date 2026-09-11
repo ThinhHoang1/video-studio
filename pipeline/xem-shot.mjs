@@ -14,6 +14,16 @@ import {existsSync, mkdirSync, readFileSync} from 'node:fs';
 import path from 'node:path';
 import {coTrinhDuyet} from './moi-truong.mjs';
 
+/**
+ * Cổng cho HTTP server mà remotion dựng lên để phục vụ bundle. GHIM vào dải 39xxx:
+ * mặc định remotion bò từ 3000 lên, mà 3000 là cổng Platform-BE của workspace này.
+ * Đã xảy ra thật (2026-09-11): một tiến trình render treo giữ cổng 3000 gần 16 giờ,
+ * stack-up.sh thấy "cổng 3000 có người nghe" nên bỏ qua việc khởi động BE — FE rơi
+ * về màn onboarding, nhìn như mất sạch instance và use-case.
+ */
+const CONG = ['--port', process.env.REMOTION_PORT ?? '39171'];
+
+
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
 const args = process.argv.slice(2);
 const CO_GIA_TRI = new Set(['--lech', '--chon']);
@@ -76,7 +86,7 @@ const CO_TD = coTrinhDuyet(); // dò trình duyệt theo máy (macOS / Linux / W
 const outDir = path.join(ROOT, `out/${TEN}`);
 mkdirSync(outDir, {recursive: true});
 const render = (frame, out) => {
-  execFileSync('npx', ['remotion', 'still', 'src/index.ts', `V2-${TEN}`, out, '--frame', String(frame), ...CO_TD, '--log=error'], {cwd: ROOT, stdio: 'inherit'});
+  execFileSync('npx', ['remotion', 'still', 'src/index.ts', `V2-${TEN}`, out, '--frame', String(frame), ...CO_TD, ...CONG, '--log=error'], {cwd: ROOT, stdio: 'inherit'});
   console.log(`→ ${path.relative(ROOT, out)}  (frame ${frame})`);
 };
 

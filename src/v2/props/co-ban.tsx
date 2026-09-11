@@ -2,6 +2,12 @@ import React from 'react';
 import {MUC, NEN} from '../rig/hinh';
 
 /**
+ * Màu tô thân prop. Mặc định trắng nền; shot khai `prop[].mau` thì renderer đặt
+ * biến CSS --to nên prop đổi màu mà KHÔNG phải sửa từng file (xem src/v2/phim/nen.tsx).
+ */
+const TO = 'var(--to, #fdfdfd)';
+
+/**
  * Nền tảng vẽ prop V2.
  *
  * Quy ước (đo từ tham chiếu, reports/net-ve.md mục 3 + shot.md mục 5):
@@ -54,7 +60,7 @@ export const gapKhuc = (...ps: Diem[]) => 'M ' + ps.map((p) => `${r1(p[0])} ${r1
 export const Goc: React.FC<PropProps & {children?: React.ReactNode}> = ({x, y, co, net, flip, children}) => (
   <g
     transform={`translate(${r1(x)} ${r1(y)}) scale(${flip ? -co : co} ${co})`}
-    fill={NEN}
+    fill={TO}
     stroke={MUC}
     strokeWidth={net}
     strokeLinecap="round"

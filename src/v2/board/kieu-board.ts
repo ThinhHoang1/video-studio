@@ -114,7 +114,12 @@ export type DienVien = {
   toc?: {mau: string; mai: 'lech-phai' | 'lech-trai' | 'ngang' | 're-giua' | 'hat' | 'dung'; lon: 0 | 2 | 4; sau: 'khong' | 'bob' | 'dai' | 'duoi-ngua' | 'bui' | 'ngan'};
 };
 
-/** prop vẽ nét đen không tô trên nền trắng — tên phải có trong PROP_TEN */
+/** nền phức: màu + hoạ tiết, hoặc chuyển sắc dọc */
+export type NenPhuc =
+  | {mau: string; hoa_tiet?: 'toa' | 'cheo' | 'cham' | 'song'}
+  | {tren: string; duoi: string};
+
+/** prop vẽ nét đen, tô trắng hoặc tô màu — tên phải có trong PROP_TEN */
 export type Prop = {
   ten: string;
   /** tâm đáy prop theo tỉ lệ khung */
@@ -129,6 +134,12 @@ export type Prop = {
   truoc?: boolean;
   /** chữ điền vào prop có nhãn (bang-hieu, hop-nhan, bieu-tuong...) */
   chu?: string;
+  /**
+   * Tô MÀU thân prop thay cho tô trắng. Nét đen giữ nguyên, chỉ phần fill đổi.
+   * Dùng để prop nổi trên nền màu và để khung hình có màu như tham chiếu.
+   * Không lạm dụng: 1–2 prop có màu mỗi shot là đủ, nhiều hơn thì khung loạn.
+   */
+  mau?: string;
 };
 
 /**
@@ -317,8 +328,23 @@ export type Shot = {
   dai?: number;
   loai?: LoaiShot;
   co?: CoCanh;
-  /** nền: 'trang' (mặc định) */
-  nen?: 'trang';
+  /**
+   * NỀN CỦA SHOT. Mặc định 'trang'.
+   *
+   * Vì sao có: đo Monsieur Tuna (docs/nghien-cuu-tuna.md) thì mỗi 0.8 giây khung hình
+   * đổi hẳn — ảnh thật, meme, nền màu, thẻ chữ — nên cắt nhanh mà không thấy vụn.
+   * Repo này nền trắng trơn nên cắt nhanh thì trống, cắt chậm thì đứng hình: không
+   * có đường thoát bằng cách chỉnh nhịp, phải có LỚP NỀN.
+   *
+   *   'trang'                nền trắng (mặc định, giữ chất storytime)
+   *   '#rrggbb'              nền màu phẳng — dùng cho thẻ chữ, cú sốc, chương cảm xúc
+   *   {mau, hoa_tiet}        nền màu + hoạ tiết nét trắng: 'toa' (tia toả), 'cheo'
+   *                          (sọc chéo), 'cham' (chấm bi), 'song' (sóng zigzag)
+   *   {tren, duoi}           chuyển sắc dọc (bầu trời, hoàng hôn, đêm)
+   *
+   * Nền KHÔNG BAO GIỜ có nét đen — chữ và nhân vật mới là nét. Nền chỉ là mảng màu.
+   */
+  nen?: 'trang' | string | NenPhuc;
   /** bối cảnh dựng sẵn (src/v2/boi-canh.ts): 'lop-hoc', 'san-truong', 'phong-ngu'... — bung thành prop, prop khai thêm vẽ chồng lên */
   boi_canh?: string;
   prop?: Prop[];

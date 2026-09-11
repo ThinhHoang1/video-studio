@@ -180,6 +180,81 @@ if (!BT && tatCaTu.length >= 3) {
   if (cb.length < 2) canhBao.push(`callback: chương cuối không nhặt lại từ khoá gieo trước — twist/callback yếu (thấy: ${cb.join(', ') || 'không có'})`);
 }
 
+/**
+ * MẠCH CHUYỆN — ba phép đo bắt lỗi "chương rời nhau, không có sự kết nối".
+ *
+ * Vì sao cần: cổng cũ chấm TỪNG CHƯƠNG rất kỹ (số từ, câu ngắn, chi tiết, tiếng
+ * đệm) nhưng KHÔNG đo quan hệ GIỮA các chương. Một kịch bản 14 chương đều đạt
+ * mọi tiêu chí lẻ vẫn có thể là 14 mẩu rời — đúng lời người dùng chê: "chưa có
+ * sự kết nối". Đo trên len-sai-gon bản đầu: chương "ben-xe" không chia sẻ MỘT
+ * từ neo nào với chương trước nó.
+ *
+ * "Từ neo" = từ mang nội dung: tên riêng, đồ vật, nơi chốn, con số. KHÔNG tính
+ * động từ nói năng (bảo, nói, hỏi) và từ chức năng — hai chương bất kỳ đều dùng
+ * chung chúng, nên nếu tính thì phép đo luôn báo "đã nối" dù thật ra rời nhau.
+ */
+const TU_CHUC_NANG = new Set(
+  ('mình tôi tao mày anh chị em con cái các bạn là của có không được một hai ba bốn năm sáu bảy tám chín mười và với thì mà cũng ở đi về cho nhưng rồi lại như thế này đó ấy nữa rất chỉ đã sẽ vẫn nào ra vào lên xuống nó người nhá đấy ạ ừ ờ luôn kiểu nhỉ chứ đâu ai gì sao vì tại nên hay hoặc khi lúc còn hết mới xong thật quá lắm nhiều ít bị được phải cần muốn thấy nghĩ biết nhớ quên bảo nói hỏi kêu nhắn rep trả lời cười khóc làm ăn uống ngủ ngồi đứng nằm chạy đi đứng nhìn nghe đưa cầm đặt để lấy cho tặng mất còn thêm bớt').split(' ')
+);
+/** tách từ mang nội dung của một chương */
+const tuNeo = (vo) =>
+  new Set(
+    String(vo)
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+      .split(/\s+/)
+      .filter((w) => w.length >= 3 && !TU_CHUC_NANG.has(w))
+  );
+/** từ mở đầu cho biết chương này NỐI TIẾP chương trước chứ không bắt đầu lại từ đầu */
+const TU_NOI = /^(xong|rồi|thế là|nhưng|mà|tới|đến|sau|hôm|tháng|tuần|năm|ngày|từ|cho tới|kể từ|được|vừa|mới|chưa|cuối|đầu|giữa|sáng|trưa|chiều|tối|đêm|tết|lúc|khi|hồi|bây giờ|giờ|cái này|chuyện|rốt cuộc|hoá ra|hóa ra|riêng|còn)/i;
+
+if ((kb.chapters ?? []).length >= 3) {
+  const neo = kb.chapters.map((c) => tuNeo(c.vo ?? ''));
+  const ten = kb.chapters.map((c) => c.id);
+  // 1. cầu nối giữa hai chương liền nhau
+  for (let i = 1; i < neo.length; i++) {
+    const chung = [...neo[i]].filter((w) => neo[i - 1].has(w));
+    if (!chung.length) {
+      loi.push(
+        `ĐỨT MẠCH: chương "${ten[i]}" không nhắc lại một thứ nào của chương "${ten[i - 1]}" — ` +
+          `người xem đang nghe một chuyện thì bị quăng sang chuyện khác. Sửa: mở chương "${ten[i]}" ` +
+          `bằng một câu nhắc lại đồ vật / con số / tên riêng vừa kể.`
+      );
+    } else if (chung.length === 1) {
+      canhBao.push(`mạch yếu: chương "${ten[i]}" chỉ nối với chương trước bằng đúng một từ ("${chung[0]}") — nên có thêm một mối`);
+    }
+  }
+  // 2. CÂU ĐẦU của chương phải tự nó nối về chương trước.
+  //    Đo bằng nội dung, không bằng từ mở đầu: "Hai triệu ấy, ở quê mình…" nối rất
+  //    chặt dù không bắt đầu bằng "Xong/Rồi". Bản trước dò từ nối ở đầu câu nên báo
+  //    nhầm 6/14 chương — một phép đo kêu nhiều mà sai thì người viết sẽ học cách
+  //    phớt lờ cả cổng.
+  for (let i = 1; i < kb.chapters.length; i++) {
+    const dauCauVan = cau(kb.chapters[i].vo ?? '')[0] ?? '';
+    const noiNgay = [...tuNeo(dauCauVan)].some((w) => neo[i - 1].has(w));
+    const coTuNoi = TU_NOI.test(dauCauVan.trim());
+    if (!noiNgay && !coTuNoi) canhBao.push(`chương "${ten[i]}" mở bằng "${dauCauVan.split(/\s+/).slice(0, 5).join(' ')}…" — câu đầu không nhắc gì tới chương trước và cũng không có từ nối; người xem phải tự bắc cầu`);
+  }
+  // 3. setup phải có payoff: tên riêng chỉ xuất hiện ở ĐÚNG MỘT chương = nhân vật dùng một lần rồi vứt
+  const dem = new Map();
+  for (const [i, c] of kb.chapters.entries()) {
+    const cs = cau(c.vo ?? '');
+    const dauCau = new Set(cs.map((x) => tu(x)[0]?.replace(/[^\p{L}]/gu, '')));
+    // gom cụm viết hoa liên tiếp thành MỘT tên ("Miền Đông", "Sài Gòn") — tách rời
+    // thì "Miền" và "Gòn" thành hai nhân vật ma, báo nhầm là gieo-không-gặt.
+    // Bỏ từ đứng ngay sau "thứ"/"tháng" (thứ Bảy, tháng Tư — là ngày tháng, không phải tên).
+    const cum = (c.vo ?? '').match(/(?<!(?:thứ|tháng) )\b[A-ZĐÂĂÊÔƠƯ][a-zà-ỹ]{2,}(?: [A-ZĐÂĂÊÔƠƯ][a-zà-ỹ]{2,})*/g) ?? [];
+    for (const t of cum) {
+      if (dauCau.has(t.split(' ')[0])) continue;
+      if (!dem.has(t)) dem.set(t, new Set());
+      dem.get(t).add(i);
+    }
+  }
+  for (const [t, o] of dem) {
+    if (o.size === 1 && kb.chapters.length >= 6) canhBao.push(`"${t}" chỉ xuất hiện ở một chương ("${ten[[...o][0]]}") rồi biến mất — gieo mà không gặt; nhắc lại ở chương sau hoặc bỏ hẳn`);
+  }
+}
+
 // chống chép lại kịch bản đã có trong repo
 for (const t of trungLap()) {
   if (t.max > 0.45) {

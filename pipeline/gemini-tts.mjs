@@ -128,7 +128,10 @@ export const speak = async (opts) => {
       return await speakOnce({...opts, key: slot.key, model: opts.model ?? slot.model});
     } catch (err) {
       const quota = /quota|rate limit|resource_exhausted/i.test(err.message);
-      const transient = /unavailable|internal error|deadline|overloaded|không có audio|quá dài/i.test(err.message);
+      // "high demand" là 503 tạm thời của Gemini — trước đây KHÔNG nằm trong danh sách
+      // nên nó ném thẳng ra ngoài và giết cả mẻ đọc, mất sạch các chương đang chạy
+      // song song. Đo 2026-09-11: một mẻ 14 chương chỉ đọc xong 1 chương vì lỗi này.
+      const transient = /unavailable|internal error|deadline|overloaded|high demand|503|temporar|không có audio|quá dài/i.test(err.message);
       if (!quota && !transient) throw err;
       const short = slot.model.replace('gemini-', '').replace('-preview', '');
       const soKey = apiKeys().indexOf(slot.key) + 1;
@@ -139,7 +142,10 @@ export const speak = async (opts) => {
         neTới.set(id, Date.now() + ne);
         console.log(`  … ${short}/key${soKey} hết lượt (né ${(ne / 1000).toFixed(0)}s), đổi cặp khác`);
       } else {
-        console.log(`  … ${short}/key${soKey} lỗi tạm (${err.message.slice(0, 60)}), đổi cặp khác`);
+        // lỗi tạm: né cặp này 20 s rồi cho quay lại, thay vì thử liên tục vào đúng
+        // cặp đang quá tải
+        neTới.set(id, Date.now() + 20000);
+        console.log(`  … ${short}/key${soKey} lỗi tạm (${err.message.slice(0, 60)}), né 20s`);
       }
     }
   }

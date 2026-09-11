@@ -5,6 +5,12 @@ import {FONT} from '../../engine/font';
 import type {PropProps} from './co-ban';
 
 /**
+ * Màu tô thân prop. Mặc định trắng nền; shot khai `prop[].mau` thì renderer đặt
+ * biến CSS --to nên prop đổi màu mà KHÔNG phải sửa từng file (xem src/v2/phim/nen.tsx).
+ */
+const TO = 'var(--to, #fdfdfd)';
+
+/**
  * Vẽ PROP TỰ VẼ từ dữ liệu (board.prop_tu_ve) — cho agent thêm prop mới mà không sửa mã.
  *
  * Cùng luật với prop thư viện: nét đen dày `net` không đổi theo scale, khối tô trắng
@@ -18,18 +24,19 @@ export const MAU_CHO_PHEP = new Set([
 ]);
 
 const MotHinh: React.FC<{h: HinhVe; net: number; co: number}> = ({h, net, co}) => {
+  const TO = 'var(--to, #fdfdfd)';
   const S = {stroke: MUC, strokeWidth: net, vectorEffect: 'non-scaling-stroke' as const, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const};
   switch (h.loai) {
     case 'net':
       return <path d={h.d} fill="none" {...S} />;
     case 'khoi':
-      return <path d={h.d} fill={NEN} {...S} />;
+      return <path d={h.d} fill={TO} {...S} />;
     case 'hop':
-      return <rect x={h.x} y={h.y} width={h.w} height={h.h} rx={h.bo ?? 0} fill={NEN} {...S} />;
+      return <rect x={h.x} y={h.y} width={h.w} height={h.h} rx={h.bo ?? 0} fill={TO} {...S} />;
     case 'tron':
-      return <circle cx={h.cx} cy={h.cy} r={h.r} fill={NEN} {...S} />;
+      return <circle cx={h.cx} cy={h.cy} r={h.r} fill={TO} {...S} />;
     case 'bau':
-      return <ellipse cx={h.cx} cy={h.cy} rx={h.rx} ry={h.ry} fill={NEN} {...S} />;
+      return <ellipse cx={h.cx} cy={h.cy} rx={h.rx} ry={h.ry} fill={TO} {...S} />;
     case 'gach':
       return <line x1={h.x1} y1={h.y1} x2={h.x2} y2={h.y2} {...S} />;
     case 'chu':

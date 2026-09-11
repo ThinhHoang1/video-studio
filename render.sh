@@ -17,4 +17,5 @@ BROWSER_ARG=()
 [ -n "$CHROME" ] && BROWSER_ARG=(--browser-executable "$CHROME")
 COMP="${1:-QuangBinh}"
 OUT="${2:-out/${COMP}.mp4}"
-npx remotion render "$COMP" "$OUT" "${BROWSER_ARG[@]}" --crf=20 --timeout=180000 --concurrency=3 "${@:3}"
+# cổng ghim 39xxx — remotion mặc định bò từ 3000 lên và đụng Platform-BE
+npx remotion render "$COMP" "$OUT" "${BROWSER_ARG[@]}" --port="${REMOTION_PORT:-39173}" --crf=20 --timeout=180000 --concurrency=3 "${@:3}"

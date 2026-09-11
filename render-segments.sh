@@ -76,13 +76,33 @@ FINGERPRINT=$(find src scripts -type f \( -name '*.ts' -o -name '*.tsx' -o -name
   -not -path 'src/attic/*' -exec shasum {} + | shasum | cut -c1-10)
 SEGDIR="out/.seg-$COMP-$FINGERPRINT"
 mkdir -p "$SEGDIR"
+# ── CỔNG RIÊNG, KHÔNG BAO GIỜ ĐỤNG 3000 ─────────────────────────────────────
+# `remotion render` mở một HTTP server để phục vụ bundle. Mặc định nó bò dần từ
+# 3000 lên — mà 3000 là cổng Platform-BE của workspace này.
+# ĐÃ XẢY RA THẬT (2026-09-11): một tiến trình render treo giữ cổng 3000 suốt
+# 15h52m; stack-up.sh chỉ kiểm "cổng 3000 có ai nghe không", thấy có nên in
+# "[skip] be :3000 đã up" và KHÔNG khởi động BE. FE gọi API không ai trả, rơi về
+# màn onboarding, người dùng tưởng mất sạch instance và use-case (DB vẫn nguyên).
+# Ghim cổng vào dải 39xxx để render không bao giờ đứng chắn cửa của ai.
+REMOTION_PORT="${REMOTION_PORT:-39170}"
+
 # Khoá: hai tiến trình render cùng composition từng chạy chồng và cùng ghi list.txt → ghép đôi đoạn (video dài gấp đôi).
 LOCK="$SEGDIR/.lock"
 if ! mkdir "$LOCK" 2>/dev/null; then
-  echo "✗ $COMP đang được render bởi tiến trình khác (khoá $LOCK). Chờ nó xong, hoặc xoá khoá nếu chắc chắn không còn ai chạy." >&2
-  exit 3
+  # Khoá cũ của một tiến trình ĐÃ CHẾT thì không có lý do gì chặn lần chạy mới:
+  # trước đây phải xoá tay, và trong lúc đó tiến trình treo vẫn ôm cổng.
+  if pgrep -f "remotion render $COMP" >/dev/null 2>&1; then
+    echo "✗ $COMP đang được render bởi tiến trình khác (khoá $LOCK). Chờ nó xong." >&2
+    exit 3
+  fi
+  echo "⚠ khoá cũ $LOCK không có tiến trình nào giữ — dọn và chạy tiếp." >&2
+  rmdir "$LOCK" 2>/dev/null || true
+  mkdir "$LOCK" 2>/dev/null || { echo "✗ không tạo được khoá $LOCK" >&2; exit 3; }
 fi
-trap 'rmdir "$LOCK" 2>/dev/null' EXIT
+# Dọn tiến trình render CỦA CHÍNH COMPOSITION NÀY còn sót từ lần trước (đã mất
+# shell cha nên không ai tắt hộ). Không đụng composition khác đang chạy.
+pkill -f "remotion render $COMP" 2>/dev/null || true
+trap 'rmdir "$LOCK" 2>/dev/null; pkill -f "remotion render $COMP" 2>/dev/null || true' EXIT
 
 # dọn cache của các lần build cũ cùng composition
 for cu in out/.seg-"$COMP"-*; do
@@ -105,6 +125,7 @@ while [ "$start" -lt "$TOTAL" ]; do
     echo "đoạn $i ($start-$end)…"
     npx remotion render "$COMP" "$seg" \
       "${BROWSER_ARG[@]}" \
+      --port="$REMOTION_PORT" \
       --frames="$start-$end" \
       --crf=20 --timeout=120000 --concurrency=2 --log=error
   fi

@@ -50,13 +50,26 @@ const SONG_SONG = Number(process.env.TTS_SONG_SONG ?? 9);
 const manifest = new Array(script.chapters.length);
 {
   const hangDoi = script.chapters.map((ch, i) => [ch, i]);
+  // Một chương hỏng KHÔNG được giết cả mẻ: gom lỗi lại, các chương khác vẫn ghi ra
+  // đĩa và có .sig nên lần chạy sau chỉ phải đọc lại đúng phần còn thiếu.
+  const hong = [];
   const congNhan = Array.from({length: Math.min(SONG_SONG, hangDoi.length)}, async () => {
     while (hangDoi.length) {
       const [ch, i] = hangDoi.shift();
-      manifest[i] = await docChuong(ch, i);
+      try {
+        manifest[i] = await docChuong(ch, i);
+      } catch (e) {
+        hong.push({id: ch.id, loi: String(e.message).slice(0, 100)});
+      }
     }
   });
   await Promise.all(congNhan);
+  if (hong.length) {
+    console.log(`\n✗ ${hong.length}/${script.chapters.length} chương chưa đọc được:`);
+    for (const h of hong) console.log(`    ${h.id}: ${h.loi}`);
+    console.log('  Chạy lại lệnh này — chương đã xong được bỏ qua, chỉ đọc lại phần thiếu.');
+    process.exit(1);
+  }
 }
 
 const total = manifest.reduce((a, c) => a + c.duration, 0);

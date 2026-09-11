@@ -20,6 +20,16 @@ import os from 'node:os';
 import path from 'node:path';
 import {coTrinhDuyet} from './moi-truong.mjs';
 
+/**
+ * Cổng cho HTTP server mà remotion dựng lên để phục vụ bundle. GHIM vào dải 39xxx:
+ * mặc định remotion bò từ 3000 lên, mà 3000 là cổng Platform-BE của workspace này.
+ * Đã xảy ra thật (2026-09-11): một tiến trình render treo giữ cổng 3000 gần 16 giờ,
+ * stack-up.sh thấy "cổng 3000 có người nghe" nên bỏ qua việc khởi động BE — FE rơi
+ * về màn onboarding, nhìn như mất sạch instance và use-case.
+ */
+const CONG = ['--port', process.env.REMOTION_PORT ?? '39172'];
+
+
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
 const args = process.argv.slice(2);
 const optCo = new Set(['--chu', '--co', '--co-canh', '--thu']);
@@ -87,7 +97,7 @@ const CO_TD = coTrinhDuyet(); // dò trình duyệt theo máy (macOS / Linux / W
 const render = (props, out, scale) => {
   const propsFile = path.join(os.tmpdir(), `xem-prop-${process.pid}-${path.basename(out)}.json`);
   writeFileSync(propsFile, JSON.stringify(props));
-  const a = ['remotion', 'still', 'src/index.ts', 'PropTuVeXem', out, `--props=${propsFile}`, ...CO_TD, '--log=error'];
+  const a = ['remotion', 'still', 'src/index.ts', 'PropTuVeXem', out, `--props=${propsFile}`, ...CO_TD, ...CONG, '--log=error'];
   if (scale && scale !== 1) a.push(`--scale=${scale}`);
   execFileSync('npx', a, {cwd: ROOT, stdio: 'inherit'});
   console.log(`→ ${path.relative(ROOT, out)}`);

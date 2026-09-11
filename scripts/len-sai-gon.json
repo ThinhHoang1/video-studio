@@ -8,43 +8,85 @@
       "id": "mo-bai",
       "kicker": "Bốn giờ sáng",
       "heading": "Mẹ dúi hai triệu",
-      "vo": "Bốn giờ sáng, mẹ dúi vào tay mình hai triệu. Mẹ bảo: cầm đi con. Mình bảo: con không lấy. Ờ, mình hèn thật. Mình là Thịnh, hai hai tuổi. Hôm nay mình kể các bạn chuyện mình bỏ quê lên Sài Gòn."
+      "vo": "Bốn giờ sáng, mẹ dúi vào tay mình hai triệu. Mẹ bảo: cầm đi con. Mình bảo: con không lấy đâu. Ờ, mình hèn thật. Mình là Thịnh, hai hai tuổi. Hôm nay mình kể các bạn nghe chuyện mình bỏ quê."
     },
     {
-      "id": "vi-sao-di",
+      "id": "o-que",
       "kicker": "Ở quê",
       "heading": "Năm triệu một tháng",
-      "vo": "Ở quê mình làm năm triệu một tháng nhá các bạn. Sáng đi, tối về, mười năm nữa vẫn thế. Ông chú ngồi uống trà bảo: mày ở đây cả đời cũng chỉ đến thế thôi. Mình hỏi: thế cháu đi đâu. Chú không nói gì. Câu đấy cắm vào đầu mình ba tháng. Xong mình đi, chả tính gì, ngu thật."
+      "vo": "Hai triệu ấy, ở quê mình làm nửa tháng mới ra. Lương năm triệu. Sáng bảy giờ dắt con Wave ra, tối bảy giờ dắt về. Mười năm nữa vẫn thế. Bố mình làm nghề ấy hai mươi năm, lương bảy triệu. Mình nhìn bố mà thấy mình của năm bốn mươi tuổi."
     },
     {
-      "id": "ngay-dau",
+      "id": "ong-chu",
+      "kicker": "Ông chú",
+      "heading": "Chỉ đến thế thôi",
+      "vo": "Rồi một hôm ông chú mình ngồi uống trà đá, nghe chuyện lương năm triệu, chú đặt chén xuống bảo: mày ở đây cả đời cũng chỉ đến thế thôi. Mình hỏi: thế cháu đi đâu. Chú không nói gì, chú rót thêm chén nữa. Câu đấy cắm vào đầu mình ba tháng."
+    },
+    {
+      "id": "quyet-di",
+      "kicker": "Quyết đi",
+      "heading": "Bán con xe",
+      "vo": "Ba tháng sau mình đi thật. Bán con Wave được tám triệu, cộng hai triệu của mẹ là mười. Mình tính đúng một phép: mười triệu chia hai triệu tiền trọ là năm tháng. Năm tháng không có việc thì về. Đấy là toàn bộ kế hoạch. Ngu thật các bạn ạ."
+    },
+    {
+      "id": "ben-xe",
       "kicker": "Ngày đầu",
-      "heading": "Phòng trọ mười hai mét",
-      "vo": "Xuống bến xe Miền Đông, sáu giờ sáng, nắng gắt luôn các bạn ạ. Mình thuê phòng quận mười hai, mười hai mét vuông, một triệu tám. Chủ trọ bảo: ở đây mưa hơi ngập tí thôi. Mình hỏi: tí là bao nhiêu ạ. Bà cười. Xong tối đó nước lên tới mắt cá chân. Mình ôm vali cười một mình, chết dở."
+      "heading": "Bến xe Miền Đông",
+      "vo": "Mười triệu ấy theo mình xuống bến xe Miền Đông lúc sáu giờ sáng. Nắng đã gắt. Mình đứng giữa cái bến to bằng nửa xã mình, tay xách vali, kế hoạch năm tháng trong đầu, mà không biết đi hướng nào. Ông xe ôm hỏi: đi đâu con. Mình bảo: con chưa biết ạ. Ông ấy cười."
+    },
+    {
+      "id": "phong-tro",
+      "kicker": "Phòng trọ",
+      "heading": "Mười hai mét vuông",
+      "vo": "Hết ngày đầu, mình thuê phòng quận mười hai, mười hai mét vuông, một triệu tám. Chủ trọ bảo: ở đây mưa hơi ngập tí thôi. Mình hỏi: tí là bao nhiêu ạ. Bà cười y như ông xe ôm. Tối đó nước lên tới mắt cá chân. Mình ôm vali cười một mình. Chết dở."
+    },
+    {
+      "id": "xin-viec",
+      "kicker": "Xin việc",
+      "heading": "Hai mươi bảy chỗ",
+      "vo": "Ở cái phòng mười hai mét ấy mình rải hai mươi bảy chỗ. Được gọi bốn. Đi phỏng vấn bốn, trượt bốn. Có chỗ hỏi mình có kinh nghiệm chưa, mình bảo chưa. Họ bảo về đi làm lấy kinh nghiệm rồi quay lại. Ơ hay, thế kinh nghiệm nó mọc ở đâu ra hả anh."
+    },
+    {
+      "id": "co-viec",
+      "kicker": "Có việc",
+      "heading": "Lương mười hai triệu",
+      "vo": "Tới chỗ thứ hai mươi tám thì mình có việc. Lương mười hai triệu nhá các bạn. Gấp hơn hai lần năm triệu ở quê. Mình gọi về khoe, mẹ bảo: giỏi thế con. Đêm đó nằm nghĩ mình sắp giàu tới nơi. Ngủ ngon nhất từ hồi xuống đây."
     },
     {
       "id": "tien",
-      "kicker": "Tháng đầu",
-      "heading": "Mười hai triệu bốc hơi",
-      "vo": "Lương mười hai triệu nhá các bạn. Gấp hơn hai lần ở quê. Mình gọi về khoe, mẹ bảo: giỏi thế con. Xong cuối tháng ngồi tính: trọ một tám, điện nước ba trăm, xăng năm trăm, ăn bốn triệu, cà phê hai triệu. Còn đúng ba triệu. Mà mình hứa gửi về nhà hai triệu rồi. Toang."
+      "kicker": "Cuối tháng",
+      "heading": "Còn ba triệu",
+      "vo": "Xong cuối tháng ngồi tính lại mười hai triệu ấy. Trọ một tám. Điện nước ba trăm. Xăng năm trăm. Ăn bốn triệu. Cà phê hai triệu. Còn đúng ba triệu. Mà mình đã hứa gửi về nhà hai triệu rồi. Toang. Lương gấp đôi mà để dành thì bằng không."
     },
     {
       "id": "co-don",
       "kicker": "Tháng thứ tư",
-      "heading": "Đông mà không ai biết mình",
-      "vo": "Cái này mới đau các bạn ạ. Sài Gòn tám triệu người, mà tối thứ Bảy mình ngồi ăn cơm một mình. Thằng Long bạn thân cưới ở quê, mình xem qua điện thoại. Nó nhắn: sao mày không về. Mình bảo: bận. Nói dối đấy. Vé xe bảy trăm, mình không có. Hôm đó mình khóc. Mình hèn thật."
+      "heading": "Ăn cơm một mình",
+      "vo": "Còn ba triệu mỗi tháng cũng chưa phải cái đau nhất các bạn ạ. Sài Gòn tám triệu người, mà tối thứ Bảy mình ngồi ăn cơm một mình. Ở quê tối thứ Bảy cả xóm ngồi ngoài ngõ. Ở đây mình có số của hai mươi người mà không gọi được ai."
+    },
+    {
+      "id": "dam-cuoi",
+      "kicker": "Đám cưới",
+      "heading": "Vé xe bảy trăm",
+      "vo": "Trong hai mươi số ấy có thằng Long, bạn thân, và nó cưới ở quê. Mình xem qua điện thoại. Nó nhắn: sao mày không về. Mình bảo: bận. Nói dối đấy. Vé xe bảy trăm, mình không có. Hôm đó mình khóc vì cái vé bảy trăm nghìn. Hèn thật."
     },
     {
       "id": "ve-tet",
       "kicker": "Tết",
       "heading": "Bao giờ về hẳn",
-      "vo": "Tết mình về. Mẹ nấu nguyên nồi cá kho, gắp liên tục ba bốn lần. Xong mẹ hỏi: bao giờ về hẳn con. Mình bảo: sang năm mẹ ạ. Mình biết mình nói dối. Mẹ chắc cũng biết. Nhưng cả hai cùng gật. Bữa cơm đấy mình ăn không nổi, nghẹn thật. Mình hèn thật các bạn ạ."
+      "vo": "Tới Tết thì mình về được, đủ tiền mua cái vé bảy trăm ấy. Mẹ nấu nguyên nồi cá kho, gắp liên tục ba bốn lần. Xong mẹ hỏi: bao giờ về hẳn con. Mình bảo: sang năm mẹ ạ. Mình biết mình nói dối. Mẹ chắc cũng biết. Nhưng cả hai cùng gật."
+    },
+    {
+      "id": "bo",
+      "kicker": "Bố",
+      "heading": "Cái xe của bố",
+      "vo": "Sáng mùng hai bố chở mình ra bến, vẫn con xe cũ, con Wave mình bán rồi bố mua lại xe khác y hệt. Bố không nói gì suốt mười cây số. Tới nơi bố mới bảo: ngoài đấy khó thì về, nhà vẫn còn cơm. Mình quay đi luôn vì mình biết mình sắp khóc."
     },
     {
       "id": "ket",
       "kicker": "Chốt",
-      "heading": "Vẫn ở lại",
-      "vo": "Sáu năm rồi nhá. Mình vẫn ở đây. Không giàu. Nhưng ông chú nói đúng một nửa thôi. Ở quê mình chỉ đến thế. Còn ở đây mình chưa biết đến đâu, mà chưa biết thì còn đi được. Mẹ vẫn hỏi câu cũ, mình vẫn nói dối, hèn thật. Ai cầm hai triệu của mẹ mà chưa dám lên xe, lên đi nhá. Còn bạn, xa nhà mấy năm rồi?"
+      "heading": "Sáu năm rồi",
+      "vo": "Câu đấy của bố mình nhớ tới giờ. Sáu năm rồi, mình vẫn ở đây, vẫn chưa về hẳn. Không giàu. Thằng Long giờ hai con. Nhưng ông chú nói đúng một nửa thôi: ở quê mình chỉ đến thế, còn ở đây chưa biết đến đâu, mà chưa biết thì còn đi được. Còn bạn, xa nhà mấy năm rồi, kể ở bình luận."
     }
   ],
   "rubric": {
@@ -58,5 +100,6 @@
     "giong_rieng": 1,
     "viet_hoa": 1,
     "cam": 1
-  }
+  },
+  "ghi_chu": "Bản 2 (2026-09-11): viết lại dài gấp đôi sau khi đo Monsieur Tuna — 14 chương thay vì 7, thêm bố, xin việc, quyết định bán xe. Thay thế hẳn bản 7 chương."
 }
