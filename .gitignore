@@ -18,9 +18,11 @@ public/meme/
 # Ảnh Quảng Bình (Wikimedia, CC BY / CC BY-SA) — thuộc dự án cũ đã bỏ
 public/qb/
 
-# Video thành phẩm — nặng, không đẩy lên git; giữ README và metadata
-media/outbound/*.mp4
-media/outbound/*.mov
+# Video thành phẩm — nặng, không đẩy lên git; giữ README và metadata.
+# Chặn mọi nơi (media/outbound/, media/nhap/, ...), không chỉ outbound.
+# Bản xem trước cho README là docs/media/demo.gif.
+*.mp4
+*.mov
 
 # ── Công cụ nhị phân tải về, không đẩy lên repo (cách tải lại: tools/README.md) ──
 tools/rhubarb/
