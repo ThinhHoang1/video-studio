@@ -20,6 +20,7 @@ import {PROPS} from '../props';
 import {ChuTrenMan} from '../chu';
 import {AnhChen} from '../insert';
 import {OChenVe} from './chen';
+import {LopKhungTin} from './khung-tin';
 import type {Cum} from '../../engine/neo';
 import {ShotDung, MouthTrack, VoiceTrack, miengTaiFrame, cumTaiFrame, f} from './du-lieu';
 import {FPS} from '../../engine/theme';
@@ -62,7 +63,20 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
   const t = frame / FPS;
 
   // ── nhịp trắng / insert / chuyển ─────────────────────────────────
-  if (shot.loai === 'trong') return <AbsoluteFill style={{background: NEN}} />;
+  // Nhịp trắng vẫn phải giữ KHUNG BẢN TIN: bảng tin không có nhân vật nên mọi
+  // shot đều là 'trong', return sớm ở đây làm cả bản tin thành màn trắng trơn.
+  if (shot.loai === 'trong') {
+    return (
+      <AbsoluteFill style={{background: typeof shot.nen === 'string' && shot.nen !== 'trang' ? shot.nen : NEN}}>
+        {shot.nen && typeof shot.nen !== 'string' ? (
+          <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{position: 'absolute', inset: 0}}>
+            <LopNen nen={shot.nen} W={W} H={H} id={id} />
+          </svg>
+        ) : null}
+        {shot.tin && <LopKhungTin tin={shot.tin} W={W} H={H} frame={frame} frameChuong={frameChuong} fps={FPS} />}
+      </AbsoluteFill>
+    );
+  }
   if (shot.chuyen === 'trang' && frame < 2) return <AbsoluteFill style={{background: NEN}} />;
 
   const bien = f(0.3);
@@ -135,13 +149,61 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
       neoX = xVe;
       neoY = y - 2.03 * dau * coRieng;
     }
+    // ẢNH CẮT RỜI: chủ nhân tải hình nhân vật của họ lên. Không nhép miệng,
+    // không đổi tư thế — chỉ dịch/phóng/xoay theo act. Vẽ ở đây và bỏ qua rig.
+    if (dv.anh) {
+      const caoAnh = 2.6 * dau * coRieng;
+      const rongAnh = caoAnh / (dv.anh_ti_le ?? 1);
+      const lat = s.flip ?? dv.flip ?? false;
+      const bd = [
+        s.scale && s.scale !== 1 ? `translate(${xVe} ${y}) scale(${s.scale}) translate(${-xVe} ${-y})` : '',
+        s.xoay ? `rotate(${s.xoay} ${xVe} ${y})` : '',
+        lat ? `translate(${xVe} 0) scale(-1 1) translate(${-xVe} 0)` : '',
+      ].filter(Boolean).join(' ');
+      if (k === 0) {
+        neoX = xVe;
+        neoY = y - caoAnh;
+      }
+      return (
+        <g key={`anh-${k}`} transform={bd || undefined}>
+          <image
+            href={staticFile(dv.anh)}
+            x={xVe - rongAnh / 2}
+            y={y - caoAnh}
+            width={rongAnh}
+            height={caoAnh}
+            preserveAspectRatio="xMidYMax meet"
+          />
+        </g>
+      );
+    }
+
     const kieuVe = dv.toc ? {...kieu, toc: dv.toc} : kieu;
+    // Nén–giãn neo ở CHÂN (x, y là điểm chạm đất) — neo ở tâm thì nhân vật lún
+    // xuống dưới sàn mỗi lần nén. Xem khối NÉN–GIÃN trong act/ap-dung.ts.
+    const nenNgang = s.coNgang ?? 1;
+    const nenDoc = s.coDoc ?? 1;
+    const coNen = nenNgang !== 1 || nenDoc !== 1;
     const bienDoi = [
       s.scale && s.scale !== 1 ? `translate(${xVe} ${y}) scale(${s.scale}) translate(${-xVe} ${-y})` : '',
+      coNen ? `translate(${xVe} ${y}) scale(${nenNgang} ${nenDoc}) translate(${-xVe} ${-y})` : '',
       s.xoay ? `rotate(${s.xoay} ${xVe} ${y})` : '',
     ].filter(Boolean).join(' ');
+    /**
+     * BÓNG TIẾP ĐẤT — thứ rẻ nhất để nhân vật thôi lơ lửng.
+     *
+     * Không có bóng thì mắt không có mốc nào để biết chân chạm sàn ở đâu, và cả
+     * khung đọc ra là hình dán trên nền. Ellipse đặc, KHÔNG blur (blur phá nét
+     * vẽ tay và tốn filter). Nhảy lên thì bóng co lại và nhạt đi — đó là tín
+     * hiệu độ cao duy nhất mà hình phẳng có.
+     */
+    const dauNV = dau * coRieng;
+    const bay = 0;
+    const bongRx = 0.3 * dauNV * (1 - 0.5 * bay);
+    const bongRy = 0.055 * dauNV;
     return (
       <g key={`${dv.kieu}-${k}`} transform={bienDoi || undefined}>
+      <ellipse cx={xVe} cy={y + bongRy * 0.35} rx={bongRx} ry={bongRy} fill="#1a1a1a" opacity={0.18 - 0.1 * bay} />
       <NhanVat
         kieu={kieuVe}
         dau={dau * coRieng}
@@ -214,6 +276,10 @@ export const SanKhau: React.FC<P> = ({shot, frame, frameChuong, cues, mouth, voi
           </g>
         </g>
       </svg>
+      {/* Khung bản tin vẽ NGOÀI khung an toàn: thanh chạy phải chạm mép dưới màn
+          như bản tin thật, còn thanh tiêu đề đã tự đặt ở y 0.70 H nên không đụng
+          phụ đề (0.90–0.97 H). */}
+      {shot.tin && <LopKhungTin tin={shot.tin} W={W} H={H} frame={frame} frameChuong={frameChuong} fps={FPS} />}
       <div style={{position: 'absolute', inset: 0, transform: `scale(${KHUNG_AN_TOAN})`, transformOrigin: 'top center'}}>
         {(shot.chu ?? [])
           .filter((c) => t >= (c.tai ?? 0))

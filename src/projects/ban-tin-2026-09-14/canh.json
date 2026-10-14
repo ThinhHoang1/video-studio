@@ -1,0 +1,9 @@
+{
+  "mo-bai":        {"cast": ["nam","trang"], "nen": {"mau":"#12203a","hoa_tiet":"toa"}},
+  "tu-viet-skill": {"cast": ["nam","ha"],    "nen": {"mau":"#17263f"}},
+  "bao-mat":       {"cast": ["nam","trang"], "nen": {"mau":"#4a1220","hoa_tiet":"cheo"}},
+  "cho-skill":     {"cast": ["nam","long"],  "nen": {"mau":"#123a2c"}},
+  "tu-dang-bai":   {"cast": ["nam","mai"],   "nen": {"mau":"#2a1f45"}},
+  "cong-dong":     {"cast": ["nam","ha"],    "nen": {"mau":"#1d3348","hoa_tiet":"cham"}},
+  "ket":           {"cast": ["nam","trang"], "nen": {"mau":"#12203a","hoa_tiet":"toa"}}
+}

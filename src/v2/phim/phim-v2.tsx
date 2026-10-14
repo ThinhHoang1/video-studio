@@ -6,6 +6,8 @@ import {Sub} from '../../engine/sub';
 import {FONT} from '../../engine/font';
 import {ChuongDung, Manifest, MouthTrack, VoiceTrack, dungChuong, f} from './du-lieu';
 import {SanKhau, W, H} from './san-khau';
+import {SanKhauTin} from './san-khau-tin';
+import {PhimDoc, DOC_W, DOC_H, type TinDoc} from './phim-doc';
 
 /**
  * PHIM V2 — ghép board + giọng + lip-sync thành composition.
@@ -44,7 +46,17 @@ const NHAC_VUI = ['audio/25-silly-fun.mp3', 'audio/22-flutey-funk.mp3', 'audio/2
 export const dungPhim = (d: DuLieuPhim) => {
   const theoId = new Map(d.board.chuong.map((c) => [c.id, c]));
   const chuong: ChuongDung[] = d.manifest.chapters.map((ch) => dungChuong(ch, theoId.get(ch.id), d.board.mac_dinh, d.voices[ch.id]));
-  const INTRO = d.tieuDe ? f(1.6) : 0;
+  /**
+   * BẢNG TIN KHÔNG CÓ THẺ TIÊU ĐỀ.
+   *
+   * Thẻ này là nền trắng trơn + chữ đen, giữ 1.6 giây, và vì `viTriIntro = 1`
+   * nó rơi vào GIỮA video — ngay sau chương dẫn. Xem lại bản render: đúng giây
+   * 8.5 màn trắng bốp một cái rồi mới quay lại ảnh. Đo 80 Short thể thao Việt:
+   * 8/9 video mở bằng khung tĩnh đều dưới 100k view, và nhóm view cao nhất có
+   * 0% thời lượng đứng hình. Một tấm bìa trắng giữa bài còn tệ hơn ở đầu bài.
+   * Tên kênh đã có ở khung dọc; bản tin không cần thêm bìa.
+   */
+  const INTRO = d.tieuDe && d.board.dinh_dang !== 'ban-tin' ? f(1.6) : 0;
   // có chương mo-bai → cold open chạy trước, thẻ tiêu đề chèn SAU nó như logo kênh; không có → thẻ đứng đầu
   const viTriIntro = chuong[0]?.id === 'mo-bai' ? 1 : 0;
   const starts: number[] = [];
@@ -65,11 +77,15 @@ const Chuong: React.FC<{d: DuLieuPhim; c: ChuongDung; audio: string; nhac: strin
     <AbsoluteFill style={{background: NEN}}>
       {c.shots.map((s) => (
         <Sequence key={s.idx} from={s.from} durationInFrames={s.len} layout="none">
+          {d.board.dinh_dang === 'ban-tin' ? (
+            <SanKhauTin shot={s} frame={Math.max(0, frame - s.from)} frameChuong={frame} cues={c.cues} id={`${c.id}-${s.idx}`} />
+          ) : (
           <SanKhau shot={s} frame={Math.max(0, frame - s.from)} frameChuong={frame} cues={c.cues} mouth={d.mouths?.[c.id]} voice={d.voices[c.id]} nguoiKe={d.board.nguoi_ke} id={`${c.id}-${s.idx}`} propTuVe={d.board.prop_tu_ve} boiCanhTuVe={d.board.boi_canh_tu_ve} doCamTuVe={d.board.do_cam_tu_ve} nhanVatTuVe={d.board.nhan_vat_tu_ve} />
+          )}
           {s.sfx && <CoTiengNeuCo src={`sfx/${s.sfx}.wav`} volume={0.55} />}
         </Sequence>
       ))}
-      {phuDe && <Sub cues={c.cues} toi />}
+      {phuDe && <Sub cues={c.cues} toi banTin={d.board.dinh_dang === 'ban-tin'} />}
       <Audio src={staticFile(audio)} />
       <CoTiengNeuCo src={nhac} volume={0.09} loop />
     </AbsoluteFill>
@@ -105,5 +121,17 @@ export const taoPhim = (d: DuLieuPhim) => {
       ))}
     </AbsoluteFill>
   );
-  return {Phim, total, W, H};
+  /**
+   * Bản DỌC 9:16 cho Short/TikTok: cùng phim, bọc thêm khung dọc. Board khai
+   * `khung_doc` thì pipeline đăng ký composition này thay bản ngang.
+   * Đo Beat VN: Short của họ dài ~32 s và KHÔNG có nhân vật vẽ — xem phim-doc.tsx.
+   */
+  const doc = d.board.khung_doc;
+  const PhimDocWrap: React.FC = () => (
+    <PhimDoc tin={doc ?? {}}>
+      <Phim />
+    </PhimDoc>
+  );
+
+  return {Phim, PhimDoc: PhimDocWrap, total, W, H, docW: DOC_W, docH: DOC_H, coDoc: Boolean(doc)};
 };

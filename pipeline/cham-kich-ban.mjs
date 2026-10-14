@@ -92,7 +92,46 @@ const trungLap = () => {
  *              nên thiếu nguồn là CHẶN, không phải cảnh báo.
  * Khai bằng "dinh_dang": "ban-tin" trong scripts/<ten>.json.
  */
+/**
+ * Link BÀI hay link TRANG CHỦ/CHUYÊN MỤC?
+ *
+ * Không đếm số đoạn đường dẫn được: báo Việt dùng đường dẫn PHẲNG —
+ * thanhnien.vn/viet-nam-chinh-thuc-tat-song-2g-tu-hom-nay-185260915103823883.htm
+ * chỉ có MỘT đoạn mà vẫn là bài. Dấu hiệu thật của một bài là cái slug: dài, có
+ * nhiều gạch nối, thường kèm id số và đuôi .htm/.html.
+ *
+ * Trang chủ (`/`) và chuyên mục (`/cong-nghe`, `/so-hoa`) thì slug ngắn, ít gạch
+ * nối — og:image của chúng là logo, dán lên bản tin là sai hẳn nội dung.
+ */
+const laLinkBai = (u) => {
+  let duong = '';
+  try {
+    duong = new URL(u).pathname.replace(/\/+$/, '');
+  } catch {
+    return false;
+  }
+  const cuoi = duong.split('/').filter(Boolean).pop() ?? '';
+  if (!cuoi) return false;
+  const coDuoi = /\.(html?|htm)$/i.test(cuoi);
+  const soGach = (cuoi.match(/-/g) ?? []).length;
+  const coId = /\d{5,}/.test(cuoi);
+  // bài: slug dài + nhiều gạch nối, hoặc có id số dài, hoặc có đuôi .htm(l)
+  return (cuoi.length >= 20 && soGach >= 3) || coId || (coDuoi && soGach >= 2);
+};
+
 const BT = kb.dinh_dang === 'ban-tin';
+if (BT) {
+  // HAI TIN KHÔNG DÙNG CHUNG MỘT LINK. Cùng link thì cùng ảnh, và người xem
+  // tưởng video bị lặp — đã xảy ra với tin-1 và tin-5 của bản tin 24h.
+  const thay = new Map();
+  for (const ch of kb.chapters ?? []) {
+    for (const u of ch.nguon ?? []) {
+      const sach = String(u).split('#')[0].replace(/\/+$/, '');
+      if (thay.has(sach)) loi.push(`tin "${ch.id}" dùng lại link của tin "${thay.get(sach)}" — mỗi tin một bài riêng`);
+      else thay.set(sach, ch.id);
+    }
+  }
+}
 
 /** 10 tiêu chí đúng thứ tự bảng ở references/kich-ban-storytime.md mục 5 */
 const TIEU_CHI = ['hook', 'mat_do', 'chi_tiet', 'leo_thang', 'twist_callback', 'nhan_vat_phu', 'cau_chot', 'giong_rieng', 'viet_hoa', 'cam'];
@@ -139,12 +178,22 @@ for (const [i, ch] of (kb.chapters ?? []).entries()) {
   const cs = cau(vo);
   tatCaTu.push(new Set(ts.map((t) => t.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ''))));
   const n = ts.length;
-  const [min, max] = BT ? [35, 75] : [45, 72];
+  /**
+   * Bản tin ngắn hơn hẳn kể chuyện. Đo 80 Short thể thao Việt (2026-09): độ dài
+   * trung vị 36 giây, quá 45 giây là rơi khỏi nhóm trên. Giọng "sôi nổi" đọc
+   * khoảng 3.5 từ/giây, nên một tin 28–52 từ ≈ 8–15 giây — vừa đủ ba tin.
+   */
+  const [min, max] = BT ? [28, 52] : [45, 72];
   if (ch.id !== 'mo-bai' && (n < min || n > max)) loi.push(`${o}: ${n} từ — cần ${min}–${max === 72 ? 70 : max}`);
   if (BT && i > 0 && i < (kb.chapters.length - 1)) {
     // mỗi tin phải kiểm chứng được: thiếu link là chặn, không cho TTS đọc tin bịa
     const ng = Array.isArray(ch.nguon) ? ch.nguon.filter((u) => /^https?:\/\//.test(String(u))) : [];
     if (!ng.length) loi.push(`${o}: thiếu "nguon": ["https://…"] — mỗi tin phải có link kiểm chứng được`);
+    for (const u of ng) {
+      if (!laLinkBai(u)) {
+        loi.push(`${o}: "${u}" trông như link trang chủ / chuyên mục, không phải link bài — ảnh lấy về sẽ là logo. Dán link bài cụ thể.`);
+      }
+    }
     if (!ch.kicker || !ch.heading) loi.push(`${o}: thiếu "kicker"/"heading" — bảng tin phải có nhãn mục và tiêu đề tin`);
     if (!/(nên|hãy|đi|cứ|nhớ|đừng|khỏi|cập nhật|thử|bật|tắt|lên bản|chờ)/iu.test(vo)) canhBao.push(`${o}: tin không có việc-cần-làm cho người xem ("lên bản này đi", "chờ đã", "đừng đụng")`);
   }
@@ -155,9 +204,9 @@ for (const [i, ch] of (kb.chapters ?? []).entries()) {
   // giọng nói chuyện (cẩm nang 1c): tiếng đệm 3–6%, gọi người nghe ≥ 1, tự chửi mình ≥ 1
   // \b của JS coi chữ có dấu là ranh giới ("nhá", "đấy" không khớp) → tự dựng ranh giới bằng \p{L}
   const dem = (vo.match(/(?<![\p{L}])(nhá|đấy|ấy|xong|thế là|ờ|luôn|kiểu|nhỉ|thật ra|nói chung|mà|thì|cơ|hả|chứ|đâu)(?![\p{L}])/giu) ?? []).length;
-  if (dem / Math.max(1, n) < 0.03) canhBao.push(`${o}: tiếng đệm ${dem}/${n} từ (<3%) — đọc lên như văn viết; thêm "xong nhá / đấy / ờ / kiểu" đúng chỗ`);
-  if (!/(?<![\p{L}])(em ạ|các bạn|mấy bạn|anh em|bạn nào|ông nào|bà nào|mọi người|các ông|mấy ông)(?![\p{L}])/giu.test(vo)) canhBao.push(`${o}: không gọi thẳng người nghe lần nào ("em ạ", "các bạn", "anh em") — phải là nói chuyện, không phải kể suông`);
-  if (!/(tôi|anh|mình|tui) (ngu|dở|tệ|ác|hèn|ngáo|điên|ngớ ngẩn|kém|nhát)|ngu (thật|vãi|chưa|người)|toang|chết dở|xong đời|tiêu rồi|nhục/iu.test(vo)) canhBao.push(`${o}: thiếu câu tự chửi mình thẳng ("anh ngu thật", "toang", "chết dở")`);
+  if (!BT && dem / Math.max(1, n) < 0.03) canhBao.push(`${o}: tiếng đệm ${dem}/${n} từ (<3%) — đọc lên như văn viết; thêm "xong nhá / đấy / ờ / kiểu" đúng chỗ`);
+  if (!BT && !/(?<![\p{L}])(em ạ|các bạn|mấy bạn|anh em|bạn nào|ông nào|bà nào|mọi người|các ông|mấy ông)(?![\p{L}])/giu.test(vo)) canhBao.push(`${o}: không gọi thẳng người nghe lần nào ("em ạ", "các bạn", "anh em") — phải là nói chuyện, không phải kể suông`);
+  if (!BT && !/(tôi|anh|mình|tui) (ngu|dở|tệ|ác|hèn|ngáo|điên|ngớ ngẩn|kém|nhát)|ngu (thật|vãi|chưa|người)|toang|chết dở|xong đời|tiêu rồi|nhục/iu.test(vo)) canhBao.push(`${o}: thiếu câu tự chửi mình thẳng ("anh ngu thật", "toang", "chết dở")`);
   const thoai = cs.filter((c) => /:|\b(bảo|hỏi|nói|kêu|thì thào|rep|nhắn)\b/i.test(c)).length;
   if (!BT && thoai < 2) canhBao.push(`${o}: chỉ ${thoai} câu thoại trực tiếp — cần ≥ 2 (nhân vật phải có giọng)`);
   // chi tiết cụ thể = số đếm + tên app/thương hiệu + tên riêng viết hoa giữa câu
@@ -189,22 +238,98 @@ for (const [i, ch] of (kb.chapters ?? []).entries()) {
   console.log(`  ${o.padEnd(28)} ${String(n).padStart(3)} từ · ${cs.length} câu · ${ngan} ngắn · ${thoai} thoại`);
 }
 
-// mở bài bắt buộc: chương đầu id "mo-bai", 28–45 từ, có tự giới thiệu + lời hứa; không "xin chào các bạn"
+/**
+ * ── VĂN BẢN TIN ≠ VĂN KỂ CHUYỆN ─────────────────────────────────────────────
+ *
+ * Trước đây bảng tin phải qua đúng khuôn storytime: chương đầu tên `mo-bai`,
+ * bắt buộc có câu "tôi là …" và một lời hứa; mỗi chương phải có tiếng đệm, phải
+ * gọi thẳng người nghe, phải có câu tự chửi mình. Đó là luật của video kể
+ * chuyện, và nó kéo bảng tin thành vlog: "Hôm nay gom năm việc đáng chú…",
+ * "mình là Nam", "các bạn ạ".
+ *
+ * Bản tin vào thẳng tin. Không tự giới thiệu, không tự trào, không đệm.
+ */
 {
   const dau = kb.chapters?.[0];
-  if (!dau || dau.id !== 'mo-bai') loi.push('thiếu chương mở bài: chương đầu phải có id "mo-bai" (cold open → tự giới thiệu → lời hứa, 28–45 từ) — xem cẩm nang mục 2b');
-  else {
-    const vo = dau.vo ?? '';
-    const n = tu(vo).length;
-    if (n < 28 || n > 45) loi.push(`mo-bai: ${n} từ — cần 28–45 (≤ 10 giây)`);
-    // \b không hiểu chữ có dấu trong JS → dùng lookaround theo khoảng trắng
-    if (!/(^|\s)(tôi|mình|tui|tao|em) (là|tên)(?=\s|$|[,.:])/iu.test(vo)) loi.push('mo-bai: thiếu câu tự giới thiệu ("tôi là …" + một nét tự trào)');
-    if (!/(hôm nay|chuyện|kể|vì sao|tại sao|làm sao)/i.test(vo)) loi.push('mo-bai: thiếu lời hứa/tease cho người xem (có "hôm nay/chuyện/kể/vì sao")');
-    if (/(xin chào các bạn|chào mừng|hôm nay mình sẽ|hello mọi người)/i.test(vo)) loi.push('mo-bai: mở kiểu "xin chào các bạn / chào mừng / hôm nay mình sẽ" — cấm, mở bằng khoảnh khắc đang xảy ra');
-  }
   const cuoi = kb.chapters?.[kb.chapters.length - 1];
-  if (BT && cuoi && !/(chốt lại|việc hôm nay|tóm lại|nhắc lại|gọn thôi)/i.test(cuoi.vo ?? '')) canhBao.push(`chương cuối (${cuoi.id}): bảng tin phải CHỐT việc hôm nay ("chốt lại nhá", "việc hôm nay") trước câu gọi khán giả`);
-  if (cuoi && !/(bình luận|comment|điểm danh|kể cho|bạn thì sao|còn bạn|còn các bạn)/i.test(cuoi.vo ?? '')) loi.push(`chương cuối (${cuoi.id}): thiếu câu gọi khán giả ≤ 10 từ bám đúng chuyện (bình luận / điểm danh / còn bạn) — xem cẩm nang mục 2b`);
+
+  if (BT) {
+    /**
+     * SỐ TIN VÀ TỔNG ĐỘ DÀI — hai con số đo được, không phải khẩu vị.
+     * 80 Short thể thao Việt (2026-09): nhóm view cao gần như luôn MỘT tin một
+     * video, tối đa ba; trung vị 36 giây. Bản tin dựng trước nhồi 5 tin vào hơn
+     * hai phút, và không tin nào kể đủ.
+     */
+    const soTin = Math.max(0, (kb.chapters?.length ?? 0) - 2); // trừ chương dẫn và chương chốt
+    if (soTin > 3) {
+      loi.push(`${soTin} tin trong một bản tin — tối đa 3, lý tưởng 1. Một tin kể đủ hơn ba tin kể hụt.`);
+    }
+    const tongTu = (kb.chapters ?? []).reduce((a, c) => a + tu(c.vo ?? '').length, 0);
+    const giay = tongTu / 3.5; // giọng sôi nổi ≈ 3.5 từ/giây
+    if (giay > 45) {
+      loi.push(`tổng ${tongTu} từ ≈ ${giay.toFixed(0)}s đọc — tối đa 45s (trung vị nhóm triệu view: 36s). Bỏ bớt tin.`);
+    }
+    if (!dau) loi.push('thiếu chương dẫn');
+    else {
+      const vo = dau.vo ?? '';
+      const n = tu(vo).length;
+      if (n < 12 || n > 30) loi.push(`chương dẫn (${dau.id}): ${n} từ — cần 12–30. Bản tin vào thẳng, không dông dài.`);
+      if (/(^|\s)(tôi|mình|tui|tao|em)\s+(là|tên)(?=\s|$|[,.:])/iu.test(vo)) {
+        loi.push(`chương dẫn (${dau.id}): có câu tự giới thiệu ("tôi là …") — đó là mở bài vlog. Bản tin mở bằng TIN LỚN NHẤT hôm nay.`);
+      }
+      if (/(xin chào|chào mừng|hello|hôm nay mình sẽ)/i.test(vo)) {
+        loi.push(`chương dẫn (${dau.id}): mở kiểu chào hỏi — bỏ. Vào thẳng: "Ba việc đáng chú ý hôm nay." rồi kể.`);
+      }
+    }
+    // Giọng vlog: xưng "mình", hô "các bạn ạ", tự trào — không thuộc về bản tin.
+    for (const [i, ch] of (kb.chapters ?? []).entries()) {
+      const o = `chương ${i + 1} (${ch.id})`;
+      const vo = ch.vo ?? '';
+      const vlog = vo.match(/(?<![\p{L}])(mình|tớ|tui|các bạn ạ|anh em ạ|em ạ|toang|nhục|ngu thật)(?![\p{L}])/giu) ?? [];
+      for (const w of new Set(vlog.map((x) => x.toLowerCase()))) {
+        canhBao.push(`${o}: "${w}" là giọng vlog, không phải giọng bản tin — người dẫn tin không xưng "mình", không tự trào`);
+      }
+    }
+    if (cuoi && !/(chốt lại|việc hôm nay|tóm lại|nhắc lại|gọn thôi|cập nhật tiếp)/i.test(cuoi.vo ?? '')) {
+      canhBao.push(`chương cuối (${cuoi.id}): bản tin phải CHỐT việc hôm nay trước khi hết`);
+    }
+  } else {
+    // ── mở bài kể chuyện: cold open → tự giới thiệu → lời hứa ──
+    if (!dau || dau.id !== 'mo-bai') loi.push('thiếu chương mở bài: chương đầu phải có id "mo-bai" (cold open → tự giới thiệu → lời hứa, 28–45 từ) — xem cẩm nang mục 2b');
+    else {
+      const vo = dau.vo ?? '';
+      const n = tu(vo).length;
+      if (n < 28 || n > 45) loi.push(`mo-bai: ${n} từ — cần 28–45 (≤ 10 giây)`);
+      if (!/(^|\s)(tôi|mình|tui|tao|em) (là|tên)(?=\s|$|[,.:])/iu.test(vo)) loi.push('mo-bai: thiếu câu tự giới thiệu ("tôi là …" + một nét tự trào)');
+      if (!/(hôm nay|chuyện|kể|vì sao|tại sao|làm sao)/i.test(vo)) loi.push('mo-bai: thiếu lời hứa/tease cho người xem (có "hôm nay/chuyện/kể/vì sao")');
+      if (/(xin chào các bạn|chào mừng|hôm nay mình sẽ|hello mọi người)/i.test(vo)) loi.push('mo-bai: mở kiểu "xin chào các bạn / chào mừng / hôm nay mình sẽ" — cấm, mở bằng khoảnh khắc đang xảy ra');
+    }
+  }
+  if (!BT && cuoi && !/(bình luận|comment|điểm danh|kể cho|bạn thì sao|còn bạn|còn các bạn)/i.test(cuoi.vo ?? '')) loi.push(`chương cuối (${cuoi.id}): thiếu câu gọi khán giả ≤ 10 từ bám đúng chuyện (bình luận / điểm danh / còn bạn) — xem cẩm nang mục 2b`);
+}
+
+/**
+ * ── TỰ TRÀO KHÔNG ĐƯỢC LẶP MỘT CÂU ──────────────────────────────────────
+ *
+ * Luật "mỗi chương phải có câu tự chửi mình" ở trên đo TỪNG CHƯƠNG, nên cách rẻ
+ * nhất để qua nó là chép đúng một cụm vào mọi chương. Và đó là việc đã xảy ra
+ * thật: một kịch bản 33 chương dùng "ngu thật" MƯỜI lần, người xem nghe ra ngay
+ * là cái tật, không phải nét tính cách. Cổng nào đo theo chương thì phải có cổng
+ * anh em đo theo cả bài, nếu không nó dạy người viết viết dở.
+ */
+{
+  const CUM = /(?:tôi|anh|mình|tui)\s+(?:ngu|dở|tệ|ác|hèn|ngáo|điên|ngớ ngẩn|kém|nhát)|ngu\s+(?:thật|vãi|chưa|người)|toang|chết dở|xong đời|tiêu rồi|nhục/giu;
+  const soLan = new Map();
+  for (const c of kb.chapters ?? []) {
+    for (const t of (c.vo ?? '').match(CUM) ?? []) {
+      const k = t.toLowerCase().replace(/\s+/g, ' ');
+      soLan.set(k, (soLan.get(k) ?? 0) + 1);
+    }
+  }
+  const nhieu = [...soLan.entries()].filter(([, n]) => n >= 4).sort((a, b) => b[1] - a[1]);
+  for (const [t, n] of nhieu) {
+    canhBao.push(`"${t}" dùng ${n} lần để tự trào — lặp quá 3 lần thì hết buồn cười, thành tật. Đổi cách tự chê ở phần lớn các chỗ đó.`);
+  }
 }
 
 // callback: một từ khoá (≥4 chữ, không phải từ phổ thông) xuất hiện ở ≥2 chương trong đó có chương cuối
@@ -333,7 +458,14 @@ if (!BT) {
   // tiếng Việt — một bài luận nghiêm túc cũng đạt 1/120.
   const BE_NGOAT = /(?<![\p{L}])(nhưng|hoá ra|hóa ra|ai ngờ|đáng nhẽ|đáng lẽ|thế mà|ngờ đâu)(?![\p{L}])/giu;
   const viTri = [];
-  for (let k = 0; k < tsAll.length; k++) if (BE_NGOAT.test(tsAll[k] + ' ' + (tsAll[k + 1] ?? ''))) viTri.push(k);
+  // `.test()` trên regex có cờ /g LÀ CÓ TRẠNG THÁI: mỗi lần khớp nó đẩy
+  // `lastIndex` lên, lần gọi sau bắt đầu dò từ giữa chuỗi mới nên trượt. Hậu quả
+  // đo được: kịch bản có mười lăm cú "nhưng/hoá ra" rải đều vẫn bị báo "8 quãng
+  // 250 từ không có cú bẻ ngoặt nào". Đặt lại lastIndex trước MỖI lần dò.
+  for (let k = 0; k < tsAll.length; k++) {
+    BE_NGOAT.lastIndex = 0;
+    if (BE_NGOAT.test(tsAll[k] + ' ' + (tsAll[k + 1] ?? ''))) viTri.push(k);
+  }
   BE_NGOAT.lastIndex = 0;
   const phang = [];
   for (let d = 0; d + 250 <= nAll; d += 125) {

@@ -1,0 +1,88 @@
+{
+  "title": "Bản tin công nghệ 15 tháng 9: Tắt sóng 2G, iOS 27 và kính quay lén",
+  "project": "ban-tin-2026-09-15",
+  "dinh_dang": "ban-tin",
+  "voice": "Charon",
+  "chay": "Claw Expert · bản tin công nghệ mỗi ngày · 2G, iOS 27, Bitcoin, kính thông minh",
+  "rubric": {
+    "hook": 1,
+    "mat_do": 1,
+    "chi_tiet": 1,
+    "leo_thang": 1,
+    "twist_callback": 0.5,
+    "nhan_vat_phu": 0.5,
+    "cau_chot": 1,
+    "giong_rieng": 1,
+    "viet_hoa": 1,
+    "cam": 1
+  },
+  "chapters": [
+    {
+      "id": "mo-bai",
+      "kicker": "Mở đầu",
+      "heading": "Bản tin công nghệ hôm nay",
+      "vo": "Từ hôm nay, mạng hai G ngừng phát sóng trên cả nước. Cùng với đó: i O S hai bảy ra bản chính thức, và châu Âu đòi siết kính thông minh. Năm tin công nghệ đáng chú ý ngày mười lăm tháng chín."
+    },
+    {
+      "id": "tat-2g",
+      "kicker": "Tin chính",
+      "heading": "Việt Nam tắt sóng hai G",
+      "nguon": [
+        "https://thanhnien.vn/viet-nam-chinh-thuc-tat-song-2g-tu-hom-nay-185260915103823883.htm"
+      ],
+      "vo": "Tin đầu tiên. Từ hôm nay, các nhà mạng chính thức ngừng phát sóng mạng hai G trên phạm vi toàn quốc. Máy cũ chỉ bắt được hai G sẽ không gọi và nhắn được nữa. Người dùng nên kiểm tra ngay điện thoại của người thân lớn tuổi trong nhà.",
+      "anh": "tin/ban-tin-2026-09-15/tat-2g.jpg",
+      "anh_nguon": "thanhnien.vn"
+    },
+    {
+      "id": "khong-can-doi-may",
+      "kicker": "Đừng vội",
+      "heading": "Chưa chắc phải đổi máy",
+      "nguon": [
+        "https://tuoitre.vn/tu-15-9-tat-song-2g-nguoi-dung-co-can-doi-dien-thoai-10026072807034598.htm"
+      ],
+      "vo": "Nhưng chưa cần vội ra cửa hàng. Theo Tuổi Trẻ, phần lớn thiết bị đang dùng không phải thay, chỉ cần bật Vo L T E trong phần cài đặt là tiếp tục gọi được bình thường. Kiểm tra mục này trước khi quyết định mua máy mới.",
+      "anh": "tin/ban-tin-2026-09-15/khong-can-doi-may.jpg",
+      "anh_nguon": "tuoitre.vn"
+    },
+    {
+      "id": "ios-27",
+      "kicker": "Cập nhật",
+      "heading": "Apple phát hành i O S hai bảy",
+      "nguon": [
+        "https://thanhnien.vn/apple-chinh-thuc-phat-hanh-ios-27-iphone-cu-co-loat-nang-cap-dang-gia-185260915081221571.htm"
+      ],
+      "vo": "Tin thứ ba. Apple đã phát hành chính thức i O S hai bảy sau nhiều tháng thử nghiệm, với loạt nâng cấp về giao diện và trí tuệ nhân tạo. Máy đời cũ vẫn nằm trong danh sách hỗ trợ. Nên cắm sạc và cập nhật vào cuối ngày, tránh lúc đang cần dùng máy.",
+      "anh": "tin/ban-tin-2026-09-15/ios-27.jpg",
+      "anh_nguon": "thanhnien.vn"
+    },
+    {
+      "id": "kinh-quay-len",
+      "kicker": "Cảnh báo",
+      "heading": "Kính thông minh bị đòi cấm",
+      "nguon": [
+        "https://tuoitre.vn/kinh-thong-minh-bi-keu-goi-cam-o-chau-au-vi-lo-quay-len-100260913134741597.htm"
+      ],
+      "vo": "Tin thứ tư, về quyền riêng tư. Nhiều nước châu Âu đang kêu gọi siết việc sử dụng kính thông minh, do thiết bị này chụp ảnh và quay phim mà người xung quanh không hề hay biết. Việt Nam chưa có quy định riêng cho loại thiết bị này.",
+      "anh": "tin/ban-tin-2026-09-15/kinh-quay-len.jpg",
+      "anh_nguon": "tuoitre.vn"
+    },
+    {
+      "id": "openai-viet-nam",
+      "kicker": "Cơ hội",
+      "heading": "OpenAI mở sân chơi ở Việt Nam",
+      "nguon": [
+        "https://tuoitre.vn/openai-dua-hackathon-codex-ve-viet-nam-giai-thuong-30000-usd-tin-dung-api-1002609141410246.htm"
+      ],
+      "vo": "Tin cuối, một cơ hội. OpenAI đưa chuỗi thi lập trình Codex về Việt Nam, mở cho lập trình viên, sinh viên và nhóm khởi nghiệp. Giải thưởng là tín dụng gọi hàm, trị giá tới ba mươi nghìn đô la Mỹ. Hạn đăng ký công bố trên trang chủ chương trình.",
+      "anh": "tin/ban-tin-2026-09-15/openai-viet-nam.jpg",
+      "anh_nguon": "tuoitre.vn"
+    },
+    {
+      "id": "ket",
+      "kicker": "Chốt",
+      "heading": "Ba việc hôm nay",
+      "vo": "Chốt lại ba việc hôm nay. Một, kiểm tra sóng điện thoại của người nhà. Hai, bật Vo L T E trước khi tính chuyện đổi máy. Ba, cập nhật i O S hai bảy lúc rảnh. Bản tin sẽ cập nhật tiếp diễn biến tắt sóng trong ngày mai."
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "title": "Cục tẩy ba mươi bảy lần",
+  "project": "cuc-tay-37",
+  "voice": "Fenrir",
+  "style": "(đè bởi phong-cach.json — tông hài hước)",
+  "nguoi_ke": "nam",
+  "rubric": {
+    "hook": 1,
+    "mat_do": 1,
+    "chi_tiet": 1,
+    "leo_thang": 1,
+    "twist_callback": 1,
+    "nhan_vat_phu": 1,
+    "cau_chot": 1,
+    "giong_rieng": 1,
+    "viet_hoa": 1,
+    "cam": 1
+  },
+  "chapters": [
+    {
+      "id": "mo-bai",
+      "vo": "Tôi mượn cục tẩy của Hà ba mươi bảy lần. Ba mươi bảy. Tôi có đếm đấy. Tôi là Kiên, lớp mười một A bốn. Tôi hèn chứ không dốt. Long bảo: mày kể đi. Hôm nay tôi kể các bạn chuyện cục tẩy đó."
+    },
+    {
+      "id": "cho-ngoi",
+      "vo": "Đầu năm cô Bình xếp lại chỗ ngồi. Cô cầm sổ, gọi tên. Xong tới lượt tôi, cô bảo: bàn bốn, cạnh cửa sổ. Tôi đi xuống thì thấy một đứa con gái đang lau bàn bằng khăn quàng. Nó ngẩng lên hỏi: mày ngồi đây à? Tôi gật, mồm không mở nổi chữ nào. Đó là Hà đấy. Cả năm lớp mười một bắt đầu từ cái bàn đó."
+    },
+    {
+      "id": "lan-dau",
+      "vo": "Tuần thứ hai của lớp mười một, tôi cố tình để cục tẩy ở nhà. Làm sai một phép tính thì tôi quay sang Hà cùng bàn. Tôi hỏi: cho tao mượn cục tẩy tí. Nhưng Hà đưa luôn, không nói gì. Cục tẩy trắng, to bằng hai đốt tay, sứt một góc. Tôi cầm mà tim đập như trống trường. Toang từ lần thứ nhất đấy, mấy ông ạ."
+    },
+    {
+      "id": "he-thong",
+      "vo": "Từ cục tẩy đó tôi tự đặt ra luật. Mỗi ngày mượn đúng một lần, không được hai. Hai lần là lộ, mà lộ thì chết. Tôi còn tính cả giờ: tiết ba, lúc lớp đang ồn nhất. Thằng Long ngồi bàn trên nghe hết, nó quay xuống nói: mày bị hâm à? Ờ, tôi điên thật, mà lúc đó tôi thấy mình thông minh lắm, các bạn ạ."
+    },
+    {
+      "id": "thang-long",
+      "vo": "Thằng Long chơi với tôi từ cấp hai, cao hơn tôi một cái đầu. Tuần sau nó đếm được sáu lần tôi mượn tẩy. Nó ghi vào mặt sau quyển vở Toán, kẻ bảng hẳn hoi, có cả cột ghi chú. Không đùa đâu. Nó bảo: tao làm thống kê cho mày dễ hèn. Tôi hỏi: thống kê cái gì? Ờ, tôi dở hơi, chơi với thằng Long làm gì."
+    },
+    {
+      "id": "dot-toan",
+      "vo": "Nhưng cái hay là tôi dốt Toán thật, chứ không phải diễn. Hà thì giỏi, bài nào cũng xong trước lớp mười phút. Thế là tôi có cớ vàng: sai nhiều thì tẩy nhiều. Có hôm tôi làm sai cả bài dễ chỉ để hỏi. Hà nhìn vở tôi, thở dài, rồi nói: chỗ này mày nhân sai từ dòng một. Long ngồi trên cười sặc, các bạn ạ."
+    },
+    {
+      "id": "chu-dep",
+      "vo": "Chép vở của Hà thì tôi mới biết nó viết chữ đẹp kinh khủng. Tôi viết như gà bới, cô Bình chấm vở toàn phê đúng hai chữ: cẩu thả. Thế là tôi mượn vở Hà chép lại cho sạch. Chép ba dòng thì tôi ngồi nhìn chữ nó, quên mất đang chép. Hà gõ bút xuống bàn, kêu: chép đi, hết giờ rồi. Tôi chép, tay run như sắp thi."
+    },
+    {
+      "id": "mua",
+      "vo": "Chép vở của Hà xong được hai tuần thì tới tháng mười, trời mưa suốt. Sân trường ngập tới mắt cá, Hà đi xe đạp, áo mưa màu xanh. Hôm đó tôi đứng ở cổng, giả vờ đợi thằng Long. Đợi bốn mươi phút, ướt từ đầu tới dép. Hà phanh lại, hỏi: mày không về à? Tôi bảo: tao đợi Long. Nhưng Long thì về từ đời nào rồi."
+    },
+    {
+      "id": "kiem-tra",
+      "vo": "Mưa mãi rồi cũng tới bài kiểm tra mười lăm phút, và kế hoạch của tôi toang. Cô Bình bắt để cặp lên bàn giáo viên, mỗi đứa một tờ. Cô nói: không được mượn gì của nhau. Tôi ngồi nhìn tờ giấy trắng, tay thì không có cục tẩy, đầu thì không có công thức. Thằng Long quay xuống thì thào: mày chết dở rồi con ạ."
+    },
+    {
+      "id": "bi-goi-bang",
+      "vo": "Hôm trả bài kiểm tra, cô Bình gọi tôi lên bảng chữa câu hai. Tôi cầm phấn đứng đó bốn phút, viết được đúng một dấu bằng. Cả lớp cười, thằng Long cười to nhất. Cô hỏi: em có học không đấy? Tôi đứng im. Xong tôi nghe tiếng Hà ở dưới nhắc khẽ: nhân hai vế lên. Tôi làm theo, đúng luôn. Nhục mà sướng, mấy ông ạ."
+    },
+    {
+      "id": "ke-cua-long",
+      "vo": "Chiều hôm bị gọi lên bảng, thằng Long kéo tôi ra quán trà đá cổng trường. Nó gọi hai cốc, uống một hơi, rồi bày kế. Nó bảo: sắp hè rồi, mày viết sổ lưu bút cho nó. Tôi hỏi: viết gì? Long nói: gì cũng được, miễn đừng viết về cục tẩy. Ờ, tôi gật. Nhưng về nhà tôi viết ba trang, hai trang rưỡi về cục tẩy."
+    },
+    {
+      "id": "luu-but",
+      "vo": "Quyển sổ lưu bút của Hà bìa màu tím, có dán hình ngôi sao. Tôi viết đi viết lại bảy lần, xé sáu. Tờ thứ bảy tôi chỉ dám viết mấy câu nhạt như nước ốc. Học giỏi nhé, giữ sức khoẻ nhé, hè vui nhé. Long đọc xong thì hỏi: mày viết cho cô Bình à? Tao của năm đó hèn thật, các bạn ạ."
+    },
+    {
+      "id": "mau-yeu-thich",
+      "vo": "Trong quyển lưu bút đó có mục màu yêu thích. Hà điền: màu trắng. Tôi đọc tới đó thì đứng hình mất một lúc. Cục tẩy màu trắng, mấy ông ạ. Tôi tự dựng nguyên một chuyện tình trong đầu từ đúng hai chữ. Long nghe xong, nó thở dài, bảo: cả lớp có mười hai đứa thích màu trắng. Ờ thì mười hai. Tôi tự sướng một mình cả tuần."
+    },
+    {
+      "id": "cang-tin",
+      "vo": "Cái hôm tôi còn đang sướng vì màu trắng thì cả lớp xuống căng tin mua bánh mì. Bánh mì trứng năm nghìn, mà Hà toàn mua hai cái. Tôi tưởng nó đói. Hoá ra một cái để dành cho em nó học lớp sáu. Nó bẻ đôi cái thứ hai, đưa tôi một nửa, nói: ăn đi, mày gầy như que. Tôi hỏi: thế còn mày? Nó cười."
+    },
+    {
+      "id": "tet",
+      "vo": "Nửa ổ bánh mì đó tôi nhớ tới tận Tết. Giao thừa tôi nhắn tin chúc Hà, soạn mất bốn mươi phút, sửa tám lần. Gửi xong tôi tắt máy, úp mặt xuống gối. Ngu không chịu được. Hai giờ sáng Hà nhắn lại: chúc mày sang năm bớt dốt Toán. Ơ, thế là tôi đọc cái tin đó tới sáng, các bạn ạ."
+    },
+    {
+      "id": "nghi-hoc",
+      "vo": "Ra Tết được hai tuần thì Hà nghỉ học. Nghỉ một ngày, tôi tưởng nó ốm. Nhưng nghỉ tới ba ngày thì cái ghế cạnh tôi trống hẳn, rộng ra một cách vô lý. Cô Bình điểm danh tới tên Hà thì dừng, gạch một cái rồi đi tiếp. Long quay xuống hỏi: mày có số nhà nó không? Ủa, tôi bảo: có. Tôi hèn nên tôi không đi."
+    },
+    {
+      "id": "khong-dam-hoi",
+      "vo": "Ba ngày Hà nghỉ, tôi đạp xe qua nhà nó đúng bốn lần. Lần nào cũng đi chậm lại ở đầu ngõ, định dựng xe, định gọi cổng, rồi lại đạp thẳng. Không gọi nổi. Trong sân nhà nó thì có một đống đồ phủ bạt xanh. Thằng Long chửi tôi qua điện thoại: mày hèn vừa thôi. Nó nói đúng. Thằng Kiên đó hèn thật, mấy ông ạ."
+    },
+    {
+      "id": "mat-sung",
+      "vo": "Ngày thứ tư thì Hà đi học lại. Nó tới sớm, ngồi sẵn ở bàn bốn, mắt sưng húp. Cả lớp nhìn, không đứa nào dám hỏi. Tôi ngồi xuống cạnh, im được đúng mười phút. Xong tôi làm cái việc ngu nhất đời tôi. Tôi quay sang nói: cho tao mượn cục tẩy tí. Hà đưa tay vào hộp bút, rồi bật khóc, các bạn ạ."
+    },
+    {
+      "id": "lan-thu-ba-muoi",
+      "vo": "Hà khóc ngay giữa tiết Toán của cô Bình, không ra tiếng, chỉ có vai rung. Nhưng cô chỉ nhìn xuống, quay lên viết bảng tiếp. Tôi thì vẫn chìa tay ra xin cục tẩy, ngu như cái cột. Long quay xuống, mắt tròn xoe. Hà lau mặt bằng tay áo, xong đặt cục tẩy vào lòng bàn tay tôi. Nó nói khẽ: nhà tao bán rồi."
+    },
+    {
+      "id": "nha-ban",
+      "vo": "Nhà Hà bán rồi. Bố mẹ nó ra toà từ trước Tết, bán nhà chia đôi. Mẹ nó đưa hai chị em vào Sài Gòn. Nó kể bằng giọng bình thường, như kể chuyện hàng xóm nhà ai. Tôi hỏi: bao giờ đi? Hà nói: ba tuần nữa. Ba tuần. Tôi ngồi đếm ngay tại chỗ, ra hai mươi mốt ngày. Ít kinh khủng, mấy ông ạ."
+    },
+    {
+      "id": "ba-tuan",
+      "vo": "Ba tuần trước ngày Hà vào Sài Gòn là ba tuần lạ nhất đời tôi. Tôi vẫn mượn cục tẩy mỗi ngày một lần, đúng luật cũ. Hà vẫn đưa, không hỏi gì. Nhưng cả hai đứa thì đều biết là đang đếm ngược. Long không trêu nữa, nó chỉ hỏi đúng một câu: nói chưa? Tôi lắc. Nó chửi tôi hèn. Hôm sau nó lại hỏi."
+    },
+    {
+      "id": "tap-noi",
+      "vo": "Tuần cuối tôi tập nói trước gương trong nhà tắm. Tập đúng một câu: Hà ơi, tao thích mày. Sáu chữ mà tôi tập mất ba buổi tối. Mẹ tôi gõ cửa hỏi: mày nói chuyện với ai trong đó? Tôi bảo: con học bài. Ờ, học bài trong nhà tắm. Mấy ông thấy đứa nào ngu hơn tôi chưa?"
+    },
+    {
+      "id": "ghe-da",
+      "vo": "Tập nói xong ba buổi thì còn bốn ngày, tôi rủ được Hà ra ghế đá sân trường. Trời tháng tư, nắng vàng khè, sân trường vắng ngắt. Tôi ngồi cách nó đúng một gang tay, tim đập như hôm mượn tẩy lần đầu. Tôi hít một hơi, gọi: Hà này. Nó quay sang hỏi: gì? Nhưng bác bảo vệ kéo cổng, kêu ầm là hết giờ, các bạn ạ."
+    },
+    {
+      "id": "trong-vao-lop",
+      "vo": "Cái cổng trường hôm ghế đá đó tôi ghét tới tận bây giờ. Về nhà tôi nằm nghĩ, thấy mình hỏng ở chỗ chuẩn bị quá kỹ. Câu sáu chữ mà tập ba buổi thì nó thành bài học thuộc, chứ đâu còn là câu nói. Thằng Long phán một câu chuẩn: mày đang thi chứ có phải tỏ tình đâu. Ờ, nó nói đúng. Tôi thi trượt đúng môn dễ nhất."
+    },
+    {
+      "id": "ngay-cuoi",
+      "vo": "Bốn ngày đó trôi nhanh kinh khủng, xong tới thứ Sáu là ngày cuối Hà đi học. Lớp chụp ảnh tập thể, cả lớp mặc áo dài với sơ mi trắng, đứng ba hàng ngoài sân trường. Hà đứng hàng hai, tôi hàng ba, cách đúng hai người. Thợ ảnh hô: cười lên nào. Long nhắc tôi: cười tử tế vào. Mặt tôi trong tấm ảnh đó như vừa ăn phải ớt."
+    },
+    {
+      "id": "long-day",
+      "vo": "Chụp ảnh xong cả lớp tản ra, Hà đứng một mình ở gốc bàng. Thằng Long đẩy vào lưng tôi một cái rõ mạnh, nó rít qua kẽ răng: đi đi, còn năm phút. Tôi hỏi: nói gì bây giờ? Nó chửi. Được ba bước thì chân tôi nặng như đeo hai bao xi măng. Nhưng lần này tôi không quay lại, mấy ông ạ."
+    },
+    {
+      "id": "nua-cau",
+      "vo": "Tôi đứng trước mặt Hà ở gốc bàng, mở mồm ra, và nói được đúng một nửa. Hà ơi, tao... Xong tắc. Tắc hoàn toàn, như máy tính treo. Hà đợi. Nó đợi lâu hơn cái mức mà một đứa con gái lớp mười một nên đợi. Rồi nó cười, hỏi: mày lại định mượn tẩy à? Tôi gật. Trời ơi, tôi gật thật. Gật đúng câu không nên gật."
+    },
+    {
+      "id": "xe-den",
+      "vo": "Tôi gật xong thì ngoài cổng có tiếng còi xe máy. Mẹ Hà tới đón, chở theo hai cái túi to. Hà quay đi được hai bước thì dừng, lục cặp. Nó lấy ra cái hộp bút màu tím, mở nắp. Nó nhặt một thứ bé xíu, đặt vào tay tôi, nói nhanh: giữ đi, tao không cần nữa. Tôi hỏi: cái gì đây? Nó chạy mất."
+    },
+    {
+      "id": "cuc-tay-tra-lai",
+      "vo": "Thứ bé xíu trong tay tôi là cục tẩy. Cục tẩy trắng, sứt một góc, mòn còn bằng hạt ngô. Ba mươi bảy lần mượn của tôi nằm gọn trong chỗ mòn đó. Tôi đứng giữa sân trường, nghe tiếng xe máy xa dần. Long chạy tới, hỏi: nói được chưa? Ơ, tôi xoè tay ra. Xong thằng Long im luôn, các bạn ạ."
+    },
+    {
+      "id": "khac-gi",
+      "vo": "Tối đó tôi soi cục tẩy dưới đèn bàn, xoay đủ bốn mặt. Ở mặt phẳng nhất thì có hai chữ số khắc bằng đầu compa, nét nông, hơi lệch. Ba mươi sáu. Tôi ngồi đếm lại trong đầu, đếm tới mờ cả mắt, đếm tới lúc mẹ tôi kêu: tắt đèn đi con. Hoá ra không. Không phải mình tôi đếm, mấy ông ạ."
+    },
+    {
+      "id": "manh-giay",
+      "vo": "Sáng sau tôi mở hộp bút cũ thì thấy một mẩu giấy gấp tư. Chữ Hà, nét nào ra nét đấy. Mẩu giấy viết đúng một dòng: lần thứ ba mươi bảy thì hỏi cái khác đi. Tôi ngồi xuống nền nhà. Ơ, lần thứ ba mươi bảy là sáng hôm qua. Và tôi đã dùng nó để mượn cục tẩy. Tôi thấy mình nhát hơn mình tưởng."
+    },
+    {
+      "id": "muoi-nam",
+      "vo": "Mười năm sau thằng Long cưới vợ, cả lớp mười một A bốn về gần đủ. Bàn bốn ngồi lại với nhau, thiếu đúng một người. Long say, nó vỗ vai tôi hỏi: mày còn giữ không? Tôi lấy ví ra, trong ngăn trong cùng thì có cục tẩy mòn bằng hạt ngô. Cả bàn im. Xong có đứa nói khẽ: thằng Kiên này ác thật."
+    },
+    {
+      "id": "ket",
+      "vo": "Tôi mượn cục tẩy ba mươi bảy lần. Ba mươi sáu lần Hà đếm, và đợi. Lần thứ ba mươi bảy thì tôi lại đi mượn cục tẩy. Thế thôi. Hết chuyện. Long bảo: kể ra thì nhẹ người. Ai từng có một cái bàn bốn của riêng mình thì kể tôi nghe dưới bình luận. Còn cục tẩy của các bạn, mòn tới đâu rồi?"
+    }
+  ]
+}

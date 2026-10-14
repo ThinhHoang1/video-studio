@@ -1,4 +1,6 @@
 import type {Kieu} from '../rig/kieu';
+import type {KhungTin} from '../phim/khung-tin';
+import type {TinDoc} from '../phim/phim-doc';
 import type {TrangThaiMat, TrangThaiMay} from '../rig/mat';
 import type {HinhMieng} from '../rig/mieng';
 
@@ -70,6 +72,25 @@ export type HanhDong = {
 export type DienVien = {
   /** tên trong KIEU (src/v2/rig/kieu.ts): nam, ha, long, mai, me, thay, nam-lon, ha-lon, trang */
   kieu: string;
+  /**
+   * ẢNH CẮT RỜI thay cho nhân vật vẽ — file PNG nền trong suốt trong `public/`.
+   * Dùng khi chủ nhân TẢI LÊN hình nhân vật của chính họ (linh vật thương hiệu,
+   * ảnh chụp cắt nền, hình do hoạ sĩ vẽ).
+   *
+   * ⚠️ ĐÁNH ĐỔI, phải nói rõ với chủ nhân trước khi dùng: ảnh dán thì KHÔNG nhép
+   * miệng, KHÔNG đổi tư thế, KHÔNG đổi góc nhìn, KHÔNG có biểu cảm. Nó chỉ dịch
+   * chuyển / phóng to / xoay được theo `act`. Cả video mà nhân vật chính là ảnh
+   * dán thì trông như trình chiếu, không phải hoạt hình.
+   *
+   * Muốn nhân vật diễn được thì tả cho tôi bằng lời để dựng trong
+   * `board.nhan_vat_tu_ve` — ảnh tải lên khi đó dùng làm THAM CHIẾU, không phải
+   * để dán thẳng.
+   *
+   * `kieu` vẫn phải khai (dùng cho log và cho cỡ); ảnh đè lên phần vẽ.
+   */
+  anh?: string;
+  /** tỉ lệ cao/rộng của ảnh dán (mặc định 1) — để ảnh không bị bóp méo */
+  anh_ti_le?: number;
   /**
    * ghi chú hiển thị cho người đọc board — KHÔNG ảnh hưởng render, validator không kiểm.
    * Dùng khi rig `kieu` không trùng tên trong chuyện: {"kieu": "trang", "ten": "chị Trang (HR)"}
@@ -393,6 +414,15 @@ export type Shot = {
   insert?: Insert;
   /** ô chèn nổi trong cùng khung — KHÔNG cắt cảnh; xem OChen */
   chen?: OChen[];
+  /**
+   * KHUNG BẢN TIN vẽ đè lên shot: chip mục + thanh tiêu đề + số tin + tên nguồn
+   * + ảnh báo + thanh chạy. Chỉ dùng cho `dinh_dang: "ban-tin"`.
+   *
+   * Khai ở shot ĐẦU của mỗi tin rồi để nguyên cho các shot sau của tin đó —
+   * người xem cần thanh tiêu đề đứng yên đủ lâu để đọc, không phải nháy theo shot.
+   * Xem src/v2/phim/khung-tin.tsx.
+   */
+  tin?: KhungTin;
   /** tên sfx trong thu-vien.json, nổ ở đầu shot */
   sfx?: string;
   /** bước zoom cứng trong shot: [giây, hệ số] — vd [[0, 1], [0.75, 1.3]] */
@@ -470,6 +500,11 @@ export type DoCamTuVe = {
 
 export type Board = {
   du_an: string;
+  /**
+   * Định dạng quyết định MẶT VẼ: 'ban-tin' dùng SanKhauTin (khung tin, không
+   * nhân vật), còn lại dùng SanKhau (rig nhân vật). Bỏ trống = kể chuyện.
+   */
+  dinh_dang?: 'ban-tin' | 'ke-chuyen';
   /** người kể mặc định cho truc-dien */
   nguoi_ke: string;
   mac_dinh?: Pick<Shot, 'loai' | 'co' | 'nen'>;
@@ -504,5 +539,12 @@ export type Board = {
    * ```
    */
   nhan_vat_tu_ve?: Record<string, Kieu>;
+
+  /**
+   * KHUNG DỌC 9:16 (Short/TikTok). Khai thì `dang-ky.mjs` đăng ký thêm
+   * composition `V2-<ten>-doc` 1080×1920: phim ngang nằm dải giữa, trên dưới lấp
+   * bằng ảnh tin làm mờ, kèm thẻ mở đỏ có caption. Xem src/v2/phim/phim-doc.tsx.
+   */
+  khung_doc?: TinDoc;
   chuong: BoardChuong[];
 };

@@ -1,0 +1,16 @@
+{
+  "mo-bai":    {"cast": ["nam","trang"], "nen": {"mau":"#f4a261","hoa_tiet":"toa"}},
+  "muon-xe":   {"cast": ["nam","long"],  "nen": {"tren":"#bfe0f5","duoi":"#e8f4ff"}},
+  "em-ha":     {"cast": ["nam","ha"],    "nen": {"mau":"#cfe3ff","hoa_tiet":"cham"}},
+  "chon-quan": {"cast": ["nam","meo"],   "nen": {"mau":"#ffe6b3","hoa_tiet":"cheo"}},
+  "gap-mat":   {"cast": ["nam","ha"],    "nen": {"tren":"#ffd9a0","duoi":"#fff4e0"}},
+  "goi-mon":   {"cast": ["nam","ha"],    "nen": "trang"},
+  "me-goi":    {"cast": ["nam","me"],    "nen": {"mau":"#ffd1d1","hoa_tiet":"toa"}},
+  "noi-chuyen":{"cast": ["nam","ha"],    "nen": {"mau":"#d9d2c5","hoa_tiet":"song"}},
+  "cuu-tinh":  {"cast": ["ha","meo"],    "nen": {"mau":"#ffe9b0","hoa_tiet":"cham"}},
+  "hoa-don":   {"cast": ["nam","trang"], "nen": {"mau":"#e0e0e0"}},
+  "tieng-tit": {"cast": ["nam","trang"], "nen": {"mau":"#7a1f2b","hoa_tiet":"toa"}},
+  "ha-tra":    {"cast": ["nam","ha"],    "nen": {"mau":"#bfe8dc","hoa_tiet":"toa"}},
+  "cho-ve":    {"cast": ["nam","ha"],    "nen": {"tren":"#2b2f63","duoi":"#6b6fae"}},
+  "ket":       {"cast": ["nam","ha"],    "nen": {"mau":"#ffd400","hoa_tiet":"toa"}}
+}

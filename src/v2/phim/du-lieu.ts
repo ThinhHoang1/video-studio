@@ -5,7 +5,13 @@ import type {Board, BoardChuong, Shot, CoCanh, LoaiShot} from '../board/kieu-boa
 import type {HinhMieng} from '../rig/mieng';
 
 /** dữ liệu sinh bởi pipeline */
-export type ChuongAudio = {id: string; kicker: string; heading: string; vo: string; audio: string; duration: number};
+/**
+ * `kicker`/`heading` là trường của BẢNG TIN (nhãn mục + tiêu đề tin), kịch bản
+ * kể chuyện không có. Khai bắt buộc thì mọi dự án storytime đều không ép kiểu
+ * được sang Manifest — và lỗi chỉ nổ ra ở `du-an.generated.ts` lúc build, tức là
+ * sau khi đã tiêu hết quota giọng đọc.
+ */
+export type ChuongAudio = {id: string; kicker?: string; heading?: string; vo: string; audio: string; duration: number};
 export type Manifest = {chapters: ChuongAudio[]};
 export type VoiceTrack = {am: number[]; nhan: number[]; nghi: boolean[]};
 export type MouthTrack = {fps: number; hold: number; duration: number; frames: string; rle: [number, string][]};
@@ -111,8 +117,22 @@ export const dungChuong = (ch: ChuongAudio, bc: BoardChuong | undefined, macDinh
   const shots: ShotDung[] = gop.map((s, i) => {
     const from = i === 0 ? 0 : s.at;
     const sau = i + 1 < gop.length ? gop[i + 1].at : total;
-    let len = sau - from;
-    if (typeof s.dai === 'number') len = Math.min(len, Math.max(NGAN_NHAT, f(s.dai)));
+    /**
+     * SHOT LUÔN CHẠY TỚI MỐC SAU. `dai` KHÔNG ĐƯỢC CẮT NGẮN.
+     *
+     * Trước đây `len = min(sau - from, dai)` — và phần hở còn lại KHÔNG AI LẤP.
+     * Sân khấu trống trơn: nhân vật biến mất, bối cảnh biến mất, chỉ còn phụ đề
+     * lơ lửng trên nền trắng. Ghi chú cũ gọi đó là "nhịp trắng", nhưng nhịp
+     * trắng là một khung ĐƯỢC DỰNG, không phải một lỗ thủng.
+     *
+     * Và nó không hiếm: bộ dựng board đặt `dai: 1.1` cho MỌI câu chốt, nên mỗi
+     * câu chốt kéo theo một lỗ. Đo trên phim 106 giây: ba quãng trống, dài nhất
+     * 0.97 giây. Lỗi này có trong mọi bản đã dựng trước đó.
+     *
+     * `dai` giữ lại làm GỢI Ý cho bộ dựng (nó dùng để biết chỗ nào là nhịp
+     * ngắn), nhưng độ dài thật luôn là khoảng cách tới mốc sau.
+     */
+    const len = sau - from;
     const loai = s.loai ?? macDinh?.loai ?? 'minh-hoa';
     return {...s, idx: i, from, len: Math.max(NGAN_NHAT, len), loai, co: s.co ?? macDinh?.co ?? CO_MAC_DINH[loai]};
   });

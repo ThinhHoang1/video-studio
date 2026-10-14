@@ -28,14 +28,25 @@ export type PhongCach = {
   tai?: boolean;
   mauAo?: string;
   mauQuan?: string;
+  /**
+   * MÀU DA. Trước đây da tô bằng `NEN` (#fdfdfd) — gần trắng, nên trên nền sáng
+   * nhân vật là một cái bóng RỖNG: chỉ thấy đường viền và quần áo, mặt và tay
+   * chân biến mất vào nền. Đây là lý do "nhân vật như hình que" chứ không phải
+   * vì thiếu chi tiết. Mặc định là một tông ấm nhạt, đủ để tách khỏi nền trắng
+   * mà không phá chất nét mực đen.
+   */
+  mauDa?: string;
   coAo?: 'v' | 'tron' | 'so-mi';
   tiLe?: 'lun' | 'chuan' | 'cao';
 };
+
+export const DA_MAC_DINH = '#fbdcc0';
 
 export const PHONG_CACH_MAC_DINH: Required<Omit<PhongCach, 'mauAo' | 'mauQuan'>> & Pick<PhongCach, 'mauAo' | 'mauQuan'> = {
   mat: 'oval',
   mui: 'khong',
   tai: false,
+  mauDa: DA_MAC_DINH,
   mauAo: undefined,
   mauQuan: undefined,
   coAo: 'v',

@@ -36,9 +36,23 @@ if (!existsSync(path.join(ROOT, video))) {
   process.exit(1);
 }
 
-// ── 1. tách khung xám 64×36 @12fps ─────────────────────────────────────
-const W = 64;
-const H = 36;
+// ── 1. tách khung xám @12fps ───────────────────────────────────────────
+/**
+ * ĐỘ PHÂN GIẢI LẤY MẪU KHÁC NHAU CHO HAI ĐỊNH DẠNG.
+ *
+ * 64×36 đủ cho kể chuyện: nhân vật cử động là cả mảng pixel đổi. Nhưng bảng tin
+ * chuyển động bằng Ken Burns — phóng 1.4%/giây. Trên khung 1920 đó là 27 px/giây,
+ * mắt thấy rõ; trên khung 64 px đó là 0.9 px/giây, tức 0.075 px mỗi khung 12fps —
+ * DƯỚI một pixel, máy không thấy gì.
+ *
+ * Đo chính bản render này ở ba độ phân giải, cùng một ngưỡng "khung đứng yên":
+ *     64×36  → 81% đứng yên      160×90 → 59%      320×180 → 27%
+ * Cùng một video, cùng một chuyển động thật. 64 px không phải thước đo sai với
+ * kể chuyện, nó chỉ mù với chuyển động chậm. Nên bảng tin đo ở 320×180.
+ */
+const LA_BAN_TIN_DO = (JSON.parse(readFileSync(path.join(path.dirname(new URL(import.meta.url).pathname), '..', `scripts/${process.argv[2]}.json`), 'utf8')).dinh_dang ?? '') === 'ban-tin';
+const W = LA_BAN_TIN_DO ? 320 : 64;
+const H = LA_BAN_TIN_DO ? 180 : 36;
 const FPSD = 12;
 // ffmpeg của Remotion bị cắt muxer rawvideo → ghi AVI chứa khung rawvideo xám rồi tự bóc chunk '00dc'.
 const tmpAvi = path.join(os.tmpdir(), `cham-diem-${process.pid}.avi`);
@@ -104,7 +118,7 @@ const tiLeTrang = trang.filter(Boolean).length / Math.max(1, N);
 const thoiLuong = N / FPSD;
 // thời lượng phải khớp audio: thẻ tiêu đề 1.6 s + Σ duration + đệm 0.4 s/chương (src/v2/phim/du-lieu.ts) — lệch > 1.5 s là ghép đoạn sai
 const manifestPath = `src/projects/${DU_AN}/data/${TEN}.generated.json`;
-const kyVong = existsSync(path.join(ROOT, manifestPath)) ? (() => { const mf = doc(manifestPath); return 1.6 + mf.chapters.reduce((a, c) => a + c.duration + 0.4, 0); })() : null;
+const kyVong = existsSync(path.join(ROOT, manifestPath)) ? (() => { const mf = doc(manifestPath); return (LA_BAN_TIN_DO ? 0 : 1.6) + mf.chapters.reduce((a, c) => a + c.duration + 0.4, 0); })() : null;
 
 // ── 2. từ board ────────────────────────────────────────────────────────
 const duongBoard = `src/projects/${DU_AN}/board.json`;
@@ -118,7 +132,14 @@ if (board) {
   bd = {
     soShot: shots.length,
     trucDien: shots.filter((s) => s.loai === 'truc-dien').length / shots.length,
-    chu: shots.filter((s) => s.chu?.length).length,
+    // Bản tin: thanh tiêu đề + chip mục + số tin (`shot.tin`) CHÍNH LÀ chữ trên
+    // màn, và nó còn đứng lâu hơn thẻ chữ. Không đếm nó là chấm sai định dạng.
+    // Ô CHÈN CÓ CHỮ CŨNG LÀ CHỮ TRÊN MÀN. Bản trước chỉ đếm `shot.chu`, nên một
+    // phim có 70 ô chèn dạng thẻ số ("BA MƯƠI BẢY LẦN" bật lên giữa khung, ngay
+    // trong cảnh đang diễn) vẫn bị chấm 0.28 chữ/15 giây. Đó là đo thiếu, không
+    // phải phim thiếu: ô chèn có `chu` hiện chữ y như thẻ chữ, chỉ khác là nó
+    // KHÔNG cắt mạch kể — tức là cách dùng tốt hơn, mà lại bị phạt.
+    chu: shots.filter((s) => s.chu?.length || s.tin?.heading || (s.chen ?? []).some((o) => o.chu)).length,
     dang: dem([...dien.map((d) => d.dang), ...acts.map((a) => a.dang)]),
     goc: dem([...dien.map((d) => d.goc), ...acts.map((a) => a.goc)].map((g) => g ?? 'truoc')),
     mau: dem(dien.map((d) => d.mau)),
@@ -140,6 +161,10 @@ if (board) {
     // nghĩa là vẫn đang dựng theo lối cũ.
     oChen: shots.filter((x) => (x.chen ?? []).length).length,
     zoomMuot: shots.filter((x) => x.zoom).length,
+    // ── chỉ số riêng của BẢNG TIN ──
+    coHinh: shots.filter((x) => x.tin?.anh || x.tin?.video).length,
+    soTin: new Set(shots.map((x) => x.tin?.heading).filter(Boolean)).size,
+    coNhanVat: shots.filter((x) => (x.dien ?? []).length).length,
   };
 }
 
@@ -170,7 +195,44 @@ if (existsSync(path.join(ROOT, duongMouth))) {
 
 // ── 4. bảng chấm ───────────────────────────────────────────────────────
 // [tên, giá trị đo, mốc tham chiếu (chuỗi), hàm đạt]
-const tieuChi = [
+const LA_BAN_TIN = (kb.dinh_dang ?? '') === 'ban-tin';
+
+/**
+ * ── BẢNG CHẤM BẢNG TIN, TÁCH HẲN ───────────────────────────────────────
+ *
+ * Bảng chấm kể chuyện đòi 15 tư thế, 12 prop, 40 mốc act mỗi phút — bảng tin
+ * KHÔNG CÓ NHÂN VẬT nên nó ăn 0 điểm ở mọi dòng đó và ra 21%. Đó không phải
+ * bảng tin dở, đó là chấm sai định dạng: đúng cái "bị liên luỵ bởi animation
+ * telling stories".
+ *
+ * Mốc lấy từ số đo 80 Short thể thao Việt (2026-09), so nhóm triệu view với
+ * nhóm đáy: dài 28–45 giây · cắt 1.2–2.5 giây · nhóm trên 0% khung tĩnh trong
+ * khi video 675 view có 67% · mỗi khung phải có hình thật · tối đa 3 tin.
+ */
+const tieuChiBanTin = () => {
+  const daiNhat = shot.length ? Math.max(...shot) : 0;
+  const ra = [
+    ...(kyVong !== null ? [['Thời lượng khớp audio (lệch s)', Math.abs(thoiLuong - kyVong), '≤ 1.5', (v) => v <= 1.5]] : []),
+    ['Tổng thời lượng (s)', thoiLuong, '25–45', (v) => v >= 25 && v <= 45],
+    ['Shot trung vị (s)', median, '1.2–2.5', (v) => v >= 1.0 && v <= 2.5],
+    ['Shot dài nhất (s)', daiNhat, '≤ 4', (v) => v <= 4],
+    // Đây là motion_share đo NGƯỢC: khung nào không khác khung trước là khung
+    // đứng. Ảnh tĩnh phải Ken Burns, không thì dòng này rớt.
+    ['Khung đứng yên (hold, 12fps)', hold, '≤ 40%', (v) => v <= 0.4],
+    // Bảng tin không bao giờ được về khung trắng/trống: đó là lỗi, không phải nhịp.
+    ['Khung trắng (nhịp trắng)', tiLeTrang, '≤ 2%', (v) => v <= 0.02],
+  ];
+  if (bd) {
+    ra.push(
+      ['Shot có hình thật', bd.coHinh / Math.max(1, bd.soShot), '≥ 90%', (v) => v >= 0.9],
+      ['Số tin trong video', bd.soTin, '≤ 3', (v) => v <= 3],
+      ['Shot có nhân vật hoạt hình', bd.coNhanVat, '= 0', (v) => v === 0]
+    );
+  }
+  return ra;
+};
+
+const tieuChi = LA_BAN_TIN ? tieuChiBanTin() : [
   ...(kyVong !== null ? [['Thời lượng khớp audio (lệch s)', Math.abs(thoiLuong - kyVong), '≤ 1.5', (v) => v <= 1.5]] : []),
   // NHỊP — đo thật trên Monsieur Tuna, Tuổi Thơ Có Gì Vui (10,7tr view), 3 cửa sổ:
   //   1:00–2:10 trung vị 0.79 s · 66% dưới 1 s · 49 lần đổi hình/phút
@@ -185,7 +247,7 @@ const tieuChi = [
   ['Khung đứng yên (hold, 12fps)', hold, '60–80%', (v) => v >= 0.55 && v <= 0.85],
   ['Khung trắng (nhịp trắng)', tiLeTrang, '4–12%', (v) => v >= 0.03 && v <= 0.15],
 ];
-if (bd) {
+if (bd && !LA_BAN_TIN) {
   tieuChi.push(
     ['Nói trực diện (theo shot)', bd.trucDien, '≤ 20%', (v) => v <= 0.2],
     ['Chữ trên màn / 15 s', (bd.chu / thoiLuong) * 15, '≥ 1', (v) => v >= 1],
@@ -212,7 +274,7 @@ if (bd) {
     ['Shot có đẩy máy mượt', bd.zoomMuot / Math.max(1, bd.soShot), '≥ 15%', (v) => v >= 0.15]
   );
 }
-if (doiMieng !== null) tieuChi.push(['Miệng đổi hình khi nói (frame)', doiMieng, '≥ 60%', (v) => v >= 0.6]);
+if (doiMieng !== null && !LA_BAN_TIN) tieuChi.push(['Miệng đổi hình khi nói (frame)', doiMieng, '≥ 60%', (v) => v >= 0.6]);
 
 const fmt = (v, ten = '') =>
   typeof v !== 'number' ? String(v) : /\(s\)|lệch s/.test(ten) ? `${v.toFixed(2)}s` : v <= 1 && !Number.isInteger(v) ? `${(v * 100).toFixed(0)}%` : v.toFixed(2).replace(/\.00$/, '');

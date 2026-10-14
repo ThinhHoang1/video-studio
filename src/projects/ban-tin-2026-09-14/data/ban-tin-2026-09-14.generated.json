@@ -1,0 +1,88 @@
+{
+  "voice": "Charon",
+  "style": "Bạn là người dẫn bảng tin nhanh của một kênh tin công nghệ Việt (kiểu bản tin 24h, BeatVN). Giọng nam trưởng thành, RÕ RÀNG, CHẮC, tốc độ vừa phải — nhanh hơn phát thanh viên truyền hình một chút nhưng KHÔNG hấp tấp, không cợt nhả, không cười. Đọc theo lối tin: nhấn vào TÊN RIÊNG và CON SỐ, ngắt rõ giữa các ý, hạ giọng cuối câu cho dứt khoát. Mỗi tin mở bằng nhịp hơi cao rồi đi xuống. Câu ngắn đọc gọn, không kéo dài. Chỗ cảnh báo thì trầm và chậm lại một nhịp. Chỗ việc-cần-làm thì rõ và chắc như một lời dặn. Tuyệt đối không giọng kể chuyện, không tưng tửng, không lên bổng xuống trầm kiểu kịch. Tiếng Việt giọng Bắc chuẩn, trung tính, dễ nghe.",
+  "total": 121.94399999999999,
+  "chapters": [
+    {
+      "id": "mo-bai",
+      "kicker": "Chào",
+      "heading": "Bảng tin Claw Expert",
+      "vo": "Ơ, sáng nay mình cài nhầm một cái skill lạ. Xong ngồi run. Mình là Nam, chuyên gia cài trước đọc sau. Hôm nay năm tin về skill, bảo mật và cộng đồng, mất của các bạn ba phút.",
+      "audio": "vo-ban-tin-2026-09-14/mo-bai.mp3",
+      "duration": 12.6
+    },
+    {
+      "id": "tu-viet-skill",
+      "kicker": "Tin chính",
+      "heading": "Ba cách tự viết skill",
+      "nguon": [
+        "https://tryopenclaw.io/vi/blog/huong-dan-tao-skill-openclaw/"
+      ],
+      "vo": "Tin đầu: bên TryOpenClaw vừa ra bài hướng dẫn tự viết skill, đủ ba cách làm, kèm mẫu runbook và cách chia lệnh. Có cả phần tốn bao nhiêu token, cái mà ai cũng quên tính. Viết xong đẩy thẳng lên ClawHub được. Anh em nào đang chờ người khác viết hộ skill thì thôi, tối nay ngồi viết đi.",
+      "anh": "tin/ban-tin-2026-09-14/tu-viet-skill.jpg",
+      "anh_nguon": "tryopenclaw.io",
+      "audio": "vo-ban-tin-2026-09-14/tu-viet-skill.mp3",
+      "duration": 18.048
+    },
+    {
+      "id": "bao-mat",
+      "kicker": "Cảnh báo",
+      "heading": "Bảy bước soi skill lạ",
+      "nguon": [
+        "https://tryopenclaw.io/vi/blog/bao-mat-skill-openclaw/"
+      ],
+      "vo": "Tin hai, và là tin mình sợ nhất: không phải skill nào cũng sạch. Bài này đưa bảy bước soi trước khi cài. Bước một là xem cái kho trên GitHub mới đẻ hôm qua hay đã sống lâu. Bước hai đọc kỹ tệp mô tả. Bước ba mở hết tệp đi kèm ra xem. Tối nay mở lại đống skill đang cài mà soi đi các bạn.",
+      "anh": "tin/ban-tin-2026-09-14/bao-mat.jpg",
+      "anh_nguon": "tryopenclaw.io",
+      "audio": "vo-ban-tin-2026-09-14/bao-mat.mp3",
+      "duration": 21.936
+    },
+    {
+      "id": "cho-skill",
+      "kicker": "Đáng thử",
+      "heading": "Chín skill đáng cài",
+      "nguon": [
+        "https://tryopenclaw.io/vi/blog/top-openclaw-skills-tot-nhat/"
+      ],
+      "vo": "Tin ba nhẹ nhàng hơn: danh sách chín skill đáng cài. Có Composio, có GitHub, có nhóm tự lái trình duyệt, có en tám en, Notion, và cả bộ đọc giọng ElevenLabs. Mình thử bốn cái, sống ba. Đừng cài cả chín trong một ngày như mình, máy ì mà chả nhớ cái nào làm gì.",
+      "anh": "tin/ban-tin-2026-09-14/cho-skill.jpg",
+      "anh_nguon": "tryopenclaw.io",
+      "audio": "vo-ban-tin-2026-09-14/cho-skill.mp3",
+      "duration": 17.208
+    },
+    {
+      "id": "tu-dang-bai",
+      "kicker": "Ứng dụng",
+      "heading": "Để máy đăng bài hộ",
+      "nguon": [
+        "https://tryopenclaw.io/vi/blog/openclaw-tao-content-mang-xa-hoi-tu-dong/"
+      ],
+      "vo": "Tin bốn cho bên làm truyền thông: có bài chỉ cách để OpenClaw tự tìm xu hướng, tự viết lời, gửi mình duyệt rồi mới đăng, xong tự đọc số liệu. Chỗ hay nhất là khúc gửi duyệt. Đừng bỏ khúc đó ra cho nhanh. Bỏ ra là có ngày nó đăng hộ mình một câu mình không dám nhận.",
+      "anh": "tin/ban-tin-2026-09-14/tu-dang-bai.jpg",
+      "anh_nguon": "tryopenclaw.io",
+      "audio": "vo-ban-tin-2026-09-14/tu-dang-bai.mp3",
+      "duration": 17.304
+    },
+    {
+      "id": "cong-dong",
+      "kicker": "Cộng đồng",
+      "heading": "Năm chỗ để hỏi",
+      "nguon": [
+        "https://tryopenclaw.io/vi/blog/cong-dong-openclaw-viet-nam/"
+      ],
+      "vo": "Tin năm: năm cộng đồng đáng vào. Có nhóm OpenClaw Việt Nam, nhóm toàn cầu, kho chính thức trên GitHub, góc trên Reddit và một góc trên X. Mình mắc cái gì cũng hỏi nhóm Việt trước, vì hỏi tiếng Việt lúc đang cuống thì nhanh hơn. Vào một nhóm thôi cũng được, nhưng vào đi.",
+      "anh": "tin/ban-tin-2026-09-14/cong-dong.jpg",
+      "anh_nguon": "tryopenclaw.io",
+      "audio": "vo-ban-tin-2026-09-14/cong-dong.mp3",
+      "duration": 17.784
+    },
+    {
+      "id": "ket",
+      "kicker": "Chốt",
+      "heading": "Việc hôm nay",
+      "vo": "Chốt lại nhá. Một, soi lại đống skill đang cài theo bảy bước kia. Hai, chọn đúng một skill mới mà cài. Ba, nếu để máy đăng bài thì giữ khúc duyệt lại. Mai mình theo tiếp vụ ClawHub. Còn các bạn, đang cài skill nào mà thấy ngon, thả xuống dưới cho mình xin.",
+      "audio": "vo-ban-tin-2026-09-14/ket.mp3",
+      "duration": 17.064
+    }
+  ]
+}

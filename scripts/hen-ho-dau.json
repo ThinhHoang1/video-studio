@@ -1,0 +1,104 @@
+{
+  "title": "Lần đầu hẹn hò: tôi mời, và cái máy quẹt thẻ",
+  "project": "hen-ho-dau",
+  "voice": "Fenrir",
+  "style": "Bạn là YouTuber kể chuyện đời mình bằng hoạt hình (kiểu storytime animation). Giọng nam trẻ, NĂNG LƯỢNG CAO, nói nhanh, hào hứng, như đang kể cho hội bạn thân nghe một chuyện vừa xảy ra sáng nay. Tốc độ nhanh hơn bình thường 20%. Lên giọng bất ngờ ở chỗ ngạc nhiên, hạ giọng thì thào ở chỗ bí mật, cười khẽ trong lúc nói khi tự thấy mình ngớ ngẩn. Câu ngắn đọc DỨT, dứt khoát như đấm punchline. Tuyệt đối không đọc đều đều, không trầm buồn, không kiểu kể chuyện ma. Tiếng Việt giọng Bắc, đời thường.",
+  "rubric": {
+    "hook": 1,
+    "mat_do": 1,
+    "chi_tiet": 1,
+    "leo_thang": 1,
+    "twist_callback": 1,
+    "nhan_vat_phu": 1,
+    "cau_chot": 1,
+    "giong_rieng": 1,
+    "viet_hoa": 1,
+    "cam": 1
+  },
+  "chapters": [
+    {
+      "id": "mo-bai",
+      "kicker": "Quán nướng",
+      "heading": "Tiếng tít định mệnh",
+      "vo": "Ơ, khoan. Cái máy quẹt thẻ nó kêu tít một tiếng rất to. Cả quán bia hơi quay lại nhìn. Tôi là Nam, chuyên gia hẹn hò bằng tiền chưa về. Hôm nay tôi kể chuyện buổi đầu tôi mời người ta đi ăn."
+    },
+    {
+      "id": "muon-xe",
+      "kicker": "Chuẩn bị",
+      "heading": "Con Wave đỏ của thằng Long",
+      "vo": "Trước buổi đó, tôi mượn xe máy thằng Long. Con Wave đỏ, biển đuôi bảy bảy, xăng còn vạch cuối. Long bảo: Anh đổ đầy bình hộ em nhá. Tôi bảo: Yên tâm. Yên tâm cái gì thì tôi cũng chưa biết. Các bạn ạ, trong tài khoản tôi lúc ấy có hai trăm mười nghìn, thế mà dám mời người ta đi quán bia hơi. Tôi ngu thật."
+    },
+    {
+      "id": "em-ha",
+      "kicker": "Nhân vật",
+      "heading": "Hà, nhắn hai tháng chưa gặp",
+      "vo": "Người tôi rủ đi quán bia hơi tên Hà. Quen qua nhóm chát lớp cũ, nhắn hai tháng, gọi điện bốn lần, chưa gặp mặt lần nào. Hà nhắn: Mai rảnh không anh. Tôi để đúng một phút rồi mới trả lời, cho ra vẻ bận. Ơ mà một phút thì đỡ rảnh hơn chỗ nào nhỉ. Chả chỗ nào. Xong tôi ngồi cười một mình."
+    },
+    {
+      "id": "chon-quan",
+      "kicker": "Tính toán",
+      "heading": "Nguyên tắc chọn quán bất di bất dịch",
+      "vo": "Chọn quán xong, tôi mới thấy mình tài. Nguyên tắc của tôi bất di bất dịch, anh em ạ: quán ngon thì đắt, quán rẻ thì tận ngõ, quán vừa túi thì đang sửa. Tôi chọn cái quán trong ngõ Tạ Quang Bửu vì nó có đèn vàng. Về mặt tài chính, tôi đã tối ưu. Về mặt tài khoản, tôi đã toang."
+    },
+    {
+      "id": "gap-mat",
+      "kicker": "Sáu giờ tối",
+      "heading": "Hà đến, tôi quên mất mình là ai",
+      "vo": "Sáu giờ tối, Hà tới cái ngõ đó. Áo sơ mi trắng, tóc buộc, cười một cái. Ở nhà tôi tập ba câu mở đầu. Quên sạch. Câu đầu tiên tôi nói với người con gái nhắn tin hai tháng là: Em ăn cơm chưa. Chúng tôi đang đứng trước cửa quán ăn. Tôi muốn độn thổ ngay tại chỗ."
+    },
+    {
+      "id": "goi-mon",
+      "kicker": "Thực đơn",
+      "heading": "Ba lần lật trang",
+      "vo": "Vào bàn, độn thổ không được nên tôi cầm thực đơn lên. Lật trang một, tôi nhìn giá. Lật trang hai, tôi nhìn giá. Lật trang ba, tôi nhìn Hà, xong nói một câu rất đàn ông: Em cứ gọi thoải mái đi. Tôi tưởng Hà sẽ khách sáo. Không hề. Hà gọi ba món, gọi rất thoải mái, đúng như tôi mời."
+    },
+    {
+      "id": "me-goi",
+      "kicker": "Giữa chừng",
+      "heading": "Mẹ gọi đúng lúc đang gắp",
+      "vo": "Ba món vừa ra thì mẹ gọi. Tôi bấm nghe vì sợ mẹ lo. Mẹ hỏi rõ to: Con đang ở đâu, ăn cơm chưa, có tiền không con. Cả bàn bên cạnh nghe hết. Hà cúi xuống cười. Ủa mẹ ơi, câu thứ ba mẹ hỏi hơi đúng trọng tâm quá đấy ạ. Xong mẹ còn hỏi lại lần nữa."
+    },
+    {
+      "id": "noi-chuyen",
+      "kicker": "Chủ đề",
+      "heading": "Mười hai phút bàn về tắc đường",
+      "vo": "Mẹ hỏi có tiền không xong tôi tắt máy, tưởng cứu được tình hình. Ai ngờ tôi lấy lại phong độ bằng cách nói về tắc đường. Tôi nói mười hai phút về đường Trường Chinh. Hà gật. Tôi tưởng Hà thấy hay. Chả hay. Anh em ạ, thằng con trai mà bình luận thời tiết Hà Nội là nó hết sạch chủ đề."
+    },
+    {
+      "id": "cuu-tinh",
+      "kicker": "Cứu tinh",
+      "heading": "Con mèo quán nướng",
+      "vo": "Ủa mà đúng lúc hết chủ đề thì trời thương, một con mèo béo vàng đi qua chân bàn. Hà reo lên, xong kể chuyện con mèo nhà Hà ở quê. Tôi tưởng mình được cứu. Hoá ra được nghỉ. Từ phút đó Hà nói, tôi gật, đúng hai mươi phút. Các bạn ạ, tôi biết ơn con mèo đó hơn biết ơn chính mình."
+    },
+    {
+      "id": "hoa-don",
+      "kicker": "Khoảnh khắc",
+      "heading": "Tôi gọi tính tiền bằng giọng trầm",
+      "vo": "Con mèo đi rồi thì hoá đơn tới. Tôi gọi tính tiền bằng cái giọng trầm nhất tôi có. Bốn trăm tám mươi lăm nghìn. Trong tài khoản tôi: hai trăm mười nghìn. Tôi vẫn đưa thẻ ra, đưa với thái độ của một người đàn ông có tiền. Vì tôi tin vào phép màu. Phép màu không tới."
+    },
+    {
+      "id": "tieng-tit",
+      "kicker": "Cao trào",
+      "heading": "Máy kêu tít, cả quán quay lại",
+      "vo": "Thẻ vừa cắm vào thì máy kêu tít. Bạn nhân viên nhìn màn hình, nhìn tôi, xong nói nhỏ: Anh ơi thẻ không được ạ. Nhỏ với bạn ấy thôi, chứ với tôi thì to bằng loa phường. Hà ngẩng lên. Tôi cười. Cái cười của một thằng vừa chết trong lòng. Toang thật sự rồi các bạn ạ."
+    },
+    {
+      "id": "ha-tra",
+      "kicker": "Cú lật",
+      "heading": "Hà mở điện thoại ra quét mã",
+      "vo": "Tôi đang định bảo để anh chạy về phòng trọ lấy tiền, thế mà Hà đã mở điện thoại ra quét mã. Quét xong Hà bảo: Lần sau anh mời nhá. Không giận, không mỉa, không làm to chuyện. Tôi thì đứng đó, tay cầm cái thẻ vô dụng như cầm tấm vé xe đã hết hạn. Nhục."
+    },
+    {
+      "id": "cho-ve",
+      "kicker": "Về nhà",
+      "heading": "Xăng còn vạch cuối và lời hứa với Long",
+      "vo": "Cầm cái thẻ vô dụng đó tôi chở Hà về, xe thằng Long vẫn vạch xăng cuối, tôi đi đúng số hai cho tiết kiệm. Tôi tưởng Hà im vì ngại. Nhưng xuống xe Hà bảo: Em thấy anh buồn cười thật đấy. Tôi về nhắn Long: Mai anh đổ đầy bình cho em. Long nhắn lại đúng một dấu chấm hỏi."
+    },
+    {
+      "id": "ket",
+      "kicker": "Bây giờ",
+      "heading": "Ba năm sau vẫn là tôi trả",
+      "vo": "Ba năm rồi, giờ đi ăn Hà vẫn nhắc cái máy quẹt thẻ hôm đó. Tôi giả vờ không nhớ. Thật ra tôi nhớ rõ từng nghìn, nhớ cả mùi quán bia hơi trong ngõ ấy. Còn các bạn, buổi hẹn đầu của các bạn toang ở chỗ nào, kể tôi nghe với."
+    }
+  ]
+}

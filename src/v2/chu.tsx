@@ -63,7 +63,11 @@ const toaDo = (vt: ViTri, W: number, H: number, neoX?: number, neoY?: number): {
     case 'phai':
       return {x: W * 0.73, y: H * 0.42};
     case 'tren':
-      return {x: W * 0.5, y: H * 0.13};
+      // 0.18 H, không phải 0.13. Khối chữ canh giữa QUANH tâm, nên thẻ hai dòng
+      // cỡ lớn ở 0.13 H trồi lên khỏi mép trên — đo thật trên một thẻ punchline
+      // "TÔI NGU THẬT": mất nguyên nửa trên của chữ. 0.18 H vẫn là "ở trên" mà
+      // nằm gọn trong khung an toàn.
+      return {x: W * 0.5, y: H * 0.18};
     case 'duoi':
       return {x: W * 0.5, y: H * 0.86};
     case 'canh-dau': {

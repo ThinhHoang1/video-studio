@@ -1,5 +1,5 @@
 {
-  "title": "Bảng tin Agent Brief #1 — OpenClaw ra hai bản, và một con sâu zero-click",
+  "title": "Bảng tin Claw Expert #1 — OpenClaw ra hai bản, và một con sâu zero-click",
   "project": "ban-tin-2026-09-10",
   "dinh_dang": "ban-tin",
   "voice": "Fenrir",
@@ -19,7 +19,9 @@
       "nguon": [
         "https://docs.openclaw.ai/releases",
         "https://freedom.tech/posts/2026-09-10-openclaw-2026-6-35/"
-      ]
+      ],
+      "anh": "tin/ban-tin-2026-09-10/ban-lts.jpg",
+      "anh_nguon": "docs.openclaw.ai"
     },
     {
       "id": "trinh-duyet",
@@ -28,7 +30,9 @@
       "vo": "Bản hai không hai sáu chấm chín chấm ba mới đúng là thứ đáng nghịch. Agent tự lái trình duyệt thật. Skill giữ được trạng thái giữa các phiên. Xong chạy việc trên cloud luôn. Nghĩa là skill nhớ việc đang làm dở, không phải dựng lại ngữ cảnh mỗi lần nữa. Mình mà cho nó chạm tài khoản thật thì chết dở. Các bạn thử ở máy phụ thôi nhá.",
       "nguon": [
         "https://docs.openclaw.ai/releases"
-      ]
+      ],
+      "anh": "tin/ban-tin-2026-09-10/trinh-duyet.jpg",
+      "anh_nguon": "docs.openclaw.ai"
     },
     {
       "id": "mat-phien",
@@ -37,7 +41,9 @@
       "vo": "Chuyện nhỏ mà ai dùng skill cũng dính. Có commit mới, nạp lại snapshot phiên khi gateway khởi động lại. Trước đó restart là skill mất dấu. Chạy lại từ đầu. Mình ngồi hỏi mãi sao nó im, ngu thật, hoá ra lỗi ở đấy. Bạn nào viết mấy đoạn tự thử lại trong skill thì bỏ được rồi nhá.",
       "nguon": [
         "https://docs.openclaw.ai/releases"
-      ]
+      ],
+      "anh": "tin/ban-tin-2026-09-10/mat-phien.jpg",
+      "anh_nguon": "docs.openclaw.ai"
     },
     {
       "id": "dashboard",
@@ -46,7 +52,9 @@
       "vo": "Cộng đồng thì có tập podcast số mười, nói về dashboard. Ba mức thôi. Dùng một mình, luồng việc cả nhóm, và tự dựng dashboard riêng. Mình nghe mỗi phần nhóm, xong thấy mình dựng sai từ đầu, chết dở. Nhóm nào đang cãi nhau ai xem được gì thì bật nghe lúc ăn trưa nhá các bạn.",
       "nguon": [
         "https://docs.openclaw.ai/releases"
-      ]
+      ],
+      "anh": "tin/ban-tin-2026-09-10/dashboard.jpg",
+      "anh_nguon": "docs.openclaw.ai"
     },
     {
       "id": "weworm",

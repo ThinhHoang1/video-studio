@@ -1,0 +1,63 @@
+{
+  "title": "Bốn mươi ngày từ vô địch xuống hạng tư",
+  "project": "bong-da-40-ngay",
+  "voice": "Fenrir",
+  "style": "Bạn là một YouTuber Việt đang NÓI CHUYỆN với người nghe, kể lại chuyện đời mình như đang kể cho thằng bạn thân hoặc cho 'em' đang ngồi đối diện — không đọc kịch bản. Giọng nam trẻ miền Bắc, năng lượng cao, nói nhanh hơn bình thường 20%, câu dài đọc liền một hơi, tới câu ngắn thì ngắt hẳn và nhấn như đấm. Giữ nguyên tiếng đệm (nhá, đấy, xong, ờ, ấy), thở và cười khẽ khi tự chửi mình, hạ giọng thì thào ở chỗ bí mật, lên giọng bất ngờ ở chỗ ngạc nhiên. Từ chửi nhẹ đọc tự nhiên, không nhấn quá. Tuyệt đối không đọc đều đều, không trầm buồn, không kiểu đọc bản tin hay kể chuyện ma.",
+  "chapters": [
+    {
+      "id": "mo-bai",
+      "kicker": "Ba giờ sáng",
+      "heading": "Vô địch rồi hạng tư",
+      "vo": "Ba giờ sáng, tôi ngồi vỉa hè, mặt vẽ cờ. Cái kèn hết pin. Tôi là Nam, cổ động viên ruột, xem bóng thì dốt, đi bão thì chăm. Hôm nay kể các bạn chuyện bốn mươi ngày vừa vô địch vừa hạng tư."
+    },
+    {
+      "id": "dem-chung-ket",
+      "kicker": "Đêm 26 tháng 8",
+      "heading": "Long không biết cộng",
+      "vo": "Đêm hai sáu tháng tám nhá, tôi với Long ngồi quán bia hơi, ghế nhựa, mười hai cốc. Phút chín mươi, thua một hai. Long úp mặt khóc: hết rồi mày ơi. Tôi khóc theo. Hai thằng không ai biết cộng, tổng hai trận mình vẫn dẫn. Xong phút chín mươi cộng ba, cầu thủ Thái đánh đầu vào lưới nhà. Long trèo lên ghế hét. Chúng ta vô địch!"
+    },
+    {
+      "id": "di-bao",
+      "kicker": "Đi bão",
+      "heading": "Về ngủ đi con",
+      "vo": "Xong nhá, cả phố đổ ra đường. Tôi vẽ cờ lên má. Vẽ ngược. Toang. Long vẽ lên cả mặt. Ông chủ quán vẽ lên con chó. Ngã tư có cặp đang chụp ảnh cưới, cô dâu cầm cờ thay hoa, các bạn ạ. Ba giờ sáng Long đăng Facebook: thầy Kim thiên tài, chúng ta số một châu Á. Mẹ Long bình luận: VỀ NGỦ ĐI CON."
+    },
+    {
+      "id": "hai-giai",
+      "kicker": "Một tháng sau",
+      "heading": "Mời phụ huynh",
+      "vo": "Đúng một tháng sau, Long gọi: tối nay đá ASEAN Cup đấy. Tôi bảo: mày say à, vô địch rồi còn đá gì. Ơ, hoá ra năm nay có hai giải ASEAN Cup thật. Chết dở. Một của AFF, một của FIFA. Cùng tên luôn. Kiểu đi học có hai bài kiểm tra trùng tên ấy các bạn. Bài đầu mình được mười. Bài sau... mời phụ huynh."
+    },
+    {
+      "id": "phut-bu-gio",
+      "kicker": "Phút 90+3",
+      "heading": "Đòi lại, kèm lãi",
+      "vo": "Hai chín tháng chín, gặp lại Thái. Phút thứ mười, thủng lưới. Long bảo: bình tĩnh, mình chuyên gỡ phút chín mươi cộng ba. Đúng phút chín mươi cộng ba có bàn thật, các bạn ạ. Thái ghi. Thua hai không. Tháng tám họ tặng mình một bàn bù giờ, tháng chín họ đòi. Kèm lãi. Xong Long tắt tivi đi về. Tivi nhà tôi."
+    },
+    {
+      "id": "malaysia",
+      "kicker": "Tranh hạng ba",
+      "heading": "Giấy tờ thật",
+      "vo": "Xong tranh hạng ba với Malaysia. Nhắc anh em nhớ nhá, năm ngoái họ thắng mình bốn không, rồi bị xử thua vì bảy bộ hồ sơ nhập tịch làm giả. Lần này họ thắng một không. Ít bàn hơn. Nhưng giấy tờ thật. Họ được thưởng gần bảy tỷ. Thủ tướng họ gửi lời chúc mừng. Mình được thưởng gì? Một đêm cãi nhau trên mạng."
+    },
+    {
+      "id": "chung-ta",
+      "kicker": "Bài học",
+      "heading": "Các anh ấy",
+      "vo": "Sáng hôm sau Long đăng: các anh ấy đá như đi dạo. Các anh ấy. Tháng tám còn là chúng ta cơ mà. Ơ nhưng mà các bạn ơi, mình vẫn có vé Asian Cup, nhất bảng, mười tám điểm tuyệt đối. Ba điểm trong đó do phòng hồ sơ ghi bàn. Long lại đổi về chúng ta. Còn bạn, đi bão mấy lần? Kể dưới bình luận."
+    }
+  ],
+  "rubric": {
+    "hook": 1,
+    "mat_do": 1,
+    "chi_tiet": 1,
+    "leo_thang": 1,
+    "twist_callback": 1,
+    "nhan_vat_phu": 1,
+    "cau_chot": 1,
+    "giong_rieng": 1,
+    "viet_hoa": 1,
+    "cam": 1
+  },
+  "nguon": "ASEAN Cup 2026 (AFF) chung kết lượt về 26/08/2026 Việt Nam 2-2 Thái Lan, tổng 4-2, phút 90+3 Jarunongkran phản lưới (VOV); FIFA ASEAN Cup 2026: 29/09 Thái Lan 2-0 Việt Nam (Sarach 10', Chaiyaphon Otton 90+3, FIFA.com), tranh hạng ba 05/10 Malaysia 1-0 Việt Nam (VnExpress), Malaysia nhận 1,07 triệu RM ≈ 7 tỷ, Thủ tướng Anwar chúc mừng (Dân trí 06/10); vòng loại Asian Cup 2027: Malaysia 4-0 Việt Nam 10/06/2025 bị AFC xử thua 0-3 vì 7 cầu thủ nhập tịch hồ sơ giả, Việt Nam nhất bảng F 18 điểm (Tuổi Trẻ, SGGP); đêm 26/8 cặp đôi chụp ảnh cưới khi đi bão (Việt Giải Trí). Nam, Long, mẹ Long là nhân vật hư cấu."
+}

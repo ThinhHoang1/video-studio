@@ -7,7 +7,7 @@ import {TocSau, TocTruoc} from './toc';
 import {TU_THE, TuThe, Tay, Chan} from './tu-the';
 import {KIEU, Kieu, layPhongCach, PhongCach} from './kieu';
 import {DoCam} from './do-cam';
-import {TaiThuVe, MomVe, SungVe, VanVe, DuoiVe} from './thu';
+import {TaiThuVe, MomVe, SungVe, VanVe, DuoiVe, BanChanThu} from './thu';
 import type {DoCamTuVe} from '../board/kieu-board';
 
 /**
@@ -110,6 +110,11 @@ const chi = (x0: number, y0: number, d: number, t: Tay, side: 1 | -1, K: Khung) 
   return {e, w, khop: [[x0, y0] as Diem, e, w]};
 };
 
+/**
+ * Ống tay / ống chân. `mau` mặc định là NEN (#fdfdfd) — gần trắng. Người gọi
+ * PHẢI truyền màu da cho phần da trần, nếu không chi trở thành hai đường viền
+ * rỗng trên nền sáng. Xem PhongCach.mauDa.
+ */
 const Ong: React.FC<{d: string; day: number; net: number; mau?: string}> = ({d, day, net, mau = NEN}) => (
   <g>
     <path d={d} fill="none" stroke={MUC} strokeWidth={day + 2 * net} strokeLinecap="round" strokeLinejoin="round" />
@@ -140,7 +145,7 @@ const Mui: React.FC<{dau: number; cx: number; cy: number; net: number; mui: NonN
  * Tai (PhongCach.tai) — nửa vòng tròn bám mép sọ, vẽ TRƯỚC sọ (sọ đè nửa trong) và trước TocTruoc (tóc che được).
  * truoc/sau: hai tai ±rx · ba-phan-tu: chỉ tai phía xa mặt (−x) · nghieng: một tai lùi về gáy.
  */
-const Tai: React.FC<{dau: number; cx: number; cy: number; rx: number; net: number; goc: GocNhin; f: 1 | -1}> = ({dau: d, cx, cy, rx, net, goc, f}) => {
+const Tai: React.FC<{dau: number; cx: number; cy: number; rx: number; net: number; goc: GocNhin; f: 1 | -1; mauDa?: string}> = ({dau: d, cx, cy, rx, net, goc, f, mauDa}) => {
   const ben: number[] = goc === 'truoc' || goc === 'sau' ? [-1, 1] : goc === 'ba-phan-tu' ? [-0.92 * f] : [-0.55 * f];
   const r = 0.1 * d;
   const y = cy + 0.14 * d;
@@ -151,7 +156,7 @@ const Tai: React.FC<{dau: number; cx: number; cy: number; rx: number; net: numbe
         const h = Math.sign(b) || 1;
         return (
           <g key={b}>
-            <path d={`M ${x} ${y - r} a ${r} ${r} 0 0 ${h > 0 ? 1 : 0} 0 ${2 * r} z`} fill={NEN} stroke={MUC} strokeWidth={net} strokeLinejoin="round" />
+            <path d={`M ${x} ${y - r} a ${r} ${r} 0 0 ${h > 0 ? 1 : 0} 0 ${2 * r} z`} fill={mauDa ?? NEN} stroke={MUC} strokeWidth={net} strokeLinejoin="round" />
             {d >= 200 && <path d={`M ${x + h * r * 0.55} ${y - r * 0.35} q ${h * r * 0.15} ${r * 0.4} ${-h * r * 0.2} ${r * 0.55}`} fill="none" stroke={MUC} strokeWidth={net * 0.7} strokeLinecap="round" />}
           </g>
         );
@@ -262,7 +267,7 @@ export const Dau: React.FC<DauProps> = ({kieu, dau: d, cx, cy, net, mat, may, mi
           <path d={so} />
         </clipPath>
       </defs>
-      {pc.tai && !k.thu?.tai && <Tai dau={d} cx={cx} cy={cyS} rx={rx} net={n} goc={goc} f={f} />}
+      {pc.tai && !k.thu?.tai && <Tai dau={d} cx={cx} cy={cyS} rx={rx} net={n} goc={goc} f={f} mauDa={pc.mauDa} />}
       {/* Tai thú vẽ TRƯỚC sọ: sọ đè mất chân tai nên không thấy khớp. */}
       {k.thu?.tai && (
         <TaiThuVe dau={d} cx={cx} cy={cyS} rx={rx} ry={ry} net={n} kieu={k.thu.tai} mau={k.thu.mauLong} goc={goc} f={f} />
@@ -271,10 +276,16 @@ export const Dau: React.FC<DauProps> = ({kieu, dau: d, cx, cy, net, mat, may, mi
           LIỀN nhau. Bản trước vẽ mõm sau sọ, thành ra một cái hộp rời chìa khỏi
           mặt — nhìn như đeo mỏ giả. Đổi lại thì mắt/miệng cũng nằm trên sọ chứ
           không trên mõm; đúng như cá sấu của kênh tham chiếu. */}
-      {coMat && k.thu?.mom && (
+      {/* Mõm NGHIÊNG vẽ trước sọ: gốc mõm chìm trong sọ nên hai khối liền nhau.
+          Mõm NHÌN THẲNG phải vẽ SAU sọ, nếu không sọ đè mất — bản trước cá sấu
+          nhìn thẳng chỉ còn một cái đầu xanh tròn, không thấy mõm đâu. */}
+      {coMat && k.thu?.mom && goc !== 'truoc' && (
         <MomVe dau={d} cx={cx} cy={cyM} net={n} kieu={k.thu.mom} rang={k.thu.rang} mau={k.thu.mauLong} goc={goc} f={f} />
       )}
-      <path d={so} fill={k.thu?.mauLong ?? NEN} stroke={MUC} strokeWidth={n} strokeLinejoin="round" />
+      <path d={so} fill={k.thu?.mauLong ?? pc.mauDa ?? NEN} stroke={MUC} strokeWidth={n} strokeLinejoin="round" />
+      {coMat && k.thu?.mom && goc === 'truoc' && (
+        <MomVe dau={d} cx={cx} cy={cyM} net={n} kieu={k.thu.mom} rang={k.thu.rang} mau={k.thu.mauLong} goc={goc} f={f} />
+      )}
       {k.thu?.van && k.thu.van !== 'khong' && (
         <VanVe dau={d} cx={cx} cy={cyS} rx={rx} ry={ry} net={n} kieu={k.thu.van} goc={goc} />
       )}
@@ -433,23 +444,29 @@ export const NhanVat: React.FC<NhanVatProps> = ({kieu, dau, x, y, dang = 'dung',
       : null;
     return (
       <g key={side}>
-        <Ong d={ongTayVe(g.khop, bd, seedGoc ^ bam(`tay-${ten}`))} day={K.tayDay * d} net={n} />
+        {/* Tay thú tô màu lông; tay người để trắng như cũ. */}
+        <Ong d={ongTayVe(g.khop, bd, seedGoc ^ bam(`tay-${ten}`))} day={K.tayDay * d} net={n} mau={k.thu?.mauLong ?? pc.mauDa} />
         {tayAo && <path d={tayAo} fill="none" stroke={pc.mauAo} strokeWidth={K.tayDay * d} strokeLinecap="round" />}
         {cam && tayCam === ten && <DoCam ten={cam} dau={d} x={g.w[0]} y={g.w[1]} huong={huong} net={n} tuVe={camTuVe} />}
-        <BanTay dau={d} x={g.w[0]} y={g.w[1]} huong={huong} kieu={t.ban} net={n} lat={side === -1} />
+        {/* Thú thì KHÔNG dùng bàn tay người — xem BanChanThu. */}
+        {k.thu ? (
+          <BanChanThu dau={d} x={g.w[0]} y={g.w[1]} huong={huong} net={n} mau={k.thu.mauLong} />
+        ) : (
+          <BanTay dau={d} x={g.w[0]} y={g.w[1]} huong={huong} kieu={t.ban} net={n} lat={side === -1} mauDa={pc.mauDa} />
+        )}
       </g>
     );
   };
 
   const veChan = (c: ReturnType<typeof chanGoc>, side: 1 | -1) => (
     <g key={side}>
-      <Ong d={ongTayVe(c.khop, bd, seedGoc ^ bam(`chan-${side}`))} day={K.chanDay * d} net={n} mau={pc.mauQuan} />
+      <Ong d={ongTayVe(c.khop, bd, seedGoc ^ bam(`chan-${side}`))} day={K.chanDay * d} net={n} mau={pc.mauQuan ?? k.thu?.mauLong ?? pc.mauDa} />
       <ellipse
         cx={c.fx + (nghieng ? 0.08 * d : side * 0.05 * d + (goc === 'ba-phan-tu' ? 0.03 * d : 0))}
-        cy={c.fy}
-        rx={nghieng ? 0.13 * d : goc === 'ba-phan-tu' ? 0.12 * d : K.banChan * 0.55 * d}
-        ry={0.045 * d}
-        fill={NEN}
+        cy={c.fy - (k.thu ? 0.03 * d : 0)}
+        rx={k.thu ? 0.095 * d : nghieng ? 0.13 * d : goc === 'ba-phan-tu' ? 0.12 * d : K.banChan * 0.55 * d}
+        ry={k.thu ? 0.075 * d : 0.045 * d}
+        fill={k.thu?.mauLong ?? NEN}
         stroke={MUC}
         strokeWidth={n}
       />

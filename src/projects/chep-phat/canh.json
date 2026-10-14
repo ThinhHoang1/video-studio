@@ -1,0 +1,79 @@
+{
+  "mo-bai": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "mau": "#ffe6b3",
+      "hoa_tiet": "toa"
+    },
+    "canh": "lop-hoc"
+  },
+  "cau-phat": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "mau": "#cfe3ff",
+      "hoa_tiet": "cham"
+    },
+    "canh": "lop-hoc"
+  },
+  "noi-voi-ai": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#e6f2e0",
+      "hoa_tiet": "song"
+    },
+    "canh": "lop-hoc"
+  },
+  "long-phat-hien": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "mau": "#ffd9a0",
+      "hoa_tiet": "cheo"
+    },
+    "canh": "hanh-lang"
+  },
+  "phat-tiep": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#e4d7f0",
+      "hoa_tiet": "cham"
+    },
+    "canh": "lop-hoc"
+  },
+  "co-biet": {
+    "cast": [
+      "nam",
+      "me"
+    ],
+    "nen": {
+      "mau": "#ffd1d1",
+      "hoa_tiet": "toa"
+    },
+    "canh": "lop-hoc"
+  },
+  "ket": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#ffd400",
+      "hoa_tiet": "toa"
+    },
+    "canh": "san-truong"
+  }
+}

@@ -10,7 +10,7 @@ import {BanSacTest, BAN_SAC_W, BAN_SAC_H} from './v2/dev/ban-sac-test';
 import {Avatar, AVATAR_W, AVATAR_H} from './v2/dev/avatar';
 import {Bia, BIA_W, BIA_H} from './v2/dev/bia';
 import {BiaKenh, KENH_W, KENH_H} from './v2/dev/bia-kenh';
-import {DanNhanVat, DAN_W, DAN_H} from './v2/dev/dan-nhan-vat';
+import {DanNhanVat, DAN_W, DAN_H, MotNhanVat, MOT_W, MOT_H} from './v2/dev/dan-nhan-vat';
 
 /**
  * Chỉ đăng ký những composition đang dùng.
@@ -28,6 +28,11 @@ export const RemotionRoot: React.FC = () => (
     {DU_AN_V2.map((p) => (
       <Composition key={p.id} id={p.id} component={p.Phim} durationInFrames={p.total} fps={FPS} width={1920} height={1080} />
     ))}
+    {/* Bản DỌC 9:16 cho Short/TikTok — chỉ dự án nào khai `khung_doc` trong board.
+        Cùng giọng, cùng lip-sync, chỉ khác cái khung. Xem src/v2/phim/phim-doc.tsx. */}
+    {DU_AN_V2.filter((p) => p.coDoc).map((p) => (
+      <Composition key={`${p.id}-doc`} id={`${p.id}-doc`} component={p.PhimDoc} durationInFrames={p.total} fps={FPS} width={p.docW} height={p.docH} />
+    ))}
     <Composition id="PropTuVeXem" component={PropTuVeXem} durationInFrames={1} fps={FPS} width={XEM_W} height={XEM_H} defaultProps={{}} />
     <Composition id="RigV2Test" component={RigV2Test} durationInFrames={30} fps={FPS} width={RIG_TEST_W} height={RIG_TEST_H} />
     <Composition id="PropsV2Test" component={PropsV2Test} durationInFrames={60} fps={FPS} width={PROPS_TEST_W} height={PROPS_TEST_H} />
@@ -39,6 +44,7 @@ export const RemotionRoot: React.FC = () => (
         được kích thước bằng --props. */}
     <Composition id="BiaKenhFb" component={BiaKenh} durationInFrames={1} fps={FPS} width={1640} height={856} defaultProps={{khung: 'facebook' as const}} />
     <Composition id="DanNhanVat" component={DanNhanVat} durationInFrames={1} fps={FPS} width={DAN_W} height={DAN_H} defaultProps={{}} />
+    <Composition id="MotNhanVat" component={MotNhanVat} durationInFrames={1} fps={FPS} width={MOT_W} height={MOT_H} defaultProps={{}} />
     <Composition id="BanSacTest" component={BanSacTest} durationInFrames={30} fps={FPS} width={BAN_SAC_W} height={BAN_SAC_H} />
   </>
 );

@@ -1,0 +1,48 @@
+{
+  "title": "Bản tin: Việt Nam tắt sóng 2G",
+  "project": "ban-tin-2g",
+  "dinh_dang": "ban-tin",
+  "rubric": {
+    "hook": 1,
+    "mat_do": 1,
+    "chi_tiet": 1,
+    "leo_thang": 1,
+    "twist_callback": 0.5,
+    "nhan_vat_phu": 0.5,
+    "cau_chot": 1,
+    "giong_rieng": 1,
+    "viet_hoa": 1,
+    "cam": 1
+  },
+  "chapters": [
+    {
+      "id": "mo-bai",
+      "kicker": "Tin nóng",
+      "heading": "Cả nước ngắt sóng hai G",
+      "vo": "Từ hôm nay, mạng hai G ngừng phát sóng trên toàn quốc. Điện thoại cũ của bố mẹ bạn có thể mất sóng ngay tối nay."
+    },
+    {
+      "id": "tat-2g",
+      "kicker": "Tin chính",
+      "heading": "Máy cũ hết gọi được",
+      "nguon": [
+        "https://thanhnien.vn/viet-nam-chinh-thuc-tat-song-2g-tu-hom-nay-185260915103823883.htm"
+      ],
+      "vo": "Ba nhà mạng Viettel, VinaPhone, MobiFone đã ngắt sóng hai G từ sáng nay. Máy chỉ bắt hai G thì không gọi, không nhắn, không gọi cấp cứu được. Kiểm tra ngay điện thoại của người thân lớn tuổi trong nhà bạn đi.",
+      "anh": "tin/ban-tin-2g/tat-2g.jpg",
+      "anh_nguon": "thanhnien.vn",
+      "anh_them": [
+        "tin/ban-tin-2g/tat-2g-2.jpg",
+        "tin/ban-tin-2g/tat-2g-3.jpg"
+      ]
+    },
+    {
+      "id": "ket",
+      "kicker": "Việc cần làm",
+      "heading": "Đổi máy cho bố mẹ",
+      "vo": "Chốt lại một việc hôm nay. Việt Nam nằm trong nhóm nước tắt sóng hai G sớm nhất khu vực. Các nhà mạng đang có chương trình đổi máy bốn G giá rẻ. Đổi máy cho bố mẹ trước, đừng đợi tới lúc gọi mà không được."
+    }
+  ],
+  "voice": "Fenrir",
+  "style": "(đè bởi phong-cach.json — tông soi-noi)"
+}

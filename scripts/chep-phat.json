@@ -1,0 +1,49 @@
+{
+  "title": "Chép phạt năm trăm lần",
+  "project": "chep-phat",
+  "voice": "Fenrir",
+  "style": "(đè bởi phong-cach.json — tông hài hước)",
+  "nguoi_ke": "nam",
+  "rubric": {
+    "hook": 1,
+    "mat_do": 1,
+    "chi_tiet": 1,
+    "leo_thang": 1,
+    "twist_callback": 1,
+    "nhan_vat_phu": 1,
+    "cau_chot": 1,
+    "giong_rieng": 1,
+    "viet_hoa": 1,
+    "cam": 1
+  },
+  "chapters": [
+    {
+      "id": "mo-bai",
+      "vo": "Năm lớp mười, tôi chép phạt hai trăm lần một câu. Hai trăm. Tôi là Kiên, và tôi cố tình bị phạt. Hôm nay tôi kể các bạn vì sao, mà nghe xong thì đừng học theo."
+    },
+    {
+      "id": "cau-phat",
+      "vo": "Câu phải chép là: em sẽ không nói chuyện riêng trong giờ. Cô Bình bắt chép hai trăm lần vào vở ô ly. Tôi chép tới lần thứ tám mươi thì tay cứng đơ. Long ngồi cạnh hỏi: mày nói chuyện với ai mà lắm thế? Tôi bảo: không với ai cả. Tôi nói dối, các bạn ạ."
+    },
+    {
+      "id": "noi-voi-ai",
+      "vo": "Thật ra tôi có nói chuyện. Tôi nói với Hà, đứa ngồi bàn trên, tóc buộc đuôi ngựa. Mỗi tiết tôi hỏi nó đúng một câu, kiểu: bài này làm sao? Nó quay xuống, bảo: chỗ này nhân hai vế. Tôi gật gù, chả hiểu gì. Ờ, tôi dở Toán mà siêng hỏi Toán, lạ chưa."
+    },
+    {
+      "id": "long-phat-hien",
+      "vo": "Tuần thứ ba thì Long phát hiện ra trò của tôi. Nó đếm rồi kêu: mày bị phạt bốn lần rồi đấy. Tôi bảo: tao xui thôi. Nó cười khẩy, nói: xui gì mà xui đúng tiết Toán. Thằng Kiên đó hèn thật, các bạn ạ. Nhưng Long nói đúng, tôi chỉ nói chuyện riêng trong tiết cô Bình."
+    },
+    {
+      "id": "phat-tiep",
+      "vo": "Cô Bình phạt tiếp, lần này ba trăm câu. Tôi phải ngồi lại lớp sau giờ để chép cho xong. Mà lớp trưởng thì phải ở lại trông đứa chép phạt. Lớp trưởng là Hà. Ờ, tới đây chắc các bạn hiểu rồi đấy. Tôi nhát tới mức phải bị phạt mới dám ngồi gần nó."
+    },
+    {
+      "id": "co-biet",
+      "vo": "Chép tới buổi thứ sáu thì cô Bình gọi tôi lên bàn giáo viên. Cô cầm xấp vở chép phạt, lật qua lật lại, xong hỏi: em thấy chỗ ngồi đầu năm thế nào? Tôi đứng im như cột. Cô nói: cô xếp em cạnh nó từ tháng chín. Hoá ra không. Không phải tôi khôn."
+    },
+    {
+      "id": "ket",
+      "vo": "Cô Bình biết hết từ đầu, mà vẫn phạt tôi năm trăm câu. Cô cho tôi cái cớ, vì cô biết tôi chả bao giờ dám tự xin. Chép năm trăm lần thì được ngồi cạnh người mình thích. Rẻ chán. Còn các bạn, hồi đó ai cho bạn cái cớ? Kể tôi nghe dưới bình luận."
+    }
+  ]
+}

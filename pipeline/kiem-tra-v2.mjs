@@ -121,6 +121,9 @@ const duongManifest = `${thuMucData}/${TEN}.generated.json`;
 const duongVoice = `${thuMucData}/${TEN}.voice.json`;
 const duongMouth = `${thuMucData}/${TEN}.mouth.json`;
 
+/** Bản tin và kể chuyện là hai định dạng, hai bộ luật — xem khối LUẬT DÀN CẢNH. */
+const laBanTinKb = (kb?.dinh_dang ?? '') === 'ban-tin';
+
 let manifest = null;
 const thoiLuong = new Map(); // id → giây
 if (!existsSync(trongRepo(duongManifest))) {
@@ -142,7 +145,11 @@ const voice = existsSync(trongRepo(duongVoice)) ? doc(trongRepo(duongVoice)) : n
 let mouth = null;
 let FPS = FPS_MAC_DINH;
 if (!existsSync(trongRepo(duongMouth))) {
-  loi.push(`chưa có lip-sync: không có ${duongMouth}. Chạy: node pipeline/lipsync.mjs ${TEN}`);
+  // Bảng tin không có nhân vật nên không có miệng để nhép — xem
+  // src/v2/phim/san-khau-tin.tsx. Đòi lip-sync ở đây là chặn oan.
+  if ((kb?.dinh_dang ?? '') !== 'ban-tin') {
+    loi.push(`chưa có lip-sync: không có ${duongMouth}. Chạy: node pipeline/lipsync.mjs ${TEN}`);
+  }
 } else {
   mouth = doc(trongRepo(duongMouth));
   for (const id of chuongKichBan.keys()) {
@@ -389,7 +396,11 @@ if (board) {
       } else if (s.insert?.anh) {
         bao(existsSync(trongRepo(`public/${s.insert.anh}`)), `${oS}: không có public/${s.insert.anh}`);
       }
-      if (loai === 'trong' && s.dai == null) canhBao.push(`${oS}: nhịp trắng không có \`dai\` — sẽ kéo tới mốc sau`);
+      // Bản tin: MỌI shot đều `loai: 'trong'` (không nhân vật), và chúng cố ý
+      // kéo tới mốc sau — mốc sau cách nhau ≤ 2.5s theo cách dung-board cắt lời.
+      // Nhắc từng shot một ở đây là 21 dòng cảnh báo cho một bản tin 27 giây.
+      if (loai === 'trong' && s.dai == null && !laBanTinKb)
+        canhBao.push(`${oS}: nhịp trắng không có \`dai\` — sẽ kéo tới mốc sau`);
       if (loai === 'chu' && !(s.chu?.length)) loi.push(`${oS}: loại chu nhưng không có \`chu\``);
 
       // ── mốc ──
@@ -472,27 +483,63 @@ if (board) {
     bao(nhipTB <= NHIP_SHOT, `${o}: ${soShot} shot / ${dai.toFixed(1)}s = ${nhipTB.toFixed(1)}s mỗi shot — cần ≥ 1 shot mỗi ${NHIP_SHOT}s (tối thiểu ${Math.ceil(dai / NHIP_SHOT)} shot)`);
 
     const trungVi = theoMoc.length ? [...theoMoc].sort((a, b) => a.doDai - b.doDai)[Math.floor(theoMoc.length / 2)].doDai : 0;
-    thongKe.push({id, soShot, dai, nhipTB, trungVi, trucDien: dai ? trucDienTong / dai : 0, chu: ch.shots.filter((s) => s.chu?.length).length});
+    const daiNhat = theoMoc.length ? Math.max(...theoMoc.map((m) => m.doDai)) : 0;
+    thongKe.push({id, soShot, dai, nhipTB, trungVi, daiNhat, trucDien: dai ? trucDienTong / dai : 0, chu: ch.shots.filter((s) => s.chu?.length).length});
   }
 
   for (const id of chuongKichBan.keys()) nhac(chuongBoard.has(id), `kịch bản có chương "${id}" nhưng bảng phân cảnh không có`);
 }
 
 /**
- * ── BA LUẬT CHỐNG "DỰNG THEO LỐI CŨ" (thêm 2026-09-11) ──────────────────
+ * ── LUẬT DÀN CẢNH, TÁCH THEO ĐỊNH DẠNG ──────────────────────────────────
  *
- * Đo trên cả board, không theo chương. Cả ba đều CHẶN, vì cả ba đã được xác
- * nhận bằng một bản phim thật bị chê nặng: 13/49 shot là thẻ chữ (phần lớn là
- * một con số đồng hồ giữa màn trắng), không một ô chèn nào, không một cú đẩy
- * máy nào. Bản đó vẫn qua validator cũ và vẫn được giao.
+ * Hai định dạng có hai bộ luật riêng, KHÔNG phải một bộ có ngoại lệ. Trước đây
+ * bản tin được "miễn" ba luật kể chuyện — mà miễn trừ là dấu hiệu luật đặt sai
+ * chỗ: bản tin không có nhân vật thì "hai người trong khung" không phải ngoại lệ,
+ * nó là luật của định dạng khác.
  *
- * Chặn ở đây chứ không chỉ ở bảng chấm: bảng chấm chạy SAU render, tức là sau
- * 40 phút và sau khi đã tốn hạn mức TTS.
+ * Cả hai đều CHẶN, vì cả hai đã được xác nhận bằng phim thật bị chê.
  */
+const laBanTinBoard = laBanTinKb;
+
 if (board?.chuong?.length) {
   const tatCaShot = board.chuong.flatMap((c) => c.shots ?? []);
   const n = tatCaShot.length;
-  if (n >= 10) {
+
+  if (n >= 10 && laBanTinBoard) {
+    // ── LUẬT BẢNG TIN ──
+    // Mỗi tin phải có khung tin đứng suốt: thiếu thì người xem không biết đang
+    // xem tin nào, còn mấy tin nữa, và nguồn ở đâu.
+    const coKhung = tatCaShot.filter((x) => x.tin?.heading).length;
+    if (coKhung / n < 0.9) {
+      loi.push(
+        `chỉ ${coKhung}/${n} shot có khung tin (\`tin.heading\`) — cần ≥ 90%. ` +
+          `Khung tin là giao diện của bản tin, không phải đồ trang trí: nó mang tiêu đề, số tin và tên nguồn.`
+      );
+    }
+    // Ảnh thật là thứ khiến người xem TIN điều đang nghe. Bản tin toàn hình vẽ
+    // thì không khác gì đọc chính tả.
+    // ĐẾM THEO SHOT, không theo tiêu đề. Bản tin một tin thì cả ba chương
+    // (dẫn · tin · chốt) dùng chung một ảnh một cách CỐ Ý — cả video nói về
+    // đúng một câu chuyện. Đếm theo tiêu đề thì đúng cấu hình lý tưởng
+    // ("lý tưởng 1 tin") lại bị chặn. Cái phải chặn là SHOT KHÔNG CÓ HÌNH:
+    // shot không hình ra khung đen trơn.
+    const coHinh = tatCaShot.filter((x) => x.tin?.anh || x.tin?.video).length;
+    if (coHinh / n < 0.9) {
+      loi.push(
+        `chỉ ${coHinh}/${n} shot có hình (\`tin.anh\` hoặc \`tin.video\`) — cần ≥ 90%, shot không hình ra khung đen. ` +
+          `Chạy: node pipeline/tai-anh-tin.mjs <ten> (lấy og:image của chính bài báo, và ghi tên nguồn để in lên màn).`
+      );
+    }
+    // Bản tin KHÔNG được có nhân vật. Xem src/v2/phim/san-khau-tin.tsx.
+    const coDien = tatCaShot.filter((x) => (x.dien ?? []).length).length;
+    if (coDien) {
+      loi.push(`${coDien}/${n} shot có nhân vật hoạt hình — bảng tin không dùng nhân vật, chỗ đó dành cho ẢNH TIN.`);
+    }
+  }
+
+  if (n >= 10 && !laBanTinBoard) {
+    // ── LUẬT KỂ CHUYỆN ──
     const theChu = tatCaShot.filter((x) => x.loai === 'chu' || (x.chu?.length && !(x.dien ?? []).length)).length;
     if (theChu / n > 0.15) {
       loi.push(
@@ -508,41 +555,70 @@ if (board?.chuong?.length) {
           `Ảnh/thẻ chữ/đồ vật bật lên NGAY TRONG khung đang diễn là cách đổi hình mà không cắt mạch kể.`
       );
     }
-    // ── HAI NHÂN VẬT TRONG KHUNG ──
-    // Đo bản bị chê: 34/49 shot có đúng MỘT người đứng một mình, 3 shot có từ hai.
-    // Kênh tham chiếu thì gần như khung nào cũng hai nhân vật phản ứng với nhau —
-    // cái buồn cười nằm ở QUAN HỆ giữa hai cái mặt, không nằm ở lời kể. Một người
-    // đứng nói suốt video là định nghĩa của "đọc chính tả có hình".
     const coDien = tatCaShot.filter((x) => (x.dien ?? []).length);
     const doi = coDien.filter((x) => (x.dien ?? []).length >= 2).length;
     if (coDien.length >= 8 && doi / coDien.length < 0.35) {
       loi.push(
         `chỉ ${doi}/${coDien.length} shot có từ hai nhân vật (${((doi / coDien.length) * 100).toFixed(0)}%) — cần ≥ 35%. ` +
-          `Thêm người thứ hai để có đối đáp; hết người thì dùng thú: ca-sau, meo, cho, gau, tho, ky-lan. ` +
-          `Nhân vật riêng của chuyện thì khai trong \`board.nhan_vat_tu_ve\` rồi xem bằng: node pipeline/xem-nhan-vat.mjs <du-an>`
+          `Thêm người thứ hai để có đối đáp; hết người thì dùng thú: ca-sau, meo, cho, gau, tho, ky-lan.`
       );
     }
-
-    // ── ĐỔI CỠ CẢNH ──
-    // 33/49 shot của bản bị chê không khai `co` → dùng mặc định, tức cả video một
-    // cỡ. Tham chiếu nhảy cỡ liên tục: toàn thân rồi cắt phăng sang cực cận.
     const coCo = new Set(tatCaShot.filter((x) => x.co).map((x) => x.co));
     const thieuCo = tatCaShot.filter((x) => !x.co).length;
     if (thieuCo / n > 0.4) {
-      loi.push(
-        `${thieuCo}/${n} shot không khai \`co\` — cả video một cỡ cảnh thì khung nào cũng như khung nào. ` +
-          `Khai rõ: rong | trung | can | sat | nho.`
-      );
+      loi.push(`${thieuCo}/${n} shot không khai \`co\` — cả video một cỡ cảnh thì khung nào cũng như khung nào.`);
     }
     if (coCo.size < 3) {
-      loi.push(`chỉ ${coCo.size} cỡ cảnh khác nhau (${[...coCo].join(', ') || 'không có'}) — cần ≥ 3, và ít nhất một cú \`sat\` cắt cụt mặt.`);
+      loi.push(`chỉ ${coCo.size} cỡ cảnh khác nhau (${[...coCo].join(', ') || 'không có'}) — cần ≥ 3, và ít nhất một cú \`sat\`.`);
     }
-
     const zoom = tatCaShot.filter((x) => x.zoom).length;
     if (zoom / n < 0.15) {
+      loi.push(`chỉ ${zoom}/${n} shot có đẩy máy mượt (\`zoom\`) — cần ≥ 15%. Shot dài mà máy đứng im là chết hình.`);
+    }
+  }
+}
+
+/**
+ * ── LUẬT NHỊP & ĐỘ DÀI CHO BẢNG TIN ────────────────────────────────────
+ *
+ * Đo 80 Short thể thao Việt (2026-09), so nhóm triệu view với nhóm đáy:
+ *   · độ dài: trung vị **36 giây**; quá 45 giây là rơi khỏi nhóm trên.
+ *   · nhịp cắt: **1.7–3.1 giây** ở nhóm triệu view, **13–178 giây** ở nhóm đáy.
+ *   · số tin một video: nhóm trên gần như luôn **một tin**, tối đa ba. Nhồi năm
+ *     tin vào 40 giây thì tin nào cũng hụt, và người xem không nhớ tin nào.
+ * Ba con số này chặn chứ không nhắc, vì cả ba đã sai đúng như vậy ở bản tin
+ * dựng trước: 5 tin, shot dài, video hơn hai phút.
+ */
+if (laBanTinBoard && thongKe.length) {
+  const DAI_TOI_DA = 45;
+  const SHOT_TOI_DA = 2.5;
+  const SHOT_CHET = 4;
+  const TIN_TOI_DA = 3;
+
+  const tong = thongKe.reduce((a, t) => a + t.dai, 0);
+  if (tong > DAI_TOI_DA) {
+    loi.push(
+      `bản tin dài ${tong.toFixed(0)}s — tối đa ${DAI_TOI_DA}s (trung vị nhóm triệu view: 36s). ` +
+        `Cắt bớt tin, đừng cắt bớt chữ trong tin: một tin kể đủ hơn ba tin kể hụt.`
+    );
+  }
+  for (const t of thongKe) {
+    if (t.trungVi > SHOT_TOI_DA) {
       loi.push(
-        `chỉ ${zoom}/${n} shot có đẩy máy mượt (\`zoom\`) — cần ≥ 15%. ` +
-          `Shot dài mà máy đứng im là chết hình; \`zoom: {tu: 1, den: 1.08}\` đủ để mắt luôn có việc.`
+        `chương "${t.id}": shot trung vị ${t.trungVi.toFixed(1)}s — tối đa ${SHOT_TOI_DA}s. ` +
+          `Nhóm triệu view cắt mỗi 1.7–3.1s; giữ một khung lâu hơn thế là mời người xem lướt.`
+      );
+    }
+    if (t.daiNhat > SHOT_CHET) {
+      loi.push(`chương "${t.id}": có shot dài ${t.daiNhat.toFixed(1)}s — quá ${SHOT_CHET}s là chết hình, cắt thêm mốc.`);
+    }
+  }
+  if (board?.chuong?.length) {
+    const soTin = new Set(board.chuong.flatMap((c) => (c.shots ?? []).map((x) => x.tin?.heading)).filter(Boolean)).size;
+    if (soTin > TIN_TOI_DA) {
+      loi.push(
+        `${soTin} tin trong một video — tối đa ${TIN_TOI_DA}, lý tưởng 1. ` +
+          `Mỗi tin thêm là mỗi tin bị bóp ngắn; nhóm view cao gần như luôn một tin một video.`
       );
     }
   }
@@ -550,10 +626,10 @@ if (board?.chuong?.length) {
 
 // ── kết quả ────────────────────────────────────────────────────────────
 if (thongKe.length) {
-  console.log(`  ${'chương'.padEnd(12)} ${'shot'.padStart(4)} ${'dài'.padStart(6)} ${'TB/shot'.padStart(8)} ${'trung vị'.padStart(9)} ${'trực diện'.padStart(10)} ${'chữ'.padStart(4)}`);
+  console.log(`  ${'chương'.padEnd(12)} ${'shot'.padStart(4)} ${'dài'.padStart(6)} ${'TB/shot'.padStart(8)} ${'trung vị'.padStart(9)} ${'dài nhất'.padStart(9)} ${'trực diện'.padStart(10)} ${'chữ'.padStart(4)}`);
   for (const t of thongKe) {
     console.log(
-      `  ${t.id.padEnd(12)} ${String(t.soShot).padStart(4)} ${t.dai.toFixed(1).padStart(5)}s ${t.nhipTB.toFixed(2).padStart(7)}s ${t.trungVi.toFixed(2).padStart(8)}s ${(t.trucDien * 100).toFixed(0).padStart(9)}% ${String(t.chu).padStart(4)}`
+      `  ${t.id.padEnd(12)} ${String(t.soShot).padStart(4)} ${t.dai.toFixed(1).padStart(5)}s ${t.nhipTB.toFixed(2).padStart(7)}s ${t.trungVi.toFixed(2).padStart(8)}s ${t.daiNhat.toFixed(2).padStart(8)}s ${(t.trucDien * 100).toFixed(0).padStart(9)}% ${String(t.chu).padStart(4)}`
     );
   }
   console.log('');

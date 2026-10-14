@@ -25,7 +25,11 @@ export type TrangThaiMat =
   | 'chan' // E9 — oval bị mí cắt 40%
   | 'nham'; // nhắm — gạch ngang (chớp / ngủ)
 
-export type TrangThaiMay = 'khong' | 'tuc' | 'lo' | 'nhiu';
+/**
+ * Trạng thái lông mày. `thuong` là mặc định MỚI — xem ghi chú ở component May.
+ * `khong` giữ lại cho chỗ nào cố ý không vẽ mày (thú, nhân vật phụ vô danh).
+ */
+export type TrangThaiMay = 'thuong' | 'khong' | 'tuc' | 'lo' | 'nhiu' | 'nhuong';
 
 type P = {
   dau: number;
@@ -186,11 +190,45 @@ const MotMat: React.FC<{x: number; y: number; d: number; net: number; mat: Trang
   }
 };
 
+/**
+ * LÔNG MÀY — kênh biểu cảm mạnh nhất của mặt người, và nó đang bị TẮT.
+ *
+ * Đo thật trên hai board máy sinh: 0/112 diễn viên và 0/224 mốc act khai `may`,
+ * mà mặc định lại là `'khong'` → trả về null. Nghĩa là trong cả bộ phim mười
+ * phút không có một sợi lông mày nào được vẽ. Mặt chỉ còn hai dấu chấm và một
+ * cái miệng, nên nhân vật nào cũng một vẻ — đúng chỗ người xem gọi là "lầm lì".
+ *
+ * Sửa: mặc định thành `thuong` (mày nghỉ, hơi cong tự nhiên) nên mặt LUÔN có
+ * mày; các trạng thái cảm xúc chồng lên trên. `khong` vẫn giữ cho thú và nhân
+ * vật vô danh.
+ */
 const May: React.FC<{x: number; y: number; d: number; net: number; may: TrangThaiMay; ben: 1 | -1}> = ({x, y, d, net, may, ben}) => {
   const w = 0.16 * d;
   switch (may) {
     case 'khong':
       return null;
+    case 'thuong':
+      // mày nghỉ: cung rất nhẹ, cao hơn mắt, mảnh hơn mọi trạng thái cảm xúc
+      return (
+        <path
+          d={`M ${x - w / 2} ${y - 0.155 * d} Q ${x} ${y - 0.195 * d} ${x + w / 2} ${y - 0.16 * d}`}
+          fill="none"
+          stroke={MUC}
+          strokeWidth={net * 1.05}
+          strokeLinecap="round"
+        />
+      );
+    case 'nhuong':
+      // nhướng một bên — hoài nghi. Bên trong cao hẳn, bên ngoài giữ nguyên.
+      return (
+        <path
+          d={`M ${x - (w / 2) * ben} ${y - 0.16 * d} Q ${x} ${y - (0.26 + 0.03 * ben) * d} ${x + (w / 2) * ben} ${y - 0.2 * d}`}
+          fill="none"
+          stroke={MUC}
+          strokeWidth={net * 1.15}
+          strokeLinecap="round"
+        />
+      );
     case 'tuc':
       // gạch chéo dày, đầu trong thấp hơn — cắt vào đỉnh oval
       return (
@@ -230,7 +268,7 @@ const May: React.FC<{x: number; y: number; d: number; net: number; may: TrangTha
   }
 };
 
-export const Mat: React.FC<P> = ({dau: d, cx, cy, net, mat, may = 'khong', nhin = 0, goc = 'truoc', lat, id, kieu = 'oval'}) => {
+export const Mat: React.FC<P> = ({dau: d, cx, cy, net, mat, may = 'thuong', nhin = 0, goc = 'truoc', lat, id, kieu = 'oval'}) => {
   const auto = useId();
   const clip = `mi-${(id ?? auto).replace(/[^a-zA-Z0-9]/g, '')}`;
   const y = cy + MAT.y * d;

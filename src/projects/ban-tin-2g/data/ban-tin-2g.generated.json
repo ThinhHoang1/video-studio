@@ -1,0 +1,36 @@
+{
+  "voice": "Fenrir",
+  "style": "Bạn là người dẫn bản tin nhanh của một kênh tin công nghệ trẻ. Giọng nam, NĂNG LƯỢNG CAO, nói nhanh và dứt khoát, như đang đọc tin nóng vừa về. Tốc độ nhanh hơn phát thanh viên truyền hình khoảng 25%. Nhấn MẠNH vào con số và tên riêng, đẩy cao ở đầu mỗi tin rồi hạ gọn ở cuối câu. Chỗ cảnh báo thì gằn giọng lại. Chỗ việc-cần-làm thì đọc chắc như ra lệnh. Có năng lượng nhưng KHÔNG cợt nhả, không cười, không kể lể — vẫn là tin, không phải vlog. Câu ngắn đọc DỨT. Ngắt rõ giữa các ý. Nhấn vào TÊN RIÊNG và CON SỐ. Tiếng Việt giọng Bắc, tự nhiên, không đọc như máy.",
+  "total": 28.392000000000003,
+  "chapters": [
+    {
+      "id": "mo-bai",
+      "kicker": "Tin nóng",
+      "heading": "Cả nước ngắt sóng hai G",
+      "vo": "Từ hôm nay, mạng hai G ngừng phát sóng trên toàn quốc. Điện thoại cũ của bố mẹ bạn có thể mất sóng ngay tối nay.",
+      "audio": "vo-ban-tin-2g/mo-bai.mp3",
+      "duration": 6.936
+    },
+    {
+      "id": "tat-2g",
+      "kicker": "Tin chính",
+      "heading": "Máy cũ hết gọi được",
+      "nguon": [
+        "https://thanhnien.vn/viet-nam-chinh-thuc-tat-song-2g-tu-hom-nay-185260915103823883.htm"
+      ],
+      "vo": "Ba nhà mạng Viettel, VinaPhone, MobiFone đã ngắt sóng hai G từ sáng nay. Máy chỉ bắt hai G thì không gọi, không nhắn, không gọi cấp cứu được. Kiểm tra ngay điện thoại của người thân lớn tuổi trong nhà bạn đi.",
+      "anh": "tin/ban-tin-2g/tat-2g.jpg",
+      "anh_nguon": "thanhnien.vn",
+      "audio": "vo-ban-tin-2g/tat-2g.mp3",
+      "duration": 10.8
+    },
+    {
+      "id": "ket",
+      "kicker": "Việc cần làm",
+      "heading": "Đổi máy cho bố mẹ",
+      "vo": "Chốt lại một việc hôm nay. Việt Nam nằm trong nhóm nước tắt sóng hai G sớm nhất khu vực. Các nhà mạng đang có chương trình đổi máy bốn G giá rẻ. Đổi máy cho bố mẹ trước, đừng đợi tới lúc gọi mà không được.",
+      "audio": "vo-ban-tin-2g/ket.mp3",
+      "duration": 10.656
+    }
+  ]
+}

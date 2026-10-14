@@ -178,7 +178,7 @@
     "met": "mệt, đờ đẫn"
   },
   "sfx": {
-    "_": "29 tiếng tự tổng hợp, không dính bản quyền. Sinh lại: python3 pipeline/sfx.py",
+    "_": "33 tiếng tự tổng hợp, không dính bản quyền. Sinh lại: node pipeline/sfx.mjs",
     "nhip": [
       "whoosh-up",
       "whoosh-down",
@@ -219,6 +219,12 @@
     "khac": [
       "deflate",
       "inflate"
+    ],
+    "ban_tin": [
+      "tin-sting",
+      "tin-whoosh",
+      "tin-tich",
+      "tin-breaking"
     ]
   },
   "nhac": {

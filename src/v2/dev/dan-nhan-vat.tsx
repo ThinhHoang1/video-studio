@@ -60,3 +60,32 @@ export const DanNhanVat: React.FC<{them?: Record<string, Kieu>}> = ({them}) => {
 
 /** chiều cao phụ thuộc số nhân vật — tính sẵn cho composition thư viện */
 export const DAN_H = Math.ceil(Object.keys(KIEU).length / CUA_HANG) * CAO_O;
+
+/**
+ * MỘT nhân vật một ảnh — để dashboard xếp thành lưới thẻ bấm xem được.
+ *
+ * Bảng gộp `DanNhanVat` thu nhỏ trên màn thì mỗi con chỉ còn vài chục pixel,
+ * nhìn không ra con gì. Thẻ riêng thì mỗi con chiếm trọn khung 480×560.
+ */
+export const MOT_W = 480;
+export const MOT_H = 560;
+
+export const MotNhanVat: React.FC<{ma?: string; them?: Record<string, Kieu>}> = ({ma = 'nam', them}) => {
+  const k = them?.[ma] ?? KIEU[ma] ?? KIEU.trang;
+  return (
+    <AbsoluteFill style={{background: NEN, fontFamily: FONT}}>
+      <svg width={MOT_W} height={MOT_H} viewBox={`0 0 ${MOT_W} ${MOT_H}`}>
+        {/* toàn thân trái, nghiêng phải — thú chỉ đọc ra loài ở góc nghiêng */}
+        <NhanVat kieu={k} dau={96} x={MOT_W * 0.3} y={430} dang="dung" id={`${ma}-m1`} />
+        <NhanVat kieu={k} dau={96} x={MOT_W * 0.72} y={430} dang="chi" goc="nghieng" mieng="cuoi" id={`${ma}-m2`} />
+        <text x={MOT_W / 2} y={496} textAnchor="middle" fontSize={34} fontWeight={800} fill={MUC}>
+          {ma}
+        </text>
+        <text x={MOT_W / 2} y={530} textAnchor="middle" fontSize={24} fill="#8a8a8a">
+          {k.ten}
+          {k.thu ? ' · thú' : ''}
+        </text>
+      </svg>
+    </AbsoluteFill>
+  );
+};

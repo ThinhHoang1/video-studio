@@ -298,16 +298,58 @@ export const DuoiVe: React.FC<{dau: number; x: number; y: number; net: number; k
     );
   }
   const dai = kieu === 'dai' ? 0.95 : kieu === 'cong' ? 0.7 : 0.42;
-  const day = kieu === 'ngan' ? 0.14 : 0.1;
+  const day = kieu === 'ngan' ? 0.16 : 0.12;
   const cong = kieu === 'cong' ? -0.55 : -0.2;
+  // Đuôi phải TÔ MÀU LÔNG. Bản đầu vẽ bằng một nét đen dày nên nó thành sợi dây
+  // đen thò ra sau lưng, không ai đọc ra là đuôi.
   return (
-    <path
-      d={`M ${x} ${y}
-          q ${s * dai * 0.6 * d} ${cong * d} ${s * dai * d} ${cong * 0.6 * d}`}
-      fill="none"
-      stroke={MUC}
-      strokeWidth={n + day * d}
-      strokeLinecap="round"
-    />
+    <g>
+      <path
+        d={`M ${x} ${y} q ${s * dai * 0.6 * d} ${cong * d} ${s * dai * d} ${cong * 0.6 * d}`}
+        fill="none"
+        stroke={MUC}
+        strokeWidth={n * 2 + day * d}
+        strokeLinecap="round"
+      />
+      <path
+        d={`M ${x} ${y} q ${s * dai * 0.6 * d} ${cong * d} ${s * dai * d} ${cong * 0.6 * d}`}
+        fill="none"
+        stroke={to}
+        strokeWidth={day * d}
+        strokeLinecap="round"
+      />
+    </g>
+  );
+};
+
+export const BanChanThu: React.FC<{
+  dau: number;
+  x: number;
+  y: number;
+  huong: number;
+  net: number;
+  mau?: string;
+}> = ({dau: d, x, y, huong, net: n, mau}) => {
+  const r = 0.095 * d;
+  const to = mau ?? NEN;
+  return (
+    <g transform={`translate(${x} ${y}) rotate(${huong})`}>
+      <circle cx={0} cy={r * 0.6} r={r} fill={to} stroke={MUC} strokeWidth={n} />
+      {/* ba vấu móng ở rìa ngoài — đủ để đọc ra "chân thú", không thành bàn tay */}
+      {[-38, 0, 38].map((a) => {
+        const ra = (a * Math.PI) / 180;
+        return (
+          <circle
+            key={a}
+            cx={Math.sin(ra) * r * 0.92}
+            cy={r * 0.6 + Math.cos(ra) * r * 0.92}
+            r={r * 0.3}
+            fill={to}
+            stroke={MUC}
+            strokeWidth={n * 0.9}
+          />
+        );
+      })}
+    </g>
   );
 };

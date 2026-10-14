@@ -1,0 +1,1006 @@
+{
+ "du_an": "ban-tin-2026-09-14",
+ "dinh_dang": "ban-tin",
+ "nguoi_ke": "nam",
+ "mac_dinh": {
+  "loai": "minh-hoa",
+  "co": "trung",
+  "nen": "trang"
+ },
+ "khung_doc": {
+  "kenh": "CLAW EXPERT",
+  "caption": [
+   "Skill tự viết, chợ skill,",
+   "và bảy bước soi mã bẩn",
+   "trước khi bấm cài"
+  ],
+  "anh": "tin/ban-tin-2026-09-14/bao-mat.jpg",
+  "mo": 2.5,
+  "nguon": "tryopenclaw.io"
+ },
+ "chuong": [
+  {
+   "id": "mo-bai",
+   "shots": [
+    {
+     "say": "Ơ, sáng nay mình cài nhầm một cái skill lạ.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chào",
+      "heading": "Bảng tin Claw Expert",
+      "chay": "Claw Expert · bảng tin mỗi ngày · skill, bảo mật, cộng đồng OpenClaw Việt"
+     },
+     "sfx": "tin-sting"
+    },
+    {
+     "say": "Xong ngồi run.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chào",
+      "heading": "Bảng tin Claw Expert"
+     }
+    },
+    {
+     "say": "Mình là Nam,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chào",
+      "heading": "Bảng tin Claw Expert"
+     }
+    },
+    {
+     "say": "chuyên gia cài trước đọc sau.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chào",
+      "heading": "Bảng tin Claw Expert"
+     }
+    },
+    {
+     "say": "Hôm nay năm tin về skill, bảo mật",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chào",
+      "heading": "Bảng tin Claw Expert"
+     }
+    },
+    {
+     "say": "và cộng đồng,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chào",
+      "heading": "Bảng tin Claw Expert"
+     }
+    },
+    {
+     "say": "mất của các bạn ba phút.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chào",
+      "heading": "Bảng tin Claw Expert"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tu-viet-skill",
+   "shots": [
+    {
+     "say": "Tin đầu: bên TryOpenClaw vừa ra bài hướng dẫn tự viết skill,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#17263f"
+     },
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Ba cách tự viết skill",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-viet-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     },
+     "sfx": "tin-whoosh"
+    },
+    {
+     "say": "đủ ba cách làm,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#17263f"
+     },
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Ba cách tự viết skill",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-viet-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "kèm mẫu runbook",
+     "loai": "trong",
+     "nen": {
+      "mau": "#17263f"
+     },
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Ba cách tự viết skill",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-viet-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "và cách chia lệnh.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#17263f"
+     },
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Ba cách tự viết skill",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-viet-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Có cả phần tốn bao nhiêu token, cái",
+     "loai": "trong",
+     "nen": {
+      "mau": "#17263f"
+     },
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Ba cách tự viết skill",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-viet-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "mà ai cũng quên tính.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#17263f"
+     },
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Ba cách tự viết skill",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-viet-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Viết xong đẩy thẳng lên ClawHub được.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#17263f"
+     },
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Ba cách tự viết skill",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-viet-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Anh em nào đang chờ người khác viết hộ skill thì thôi,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#17263f"
+     },
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Ba cách tự viết skill",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-viet-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "tối nay ngồi viết đi.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#17263f"
+     },
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Ba cách tự viết skill",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-viet-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    }
+   ]
+  },
+  {
+   "id": "bao-mat",
+   "shots": [
+    {
+     "say": "Tin hai, và",
+     "loai": "trong",
+     "nen": {
+      "mau": "#4a1220",
+      "hoa_tiet": "cheo"
+     },
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Bảy bước soi skill lạ",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-14/bao-mat.jpg",
+      "nguon": "tryopenclaw.io"
+     },
+     "sfx": "tin-whoosh"
+    },
+    {
+     "say": "là tin mình sợ nhất:",
+     "loai": "trong",
+     "nen": {
+      "mau": "#4a1220",
+      "hoa_tiet": "cheo"
+     },
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Bảy bước soi skill lạ",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-14/bao-mat.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "không phải skill nào cũng sạch.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#4a1220",
+      "hoa_tiet": "cheo"
+     },
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Bảy bước soi skill lạ",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-14/bao-mat.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Bài này đưa bảy bước soi trước khi cài.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#4a1220",
+      "hoa_tiet": "cheo"
+     },
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Bảy bước soi skill lạ",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-14/bao-mat.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Bước một là xem cái kho trên GitHub mới",
+     "loai": "trong",
+     "nen": {
+      "mau": "#4a1220",
+      "hoa_tiet": "cheo"
+     },
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Bảy bước soi skill lạ",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-14/bao-mat.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "đẻ hôm qua hay đã sống lâu.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#4a1220",
+      "hoa_tiet": "cheo"
+     },
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Bảy bước soi skill lạ",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-14/bao-mat.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Bước hai đọc kỹ tệp mô tả.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#4a1220",
+      "hoa_tiet": "cheo"
+     },
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Bảy bước soi skill lạ",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-14/bao-mat.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Bước ba mở hết tệp đi kèm ra xem.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#4a1220",
+      "hoa_tiet": "cheo"
+     },
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Bảy bước soi skill lạ",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-14/bao-mat.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Tối nay mở lại đống skill đang cài",
+     "loai": "trong",
+     "nen": {
+      "mau": "#4a1220",
+      "hoa_tiet": "cheo"
+     },
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Bảy bước soi skill lạ",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-14/bao-mat.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "mà soi đi các bạn.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#4a1220",
+      "hoa_tiet": "cheo"
+     },
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Bảy bước soi skill lạ",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-14/bao-mat.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cho-skill",
+   "shots": [
+    {
+     "say": "Tin ba nhẹ nhàng hơn:",
+     "loai": "trong",
+     "nen": {
+      "mau": "#123a2c"
+     },
+     "tin": {
+      "kicker": "Đáng thử",
+      "heading": "Chín skill đáng cài",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-14/cho-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     },
+     "sfx": "tin-whoosh"
+    },
+    {
+     "say": "danh sách chín skill đáng cài.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#123a2c"
+     },
+     "tin": {
+      "kicker": "Đáng thử",
+      "heading": "Chín skill đáng cài",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-14/cho-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Có Composio, có GitHub,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#123a2c"
+     },
+     "tin": {
+      "kicker": "Đáng thử",
+      "heading": "Chín skill đáng cài",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-14/cho-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "có nhóm tự lái trình duyệt,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#123a2c"
+     },
+     "tin": {
+      "kicker": "Đáng thử",
+      "heading": "Chín skill đáng cài",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-14/cho-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "có en tám en, Notion,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#123a2c"
+     },
+     "tin": {
+      "kicker": "Đáng thử",
+      "heading": "Chín skill đáng cài",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-14/cho-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "và cả bộ đọc giọng ElevenLabs.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#123a2c"
+     },
+     "tin": {
+      "kicker": "Đáng thử",
+      "heading": "Chín skill đáng cài",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-14/cho-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Mình thử bốn cái, sống ba.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#123a2c"
+     },
+     "tin": {
+      "kicker": "Đáng thử",
+      "heading": "Chín skill đáng cài",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-14/cho-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Đừng cài cả chín trong một ngày như mình, máy ì",
+     "loai": "trong",
+     "nen": {
+      "mau": "#123a2c"
+     },
+     "tin": {
+      "kicker": "Đáng thử",
+      "heading": "Chín skill đáng cài",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-14/cho-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "mà chả nhớ cái nào làm gì.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#123a2c"
+     },
+     "tin": {
+      "kicker": "Đáng thử",
+      "heading": "Chín skill đáng cài",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-14/cho-skill.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tu-dang-bai",
+   "shots": [
+    {
+     "say": "Tin bốn cho bên làm truyền thông:",
+     "loai": "trong",
+     "nen": {
+      "mau": "#2a1f45"
+     },
+     "tin": {
+      "kicker": "Ứng dụng",
+      "heading": "Để máy đăng bài hộ",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-dang-bai.jpg",
+      "nguon": "tryopenclaw.io"
+     },
+     "sfx": "tin-whoosh"
+    },
+    {
+     "say": "có bài chỉ cách",
+     "loai": "trong",
+     "nen": {
+      "mau": "#2a1f45"
+     },
+     "tin": {
+      "kicker": "Ứng dụng",
+      "heading": "Để máy đăng bài hộ",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-dang-bai.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "để OpenClaw tự tìm xu hướng,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#2a1f45"
+     },
+     "tin": {
+      "kicker": "Ứng dụng",
+      "heading": "Để máy đăng bài hộ",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-dang-bai.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "tự viết lời,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#2a1f45"
+     },
+     "tin": {
+      "kicker": "Ứng dụng",
+      "heading": "Để máy đăng bài hộ",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-dang-bai.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "gửi mình duyệt",
+     "loai": "trong",
+     "nen": {
+      "mau": "#2a1f45"
+     },
+     "tin": {
+      "kicker": "Ứng dụng",
+      "heading": "Để máy đăng bài hộ",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-dang-bai.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "rồi mới đăng,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#2a1f45"
+     },
+     "tin": {
+      "kicker": "Ứng dụng",
+      "heading": "Để máy đăng bài hộ",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-dang-bai.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "xong tự đọc số liệu.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#2a1f45"
+     },
+     "tin": {
+      "kicker": "Ứng dụng",
+      "heading": "Để máy đăng bài hộ",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-dang-bai.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Chỗ hay nhất",
+     "loai": "trong",
+     "nen": {
+      "mau": "#2a1f45"
+     },
+     "tin": {
+      "kicker": "Ứng dụng",
+      "heading": "Để máy đăng bài hộ",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-dang-bai.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "là khúc gửi duyệt.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#2a1f45"
+     },
+     "tin": {
+      "kicker": "Ứng dụng",
+      "heading": "Để máy đăng bài hộ",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-dang-bai.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Đừng bỏ khúc đó ra cho nhanh.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#2a1f45"
+     },
+     "tin": {
+      "kicker": "Ứng dụng",
+      "heading": "Để máy đăng bài hộ",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-dang-bai.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Bỏ ra là có ngày nó đăng hộ mình",
+     "loai": "trong",
+     "nen": {
+      "mau": "#2a1f45"
+     },
+     "tin": {
+      "kicker": "Ứng dụng",
+      "heading": "Để máy đăng bài hộ",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-dang-bai.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "một câu mình không dám nhận.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#2a1f45"
+     },
+     "tin": {
+      "kicker": "Ứng dụng",
+      "heading": "Để máy đăng bài hộ",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-14/tu-dang-bai.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cong-dong",
+   "shots": [
+    {
+     "say": "Tin năm: năm cộng đồng đáng vào.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#1d3348",
+      "hoa_tiet": "cham"
+     },
+     "tin": {
+      "kicker": "Cộng đồng",
+      "heading": "Năm chỗ để hỏi",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-14/cong-dong.jpg",
+      "nguon": "tryopenclaw.io"
+     },
+     "sfx": "tin-whoosh"
+    },
+    {
+     "say": "Có nhóm OpenClaw Việt Nam,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#1d3348",
+      "hoa_tiet": "cham"
+     },
+     "tin": {
+      "kicker": "Cộng đồng",
+      "heading": "Năm chỗ để hỏi",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-14/cong-dong.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "nhóm toàn cầu,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#1d3348",
+      "hoa_tiet": "cham"
+     },
+     "tin": {
+      "kicker": "Cộng đồng",
+      "heading": "Năm chỗ để hỏi",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-14/cong-dong.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "kho chính thức trên GitHub,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#1d3348",
+      "hoa_tiet": "cham"
+     },
+     "tin": {
+      "kicker": "Cộng đồng",
+      "heading": "Năm chỗ để hỏi",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-14/cong-dong.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "góc trên Reddit",
+     "loai": "trong",
+     "nen": {
+      "mau": "#1d3348",
+      "hoa_tiet": "cham"
+     },
+     "tin": {
+      "kicker": "Cộng đồng",
+      "heading": "Năm chỗ để hỏi",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-14/cong-dong.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "và một góc trên X.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#1d3348",
+      "hoa_tiet": "cham"
+     },
+     "tin": {
+      "kicker": "Cộng đồng",
+      "heading": "Năm chỗ để hỏi",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-14/cong-dong.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Mình mắc cái gì cũng hỏi nhóm Việt trước,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#1d3348",
+      "hoa_tiet": "cham"
+     },
+     "tin": {
+      "kicker": "Cộng đồng",
+      "heading": "Năm chỗ để hỏi",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-14/cong-dong.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "vì hỏi tiếng Việt lúc đang cuống",
+     "loai": "trong",
+     "nen": {
+      "mau": "#1d3348",
+      "hoa_tiet": "cham"
+     },
+     "tin": {
+      "kicker": "Cộng đồng",
+      "heading": "Năm chỗ để hỏi",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-14/cong-dong.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "thì nhanh hơn.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#1d3348",
+      "hoa_tiet": "cham"
+     },
+     "tin": {
+      "kicker": "Cộng đồng",
+      "heading": "Năm chỗ để hỏi",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-14/cong-dong.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "Vào một nhóm thôi cũng được,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#1d3348",
+      "hoa_tiet": "cham"
+     },
+     "tin": {
+      "kicker": "Cộng đồng",
+      "heading": "Năm chỗ để hỏi",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-14/cong-dong.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    },
+    {
+     "say": "nhưng vào đi.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#1d3348",
+      "hoa_tiet": "cham"
+     },
+     "tin": {
+      "kicker": "Cộng đồng",
+      "heading": "Năm chỗ để hỏi",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-14/cong-dong.jpg",
+      "nguon": "tryopenclaw.io"
+     }
+    }
+   ]
+  },
+  {
+   "id": "ket",
+   "shots": [
+    {
+     "say": "Chốt lại nhá.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Việc hôm nay",
+      "chay": "Claw Expert · bảng tin mỗi ngày · skill, bảo mật, cộng đồng OpenClaw Việt"
+     },
+     "sfx": "tin-whoosh"
+    },
+    {
+     "say": "Một, soi lại đống skill đang cài theo bảy bước kia.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Việc hôm nay"
+     }
+    },
+    {
+     "say": "Hai, chọn đúng một skill mới mà cài.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Việc hôm nay"
+     }
+    },
+    {
+     "say": "Ba, nếu để máy đăng bài",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Việc hôm nay"
+     }
+    },
+    {
+     "say": "thì giữ khúc duyệt lại.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Việc hôm nay"
+     }
+    },
+    {
+     "say": "Mai mình theo tiếp vụ ClawHub.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Việc hôm nay"
+     }
+    },
+    {
+     "say": "Còn các bạn,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Việc hôm nay"
+     }
+    },
+    {
+     "say": "đang cài skill nào",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Việc hôm nay"
+     }
+    },
+    {
+     "say": "mà thấy ngon,",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Việc hôm nay"
+     }
+    },
+    {
+     "say": "thả xuống dưới cho mình xin.",
+     "loai": "trong",
+     "nen": {
+      "mau": "#12203a",
+      "hoa_tiet": "toa"
+     },
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Việc hôm nay"
+     }
+    }
+   ]
+  }
+ ]
+}

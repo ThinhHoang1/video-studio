@@ -1,0 +1,27 @@
+{
+  "title": "thử",
+  "project": "_thu24h",
+  "dinh_dang": "ban-tin",
+  "chapters": [
+    {
+      "id": "barca",
+      "kicker": "T",
+      "heading": "T",
+      "vo": "t",
+      "nguon": [
+        "https://www.24h.com.vn/bong-da/barca-dan-3-0-van-tim-dap-chan-run-tan-binh-doc-dien-ghi-ban-giai-cuu-phut-bu-gio-c48a1794736.html"
+      ],
+      "video": "tin/_thu24h/barca.mp4",
+      "anh_nguon": "24h.com.vn"
+    },
+    {
+      "id": "canfc",
+      "kicker": "T",
+      "heading": "T",
+      "vo": "t",
+      "nguon": [
+        "https://www.24h.com.vn/bong-da/cong-an-ha-noi-fc-ra-quan-c1-chau-a-gap-doi-thu-manh-co-nao-c48a1794735.html"
+      ]
+    }
+  ]
+}

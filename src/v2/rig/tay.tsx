@@ -9,10 +9,10 @@ import {MUC, NEN} from './hinh';
  */
 export type KieuTay = 'xoe' | 'chi' | 'nam' | 'cam' | 'ep' | 'up';
 
-type P = {dau: number; x: number; y: number; huong: number; kieu: KieuTay; net: number; /** lật ngón cái sang bên kia */ lat?: boolean};
+type P = {dau: number; x: number; y: number; huong: number; kieu: KieuTay; net: number; /** lật ngón cái sang bên kia */ lat?: boolean; /** màu da — xem PhongCach.mauDa */ mauDa?: string};
 
-export const BanTay: React.FC<P> = ({dau: d, x, y, huong, kieu, net, lat}) => {
-  const S = {fill: NEN, stroke: MUC, strokeWidth: net, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const};
+export const BanTay: React.FC<P> = ({dau: d, x, y, huong, kieu, net, lat, mauDa}) => {
+  const S = {fill: mauDa ?? NEN, stroke: MUC, strokeWidth: net, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const};
   const r = 0.085 * d; // bán kính lòng bàn tay
   const ng = 0.065 * d; // dài ngón
   const nd = 0.048 * d; // dày ngón
@@ -33,7 +33,7 @@ export const BanTay: React.FC<P> = ({dau: d, x, y, huong, kieu, net, lat}) => {
     const uy = Math.cos(ra);
     const x0 = ux * tu;
     const y0 = uy * tu;
-    return <line key={`t${a}`} x1={x0} y1={y0} x2={x0 + ux * dai} y2={y0 + uy * dai} stroke={NEN} strokeWidth={day} strokeLinecap="round" />;
+    return <line key={`t${a}`} x1={x0} y1={y0} x2={x0 + ux * dai} y2={y0 + uy * dai} stroke={mauDa ?? NEN} strokeWidth={day} strokeLinecap="round" />;
   };
 
   let goc: number[] = [];
@@ -64,7 +64,7 @@ export const BanTay: React.FC<P> = ({dau: d, x, y, huong, kieu, net, lat}) => {
       long = (
         <g>
           <ellipse cx={0} cy={r * 0.15} rx={r * 1.15} ry={r * 0.95} {...S} />
-          <ellipse cx={0} cy={r * 0.2} rx={r * 0.32} ry={r * 0.28} fill={NEN} stroke={MUC} strokeWidth={net * 0.8} />
+          <ellipse cx={0} cy={r * 0.2} rx={r * 0.32} ry={r * 0.28} fill={mauDa ?? NEN} stroke={MUC} strokeWidth={net * 0.8} />
         </g>
       );
       break;

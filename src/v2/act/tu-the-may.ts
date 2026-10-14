@@ -48,8 +48,14 @@ export const TU_THE_MAY: Record<string, TuThe> = {
 };
 
 /** tên tư thế → TuThe: ưu tiên TU_THE của rig, rồi TU_THE_MAY, cuối cùng đứng thường */
-export const layTuThe = (ten?: string): TuThe => {
+/**
+ * Nhận TÊN tư thế hoặc CHÍNH tư thế đã tính sẵn. Vế thứ hai có từ khi trạng thái
+ * vẽ mang góc khớp nội suy (xem TrangThaiVe trong act/ap-dung.ts) — lúc đó không
+ * còn tên nào để tra, bản thân nó đã là tư thế.
+ */
+export const layTuThe = (ten?: string | TuThe): TuThe => {
   if (!ten) return TU_THE.dung;
+  if (typeof ten !== 'string') return ten;
   return TU_THE[ten] ?? TU_THE_MAY[ten] ?? TU_THE.dung;
 };
 

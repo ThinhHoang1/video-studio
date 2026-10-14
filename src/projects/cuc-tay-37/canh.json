@@ -1,0 +1,360 @@
+{
+  "mo-bai": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "mau": "#ffe6b3",
+      "hoa_tiet": "toa"
+    },
+    "canh": "lop-hoc"
+  },
+  "cho-ngoi": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#cfe3ff",
+      "hoa_tiet": "cham"
+    },
+    "canh": "lop-hoc"
+  },
+  "lan-dau": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#e8f4ff",
+      "hoa_tiet": "cham"
+    },
+    "canh": "lop-hoc"
+  },
+  "he-thong": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "mau": "#ffd9a0",
+      "hoa_tiet": "cheo"
+    },
+    "canh": "lop-hoc"
+  },
+  "thang-long": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "mau": "#ffe9b0",
+      "hoa_tiet": "toa"
+    },
+    "canh": "lop-hoc"
+  },
+  "dot-toan": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#d8ecff",
+      "hoa_tiet": "cham"
+    },
+    "canh": "lop-hoc"
+  },
+  "chu-dep": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#e6f2e0",
+      "hoa_tiet": "song"
+    },
+    "canh": "lop-hoc"
+  },
+  "mua": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "tren": "#8fa8bf",
+      "duoi": "#cfdce8"
+    },
+    "canh": "ngoai-troi-mua"
+  },
+  "kiem-tra": {
+    "cast": [
+      "nam",
+      "me"
+    ],
+    "nen": {
+      "mau": "#e0e0e0"
+    },
+    "canh": "lop-hoc"
+  },
+  "bi-goi-bang": {
+    "cast": [
+      "nam",
+      "me"
+    ],
+    "nen": {
+      "mau": "#ffd1d1",
+      "hoa_tiet": "toa"
+    },
+    "canh": "lop-hoc"
+  },
+  "ke-cua-long": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "mau": "#f4d59a",
+      "hoa_tiet": "cheo"
+    },
+    "canh": "cong-truong"
+  },
+  "luu-but": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "mau": "#e4d7f0",
+      "hoa_tiet": "cham"
+    },
+    "canh": "lop-hoc"
+  },
+  "mau-yeu-thich": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": "trang",
+    "canh": "lop-hoc"
+  },
+  "cang-tin": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#ffe0c2",
+      "hoa_tiet": "toa"
+    },
+    "canh": "cang-tin"
+  },
+  "tet": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "tren": "#2b2f63",
+      "duoi": "#6b6fae"
+    },
+    "canh": "phong-ngu"
+  },
+  "nghi-hoc": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "mau": "#dde3ea",
+      "hoa_tiet": "song"
+    },
+    "canh": "lop-hoc"
+  },
+  "khong-dam-hoi": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "tren": "#5c6b7a",
+      "duoi": "#9fb0c0"
+    },
+    "canh": "duong-pho"
+  },
+  "mat-sung": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#cdd8e4",
+      "hoa_tiet": "cham"
+    },
+    "canh": "lop-hoc"
+  },
+  "lan-thu-ba-muoi": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#b9c6d6",
+      "hoa_tiet": "song"
+    },
+    "canh": "lop-hoc"
+  },
+  "nha-ban": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#a9b6c6"
+    },
+    "canh": "lop-hoc"
+  },
+  "ba-tuan": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "mau": "#c9d6c2",
+      "hoa_tiet": "cheo"
+    },
+    "canh": "lop-hoc"
+  },
+  "tap-noi": {
+    "cast": [
+      "nam",
+      "trang"
+    ],
+    "nen": {
+      "tren": "#3a3f55",
+      "duoi": "#7d8397"
+    },
+    "canh": "phong-ngu"
+  },
+  "ghe-da": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#ffe9a8",
+      "hoa_tiet": "toa"
+    },
+    "canh": "san-truong"
+  },
+  "trong-vao-lop": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "mau": "#d9d2c5",
+      "hoa_tiet": "song"
+    },
+    "canh": "phong-ngu"
+  },
+  "ngay-cuoi": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#ffdfb0",
+      "hoa_tiet": "toa"
+    },
+    "canh": "san-truong"
+  },
+  "long-day": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "mau": "#f7c9a0",
+      "hoa_tiet": "cheo"
+    },
+    "canh": "san-truong"
+  },
+  "nua-cau": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "mau": "#ffd6d6",
+      "hoa_tiet": "toa"
+    },
+    "canh": "san-truong"
+  },
+  "xe-den": {
+    "cast": [
+      "nam",
+      "ha"
+    ],
+    "nen": {
+      "tren": "#e8a07a",
+      "duoi": "#ffe2c8"
+    },
+    "canh": "cong-truong"
+  },
+  "cuc-tay-tra-lai": {
+    "cast": [
+      "nam",
+      "long"
+    ],
+    "nen": {
+      "mau": "#e3cdb8",
+      "hoa_tiet": "song"
+    },
+    "canh": "san-truong"
+  },
+  "khac-gi": {
+    "cast": [
+      "nam",
+      "trang"
+    ],
+    "nen": {
+      "tren": "#1f2340",
+      "duoi": "#4a4f75"
+    },
+    "canh": "phong-ngu"
+  },
+  "manh-giay": {
+    "cast": [
+      "nam",
+      "trang"
+    ],
+    "nen": {
+      "mau": "#efe6d8",
+      "hoa_tiet": "cham"
+    },
+    "canh": "phong-ngu"
+  },
+  "muoi-nam": {
+    "cast": [
+      "nam-lon",
+      "long"
+    ],
+    "nen": {
+      "mau": "#7a1f2b",
+      "hoa_tiet": "toa"
+    },
+    "canh": "quan-nhau"
+  },
+  "ket": {
+    "cast": [
+      "nam-lon",
+      "trang"
+    ],
+    "nen": {
+      "mau": "#ffd400",
+      "hoa_tiet": "toa"
+    },
+    "canh": "lop-hoc"
+  }
+}

@@ -1,5 +1,6 @@
-// Sinh lời bình bằng Gemini TTS cho một kịch bản trong script/.
-import {readFileSync, writeFileSync, existsSync} from 'node:fs';
+  // Sinh lời bình bằng Gemini TTS cho một kịch bản trong script/.
+import {readFileSync, writeFileSync, existsSync, mkdirSync} from 'node:fs';
+import {apDung} from './phong-cach.mjs';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
 import {speak, pcmToMp3, durationOf, ensureDir} from './gemini-tts.mjs';
@@ -10,7 +11,16 @@ const NAME = process.argv[2] ?? 'lam-phat';
 const script = JSON.parse(readFileSync(path.join(ROOT, `scripts/${NAME}.json`), 'utf8'));
 // Mặc định giữ file đã sinh để chạy tiếp khi bị quota cắt giữa chừng.
 const OUT = ensureDir(path.join(ROOT, `public/vo-${NAME}`), {clean: process.env.FRESH === '1'});
-const VOICE = process.env.VOICE ?? script.voice;
+/**
+ * Giọng + đoạn dặn lấy từ phong-cach.json (người dùng chọn trên dashboard), ĐÈ
+ * lên trường `voice`/`style` của kịch bản. Vì sao đè: `style` nằm trong từng file
+ * kịch bản nên agent viết bản mới là chép lại style cũ — đổi giọng chỉ ăn được
+ * một video rồi đâu lại vào đấy. Kịch bản khai `giu_giong: true` thì giữ nguyên.
+ */
+const PC = apDung(script);
+const VOICE = process.env.VOICE ?? PC.voice ?? script.voice;
+const STYLE = PC.style ?? script.style;
+if (!PC.tuKichBan) console.log(`  giọng ${VOICE} · tông ${PC.tong} (phong-cach.json)`);
 
 /**
  * Đọc song song mọi chương: mỗi chương chiếm một cặp key×model khác nhau (speak() xoay tua),
@@ -30,11 +40,16 @@ const docChuong = async (ch, i) => {
   if (existsSync(mp3)) console.log(`${nhan} … lời đã đổi, đọc lại`);
   // Chặn bản đọc hỏng: tiếng Việt ~2.7 âm tiết/giây; dài gấp đôi là model lặp/ê a → đọc lại.
   const words = ch.vo.split(/\s+/).length;
-  // đọc chậm hơn 1.6x mức thường (2.7 âm tiết/s) = model ê a hoặc chèn khoảng lặng dài → đọc lại
-  const maxSec = (words / 2.7) * 1.6;
+  // Đọc chậm bất thường = model ê a hoặc chèn khoảng lặng dài → đọc lại.
+  // Mốc 2.7 từ/giây cũ quá rộng: đo thật ba kịch bản đã duyệt thì giọng kể chạy
+  // 3.57–3.81 từ/giây, nên trần cũ cho phép chậm tới 1.7 từ/giây mà vẫn lọt.
+  // Đã lọt thật: một chương 69 từ ra 36 giây (1.9 từ/giây), kéo cả chương thành
+  // 4 giây một shot và làm hỏng nhịp. Mốc 3.2 với biên 1.5 lần chặn đúng nó mà
+  // không đụng chương đọc bình thường.
+  const maxSec = (words / 3.2) * 1.5;
   let duration = 0;
   for (let tryIdx = 1; tryIdx <= 4; tryIdx++) {
-    const pcm = await speak({text: ch.vo, voice: VOICE, style: script.style});
+    const pcm = await speak({text: ch.vo, voice: VOICE, style: STYLE});
     pcmToMp3(pcm, mp3);
     duration = durationOf(mp3);
     if (duration <= maxSec) break;
@@ -73,8 +88,12 @@ const manifest = new Array(script.chapters.length);
 }
 
 const total = manifest.reduce((a, c) => a + c.duration, 0);
+// Dự án mới chưa có thư mục data/ — tạo TRƯỚC khi ghi. Thiếu dòng này thì
+// tts chạy hết quota rồi mới chết ở bước ghi file, phải đọc lại từ đầu.
+const duongManifest = path.join(ROOT, `src/projects/${script.project ?? NAME.replace(/-vui$|-buon$/, '')}/data/${NAME}.generated.json`);
+mkdirSync(path.dirname(duongManifest), {recursive: true});
 writeFileSync(
-  path.join(ROOT, `src/projects/${script.project ?? NAME.replace(/-vui$|-buon$/, '')}/data/${NAME}.generated.json`),
-  JSON.stringify({voice: VOICE, style: script.style, total, chapters: manifest}, null, 2)
+  duongManifest,
+  JSON.stringify({voice: VOICE, style: STYLE, total, chapters: manifest}, null, 2)
 );
 console.log(`\nTỔNG ${Math.floor(total / 60)}p${Math.round(total % 60)}s → src/projects/${script.project ?? NAME}/data/${NAME}.generated.json`);

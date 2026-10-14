@@ -45,11 +45,17 @@ FFMPEG="$LIB/ffmpeg"
 # Composition V2-<ten>: tổng frame = thẻ tiêu đề 1.6 s + Σ(audio + đệm 0.4 s) — khớp src/v2/phim/du-lieu.ts
 if [[ "$COMP" == V2-* ]]; then
   TEN_V2="${COMP#V2-}"
+  # Bản dọc là CÙNG kịch bản, chỉ khác cái khung — bỏ hậu tố để tìm đúng file.
+  TEN_V2="${TEN_V2%-doc}"
   TOTAL=$(node -e "
     const kb = require('./scripts/$TEN_V2.json');
     const d = require('./src/projects/' + kb.project + '/data/$TEN_V2.generated.json');
     const FPS = 30, f = s => Math.round(s * FPS);
-    console.log(f(1.6) + d.chapters.reduce((a, c) => a + f(c.duration) + f(0.4), 0));
+    // Bảng tin KHÔNG có thẻ tiêu đề 1.6 s — xem INTRO trong src/v2/phim/phim-v2.tsx.
+    // Cộng thêm ở đây thì render đòi frame 888–899 mà composition chỉ có 888, và
+    // Remotion chết ngay ở bước lấy composition.
+    const intro = kb.dinh_dang === 'ban-tin' ? 0 : 1.6;
+    console.log(f(intro) + d.chapters.reduce((a, c) => a + f(c.duration) + f(0.4), 0));
   ")
 else
 TOTAL=$(node -e "
@@ -78,9 +84,9 @@ SEGDIR="out/.seg-$COMP-$FINGERPRINT"
 mkdir -p "$SEGDIR"
 # ── CỔNG RIÊNG, KHÔNG BAO GIỜ ĐỤNG 3000 ─────────────────────────────────────
 # `remotion render` mở một HTTP server để phục vụ bundle. Mặc định nó bò dần từ
-# 3000 lên — mà 3000 là cổng một service khác của workspace này.
+# 3000 lên — mà 3000 là cổng Platform-BE của workspace này.
 # ĐÃ XẢY RA THẬT (2026-09-11): một tiến trình render treo giữ cổng 3000 suốt
-# 15h52m; script dựng stack chỉ kiểm "cổng 3000 có ai nghe không", thấy có nên in
+# 15h52m; stack-up.sh chỉ kiểm "cổng 3000 có ai nghe không", thấy có nên in
 # "[skip] be :3000 đã up" và KHÔNG khởi động BE. FE gọi API không ai trả, rơi về
 # màn onboarding, người dùng tưởng mất sạch instance và use-case (DB vẫn nguyên).
 # Ghim cổng vào dải 39xxx để render không bao giờ đứng chắn cửa của ai.
@@ -109,6 +115,11 @@ for cu in out/.seg-"$COMP"-*; do
   [ "$cu" = "$SEGDIR" ] || rm -rf "$cu" 2>/dev/null
 done
 
+# Số luồng Chrome chạy song song. Mặc định 2; phim dài thì hạ xuống 1 —
+# đo thật: render 19.000 khung ở mức 2 bị hệ thống giết giữa chừng vì hết bộ nhớ
+# (còn 64 MB trống ở đoạn thứ mười bảy). Một luồng chậm hơn nhưng chạy tới cùng.
+CONC="${RENDER_CONCURRENCY:-2}"
+
 i=0
 start=0
 list="$SEGDIR/list.txt"
@@ -127,7 +138,7 @@ while [ "$start" -lt "$TOTAL" ]; do
       "${BROWSER_ARG[@]}" \
       --port="$REMOTION_PORT" \
       --frames="$start-$end" \
-      --crf=20 --timeout=120000 --concurrency=2 --log=error
+      --crf=20 --timeout=120000 --concurrency="$CONC" --log=error
   fi
 
   echo "file '$PWD/$seg'" >> "$list"
@@ -139,5 +150,76 @@ done
 # không có media/outbound/, và ffmpeg báo lỗi ở ĐÚNG bước cuối — sau khi đã render
 # xong mọi đoạn, tức là mất cả lượt render.
 mkdir -p "$(dirname "$OUT")"
-"$FFMPEG" -y -f concat -safe 0 -i "$list" -c copy "$OUT"
+
+# ── GHÉP ĐOẠN ───────────────────────────────────────────────────────────────
+# `-c copy` chép nguyên luồng nên NHANH, nhưng timestamp của từng đoạn không
+# nối liền nhau: đo bản tin 105 giây thì ra 3152 frame thay vì 3159, và nhịp
+# hình thành 29.95 fps thay vì 30. Trình phát thấy nhịp lệch thì tự chỉnh —
+# nhìn ra đúng như "giật giật liên tục và bị ngắt".
+#
+# Nên ghép xong phải SINH LẠI TIMESTAMP và ép thang thời gian về bội của 30.
+# Vẫn là chép luồng (không mã hoá lại, không mất chất, vẫn nhanh), chỉ sửa phần
+# thời gian. Ghép xong đếm frame: thiếu thì nói ra chứ không im lặng giao hàng.
+tam="${OUT%.mp4}.ghep.mp4"
+
+# `-c copy` KHÔNG sửa được nhịp: đo bản tin 86 giây thì thấy đúng 3 chỗ lệch —
+# 23.37 s, 46.75 s, 70.13 s — mỗi chỗ một khung kéo dài 0.081 s thay vì 0.033 s.
+# Đó chính là ba ranh giới đoạn (mỗi đoạn 700 khung). Mắt đọc ra là "giật" đều
+# đặn ba lần. Chép luồng thì khung vẫn nguyên si, chỉ dấu thời gian lệch, mà
+# dấu thời gian lại là thứ quyết định nhịp phát.
+#
+# Nên khi ghép phải MÃ HOÁ LẠI hình với nhịp cố định 30 hình/giây. Tốn thêm
+# khoảng nửa phút cho video hai phút; đổi lại nhịp đều tuyệt đối. Tiếng vẫn chép
+# nguyên, không đụng vào.
+# ─ VÌ SAO GHÉP HÌNH VÀ TIẾNG RIÊNG ─
+#
+# Mỗi đoạn Remotion xuất ra có TIẾNG DÀI HƠN HÌNH: hình 700 khung = 23.3333 s,
+# nhưng luồng AAC là 23.3813 s (đo thật). Độ dài của FILE lấy theo luồng dài
+# nhất, mà bộ ghép lại dùng độ dài file làm mốc đặt đoạn kế tiếp — nên mỗi ranh
+# giới hình bị đẩy lùi ~0.05 s. Đó là cái "giật đều đặn" ở đúng bội số 23 giây.
+#
+# Hai cách chữa trước đây đều chỉ chữa được một nửa:
+#   · `-c copy`            → giữ đủ khung, nhưng để nguyên khoảng hở (giật).
+#   · `-fps_mode cfr -r 30`→ hết hở, nhưng NHÂN BẢN khung để lấp: đo trên phim
+#                            10 phút, 28 đoạn, vào 19.254 khung ra 19.293.
+#                            Khung trùng không hiện trên phép đo dấu thời gian,
+#                            nên bản đo báo "đều tuyệt đối" mà mắt vẫn thấy khựng.
+#
+# Cách đúng là bỏ hẳn nguyên nhân: TÁCH TIẾNG RA KHỎI ĐOẠN trước khi nối. Đoạn
+# chỉ còn hình thì độ dài file đúng bằng 23.3333 s, nối bằng chép luồng ra đủ
+# 19.254 khung và không một khoảng hở nào — lại không phải mã hoá lại lần nào.
+# Tiếng thì dựng MỘT LẦN cho cả phim bằng `remotion render --codec=aac`: không
+# cắt đoạn thì không có chỗ nào để lệch (mất ~1.5 phút cho phim 10 phút).
+tam="${OUT%.mp4}.ghep.mp4"
+listv="$SEGDIR/list-hinh.txt"
+: > "$listv"
+while IFS= read -r dong; do
+  seg="${dong#file \'}"; seg="${seg%\'}"
+  chi="${seg%.mp4}.hinh.mp4"
+  [ -s "$chi" ] || "$FFMPEG" -y -v error -i "$seg" -an -c:v copy "$chi"
+  echo "file '$chi'" >> "$listv"
+done < "$list"
+
+tieng="$SEGDIR/tieng.aac"
+if [ ! -s "$tieng" ]; then
+  echo "dựng tiếng một lần cho cả phim…"
+  npx remotion render "$COMP" "$tieng" --codec=aac --port="$REMOTION_PORT" --log=error
+fi
+
+"$FFMPEG" -y -v error -f concat -safe 0 -i "$listv" -fps_mode passthrough -c:v copy "$SEGDIR/hinh.mp4"
+"$FFMPEG" -y -v error -i "$SEGDIR/hinh.mp4" -i "$tieng" \
+  -map 0:v -map 1:a -c copy -shortest -movflags +faststart "$tam"
+mv -f "$tam" "$OUT"
+
+FFPROBE="$LIB/ffprobe"
+if [[ -x "$FFPROBE" ]]; then
+  co=$("$FFPROBE" -v error -count_frames -select_streams v -show_entries stream=nb_read_frames         -of default=nw=1:nk=1 "$OUT" 2>/dev/null || echo 0)
+  can=$((TOTAL))
+  # Đếm HAI CHIỀU. Bản trước chỉ báo khi THIẾU khung, nên 39 khung THỪA do ghép
+  # nhân bản đi lọt hoàn toàn — và thừa cũng là hỏng: phim dài hơn tiếng, cổng
+  # chấm điểm đánh trượt vì lệch thời lượng.
+  if [[ "$co" -gt 0 && "$can" -gt 0 && "$co" -ne "$can" ]]; then
+    echo "⚠ ghép xong ra $co/$can frame (lệch $((co - can))). Xem lại ranh giới đoạn." >&2
+  fi
+fi
 echo "-> $OUT"

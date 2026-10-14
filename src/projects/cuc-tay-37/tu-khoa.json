@@ -1,0 +1,195 @@
+{
+  "mac_dinh": "lop-hoc",
+  "canh": [
+    [
+      "sân trường|ghế đá|gốc bàng|chụp ảnh|ba hàng|tập thể",
+      "san-truong"
+    ],
+    [
+      "cổng trường|bảo vệ|kéo cổng|ra cổng|ngoài cổng|trà đá",
+      "cong-truong"
+    ],
+    [
+      "căng tin|bánh mì|bẻ đôi|năm nghìn",
+      "cang-tin"
+    ],
+    [
+      "mưa|ngập|áo mưa|mắt cá|ướt",
+      "ngoai-troi-mua"
+    ],
+    [
+      "nhắn tin|giao thừa|nhắn lại|tắt máy|tin đó",
+      "man-hinh-dien-thoai"
+    ],
+    [
+      "nhà tắm|gương|úp mặt|xuống gối|đèn bàn|nền nhà|hộp bút cũ|tối đó|soi cục tẩy",
+      "phong-ngu"
+    ],
+    [
+      "đạp xe|đầu ngõ|dựng xe|gọi cổng|xe máy|tới đón|chở theo",
+      "duong-pho"
+    ],
+    [
+      "cưới vợ|say|vỗ vai|về gần đủ|lấy ví",
+      "quan-nhau"
+    ],
+    [
+      "tản ra|hành lang",
+      "hanh-lang"
+    ],
+    [
+      "bảng|phấn|tiết|kiểm tra|điểm danh|chép|vở|lớp|bàn bốn|ghế cạnh|cô Bình|cặp|giấy trắng|lưu bút|hộp bút",
+      "lop-hoc"
+    ]
+  ],
+  "prop": [
+    [
+      "bảng|phấn|dấu bằng|chữa câu|viết bảng",
+      "bang-den"
+    ],
+    [
+      "ghế đá",
+      "ghe-da"
+    ],
+    [
+      "gốc bàng|gốc cây",
+      "goc-cay"
+    ],
+    [
+      "xe đạp|đạp xe",
+      "xe-dap"
+    ],
+    [
+      "áo mưa|mưa|ngập",
+      "ao-mua"
+    ],
+    [
+      "căng tin|bánh mì|khay",
+      "quay-cang-tin"
+    ],
+    [
+      "cổng trường|kéo cổng|ngoài cổng|bảo vệ",
+      "cong-truong"
+    ],
+    [
+      "cửa sổ",
+      "cua-so"
+    ],
+    [
+      "mẩu giấy|gấp tư|tờ giấy|lưu bút|sổ|trang",
+      "to-giay"
+    ],
+    [
+      "thư|viết cho",
+      "la-thu"
+    ],
+    [
+      "nhắn|tin|điện thoại|tắt máy|giao thừa",
+      "dien-thoai"
+    ],
+    [
+      "phút|giờ|đồng hồ|đếm ngược|bốn mươi phút",
+      "dong-ho"
+    ],
+    [
+      "tẩy|bút|hộp bút|compa|khắc",
+      "but"
+    ],
+    [
+      "vở|chép|sách|bài",
+      "sach"
+    ],
+    [
+      "bàn giáo viên|giáo viên",
+      "ban-giao-vien"
+    ],
+    [
+      "bàn|ngồi|dãy",
+      "ban-hoc"
+    ],
+    [
+      "tim|thích|đợi",
+      "trai-tim"
+    ],
+    [
+      "run|hèn|nhục|toát",
+      "giot-mo-hoi"
+    ]
+  ],
+  "cam": [
+    [
+      "phấn|viết bảng|dấu bằng",
+      "phan"
+    ],
+    [
+      "tẩy|bút|khắc|compa|viết|chép",
+      "but"
+    ],
+    [
+      "nhắn|tin|điện thoại|soạn|gửi",
+      "dien-thoai"
+    ],
+    [
+      "vở|sổ|lưu bút|sách|bài",
+      "sach"
+    ],
+    [
+      "mẩu giấy|gấp tư|thư",
+      "la-thu"
+    ],
+    [
+      "trà đá|cốc|uống",
+      "ly-tra-sua"
+    ]
+  ],
+  "mau": [
+    [
+      "bảng|phấn|chữa câu|dấu bằng",
+      "viet-bang"
+    ],
+    [
+      "gõ|bấm|soạn|nhắn",
+      "go-ban"
+    ],
+    [
+      "quay sang|quay xuống|quay đi|quay lên",
+      "quay-lai"
+    ],
+    [
+      "khóc|sưng|rung|bật khóc",
+      "run"
+    ],
+    [
+      "đẩy|rít|chửi|đi đi",
+      "vao-lao"
+    ],
+    [
+      "chạy|lao|chạy mất|chạy tới",
+      "chay-den"
+    ],
+    [
+      "đứng im|tắc|đứng hình|im",
+      "giat-minh"
+    ],
+    [
+      "gật|ừ|đúng|công nhận",
+      "gat-gu"
+    ],
+    [
+      "lắc|không|chưa|đâu",
+      "lac-dau"
+    ],
+    [
+      "cười|sặc|vui|sướng",
+      "cuoi-lan"
+    ],
+    [
+      "đạp|đi |về |ra |xuống",
+      "di-bo"
+    ],
+    [
+      "nhìn|soi|xoay|tìm|ngó",
+      "nhin-quanh"
+    ]
+  ]
+}

@@ -452,4 +452,66 @@ save('quack', quack());
 save('cash-register', cashRegister());
 save('whoosh-long', whooshLong());
 
+
+// ── ÂM BẢN TIN ───────────────────────────────────────────────────────────────
+// Ngữ pháp âm của bản tin truyền hình (24h, BeatVN): một cú STING mở đầu, một
+// WHOOSH mỗi lần đổi tin, tiếng GÕ khi chữ chạy ra, và tiếng TÍCH TẮC dưới nền
+// khi đang đếm. Thiếu bộ này thì bảng tin nghe như đọc chính tả có nhạc nền.
+
+/** Sting mở bản tin: hai nốt quãng năm đi lên + đuôi vang, kiểu nhạc hiệu thời sự. */
+const stingTin = (dur = 1.1) => {
+  const n = sec(dur);
+  const x = zeros(n);
+  const notes = [[0, 392, 0.45], [0.13, 587.33, 0.5], [0.26, 783.99, 0.85]];
+  for (const [t0, f, d] of notes) {
+    const i0 = sec(t0);
+    const m = sec(d);
+    for (let i = 0; i < m && i0 + i < n; i++) {
+      const tt = i / SR;
+      const e = Math.exp(-tt * 4.2);
+      x[i0 + i] +=
+        e * (0.5 * Math.sin(2 * Math.PI * f * tt) + 0.25 * Math.sin(4 * Math.PI * f * tt) + 0.12 * Math.sin(6 * Math.PI * f * tt));
+    }
+  }
+  return mul(x, env(n, 0.004, 0.9, 1));
+};
+
+/** Whoosh chuyển tin: ngắn, có cao độ, dứt khoát — khác whoosh hài ở chỗ không bay bổng. */
+const whooshTin = (dur = 0.28) => {
+  const n = sec(dur);
+  const b = mul(sweepLowpass(noise(n), 600, 6000), env(n, 0.01, 0.75, 2.2));
+  const x = zeros(n);
+  for (let i = 0; i < n; i++) {
+    const tt = i / SR;
+    const f = 180 + 900 * (tt / dur);
+    x[i] = 0.35 * Math.sin(2 * Math.PI * f * tt) * Math.exp(-tt * 9);
+  }
+  return add(b, x, 0.9);
+};
+
+/** Tích tắc đồng hồ: một hạt gõ khô, dùng rải dưới nền lúc đếm ngược. */
+const tichTac = () => {
+  const n = sec(0.09);
+  const x = mul(noise(n), env(n, 0.001, 0.25, 4));
+  return mul(x, lin(n, 1, 0.2));
+};
+
+/** Chuông BREAKING: gõ kim loại nặng + đuôi ngân, cho tin cảnh báo. */
+const breaking = (dur = 1.4) => {
+  const n = sec(dur);
+  const x = zeros(n);
+  for (const f of [146.83, 220, 293.66, 440]) {
+    for (let i = 0; i < n; i++) {
+      const tt = i / SR;
+      x[i] += Math.exp(-tt * 2.6) * 0.22 * Math.sin(2 * Math.PI * f * tt);
+    }
+  }
+  return add(x, mul(noise(sec(0.05)), env(sec(0.05), 0.001, 0.2, 5)), 0.5);
+};
+
+save('tin-sting', stingTin());
+save('tin-whoosh', whooshTin());
+save('tin-tich', tichTac());
+save('tin-breaking', breaking());
+
 console.log(`\n-> ${OUT}`);

@@ -25,11 +25,14 @@ for (const f of readdirSync(path.join(ROOT, 'scripts')).filter((x) => x.endsWith
     boQua.push(`${id}: kịch bản không có trường project (V1, bỏ qua)`);
     continue;
   }
+  // Bảng tin không có nhân vật nên KHÔNG có file lip-sync — đòi nó ở đây thì dự
+  // án bảng tin không bao giờ được đăng ký, và composition không tồn tại để render.
+  const laBanTin = kb.dinh_dang === 'ban-tin';
   const can = {
     board: `src/projects/${duAn}/board.json`,
     manifest: `src/projects/${duAn}/data/${id}.generated.json`,
     voice: `src/projects/${duAn}/data/${id}.voice.json`,
-    mouth: `src/projects/${duAn}/data/${id}.mouth.json`,
+    ...(laBanTin ? {} : {mouth: `src/projects/${duAn}/data/${id}.mouth.json`}),
   };
   const thieu = Object.entries(can).filter(([, p]) => !existsSync(path.join(ROOT, p)));
   if (thieu.length) {
@@ -41,11 +44,11 @@ for (const f of readdirSync(path.join(ROOT, 'scripts')).filter((x) => x.endsWith
     `import board_${v} from './${duAn}/board.json';`,
     `import manifest_${v} from './${duAn}/data/${id}.generated.json';`,
     `import voice_${v} from './${duAn}/data/${id}.voice.json';`,
-    `import mouth_${v} from './${duAn}/data/${id}.mouth.json';`
+    ...(laBanTin ? [] : [`import mouth_${v} from './${duAn}/data/${id}.mouth.json';`])
   );
   const tieuDe = JSON.stringify(kb.title ?? id);
   muc.push(
-    `  {id: 'V2-${id}', ten: '${id}', duAn: '${duAn}', ...taoPhim({board: board_${v} as unknown as Board, manifest: manifest_${v} as Manifest, voices: voice_${v} as unknown as Record<string, VoiceTrack>, mouths: mouth_${v} as unknown as Record<string, MouthTrack>, tieuDe: ${tieuDe}})},`
+    `  {id: 'V2-${id}', ten: '${id}', duAn: '${duAn}', ...taoPhim({board: board_${v} as unknown as Board, manifest: manifest_${v} as Manifest, voices: voice_${v} as unknown as Record<string, VoiceTrack>, ${laBanTin ? '' : `mouths: mouth_${v} as unknown as Record<string, MouthTrack>, `}tieuDe: ${tieuDe}})},`
   );
 }
 

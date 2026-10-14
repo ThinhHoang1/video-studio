@@ -163,3 +163,81 @@ export const TU_THE: Record<string, TuThe> = {
 
 
 export type TenTuThe = keyof typeof TU_THE;
+
+
+/**
+ * ── TRỘN HAI TƯ THẾ ─────────────────────────────────────────────────────
+ *
+ * Mọi trường của `TuThe` là SỐ ĐO GÓC (độ) hoặc hệ số — nên trộn được thật, chứ
+ * không phải giả lập. Đây là thứ biến "ảnh nhảy" thành "người cử động".
+ *
+ * Vì sao phải có: trước đây đổi tư thế là thay nguyên cả khối trong ĐÚNG MỘT
+ * khung hình, không có gì ở giữa. Đo trên phim 10 phút dựng bằng bộ máy cũ:
+ * 40.5% số khung không có gì động ngoài cái miệng. Người xem gọi đúng tên —
+ * "không hề mượt".
+ *
+ * Ghi chú cũ trong file này nói tham chiếu "KHÔNG nội suy (79% snap 1 frame)".
+ * Số đó đọc ngược: 79% CÚ ĐỔI là snap, tức 21% vẫn có khung trung gian — và
+ * quan trọng hơn, tham chiếu snap giữa các tư thế ĐỔI LIÊN TỤC, còn bộ này giữ
+ * mỗi tư thế 0.8 giây. Snap hiếm cộng giữ lâu cộng không có gì ở giữa thì ra
+ * xem ảnh, không phải xem phim.
+ *
+ * Trường KHÔNG phải số (kiểu bàn tay, tay nào vẽ trước, quay lưng) không có
+ * khái niệm ở-giữa — chúng đổi tại mốc nửa đường.
+ */
+const so = (a: number | undefined, b: number | undefined, u: number, macDinh = 0): number => {
+  const x = a ?? macDinh;
+  const y = b ?? macDinh;
+  return x + (y - x) * u;
+};
+
+/** Cánh tay, cẳng tay và bàn tay pha theo BA tỉ lệ khác nhau — đó là follow-through:
+ *  vai dẫn, khuỷu theo, cổ tay tới sau cùng. Cho cả ba cùng một tỉ lệ thì cả cánh
+ *  tay cứng như một thanh gỗ xoay quanh vai. */
+const phaTay = (a: Tay, b: Tay, uCanh: number, uCang: number, uBan: number): Tay => ({
+  canh: so(a.canh, b.canh, uCanh),
+  cang: so(a.cang, b.cang, uCang),
+  ban: uBan < 0.5 ? a.ban : b.ban,
+  xoay: so(a.xoay, b.xoay, uBan),
+  co: so(a.co, b.co, uCang, 1),
+});
+
+/**
+ * Tỉ lệ pha cho TỪNG KHỚP. Trả về 0..1 (có thể >1 khi vượt đà).
+ * Một số thì mọi khớp đi cùng nhau — đó là hình trượt. Một hàm thì thân đi
+ * trước, đầu theo sau, bàn tay tới cuối — đó là cơ thể.
+ */
+export type PhaKhop = number | ((khop: 'than' | 'dau' | 'canh' | 'cang' | 'ban' | 'chan') => number);
+
+const lay = (p: PhaKhop, k: 'than' | 'dau' | 'canh' | 'cang' | 'ban' | 'chan'): number =>
+  typeof p === 'number' ? p : p(k);
+
+export const phaTuThe = (a: TuThe, b: TuThe, u: PhaKhop): TuThe => {
+  const uThan = lay(u, 'than');
+  if (uThan <= 0) return a;
+  if (typeof u === 'number' && u >= 1) return b;
+  const uDau = lay(u, 'dau');
+  const uCanh = lay(u, 'canh');
+  const uCang = lay(u, 'cang');
+  const uBan = lay(u, 'ban');
+  const uChan = lay(u, 'chan');
+  const sau = uThan < 0.5 ? a : b;
+  const ra: TuThe = {
+    trai: phaTay(a.trai, b.trai, uCanh, uCang, uBan),
+    phai: phaTay(a.phai, b.phai, uCanh, uCang, uBan),
+    than: so(a.than, b.than, uThan),
+    dau: so(a.dau, b.dau, uDau),
+    coRut: so(a.coRut, b.coRut, uDau),
+    vaiNang: so(a.vaiNang, b.vaiNang, uThan),
+    bay: so(a.bay, b.bay, uThan),
+    chanNgan: so(a.chanNgan, b.chanNgan, uChan),
+    sauThan: sau.sauThan,
+    quayLung: sau.quayLung,
+    nghieng: sau.nghieng,
+    cam: sau.cam,
+  };
+  if (a.chan || b.chan) {
+    ra.chan = {trai: so(a.chan?.trai, b.chan?.trai, uChan), phai: so(a.chan?.phai, b.chan?.phai, uChan)};
+  }
+  return ra;
+};

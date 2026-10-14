@@ -33,6 +33,13 @@ const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
 const LIBDIR_FF = timLibDir(ROOT) ?? path.join(ROOT, 'node_modules/@remotion/compositor-darwin-arm64');
 const FFMPEG = path.join(LIBDIR_FF, 'ffmpeg');
 const ENV_FF = {...process.env, DYLD_LIBRARY_PATH: LIBDIR_FF, LD_LIBRARY_PATH: LIBDIR_FF};
+const FFPROBE_FF = path.join(LIBDIR_FF, 'ffprobe');
+
+/** độ dài video (giây) — để tính bitrate bản xem nhanh cho vừa hạn mức dashboard */
+const docDai = (f) => {
+  const r = spawnSync(FFPROBE_FF, ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', f], {encoding: 'utf8', env: ENV_FF});
+  return Number((r.stdout ?? '').trim()) || 0;
+};
 const args = process.argv.slice(2);
 const TEN = args.find((a) => !a.startsWith('--'));
 const opt = (k) => {
@@ -113,8 +120,20 @@ if (chay('nhip')) {
   if (node('pipeline/analyze-voice.mjs', TEN) !== 0) dung('analyze-voice lỗi');
 }
 if (chay('mieng')) {
-  tieuDe('4/11 lip-sync');
-  if (node('pipeline/lipsync.mjs', TEN) !== 0) dung('lipsync lỗi (tools/rhubarb có chưa? xem tools/README.md)');
+  /**
+   * BẢNG TIN KHÔNG CẦN LIP-SYNC — không có cái mặt nào để nhép.
+   *
+   * Đo board bản tin: 0/49 shot có diễn viên. Vẫn chạy Rhubarb là đốt ~15 giây
+   * xử lý mỗi lần dựng, và trên máy arm64 còn phải bung qemu chạy bản x86 cho
+   * một kết quả không ai nhìn thấy.
+   */
+  if (kb.dinh_dang === 'ban-tin') {
+    console.log('\n━━ 4/11 lip-sync ━━');
+    console.log('  ⏭  bảng tin không có nhân vật — bỏ qua lip-sync');
+  } else {
+    tieuDe('4/11 lip-sync');
+    if (node('pipeline/lipsync.mjs', TEN) !== 0) dung('lipsync lỗi (tools/rhubarb có chưa? xem tools/README.md)');
+  }
 }
 // 5
 const board = `src/projects/${DU_AN}/board.json`;
@@ -143,8 +162,20 @@ if (chay('thong-ke') && existsSync(path.join(ROOT, 'pipeline/thong-ke-board.mjs'
 if (chay('dang-ky')) {
   tieuDe('8/11 đăng ký composition');
   if (node('pipeline/dang-ky.mjs') !== 0) dung('dang-ky lỗi');
-  const r = spawnSync('npx', ['tsc', '--noEmit', '-p', '.'], {cwd: ROOT, stdio: 'inherit'});
-  if (r.status !== 0) dung('tsc lỗi — board.json có trường sai kiểu? xem lỗi ở trên');
+  /**
+   * Kiểm kiểu bằng tsc là bước LÀM SẠCH, không phải cổng chất lượng: board.json
+   * đã qua kiem-tra-v2 rồi. Máy nào không có TypeScript (bản cài `npm ci
+   * --omit=dev` chẳng hạn) thì bỏ qua, đừng chặn cả pipeline — đã xảy ra thật:
+   * engine trong container không có tsc và mọi video đứng ở đây, sau khi đã tốn
+   * xong hạn mức đọc giọng.
+   */
+  const tsc = path.join(ROOT, 'node_modules/.bin/tsc');
+  if (!existsSync(tsc)) {
+    console.log('  ⚠ không có TypeScript trong engine — bỏ qua bước kiểm kiểu (không chặn)');
+  } else {
+    const r = spawnSync(tsc, ['--noEmit', '-p', '.'], {cwd: ROOT, stdio: 'inherit'});
+    if (r.status !== 0) dung('tsc lỗi — board.json có trường sai kiểu? xem lỗi ở trên');
+  }
 }
 // 9
 const CO_TD = coTrinhDuyet(); // dò trình duyệt theo máy (macOS / Linux / Windows)
@@ -223,14 +254,25 @@ if (chay('render')) {
    * Bản gốc vẫn là bản giao; đây chỉ để xem trên dashboard.
    */
   const xem = `media/outbound/${TEN}.xem.mp4`;
+  /**
+   * Bitrate tính THEO ĐỘ DÀI để bản xem luôn dưới 8 MB.
+   *
+   * Bản đầu cắm cứng 450 kbps — video 3 phút 50 ra bản xem 14.4 MB, vượt mức
+   * 9 MB mà plugin-proxy nhét được vào JSON, nên khung xem trên dashboard báo
+   * lỗi và KHÔNG BAO GIỜ phát được. Đó đúng là lỗi "video chưa bao giờ hiện ra
+   * dashboard": file có, route có, chỉ là nó quá to.
+   */
+  const giay = Math.max(1, docDai(path.join(ROOT, mp4)));
+  const tongKbps = Math.floor((7.2 * 8 * 1024) / giay); // 7.2 MB trần, chừa chỗ cho base64
+  const vKbps = Math.max(120, Math.min(900, tongKbps - 56));
   const rx = spawnSync(
     FFMPEG,
     ['-y', '-i', path.join(ROOT, mp4), '-vf', 'scale=640:-2', '-c:v', 'libx264', '-preset', 'veryfast',
-     '-b:v', '450k', '-maxrate', '600k', '-bufsize', '1200k', '-c:a', 'aac', '-b:a', '64k',
-     '-movflags', '+faststart', path.join(ROOT, xem)],
+     '-b:v', `${vKbps}k`, '-maxrate', `${Math.round(vKbps * 1.3)}k`, '-bufsize', `${vKbps * 3}k`,
+     '-c:a', 'aac', '-b:a', '48k', '-movflags', '+faststart', path.join(ROOT, xem)],
     {cwd: ROOT, stdio: 'ignore', env: ENV_FF}
   );
-  if (rx.status === 0) console.log(`  ✓ bản xem nhanh: ${xem}`);
+  if (rx.status === 0) console.log(`  ✓ bản xem nhanh: ${xem} (${vKbps} kbps cho ${giay.toFixed(0)}s)`);
   else console.log('  ⚠ không tạo được bản xem nhanh — dashboard sẽ không xem được trong khung (file gốc vẫn có)');
 }
 // 11
@@ -285,17 +327,26 @@ ${MOC_CUOI}`;
    * nhưng KHÔNG nằm ở chỗ dành cho hàng giao.
    */
   if (diem < 90) {
-    const nhap = path.join(ROOT, 'media/nhap');
-    mkdirSync(nhap, {recursive: true});
-    for (const f of [`${TEN}.mp4`, `${TEN}.xem.mp4`, `${TEN}.md`]) {
-      const tu = path.join(ROOT, 'media/outbound', f);
-      if (existsSync(tu)) renameSync(tu, path.join(nhap, f));
+    /**
+     * Bản chưa đạt ĐỔI TÊN, không đổi thư mục.
+     *
+     * Trước đây dời sang media/nhap/ — nhưng OpenClaw chỉ cho gửi file trong
+     * media/outbound/, nên gửi bản nháp vào chat thì báo "Unavailable: Outside
+     * allowed folders", và dashboard cũng không đọc được. Người xem hết đường
+     * xem thử bản nháp, phải chui vào container mà lấy.
+     *
+     * Giữ trong outbound với hậu tố `.nhap` thì vừa gửi được, vừa không ai nhầm
+     * là hàng giao: cả tên file lẫn dashboard đều nói rõ nó chưa đạt.
+     */
+    for (const f of ['mp4', 'xem.mp4', 'md']) {
+      const tu = path.join(ROOT, 'media/outbound', `${TEN}.${f}`);
+      if (existsSync(tu)) renameSync(tu, path.join(ROOT, 'media/outbound', `${TEN}.nhap.${f}`));
     }
     console.log(
       `\n✗ ${diem}% < 90% — CHƯA ĐẠT, không giao.\n` +
-        `  Phim nằm ở media/nhap/${TEN}.mp4 để xem và sửa.\n` +
+        `  Phim nằm ở media/outbound/${TEN}.nhap.mp4 — xem thử được, nhưng KHÔNG phải bản giao.\n` +
         `  Sửa board theo các dòng ✗ ở trên rồi chạy lại: node pipeline/tao-video.mjs ${TEN} --lam-lai --tu render\n` +
-        `  ĐỪNG báo với chủ nhân là đã xong.`
+        `  ĐỪNG báo với chủ nhân là đã xong — file còn chữ .nhap trong tên.`
     );
     process.exit(1);
   }

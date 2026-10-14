@@ -1,0 +1,733 @@
+{
+ "du_an": "ban-tin-2026-09-15",
+ "dinh_dang": "ban-tin",
+ "nguoi_ke": "nam",
+ "mac_dinh": {
+  "loai": "minh-hoa",
+  "co": "trung",
+  "nen": "trang"
+ },
+ "khung_doc": {
+  "kenh": "CLAW EXPERT",
+  "caption": [
+   "Tắt sóng 2G toàn quốc,",
+   "iOS 27 ra bản chính thức,",
+   "châu Âu đòi siết kính thông minh"
+  ],
+  "anh": "tin/ban-tin-2026-09-15/tat-2g.jpg",
+  "mo": 2.5,
+  "nguon": "thanhnien.vn · tuoitre.vn"
+ },
+ "chuong": [
+  {
+   "id": "mo-bai",
+   "shots": [
+    {
+     "say": "Từ hôm nay,",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Mở đầu",
+      "heading": "Bản tin công nghệ hôm nay",
+      "chay": "Claw Expert · bản tin công nghệ mỗi ngày · 2G, iOS 27, Bitcoin, kính thông minh"
+     },
+     "sfx": "tin-sting"
+    },
+    {
+     "say": "mạng hai G ngừng phát sóng trên cả nước.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Mở đầu",
+      "heading": "Bản tin công nghệ hôm nay"
+     }
+    },
+    {
+     "say": "Cùng với đó:",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Mở đầu",
+      "heading": "Bản tin công nghệ hôm nay"
+     }
+    },
+    {
+     "say": "i O S hai bảy ra bản chính thức,",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Mở đầu",
+      "heading": "Bản tin công nghệ hôm nay"
+     }
+    },
+    {
+     "say": "và châu Âu đòi siết kính thông minh.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Mở đầu",
+      "heading": "Bản tin công nghệ hôm nay"
+     }
+    },
+    {
+     "say": "Năm tin công nghệ đáng chú",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Mở đầu",
+      "heading": "Bản tin công nghệ hôm nay"
+     }
+    },
+    {
+     "say": "ý ngày mười lăm tháng chín.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Mở đầu",
+      "heading": "Bản tin công nghệ hôm nay"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tat-2g",
+   "shots": [
+    {
+     "say": "Tin đầu tiên.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Việt Nam tắt sóng hai G",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-15/tat-2g.jpg",
+      "nguon": "thanhnien.vn"
+     },
+     "sfx": "tin-whoosh"
+    },
+    {
+     "say": "Từ hôm nay,",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Việt Nam tắt sóng hai G",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-15/tat-2g.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "các nhà mạng chính thức ngừng phát sóng",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Việt Nam tắt sóng hai G",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-15/tat-2g.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "mạng hai G trên phạm vi toàn quốc.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Việt Nam tắt sóng hai G",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-15/tat-2g.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "Máy cũ chỉ bắt được",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Việt Nam tắt sóng hai G",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-15/tat-2g.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "hai G sẽ không gọi",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Việt Nam tắt sóng hai G",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-15/tat-2g.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "và nhắn được nữa.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Việt Nam tắt sóng hai G",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-15/tat-2g.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "Người dùng nên kiểm tra ngay điện thoại của",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Việt Nam tắt sóng hai G",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-15/tat-2g.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "người thân lớn tuổi trong nhà.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Tin chính",
+      "heading": "Việt Nam tắt sóng hai G",
+      "so": "1/5",
+      "anh": "tin/ban-tin-2026-09-15/tat-2g.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    }
+   ]
+  },
+  {
+   "id": "khong-can-doi-may",
+   "shots": [
+    {
+     "say": "Nhưng chưa cần vội ra cửa hàng.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Đừng vội",
+      "heading": "Chưa chắc phải đổi máy",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-15/khong-can-doi-may.jpg",
+      "nguon": "tuoitre.vn"
+     },
+     "sfx": "tin-whoosh"
+    },
+    {
+     "say": "Theo Tuổi Trẻ,",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Đừng vội",
+      "heading": "Chưa chắc phải đổi máy",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-15/khong-can-doi-may.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "phần lớn thiết bị đang dùng không phải thay,",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Đừng vội",
+      "heading": "Chưa chắc phải đổi máy",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-15/khong-can-doi-may.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "chỉ cần bật Vo L T",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Đừng vội",
+      "heading": "Chưa chắc phải đổi máy",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-15/khong-can-doi-may.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "E trong phần cài đặt",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Đừng vội",
+      "heading": "Chưa chắc phải đổi máy",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-15/khong-can-doi-may.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "là tiếp tục gọi được bình thường.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Đừng vội",
+      "heading": "Chưa chắc phải đổi máy",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-15/khong-can-doi-may.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "Kiểm tra mục này trước khi",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Đừng vội",
+      "heading": "Chưa chắc phải đổi máy",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-15/khong-can-doi-may.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "quyết định mua máy mới.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Đừng vội",
+      "heading": "Chưa chắc phải đổi máy",
+      "so": "2/5",
+      "anh": "tin/ban-tin-2026-09-15/khong-can-doi-may.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    }
+   ]
+  },
+  {
+   "id": "ios-27",
+   "shots": [
+    {
+     "say": "Tin thứ ba.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cập nhật",
+      "heading": "Apple phát hành i O S hai bảy",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-15/ios-27.jpg",
+      "nguon": "thanhnien.vn"
+     },
+     "sfx": "tin-whoosh"
+    },
+    {
+     "say": "Apple đã phát hành chính thức i O",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cập nhật",
+      "heading": "Apple phát hành i O S hai bảy",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-15/ios-27.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "S hai bảy sau nhiều tháng thử nghiệm,",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cập nhật",
+      "heading": "Apple phát hành i O S hai bảy",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-15/ios-27.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "với loạt nâng cấp về giao diện",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cập nhật",
+      "heading": "Apple phát hành i O S hai bảy",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-15/ios-27.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "và trí tuệ nhân tạo.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cập nhật",
+      "heading": "Apple phát hành i O S hai bảy",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-15/ios-27.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "Máy đời cũ vẫn nằm",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cập nhật",
+      "heading": "Apple phát hành i O S hai bảy",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-15/ios-27.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "trong danh sách hỗ trợ.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cập nhật",
+      "heading": "Apple phát hành i O S hai bảy",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-15/ios-27.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "Nên cắm sạc",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cập nhật",
+      "heading": "Apple phát hành i O S hai bảy",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-15/ios-27.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "và cập nhật vào cuối ngày,",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cập nhật",
+      "heading": "Apple phát hành i O S hai bảy",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-15/ios-27.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    },
+    {
+     "say": "tránh lúc đang cần dùng máy.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cập nhật",
+      "heading": "Apple phát hành i O S hai bảy",
+      "so": "3/5",
+      "anh": "tin/ban-tin-2026-09-15/ios-27.jpg",
+      "nguon": "thanhnien.vn"
+     }
+    }
+   ]
+  },
+  {
+   "id": "kinh-quay-len",
+   "shots": [
+    {
+     "say": "Tin thứ tư,",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Kính thông minh bị đòi cấm",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-15/kinh-quay-len.jpg",
+      "nguon": "tuoitre.vn"
+     },
+     "sfx": "tin-whoosh"
+    },
+    {
+     "say": "về quyền riêng tư.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Kính thông minh bị đòi cấm",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-15/kinh-quay-len.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "Nhiều nước châu Âu đang kêu gọi",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Kính thông minh bị đòi cấm",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-15/kinh-quay-len.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "siết việc sử dụng kính thông minh,",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Kính thông minh bị đòi cấm",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-15/kinh-quay-len.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "do thiết bị này chụp ảnh",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Kính thông minh bị đòi cấm",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-15/kinh-quay-len.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "và quay phim",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Kính thông minh bị đòi cấm",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-15/kinh-quay-len.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "mà người xung quanh không hề hay biết.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Kính thông minh bị đòi cấm",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-15/kinh-quay-len.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "Việt Nam chưa có quy định",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Kính thông minh bị đòi cấm",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-15/kinh-quay-len.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "riêng cho loại thiết bị này.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cảnh báo",
+      "heading": "Kính thông minh bị đòi cấm",
+      "so": "4/5",
+      "anh": "tin/ban-tin-2026-09-15/kinh-quay-len.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    }
+   ]
+  },
+  {
+   "id": "openai-viet-nam",
+   "shots": [
+    {
+     "say": "Tin cuối, một cơ hội.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cơ hội",
+      "heading": "OpenAI mở sân chơi ở Việt Nam",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-15/openai-viet-nam.jpg",
+      "nguon": "tuoitre.vn"
+     },
+     "sfx": "tin-whoosh"
+    },
+    {
+     "say": "OpenAI đưa chuỗi thi lập",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cơ hội",
+      "heading": "OpenAI mở sân chơi ở Việt Nam",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-15/openai-viet-nam.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "trình Codex về Việt Nam,",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cơ hội",
+      "heading": "OpenAI mở sân chơi ở Việt Nam",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-15/openai-viet-nam.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "mở cho lập trình viên, sinh viên",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cơ hội",
+      "heading": "OpenAI mở sân chơi ở Việt Nam",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-15/openai-viet-nam.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "và nhóm khởi nghiệp.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cơ hội",
+      "heading": "OpenAI mở sân chơi ở Việt Nam",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-15/openai-viet-nam.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "Giải thưởng là tín dụng gọi hàm,",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cơ hội",
+      "heading": "OpenAI mở sân chơi ở Việt Nam",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-15/openai-viet-nam.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "trị giá tới ba mươi nghìn đô la Mỹ.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cơ hội",
+      "heading": "OpenAI mở sân chơi ở Việt Nam",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-15/openai-viet-nam.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "Hạn đăng ký công bố",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cơ hội",
+      "heading": "OpenAI mở sân chơi ở Việt Nam",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-15/openai-viet-nam.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    },
+    {
+     "say": "trên trang chủ chương trình.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Cơ hội",
+      "heading": "OpenAI mở sân chơi ở Việt Nam",
+      "so": "5/5",
+      "anh": "tin/ban-tin-2026-09-15/openai-viet-nam.jpg",
+      "nguon": "tuoitre.vn"
+     }
+    }
+   ]
+  },
+  {
+   "id": "ket",
+   "shots": [
+    {
+     "say": "Chốt lại ba việc hôm nay.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Ba việc hôm nay",
+      "chay": "Claw Expert · bản tin công nghệ mỗi ngày · 2G, iOS 27, Bitcoin, kính thông minh"
+     },
+     "sfx": "tin-whoosh"
+    },
+    {
+     "say": "Một, kiểm tra sóng điện thoại của người nhà.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Ba việc hôm nay"
+     }
+    },
+    {
+     "say": "Hai, bật Vo L T E trước",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Ba việc hôm nay"
+     }
+    },
+    {
+     "say": "khi tính chuyện đổi máy.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Ba việc hôm nay"
+     }
+    },
+    {
+     "say": "Ba, cập nhật i O S hai bảy lúc rảnh.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Ba việc hôm nay"
+     }
+    },
+    {
+     "say": "Bản tin sẽ cập nhật tiếp diễn",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Ba việc hôm nay"
+     }
+    },
+    {
+     "say": "biến tắt sóng trong ngày mai.",
+     "loai": "trong",
+     "nen": "trang",
+     "tin": {
+      "kicker": "Chốt",
+      "heading": "Ba việc hôm nay"
+     }
+    }
+   ]
+  }
+ ]
+}

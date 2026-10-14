@@ -1,0 +1,63 @@
+{
+  "voice": "Fenrir",
+  "style": "Bạn là YouTuber kể chuyện bằng hoạt hình, đang kể cho hội bạn thân nghe một chuyện vừa xảy ra sáng nay. Giọng nam trẻ, NĂNG LƯỢNG CAO, nói nhanh, hào hứng. Tốc độ nhanh hơn bình thường 20%. Lên giọng bất ngờ ở chỗ ngạc nhiên, hạ giọng thì thào ở chỗ bí mật, cười khẽ khi tự thấy mình ngớ ngẩn. Câu chốt đọc dứt khoát như đấm punchline. Tuyệt đối không đọc đều đều, không trầm buồn. Câu ngắn đọc DỨT. Ngắt rõ giữa các ý. Nhấn vào TÊN RIÊNG và CON SỐ. Tiếng Việt giọng Bắc, tự nhiên, không đọc như máy.",
+  "total": 129.57600000000002,
+  "chapters": [
+    {
+      "id": "mo-bai",
+      "kicker": "Ba giờ sáng",
+      "heading": "Vô địch rồi hạng tư",
+      "vo": "Ba giờ sáng, tôi ngồi vỉa hè, mặt vẽ cờ. Cái kèn hết pin. Tôi là Nam, cổ động viên ruột, xem bóng thì dốt, đi bão thì chăm. Hôm nay kể các bạn chuyện bốn mươi ngày vừa vô địch vừa hạng tư.",
+      "audio": "vo-bong-da-40-ngay/mo-bai.mp3",
+      "duration": 13.896
+    },
+    {
+      "id": "dem-chung-ket",
+      "kicker": "Đêm 26 tháng 8",
+      "heading": "Long không biết cộng",
+      "vo": "Đêm hai sáu tháng tám nhá, tôi với Long ngồi quán bia hơi, ghế nhựa, mười hai cốc. Phút chín mươi, thua một hai. Long úp mặt khóc: hết rồi mày ơi. Tôi khóc theo. Hai thằng không ai biết cộng, tổng hai trận mình vẫn dẫn. Xong phút chín mươi cộng ba, cầu thủ Thái đánh đầu vào lưới nhà. Long trèo lên ghế hét. Chúng ta vô địch!",
+      "audio": "vo-bong-da-40-ngay/dem-chung-ket.mp3",
+      "duration": 18.648
+    },
+    {
+      "id": "di-bao",
+      "kicker": "Đi bão",
+      "heading": "Về ngủ đi con",
+      "vo": "Xong nhá, cả phố đổ ra đường. Tôi vẽ cờ lên má. Vẽ ngược. Toang. Long vẽ lên cả mặt. Ông chủ quán vẽ lên con chó. Ngã tư có cặp đang chụp ảnh cưới, cô dâu cầm cờ thay hoa, các bạn ạ. Ba giờ sáng Long đăng Facebook: thầy Kim thiên tài, chúng ta số một châu Á. Mẹ Long bình luận: VỀ NGỦ ĐI CON.",
+      "audio": "vo-bong-da-40-ngay/di-bao.mp3",
+      "duration": 19.896
+    },
+    {
+      "id": "hai-giai",
+      "kicker": "Một tháng sau",
+      "heading": "Mời phụ huynh",
+      "vo": "Đúng một tháng sau, Long gọi: tối nay đá ASEAN Cup đấy. Tôi bảo: mày say à, vô địch rồi còn đá gì. Ơ, hoá ra năm nay có hai giải ASEAN Cup thật. Chết dở. Một của AFF, một của FIFA. Cùng tên luôn. Kiểu đi học có hai bài kiểm tra trùng tên ấy các bạn. Bài đầu mình được mười. Bài sau... mời phụ huynh.",
+      "audio": "vo-bong-da-40-ngay/hai-giai.mp3",
+      "duration": 20.208
+    },
+    {
+      "id": "phut-bu-gio",
+      "kicker": "Phút 90+3",
+      "heading": "Đòi lại, kèm lãi",
+      "vo": "Hai chín tháng chín, gặp lại Thái. Phút thứ mười, thủng lưới. Long bảo: bình tĩnh, mình chuyên gỡ phút chín mươi cộng ba. Đúng phút chín mươi cộng ba có bàn thật, các bạn ạ. Thái ghi. Thua hai không. Tháng tám họ tặng mình một bàn bù giờ, tháng chín họ đòi. Kèm lãi. Xong Long tắt tivi đi về. Tivi nhà tôi.",
+      "audio": "vo-bong-da-40-ngay/phut-bu-gio.mp3",
+      "duration": 21.144
+    },
+    {
+      "id": "malaysia",
+      "kicker": "Tranh hạng ba",
+      "heading": "Giấy tờ thật",
+      "vo": "Xong tranh hạng ba với Malaysia. Nhắc anh em nhớ nhá, năm ngoái họ thắng mình bốn không, rồi bị xử thua vì bảy bộ hồ sơ nhập tịch làm giả. Lần này họ thắng một không. Ít bàn hơn. Nhưng giấy tờ thật. Họ được thưởng gần bảy tỷ. Thủ tướng họ gửi lời chúc mừng. Mình được thưởng gì? Một đêm cãi nhau trên mạng.",
+      "audio": "vo-bong-da-40-ngay/malaysia.mp3",
+      "duration": 17.76
+    },
+    {
+      "id": "chung-ta",
+      "kicker": "Bài học",
+      "heading": "Các anh ấy",
+      "vo": "Sáng hôm sau Long đăng: các anh ấy đá như đi dạo. Các anh ấy. Tháng tám còn là chúng ta cơ mà. Ơ nhưng mà các bạn ơi, mình vẫn có vé Asian Cup, nhất bảng, mười tám điểm tuyệt đối. Ba điểm trong đó do phòng hồ sơ ghi bàn. Long lại đổi về chúng ta. Còn bạn, đi bão mấy lần? Kể dưới bình luận.",
+      "audio": "vo-bong-da-40-ngay/chung-ta.mp3",
+      "duration": 18.024
+    }
+  ]
+}

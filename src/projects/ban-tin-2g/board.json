@@ -1,0 +1,266 @@
+{
+  "du_an": "ban-tin-2g",
+  "dinh_dang": "ban-tin",
+  "nguoi_ke": "nam",
+  "mac_dinh": {
+    "loai": "minh-hoa",
+    "co": "trung",
+    "nen": "trang"
+  },
+  "khung_doc": {
+    "kenh": "CLAW EXPERT",
+    "anh": "tin/ban-tin-2g/tat-2g.jpg",
+    "nguon": "thanhnien.vn"
+  },
+  "chuong": [
+    {
+      "id": "mo-bai",
+      "shots": [
+        {
+          "say": "Từ hôm nay,",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Tin nóng",
+            "heading": "Cả nước ngắt sóng hai G",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g.jpg"
+          },
+          "sfx": "tin-sting"
+        },
+        {
+          "say": "mạng hai G ngừng phát",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Tin nóng",
+            "heading": "Cả nước ngắt sóng hai G",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g-2.jpg"
+          }
+        },
+        {
+          "say": "sóng trên toàn quốc.",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Tin nóng",
+            "heading": "Cả nước ngắt sóng hai G",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g-3.jpg"
+          }
+        },
+        {
+          "say": "Điện thoại cũ của bố mẹ bạn",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Tin nóng",
+            "heading": "Cả nước ngắt sóng hai G",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g.jpg"
+          }
+        },
+        {
+          "say": "có thể mất sóng ngay tối nay.",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Tin nóng",
+            "heading": "Cả nước ngắt sóng hai G",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g-2.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tat-2g",
+      "shots": [
+        {
+          "say": "Ba nhà mạng Viettel, VinaPhone,",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Tin chính",
+            "heading": "Máy cũ hết gọi được",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g.jpg"
+          },
+          "sfx": "tin-whoosh"
+        },
+        {
+          "say": "MobiFone đã ngắt sóng hai",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Tin chính",
+            "heading": "Máy cũ hết gọi được",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g-2.jpg"
+          }
+        },
+        {
+          "say": "G từ sáng nay.",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Tin chính",
+            "heading": "Máy cũ hết gọi được",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g-3.jpg"
+          }
+        },
+        {
+          "say": "Máy chỉ bắt hai G",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Tin chính",
+            "heading": "Máy cũ hết gọi được",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g.jpg"
+          }
+        },
+        {
+          "say": "thì không gọi, không nhắn,",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Tin chính",
+            "heading": "Máy cũ hết gọi được",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g-2.jpg"
+          }
+        },
+        {
+          "say": "không gọi cấp cứu được.",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Tin chính",
+            "heading": "Máy cũ hết gọi được",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g-3.jpg"
+          }
+        },
+        {
+          "say": "Kiểm tra ngay điện thoại của người",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Tin chính",
+            "heading": "Máy cũ hết gọi được",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g.jpg"
+          }
+        },
+        {
+          "say": "thân lớn tuổi trong nhà bạn đi.",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Tin chính",
+            "heading": "Máy cũ hết gọi được",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g-2.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ket",
+      "shots": [
+        {
+          "say": "Chốt lại một việc hôm nay.",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Việc cần làm",
+            "heading": "Đổi máy cho bố mẹ",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g.jpg"
+          },
+          "sfx": "tin-whoosh"
+        },
+        {
+          "say": "Việt Nam nằm trong nhóm nước tắt",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Việc cần làm",
+            "heading": "Đổi máy cho bố mẹ",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g-2.jpg"
+          }
+        },
+        {
+          "say": "sóng hai G sớm nhất khu vực.",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Việc cần làm",
+            "heading": "Đổi máy cho bố mẹ",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g-3.jpg"
+          }
+        },
+        {
+          "say": "Các nhà mạng đang có chương trình",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Việc cần làm",
+            "heading": "Đổi máy cho bố mẹ",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g.jpg"
+          }
+        },
+        {
+          "say": "đổi máy bốn G giá rẻ.",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Việc cần làm",
+            "heading": "Đổi máy cho bố mẹ",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g-2.jpg"
+          }
+        },
+        {
+          "say": "Đổi máy cho bố mẹ trước,",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Việc cần làm",
+            "heading": "Đổi máy cho bố mẹ",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g-3.jpg"
+          }
+        },
+        {
+          "say": "đừng đợi tới lúc gọi",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Việc cần làm",
+            "heading": "Đổi máy cho bố mẹ",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g.jpg"
+          }
+        },
+        {
+          "say": "mà không được.",
+          "loai": "trong",
+          "nen": "trang",
+          "tin": {
+            "kicker": "Việc cần làm",
+            "heading": "Đổi máy cho bố mẹ",
+            "nguon": "thanhnien.vn",
+            "anh": "tin/ban-tin-2g/tat-2g-2.jpg"
+          }
+        }
+      ]
+    }
+  ]
+}

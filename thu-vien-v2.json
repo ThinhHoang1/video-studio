@@ -91,7 +91,9 @@
     "khong": "không vẽ mày (mặc định) — mép mái tóc làm đường mày",
     "tuc": "gạch chéo dày, đầu trong thấp — tức, gắt",
     "lo": "cung cong lên cao — lo, buồn",
-    "nhiu": "gấp khúc — nhíu, nghi ngờ"
+    "nhiu": "gấp khúc — nhíu, nghi ngờ",
+    "thuong": "mày nghỉ — cung nhẹ, mặc định của mọi mặt người",
+    "nhuong": "nhướng một bên — hoài nghi, ngạc nhiên"
   },
   "mieng": {
     "_": "trường `mieng` — miệng cảm xúc khi KHÔNG nói; khi nói lip-sync (nhóm X..H) đè lên.",
@@ -552,7 +554,7 @@
     "micro": "micro 0.3 DAU, đầu micro ở đầu cẳng tay — camDT đưa lên miệng"
   },
   "sfx": {
-    "_": "29 tiếng tự tổng hợp, không dính bản quyền. Sinh lại: python3 pipeline/sfx.py",
+    "_": "33 tiếng tự tổng hợp, không dính bản quyền. Sinh lại: node pipeline/sfx.mjs",
     "nhip": [
       "whoosh-up",
       "whoosh-down",
@@ -593,6 +595,12 @@
     "khac": [
       "deflate",
       "inflate"
+    ],
+    "ban_tin": [
+      "tin-sting",
+      "tin-whoosh",
+      "tin-tich",
+      "tin-breaking"
     ]
   },
   "nhac": {
